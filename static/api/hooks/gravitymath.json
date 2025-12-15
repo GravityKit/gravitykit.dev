@@ -1,5 +1,5 @@
 {
-  "generated": "2025-12-15T23:45:33.844Z",
+  "generated": "2025-12-15T23:52:08.144Z",
   "product": {
     "id": "gravitymath",
     "label": "GravityMath",
@@ -40,21 +40,32 @@
       "name": "gravityview/math/init",
       "type": "action",
       "product": "gravitymath",
-      "description": "| Name | Type | Description |",
+      "description": "Fires during math init processing.",
       "parameters": [],
+      "categories": [
+        "views"
+      ],
+      "example": "/**\n * Hook into gravityviewmathinit\n *\n * @return void\n */\nadd_action( 'gravityviewmathinit', 'my_custom_gravityviewmathinit_handler' );\n\nfunction my_custom_gravityviewmathinit_handler() {\n    // Your custom code here\n}",
       "since": "1.0",
       "source": {
         "file": "includes/class-gravitymath-engine.php",
         "line": 68
       },
-      "url": "/docs/gravitymath/actions/gravityviewmathinit/"
+      "url": "/docs/gravitymath/actions/gravityviewmathinit/",
+      "related": [
+        "gravityview/math/accuracy_message",
+        "gravityview/math/admin_notice",
+        "gravityview/math/debug",
+        "gravityview/math/debug_message",
+        "gravityview/math/no_results_message"
+      ]
     },
     {
       "id": "gkgravitymathscopeformtransform-meta-value",
       "name": "gk/gravitymath/scope/form/transform-meta-value",
       "type": "filter",
       "product": "gravitymath",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the transformation value.",
       "parameters": [
         {
           "name": "transformation",
@@ -77,12 +88,17 @@
           "description": "Column name. Default: 'meta_value'."
         }
       ],
+      "categories": [
+        "forms"
+      ],
+      "example": "/**\n * Filter gkgravitymathscopeformtransform-meta-value\n *\n * @param string $transformation SQL statement to transform the meta value.\n * @param null\\ $field \\GF_Field`\n * @param string $table Table name or alias. Default: 'details' (alias for the entry meta table).\n * @param string $column Column name. Default: 'meta_value'.\n * @return string Modified transformation\n */\nadd_filter( 'gkgravitymathscopeformtransform-meta-value', 'my_custom_gkgravitymathscopeformtransform_meta_value_filter', 10, 4 );\n\nfunction my_custom_gkgravitymathscopeformtransform_meta_value_filter($transformation, $field, $table, $column) {\n    // Modify $transformation as needed\n\n    return $transformation;\n}",
       "since": "2.3.3",
       "source": {
         "file": "includes/class-gravitymath-gravityforms.php",
         "line": 747
       },
-      "url": "/docs/gravitymath/filters/gkgravitymathscopeformtransform-meta-value/"
+      "url": "/docs/gravitymath/filters/gkgravitymathscopeformtransform-meta-value/",
+      "related": []
     },
     {
       "id": "gkgravitymathsummarydata",
@@ -112,12 +128,21 @@
           "description": "The raw data."
         }
       ],
+      "categories": [
+        "general"
+      ],
+      "example": "/**\n * Filter gkgravitymathsummarydata\n *\n * @param string[] $table_data The table data.\n * @param array $form The form object.\n * @param \\GravityMath_Summary_Request $request The request object.\n * @param array $raw_data The raw data.\n * @return string[] Modified table_data\n */\nadd_filter( 'gkgravitymathsummarydata', 'my_custom_gkgravitymathsummarydata_filter', 10, 4 );\n\nfunction my_custom_gkgravitymathsummarydata_filter($table_data, $form, $request, $raw_data) {\n    // Modify $table_data as needed\n\n    return $table_data;\n}",
       "since": "2.5.0",
       "source": {
         "file": "includes/summary/class-gravitymath-summary-helpers.php",
         "line": 394
       },
-      "url": "/docs/gravitymath/filters/gkgravitymathsummarydata/"
+      "url": "/docs/gravitymath/filters/gkgravitymathsummarydata/",
+      "related": [
+        "gk/gravitymath/summary/entries",
+        "gk/gravitymath/summary/headers",
+        "gk/gravitymath/summary/template"
+      ]
     },
     {
       "id": "gkgravitymathsummaryentries",
@@ -142,12 +167,21 @@
           "description": "The request object."
         }
       ],
+      "categories": [
+        "entries"
+      ],
+      "example": "/**\n * Filter gkgravitymathsummaryentries\n *\n * @param null\\ $entries \\Entry_Collection`\n * @param \\View $view The View object.\n * @param \\GravityMath_Summary_Request $request The request object.\n * @return null\\ Modified entries\n */\nadd_filter( 'gkgravitymathsummaryentries', 'my_custom_gkgravitymathsummaryentries_filter', 10, 3 );\n\nfunction my_custom_gkgravitymathsummaryentries_filter($entries, $view, $request) {\n    // Modify $entries as needed\n\n    return $entries;\n}",
       "since": "2.8.0",
       "source": {
         "file": "includes/summary/class-gravitymath-summary-helpers.php",
         "line": 511
       },
-      "url": "/docs/gravitymath/filters/gkgravitymathsummaryentries/"
+      "url": "/docs/gravitymath/filters/gkgravitymathsummaryentries/",
+      "related": [
+        "gk/gravitymath/summary/data",
+        "gk/gravitymath/summary/headers",
+        "gk/gravitymath/summary/template"
+      ]
     },
     {
       "id": "gkgravitymathsummaryheaders",
@@ -172,12 +206,21 @@
           "description": "The request object."
         }
       ],
+      "categories": [
+        "general"
+      ],
+      "example": "/**\n * Filter gkgravitymathsummaryheaders\n *\n * @param string[] $table_headers The table headers.\n * @param array $form The form object.\n * @param \\GravityMath_Summary_Request $request The request object.\n * @return string[] Modified table_headers\n */\nadd_filter( 'gkgravitymathsummaryheaders', 'my_custom_gkgravitymathsummaryheaders_filter', 10, 3 );\n\nfunction my_custom_gkgravitymathsummaryheaders_filter($table_headers, $form, $request) {\n    // Modify $table_headers as needed\n\n    return $table_headers;\n}",
       "since": "2.5.0",
       "source": {
         "file": "includes/summary/class-gravitymath-summary-helpers.php",
         "line": 407
       },
-      "url": "/docs/gravitymath/filters/gkgravitymathsummaryheaders/"
+      "url": "/docs/gravitymath/filters/gkgravitymathsummaryheaders/",
+      "related": [
+        "gk/gravitymath/summary/data",
+        "gk/gravitymath/summary/entries",
+        "gk/gravitymath/summary/template"
+      ]
     },
     {
       "id": "gkgravitymathsummarytemplate",
@@ -192,19 +235,28 @@
           "description": "The template file path."
         }
       ],
+      "categories": [
+        "rendering"
+      ],
+      "example": "/**\n * Filter gkgravitymathsummarytemplate\n *\n * @param string $template_file The template file path.\n * @return string Modified template_file\n */\nadd_filter( 'gkgravitymathsummarytemplate', 'my_custom_gkgravitymathsummarytemplate_filter', 10, 1 );\n\nfunction my_custom_gkgravitymathsummarytemplate_filter($template_file) {\n    // Modify $template_file as needed\n\n    return $template_file;\n}",
       "since": "2.5.0",
       "source": {
         "file": "includes/summary/class-gravitymath-summary-helpers.php",
         "line": 426
       },
-      "url": "/docs/gravitymath/filters/gkgravitymathsummarytemplate/"
+      "url": "/docs/gravitymath/filters/gkgravitymathsummarytemplate/",
+      "related": [
+        "gk/gravitymath/summary/data",
+        "gk/gravitymath/summary/entries",
+        "gk/gravitymath/summary/headers"
+      ]
     },
     {
       "id": "gkgravitymathtable-footer-calculationsupported-fields-schema",
       "name": "gk/gravitymath/table-footer-calculation/supported-fields-schema",
       "type": "filter",
       "product": "gravitymath",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the supported fields schema value.",
       "parameters": [
         {
           "name": "supported_fields_schema",
@@ -217,19 +269,24 @@
           "description": "Supported calculations."
         }
       ],
+      "categories": [
+        "fields"
+      ],
+      "example": "/**\n * Filter gkgravitymathtable-footer-calculationsupported-fields-schema\n *\n * @param array $supported_fields_schema Supported fields.\n * @param array $available_calculation_types Supported calculations.\n * @return array Modified supported_fields_schema\n */\nadd_filter( 'gkgravitymathtable-footer-calculationsupported-fields-schema', 'my_custom_gkgravitymathtable_footer_calculationsupported_fields_schema_filter', 10, 2 );\n\nfunction my_custom_gkgravitymathtable_footer_calculationsupported_fields_schema_filter($supported_fields_schema, $available_calculation_types) {\n    // Modify $supported_fields_schema as needed\n\n    return $supported_fields_schema;\n}",
       "since": "2.3.3",
       "source": {
         "file": "includes/class-gravitymath-table-footer-calculation.php",
         "line": 240
       },
-      "url": "/docs/gravitymath/filters/gkgravitymathtable-footer-calculationsupported-fields-schema/"
+      "url": "/docs/gravitymath/filters/gkgravitymathtable-footer-calculationsupported-fields-schema/",
+      "related": []
     },
     {
       "id": "gkgravitymathuse_db_cache",
       "name": "gk/gravitymath/use_db_cache",
       "type": "filter",
       "product": "gravitymath",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the use cache value.",
       "parameters": [
         {
           "name": "use_cache",
@@ -242,19 +299,24 @@
           "description": "Context of the filter (default: \"gravityforms\")."
         }
       ],
+      "categories": [
+        "caching"
+      ],
+      "example": "/**\n * Filter gkgravitymathuse_db_cache\n *\n * @param bool $use_cache Should GravityMath cache results?\n * @param string $context Context of the filter (default: \"gravityforms\").\n * @return bool Modified use_cache\n */\nadd_filter( 'gkgravitymathuse_db_cache', 'my_custom_gkgravitymathuse_db_cache_filter', 10, 2 );\n\nfunction my_custom_gkgravitymathuse_db_cache_filter($use_cache, $context) {\n    // Modify $use_cache as needed\n\n    return $use_cache;\n}",
       "since": "2.2",
       "source": {
         "file": "includes/class-gravitymath-gravityforms.php",
         "line": 1146
       },
-      "url": "/docs/gravitymath/filters/gkgravitymathuse_db_cache/"
+      "url": "/docs/gravitymath/filters/gkgravitymathuse_db_cache/",
+      "related": []
     },
     {
       "id": "gravityviewmathaccuracy_message",
       "name": "gravityview/math/accuracy_message",
       "type": "filter",
       "product": "gravitymath",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the message value.",
       "parameters": [
         {
           "name": "message",
@@ -262,19 +324,30 @@
           "description": "Default: \"* Results may not be accurate.\"."
         }
       ],
+      "categories": [
+        "views"
+      ],
+      "example": "/**\n * Filter gravityviewmathaccuracy_message\n *\n * @param string $message Default: \"* Results may not be accurate.\".\n * @return string Modified message\n */\nadd_filter( 'gravityviewmathaccuracy_message', 'my_custom_gravityviewmathaccuracy_message_filter', 10, 1 );\n\nfunction my_custom_gravityviewmathaccuracy_message_filter($message) {\n    // Modify $message as needed\n\n    return $message;\n}",
       "since": "1.0",
       "source": {
         "file": "includes/class-gravitymath-report.php",
         "line": 337
       },
-      "url": "/docs/gravitymath/filters/gravityviewmathaccuracy_message/"
+      "url": "/docs/gravitymath/filters/gravityviewmathaccuracy_message/",
+      "related": [
+        "gravityview/math/init",
+        "gravityview/math/admin_notice",
+        "gravityview/math/debug",
+        "gravityview/math/debug_message",
+        "gravityview/math/no_results_message"
+      ]
     },
     {
       "id": "gravityviewmathadmin_notice",
       "name": "gravityview/math/admin_notice",
       "type": "filter",
       "product": "gravitymath",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the message value.",
       "parameters": [
         {
           "name": "message",
@@ -282,19 +355,31 @@
           "description": "Default: \"You can only see this message because you are logged in and have permissions.\"."
         }
       ],
+      "categories": [
+        "views",
+        "admin"
+      ],
+      "example": "/**\n * Filter gravityviewmathadmin_notice\n *\n * @param string $message Default: \"You can only see this message because you are logged in and have permissions.\".\n * @return string Modified message\n */\nadd_filter( 'gravityviewmathadmin_notice', 'my_custom_gravityviewmathadmin_notice_filter', 10, 1 );\n\nfunction my_custom_gravityviewmathadmin_notice_filter($message) {\n    // Modify $message as needed\n\n    return $message;\n}",
       "since": "1.2",
       "source": {
         "file": "includes/class-gravitymath-report.php",
         "line": 327
       },
-      "url": "/docs/gravitymath/filters/gravityviewmathadmin_notice/"
+      "url": "/docs/gravitymath/filters/gravityviewmathadmin_notice/",
+      "related": [
+        "gravityview/math/init",
+        "gravityview/math/accuracy_message",
+        "gravityview/math/debug",
+        "gravityview/math/debug_message",
+        "gravityview/math/no_results_message"
+      ]
     },
     {
       "id": "gravityviewmathaggregate_datamodify_field_value",
       "name": "gravityview/math/aggregate_data/modify_field_value",
       "type": "filter",
       "product": "gravitymath",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the transformed value value.",
       "parameters": [
         {
           "name": "transformed_value",
@@ -327,19 +412,25 @@
           "description": "Array of entries."
         }
       ],
+      "categories": [
+        "fields",
+        "views"
+      ],
+      "example": "/**\n * Filter gravityviewmathaggregate_datamodify_field_value\n *\n * @param string $transformed_value Transformed field value.\n * @param string $orginal_value Original field value.\n * @param int\\ $field_id float\\\n * @param array $entry Entry data.\n * @param string\\ $modifier_tag null`\n * @param array[] $entries Array of entries.\n * @return string Modified transformed_value\n */\nadd_filter( 'gravityviewmathaggregate_datamodify_field_value', 'my_custom_gravityviewmathaggregate_datamodify_field_value_filter', 10, 6 );\n\nfunction my_custom_gravityviewmathaggregate_datamodify_field_value_filter($transformed_value, $orginal_value, $field_id, $entry, $modifier_tag, $entries) {\n    // Modify $transformed_value as needed\n\n    return $transformed_value;\n}",
       "since": "2.0",
       "source": {
         "file": "includes/class-gravitymath-gravityforms.php",
         "line": 1032
       },
-      "url": "/docs/gravitymath/filters/gravityviewmathaggregate_datamodify_field_value/"
+      "url": "/docs/gravitymath/filters/gravityviewmathaggregate_datamodify_field_value/",
+      "related": []
     },
     {
       "id": "gravityviewmathdebug",
       "name": "gravityview/math/debug",
       "type": "filter",
       "product": "gravitymath",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the this value.",
       "parameters": [
         {
           "name": "this",
@@ -347,19 +438,30 @@
           "description": "The report."
         }
       ],
+      "categories": [
+        "views"
+      ],
+      "example": "/**\n * Filter gravityviewmathdebug\n *\n * @param \\GravityMath_Report $this The report.\n * @return \\GravityMath_Report Modified this\n */\nadd_filter( 'gravityviewmathdebug', 'my_custom_gravityviewmathdebug_filter', 10, 1 );\n\nfunction my_custom_gravityviewmathdebug_filter($this) {\n    // Modify $this as needed\n\n    return $this;\n}",
       "since": "1.0",
       "source": {
         "file": "includes/class-gravitymath-report.php",
         "line": 253
       },
-      "url": "/docs/gravitymath/filters/gravityviewmathdebug/"
+      "url": "/docs/gravitymath/filters/gravityviewmathdebug/",
+      "related": [
+        "gravityview/math/init",
+        "gravityview/math/accuracy_message",
+        "gravityview/math/admin_notice",
+        "gravityview/math/debug_message",
+        "gravityview/math/no_results_message"
+      ]
     },
     {
       "id": "gravityviewmathdebug_message",
       "name": "gravityview/math/debug_message",
       "type": "filter",
       "product": "gravitymath",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the final message value.",
       "parameters": [
         {
           "name": "final_message",
@@ -372,33 +474,50 @@
           "description": "Error data to be displayed (empty array or [<code>code</code>, <code>leads</code>, <code>input_id</code>, <code>default_value</code>])."
         }
       ],
+      "categories": [
+        "views"
+      ],
+      "example": "/**\n * Filter gravityviewmathdebug_message\n *\n * @param string $final_message Message content to be output.\n * @param array $data Error data to be displayed (empty array or [<code>code</code>, <code>leads</code>, <code>input_id</code>, <code>default_value</code>]).\n * @return string Modified final_message\n */\nadd_filter( 'gravityviewmathdebug_message', 'my_custom_gravityviewmathdebug_message_filter', 10, 2 );\n\nfunction my_custom_gravityviewmathdebug_message_filter($final_message, $data) {\n    // Modify $final_message as needed\n\n    return $final_message;\n}",
       "since": null,
       "source": {
         "file": "includes/class-gravitymath-report.php",
         "line": 565
       },
-      "url": "/docs/gravitymath/filters/gravityviewmathdebug_message/"
+      "url": "/docs/gravitymath/filters/gravityviewmathdebug_message/",
+      "related": [
+        "gravityview/math/init",
+        "gravityview/math/accuracy_message",
+        "gravityview/math/admin_notice",
+        "gravityview/math/debug",
+        "gravityview/math/no_results_message"
+      ]
     },
     {
       "id": "gravityviewmathentriesvisible",
       "name": "gravityview/math/entries/visible",
       "type": "filter",
       "product": "gravitymath",
-      "description": "| Name | Type | Description |",
+      "description": "Filters during entries visible processing.",
       "parameters": [],
+      "categories": [
+        "entries",
+        "views"
+      ],
+      "example": "/**\n * Filter gravityviewmathentriesvisible\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gravityviewmathentriesvisible', 'my_custom_gravityviewmathentriesvisible_filter' );\n\nfunction my_custom_gravityviewmathentriesvisible_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
       "since": "2.0",
       "source": {
         "file": "includes/class-gravitymath-gravityforms.php",
         "line": 775
       },
-      "url": "/docs/gravitymath/filters/gravityviewmathentriesvisible/"
+      "url": "/docs/gravitymath/filters/gravityviewmathentriesvisible/",
+      "related": []
     },
     {
       "id": "gravityviewmathno_results_message",
       "name": "gravityview/math/no_results_message",
       "type": "filter",
       "product": "gravitymath",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the message value.",
       "parameters": [
         {
           "name": "message",
@@ -406,19 +525,30 @@
           "description": "Default: \"** No Results Currently Available.\"."
         }
       ],
+      "categories": [
+        "views"
+      ],
+      "example": "/**\n * Filter gravityviewmathno_results_message\n *\n * @param string $message Default: \"** No Results Currently Available.\".\n * @return string Modified message\n */\nadd_filter( 'gravityviewmathno_results_message', 'my_custom_gravityviewmathno_results_message_filter', 10, 1 );\n\nfunction my_custom_gravityviewmathno_results_message_filter($message) {\n    // Modify $message as needed\n\n    return $message;\n}",
       "since": "1.0",
       "source": {
         "file": "includes/class-gravitymath-report.php",
         "line": 348
       },
-      "url": "/docs/gravitymath/filters/gravityviewmathno_results_message/"
+      "url": "/docs/gravitymath/filters/gravityviewmathno_results_message/",
+      "related": [
+        "gravityview/math/init",
+        "gravityview/math/accuracy_message",
+        "gravityview/math/admin_notice",
+        "gravityview/math/debug",
+        "gravityview/math/debug_message"
+      ]
     },
     {
       "id": "gravityviewmathprecision",
       "name": "gravityview/math/precision",
       "type": "filter",
       "product": "gravitymath",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the float precision value.",
       "parameters": [
         {
           "name": "float_precision",
@@ -426,19 +556,30 @@
           "description": "The number of decimal places to use as a maximum precision level."
         }
       ],
+      "categories": [
+        "views"
+      ],
+      "example": "/**\n * Filter gravityviewmathprecision\n *\n * @param int $float_precision The number of decimal places to use as a maximum precision level.\n * @return int Modified float_precision\n */\nadd_filter( 'gravityviewmathprecision', 'my_custom_gravityviewmathprecision_filter', 10, 1 );\n\nfunction my_custom_gravityviewmathprecision_filter($float_precision) {\n    // Modify $float_precision as needed\n\n    return $float_precision;\n}",
       "since": "1.0",
       "source": {
         "file": "includes/class-gravitymath-shortcode.php",
         "line": 99
       },
-      "url": "/docs/gravitymath/filters/gravityviewmathprecision/"
+      "url": "/docs/gravitymath/filters/gravityviewmathprecision/",
+      "related": [
+        "gravityview/math/init",
+        "gravityview/math/accuracy_message",
+        "gravityview/math/admin_notice",
+        "gravityview/math/debug",
+        "gravityview/math/debug_message"
+      ]
     },
     {
       "id": "gravityviewmathsanitize",
       "name": "gravityview/math/sanitize",
       "type": "filter",
       "product": "gravitymath",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the sanitized formula value.",
       "parameters": [
         {
           "name": "sanitized_formula",
@@ -451,19 +592,30 @@
           "description": "Original formula."
         }
       ],
+      "categories": [
+        "views"
+      ],
+      "example": "/**\n * Filter gravityviewmathsanitize\n *\n * @param string $sanitized_formula Sanitized formula.\n * @param string $original_formula Original formula.\n * @return string Modified sanitized_formula\n */\nadd_filter( 'gravityviewmathsanitize', 'my_custom_gravityviewmathsanitize_filter', 10, 2 );\n\nfunction my_custom_gravityviewmathsanitize_filter($sanitized_formula, $original_formula) {\n    // Modify $sanitized_formula as needed\n\n    return $sanitized_formula;\n}",
       "since": "1.0",
       "source": {
         "file": "includes/class-gravitymath-shortcode.php",
         "line": 168
       },
-      "url": "/docs/gravitymath/filters/gravityviewmathsanitize/"
+      "url": "/docs/gravitymath/filters/gravityviewmathsanitize/",
+      "related": [
+        "gravityview/math/init",
+        "gravityview/math/accuracy_message",
+        "gravityview/math/admin_notice",
+        "gravityview/math/debug",
+        "gravityview/math/debug_message"
+      ]
     },
     {
       "id": "gravityviewmathshortcodebefore",
       "name": "gravityview/math/shortcode/before",
       "type": "filter",
       "product": "gravitymath",
-      "description": "| Name | Type | Description |",
+      "description": "Filters before shortcode processing.",
       "parameters": [
         {
           "name": "formula",
@@ -496,33 +648,52 @@
           "description": "Current nesting level."
         }
       ],
+      "categories": [
+        "views",
+        "shortcodes",
+        "before"
+      ],
+      "example": "/**\n * Filter gravityviewmathshortcodebefore\n *\n * @param string $formula The math formula to modify.\n * @param array $atts Shortcode parameters.\n * @param string $content Content passed to the shortcode.\n * @param string $shortcode Shortcode used (default: <code>gv_math</code>).\n * @param \\GravityMath_Shortcode $this is Current object.\n * @param int $nesting_level Current nesting level.\n * @return string Modified formula\n */\nadd_filter( 'gravityviewmathshortcodebefore', 'my_custom_gravityviewmathshortcodebefore_filter', 10, 6 );\n\nfunction my_custom_gravityviewmathshortcodebefore_filter($formula, $atts, $content, $shortcode, $this, $nesting_level) {\n    // Modify $formula as needed\n\n    return $formula;\n}",
       "since": "1.0",
       "source": {
         "file": "includes/class-gravitymath-shortcode.php",
         "line": 300
       },
-      "url": "/docs/gravitymath/filters/gravityviewmathshortcodebefore/"
+      "url": "/docs/gravitymath/filters/gravityviewmathshortcodebefore/",
+      "related": [
+        "gravityview/math/shortcode/default_value",
+        "gravityview/math/shortcode/output"
+      ]
     },
     {
       "id": "gravityviewmathshortcodedefault_value",
       "name": "gravityview/math/shortcode/default_value",
       "type": "filter",
       "product": "gravitymath",
-      "description": "Defined in `includes/class-gravitymath-shortcode.php` at line 230",
+      "description": "Filters during default value processing.",
       "parameters": [],
+      "categories": [
+        "views",
+        "shortcodes"
+      ],
+      "example": "/**\n * Filter gravityviewmathshortcodedefault_value\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gravityviewmathshortcodedefault_value', 'my_custom_gravityviewmathshortcodedefault_value_filter' );\n\nfunction my_custom_gravityviewmathshortcodedefault_value_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
       "since": null,
       "source": {
         "file": "includes/class-gravitymath-shortcode.php",
         "line": 230
       },
-      "url": "/docs/gravitymath/filters/gravityviewmathshortcodedefault_value/"
+      "url": "/docs/gravitymath/filters/gravityviewmathshortcodedefault_value/",
+      "related": [
+        "gravityview/math/shortcode/before",
+        "gravityview/math/shortcode/output"
+      ]
     },
     {
       "id": "gravityviewmathshortcodeoutput",
       "name": "gravityview/math/shortcode/output",
       "type": "filter",
       "product": "gravitymath",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the result value.",
       "parameters": [
         {
           "name": "result",
@@ -555,19 +726,28 @@
           "description": "Level of shortcode nesting."
         }
       ],
+      "categories": [
+        "views",
+        "shortcodes"
+      ],
+      "example": "/**\n * Filter gravityviewmathshortcodeoutput\n *\n * @param string $result Shortcode output.\n * @param array $atts Shortcode parameters.\n * @param string $content Content passed to the shortcode.\n * @param string $shortcode Shortcode used (default: <code>gv_math</code>).\n * @param \\GravityMath_Shortcode $this Current object.\n * @param string $nesting_level Level of shortcode nesting.\n * @return string Modified result\n */\nadd_filter( 'gravityviewmathshortcodeoutput', 'my_custom_gravityviewmathshortcodeoutput_filter', 10, 6 );\n\nfunction my_custom_gravityviewmathshortcodeoutput_filter($result, $atts, $content, $shortcode, $this, $nesting_level) {\n    // Modify $result as needed\n\n    return $result;\n}",
       "since": "1.0",
       "source": {
         "file": "includes/class-gravitymath-shortcode.php",
         "line": 337
       },
-      "url": "/docs/gravitymath/filters/gravityviewmathshortcodeoutput/"
+      "url": "/docs/gravitymath/filters/gravityviewmathshortcodeoutput/",
+      "related": [
+        "gravityview/math/shortcode/before",
+        "gravityview/math/shortcode/default_value"
+      ]
     },
     {
       "id": "gravityviewmathsuppress_errors",
       "name": "gravityview/math/suppress_errors",
       "type": "filter",
       "product": "gravitymath",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the suppress errors value.",
       "parameters": [
         {
           "name": "suppress_errors",
@@ -575,19 +755,30 @@
           "description": "True: don't show the errors. False: show the errors. Default: false."
         }
       ],
+      "categories": [
+        "views"
+      ],
+      "example": "/**\n * Filter gravityviewmathsuppress_errors\n *\n * @param bool $suppress_errors True: don't show the errors. False: show the errors. Default: false.\n * @return bool Modified suppress_errors\n */\nadd_filter( 'gravityviewmathsuppress_errors', 'my_custom_gravityviewmathsuppress_errors_filter', 10, 1 );\n\nfunction my_custom_gravityviewmathsuppress_errors_filter($suppress_errors) {\n    // Modify $suppress_errors as needed\n\n    return $suppress_errors;\n}",
       "since": "1.0",
       "source": {
         "file": "includes/class-gravitymath-report.php",
         "line": 999
       },
-      "url": "/docs/gravitymath/filters/gravityviewmathsuppress_errors/"
+      "url": "/docs/gravitymath/filters/gravityviewmathsuppress_errors/",
+      "related": [
+        "gravityview/math/init",
+        "gravityview/math/accuracy_message",
+        "gravityview/math/admin_notice",
+        "gravityview/math/debug",
+        "gravityview/math/debug_message"
+      ]
     },
     {
       "id": "gravityviewmathtable_footer_calculationcalculation_result",
       "name": "gravityview/math/table_footer_calculation/calculation_result",
       "type": "filter",
       "product": "gravitymath",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the calculation result value.",
       "parameters": [
         {
           "name": "calculation_result",
@@ -610,19 +801,27 @@
           "description": "Math shortcode."
         }
       ],
+      "categories": [
+        "views"
+      ],
+      "example": "/**\n * Filter gravityviewmathtable_footer_calculationcalculation_result\n *\n * @param string $calculation_result Calculation result.\n * @param array $field Field data.\n * @param array $column Column data.\n * @param string $math_shortcode Math shortcode.\n * @return string Modified calculation_result\n */\nadd_filter( 'gravityviewmathtable_footer_calculationcalculation_result', 'my_custom_gravityviewmathtable_footer_calculationcalculation_result_filter', 10, 4 );\n\nfunction my_custom_gravityviewmathtable_footer_calculationcalculation_result_filter($calculation_result, $field, $column, $math_shortcode) {\n    // Modify $calculation_result as needed\n\n    return $calculation_result;\n}",
       "since": "2.0",
       "source": {
         "file": "includes/class-gravitymath-table-footer-calculation.php",
         "line": 667
       },
-      "url": "/docs/gravitymath/filters/gravityviewmathtable_footer_calculationcalculation_result/"
+      "url": "/docs/gravitymath/filters/gravityviewmathtable_footer_calculationcalculation_result/",
+      "related": [
+        "gravityview/math/table_footer_calculation/format_duration_field_calculation_result",
+        "gravityview/math/table_footer_calculation/math_shortcode"
+      ]
     },
     {
       "id": "gravityviewmathtable_footer_calculationformat_duration_field_calculation_result",
       "name": "gravityview/math/table_footer_calculation/format_duration_field_calculation_result",
       "type": "filter",
       "product": "gravitymath",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the calculation result value.",
       "parameters": [
         {
           "name": "calculation_result",
@@ -635,19 +834,29 @@
           "description": "\\{"
         }
       ],
+      "categories": [
+        "fields",
+        "views",
+        "forms"
+      ],
+      "example": "/**\n * Filter gravityviewmathtable_footer_calculationformat_duration_field_calculation_result\n *\n * @param float $calculation_result Total duration in seconds.\n * @param array $filter_data \\{\n * @return float Modified calculation_result\n */\nadd_filter( 'gravityviewmathtable_footer_calculationformat_duration_field_calculation_result', 'my_custom_gravityviewmathtable_footer_calculationformat_duration_field_calculation_result_filter', 10, 2 );\n\nfunction my_custom_gravityviewmathtable_footer_calculationformat_duration_field_calculation_result_filter($calculation_result, $filter_data) {\n    // Modify $calculation_result as needed\n\n    return $calculation_result;\n}",
       "since": "2.0",
       "source": {
         "file": "includes/class-gravitymath-table-footer-calculation.php",
         "line": 883
       },
-      "url": "/docs/gravitymath/filters/gravityviewmathtable_footer_calculationformat_duration_field_calculation_result/"
+      "url": "/docs/gravitymath/filters/gravityviewmathtable_footer_calculationformat_duration_field_calculation_result/",
+      "related": [
+        "gravityview/math/table_footer_calculation/calculation_result",
+        "gravityview/math/table_footer_calculation/math_shortcode"
+      ]
     },
     {
       "id": "gravityviewmathtable_footer_calculationmath_shortcode",
       "name": "gravityview/math/table_footer_calculation/math_shortcode",
       "type": "filter",
       "product": "gravitymath",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the shortcode value.",
       "parameters": [
         {
           "name": "shortcode",
@@ -705,19 +914,28 @@
           "description": "Method for counting multi-select field choices (count individually or as one)."
         }
       ],
+      "categories": [
+        "views",
+        "shortcodes"
+      ],
+      "example": "/**\n * Filter gravityviewmathtable_footer_calculationmath_shortcode\n *\n * @param string $shortcode The Math shortcode being used for calculation.\n * @param string $↳ $scope The scope in which the calculation is being performed.\n * @param string $↳ $field_id The ID of the field being calculated.\n * @param int $↳ $view_id The ID of the GravityView view.\n * @param int $↳ $form_id The ID of the Gravity Forms form.\n * @param string $↳ $calculation_type The type of calculation being performed (e.g., 'count', 'sum', 'avg').\n * @param array $↳ $field Data about the field being calculated.\n * @param array $↳ $column Data about the column in the view.\n * @param string $↳ $formula The math formula used for the calculation.\n * @param string $↳ $process_empty_meta Whether to process fields with empty meta (1 or 0).\n * @param string $↳ $multi_select_count_method Method for counting multi-select field choices (count individually or as one).\n * @return string Modified shortcode\n */\nadd_filter( 'gravityviewmathtable_footer_calculationmath_shortcode', 'my_custom_gravityviewmathtable_footer_calculationmath_shortcode_filter', 10, 11 );\n\nfunction my_custom_gravityviewmathtable_footer_calculationmath_shortcode_filter($shortcode, $↳ $scope, $↳ $field_id, $↳ $view_id, $↳ $form_id, $↳ $calculation_type, $↳ $field, $↳ $column, $↳ $formula, $↳ $process_empty_meta, $↳ $multi_select_count_method) {\n    // Modify $shortcode as needed\n\n    return $shortcode;\n}",
       "since": "2.0",
       "source": {
         "file": "includes/class-gravitymath-table-footer-calculation.php",
         "line": 795
       },
-      "url": "/docs/gravitymath/filters/gravityviewmathtable_footer_calculationmath_shortcode/"
+      "url": "/docs/gravitymath/filters/gravityviewmathtable_footer_calculationmath_shortcode/",
+      "related": [
+        "gravityview/math/table_footer_calculation/calculation_result",
+        "gravityview/math/table_footer_calculation/format_duration_field_calculation_result"
+      ]
     },
     {
       "id": "gravityviewmaththousands_sep",
       "name": "gravityview/math/thousands_sep",
       "type": "filter",
       "product": "gravitymath",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the thousands sep value.",
       "parameters": [
         {
           "name": "thousands_sep",
@@ -725,12 +943,23 @@
           "description": "The thousands separator for numbers. Normally either a comma or dot."
         }
       ],
+      "categories": [
+        "views"
+      ],
+      "example": "/**\n * Filter gravityviewmaththousands_sep\n *\n * @param string $thousands_sep The thousands separator for numbers. Normally either a comma or dot.\n * @return string Modified thousands_sep\n */\nadd_filter( 'gravityviewmaththousands_sep', 'my_custom_gravityviewmaththousands_sep_filter', 10, 1 );\n\nfunction my_custom_gravityviewmaththousands_sep_filter($thousands_sep) {\n    // Modify $thousands_sep as needed\n\n    return $thousands_sep;\n}",
       "since": "1.0",
       "source": {
         "file": "includes/class-gravitymath-shortcode.php",
         "line": 193
       },
-      "url": "/docs/gravitymath/filters/gravityviewmaththousands_sep/"
+      "url": "/docs/gravitymath/filters/gravityviewmaththousands_sep/",
+      "related": [
+        "gravityview/math/init",
+        "gravityview/math/accuracy_message",
+        "gravityview/math/admin_notice",
+        "gravityview/math/debug",
+        "gravityview/math/debug_message"
+      ]
     }
   ],
   "stats": {

@@ -1,5 +1,5 @@
 {
-  "generated": "2025-12-15T23:45:33.844Z",
+  "generated": "2025-12-15T23:52:08.144Z",
   "product": {
     "id": "gravity-forms-event-field",
     "label": "Gravity Forms Event Field",
@@ -25,12 +25,18 @@
           "description": "Whether to disable legacy css."
         }
       ],
+      "categories": [
+        "forms",
+        "assets"
+      ],
+      "example": "/**\n * Filter gform_disable_form_legacy_css\n *\n * @param bool $ Whether to disable legacy css.\n * @return bool Modified \n */\nadd_filter( 'gform_disable_form_legacy_css', 'my_custom_gform_disable_form_legacy_css_filter', 10, 1 );\n\nfunction my_custom_gform_disable_form_legacy_css_filter($) {\n    // Modify $ as needed\n\n    return $;\n}",
       "since": "2.5-beta-rc-3",
       "source": {
         "file": "src/EventAddon.php",
         "line": 519
       },
-      "url": "/docs/gravity-forms-event-field/filters/gform_disable_form_legacy_css/"
+      "url": "/docs/gravity-forms-event-field/filters/gform_disable_form_legacy_css/",
+      "related": []
     },
     {
       "id": "gkfield-eventcron-value",
@@ -45,12 +51,18 @@
           "description": "The cron value."
         }
       ],
+      "categories": [
+        "fields",
+        "calendar"
+      ],
+      "example": "/**\n * Filter gkfield-eventcron-value\n *\n * @param array $cron The cron value.\n * @return array Modified cron\n */\nadd_filter( 'gkfield-eventcron-value', 'my_custom_gkfield_eventcron_value_filter', 10, 1 );\n\nfunction my_custom_gkfield_eventcron_value_filter($cron) {\n    // Modify $cron as needed\n\n    return $cron;\n}",
       "since": "1.0.0",
       "source": {
         "file": "src/EventField.php",
         "line": 1147
       },
-      "url": "/docs/gravity-forms-event-field/filters/gkfield-eventcron-value/"
+      "url": "/docs/gravity-forms-event-field/filters/gkfield-eventcron-value/",
+      "related": []
     },
     {
       "id": "gkfield-eventinputsrepeat-input",
@@ -65,12 +77,18 @@
           "description": "The repeat input array. \\{@see \\GravityKit\\EventField\\EventField::configure_input\\} for keys."
         }
       ],
+      "categories": [
+        "fields",
+        "calendar"
+      ],
+      "example": "/**\n * Filter gkfield-eventinputsrepeat-input\n *\n * @param array $repeat The repeat input array. \\{@see \\GravityKit\\EventField\\EventField::configure_input\\} for keys.\n * @return array Modified repeat\n */\nadd_filter( 'gkfield-eventinputsrepeat-input', 'my_custom_gkfield_eventinputsrepeat_input_filter', 10, 1 );\n\nfunction my_custom_gkfield_eventinputsrepeat_input_filter($repeat) {\n    // Modify $repeat as needed\n\n    return $repeat;\n}",
       "since": "1.4.2",
       "source": {
         "file": "views/public/section-event-options-inputs.php",
         "line": 27
       },
-      "url": "/docs/gravity-forms-event-field/filters/gkfield-eventinputsrepeat-input/"
+      "url": "/docs/gravity-forms-event-field/filters/gkfield-eventinputsrepeat-input/",
+      "related": []
     }
   ],
   "stats": {

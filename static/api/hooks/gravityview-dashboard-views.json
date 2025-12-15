@@ -1,5 +1,5 @@
 {
-  "generated": "2025-12-15T23:45:33.844Z",
+  "generated": "2025-12-15T23:52:08.144Z",
   "product": {
     "id": "gravityview-dashboard-views",
     "label": "GravityView - Dashboard Views",
@@ -33,12 +33,23 @@
           "description": "The View."
         }
       ],
+      "categories": [
+        "views",
+        "kanban",
+        "before"
+      ],
+      "example": "/**\n * Hook into gkgravityviewdashboard-viewsviewbefore\n *\n * @param \\GV_View $view The View.\n */\nadd_action( 'gkgravityviewdashboard-viewsviewbefore', 'my_custom_gkgravityviewdashboard_viewsviewbefore_handler', 10, 1 );\n\nfunction my_custom_gkgravityviewdashboard_viewsviewbefore_handler($view) {\n    // Your custom code here\n}",
       "since": "2.0.0",
       "source": {
         "file": "src/View.php",
         "line": 380
       },
-      "url": "/docs/gravityview-dashboard-views/actions/gkgravityviewdashboard-viewsviewbefore/"
+      "url": "/docs/gravityview-dashboard-views/actions/gkgravityviewdashboard-viewsviewbefore/",
+      "related": [
+        "gk/gravityview/dashboard-views/view",
+        "gk/gravityview/dashboard-views/view/output",
+        "gk/gravityview/dashboard-views/view/template"
+      ]
     },
     {
       "id": "gkgravityviewdashboard-viewsadmin-menuicon-url",
@@ -53,12 +64,23 @@
           "description": "The URL to the icon to be used for this menu. <em> Pass a base64-encoded SVG using a data URI, which will be colored to match the color scheme. This should begin with 'data:image/svg+xml;base64,'. </em> Pass the name of a Dashicons helper class to use a font icon, e.g. 'dashicons-chart-pie'. * Pass 'none' to leave div.wp-menu-image empty so an icon can be added via CSS."
         }
       ],
+      "categories": [
+        "views",
+        "kanban",
+        "admin"
+      ],
+      "example": "/**\n * Filter gkgravityviewdashboard-viewsadmin-menuicon-url\n *\n * @param string $icon_url The URL to the icon to be used for this menu. <em> Pass a base64-encoded SVG using a data URI, which will be colored to match the color scheme. This should begin with 'data:image/svg+xml;base64,'. </em> Pass the name of a Dashicons helper class to use a font icon, e.g. 'dashicons-chart-pie'. * Pass 'none' to leave div.wp-menu-image empty so an icon can be added via CSS.\n * @return string Modified icon_url\n */\nadd_filter( 'gkgravityviewdashboard-viewsadmin-menuicon-url', 'my_custom_gkgravityviewdashboard_viewsadmin_menuicon_url_filter', 10, 1 );\n\nfunction my_custom_gkgravityviewdashboard_viewsadmin_menuicon_url_filter($icon_url) {\n    // Modify $icon_url as needed\n\n    return $icon_url;\n}",
       "since": "2.0.0",
       "source": {
         "file": "src/AdminMenu.php",
         "line": 145
       },
-      "url": "/docs/gravityview-dashboard-views/filters/gkgravityviewdashboard-viewsadmin-menuicon-url/"
+      "url": "/docs/gravityview-dashboard-views/filters/gkgravityviewdashboard-viewsadmin-menuicon-url/",
+      "related": [
+        "gk/gravityview/dashboard-views/admin-menu/position",
+        "gk/gravityview/dashboard-views/admin-menu/submenu-prefix",
+        "gk/gravityview/dashboard-views/admin-menu/submenus"
+      ]
     },
     {
       "id": "gkgravityviewdashboard-viewsadmin-menuposition",
@@ -73,19 +95,30 @@
           "description": "float`"
         }
       ],
+      "categories": [
+        "views",
+        "kanban",
+        "admin"
+      ],
+      "example": "/**\n * Filter gkgravityviewdashboard-viewsadmin-menuposition\n *\n * @param int\\ $menu_position float`\n * @return int\\ Modified menu_position\n */\nadd_filter( 'gkgravityviewdashboard-viewsadmin-menuposition', 'my_custom_gkgravityviewdashboard_viewsadmin_menuposition_filter', 10, 1 );\n\nfunction my_custom_gkgravityviewdashboard_viewsadmin_menuposition_filter($menu_position) {\n    // Modify $menu_position as needed\n\n    return $menu_position;\n}",
       "since": "2.0.0",
       "source": {
         "file": "src/AdminMenu.php",
         "line": 126
       },
-      "url": "/docs/gravityview-dashboard-views/filters/gkgravityviewdashboard-viewsadmin-menuposition/"
+      "url": "/docs/gravityview-dashboard-views/filters/gkgravityviewdashboard-viewsadmin-menuposition/",
+      "related": [
+        "gk/gravityview/dashboard-views/admin-menu/icon-url",
+        "gk/gravityview/dashboard-views/admin-menu/submenu-prefix",
+        "gk/gravityview/dashboard-views/admin-menu/submenus"
+      ]
     },
     {
       "id": "gkgravityviewdashboard-viewsadmin-menusubmenu-prefix",
       "name": "gk/gravityview/dashboard-views/admin-menu/submenu-prefix",
       "type": "filter",
       "product": "gravityview-dashboard-views",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the prefix value.",
       "parameters": [
         {
           "name": "prefix",
@@ -93,12 +126,23 @@
           "description": "View prefix."
         }
       ],
+      "categories": [
+        "views",
+        "kanban",
+        "admin"
+      ],
+      "example": "/**\n * Filter gkgravityviewdashboard-viewsadmin-menusubmenu-prefix\n *\n * @param string $prefix View prefix.\n * @return string Modified prefix\n */\nadd_filter( 'gkgravityviewdashboard-viewsadmin-menusubmenu-prefix', 'my_custom_gkgravityviewdashboard_viewsadmin_menusubmenu_prefix_filter', 10, 1 );\n\nfunction my_custom_gkgravityviewdashboard_viewsadmin_menusubmenu_prefix_filter($prefix) {\n    // Modify $prefix as needed\n\n    return $prefix;\n}",
       "since": "2.0.0",
       "source": {
         "file": "src/AdminMenu.php",
         "line": 319
       },
-      "url": "/docs/gravityview-dashboard-views/filters/gkgravityviewdashboard-viewsadmin-menusubmenu-prefix/"
+      "url": "/docs/gravityview-dashboard-views/filters/gkgravityviewdashboard-viewsadmin-menusubmenu-prefix/",
+      "related": [
+        "gk/gravityview/dashboard-views/admin-menu/icon-url",
+        "gk/gravityview/dashboard-views/admin-menu/position",
+        "gk/gravityview/dashboard-views/admin-menu/submenus"
+      ]
     },
     {
       "id": "gkgravityviewdashboard-viewsadmin-menusubmenus",
@@ -113,12 +157,23 @@
           "description": "Submenus."
         }
       ],
+      "categories": [
+        "views",
+        "kanban",
+        "admin"
+      ],
+      "example": "/**\n * Filter gkgravityviewdashboard-viewsadmin-menusubmenus\n *\n * @param array $submenus Submenus.\n * @return array Modified submenus\n */\nadd_filter( 'gkgravityviewdashboard-viewsadmin-menusubmenus', 'my_custom_gkgravityviewdashboard_viewsadmin_menusubmenus_filter', 10, 1 );\n\nfunction my_custom_gkgravityviewdashboard_viewsadmin_menusubmenus_filter($submenus) {\n    // Modify $submenus as needed\n\n    return $submenus;\n}",
       "since": "2.0.0",
       "source": {
         "file": "src/AdminMenu.php",
         "line": 291
       },
-      "url": "/docs/gravityview-dashboard-views/filters/gkgravityviewdashboard-viewsadmin-menusubmenus/"
+      "url": "/docs/gravityview-dashboard-views/filters/gkgravityviewdashboard-viewsadmin-menusubmenus/",
+      "related": [
+        "gk/gravityview/dashboard-views/admin-menu/icon-url",
+        "gk/gravityview/dashboard-views/admin-menu/position",
+        "gk/gravityview/dashboard-views/admin-menu/submenu-prefix"
+      ]
     },
     {
       "id": "gkgravityviewdashboard-viewsview-editorsettings",
@@ -133,12 +188,19 @@
           "description": "Settings to render."
         }
       ],
+      "categories": [
+        "editing",
+        "views",
+        "kanban"
+      ],
+      "example": "/**\n * Filter gkgravityviewdashboard-viewsview-editorsettings\n *\n * @param array $settings_to_render Settings to render.\n * @return array Modified settings_to_render\n */\nadd_filter( 'gkgravityviewdashboard-viewsview-editorsettings', 'my_custom_gkgravityviewdashboard_viewsview_editorsettings_filter', 10, 1 );\n\nfunction my_custom_gkgravityviewdashboard_viewsview_editorsettings_filter($settings_to_render) {\n    // Modify $settings_to_render as needed\n\n    return $settings_to_render;\n}",
       "since": "2.0.0",
       "source": {
         "file": "src/ViewSettings.php",
         "line": 161
       },
-      "url": "/docs/gravityview-dashboard-views/filters/gkgravityviewdashboard-viewsview-editorsettings/"
+      "url": "/docs/gravityview-dashboard-views/filters/gkgravityviewdashboard-viewsview-editorsettings/",
+      "related": []
     },
     {
       "id": "gkgravityviewdashboard-viewsview",
@@ -153,12 +215,20 @@
           "description": "The View."
         }
       ],
+      "categories": [
+        "views",
+        "kanban"
+      ],
+      "example": "/**\n * Filter gkgravityviewdashboard-viewsview\n *\n * @param \\GV_View $view The View.\n * @return \\GV_View Modified view\n */\nadd_filter( 'gkgravityviewdashboard-viewsview', 'my_custom_gkgravityviewdashboard_viewsview_filter', 10, 1 );\n\nfunction my_custom_gkgravityviewdashboard_viewsview_filter($view) {\n    // Modify $view as needed\n\n    return $view;\n}",
       "since": "2.0.0",
       "source": {
         "file": "src/View.php",
         "line": 337
       },
-      "url": "/docs/gravityview-dashboard-views/filters/gkgravityviewdashboard-viewsview/"
+      "url": "/docs/gravityview-dashboard-views/filters/gkgravityviewdashboard-viewsview/",
+      "related": [
+        "gk/gravityview/dashboard-views/view/before"
+      ]
     },
     {
       "id": "gkgravityviewdashboard-viewsviewfieldvisibility",
@@ -183,12 +253,19 @@
           "description": "The View."
         }
       ],
+      "categories": [
+        "fields",
+        "views",
+        "kanban"
+      ],
+      "example": "/**\n * Filter gkgravityviewdashboard-viewsviewfieldvisibility\n *\n * @param bool $is_visible Whether the field is visible.\n * @param \\GF_Field $field The field.\n * @param \\GV_View $view The View.\n * @return bool Modified is_visible\n */\nadd_filter( 'gkgravityviewdashboard-viewsviewfieldvisibility', 'my_custom_gkgravityviewdashboard_viewsviewfieldvisibility_filter', 10, 3 );\n\nfunction my_custom_gkgravityviewdashboard_viewsviewfieldvisibility_filter($is_visible, $field, $view) {\n    // Modify $is_visible as needed\n\n    return $is_visible;\n}",
       "since": "2.0.0",
       "source": {
         "file": "src/View.php",
         "line": 312
       },
-      "url": "/docs/gravityview-dashboard-views/filters/gkgravityviewdashboard-viewsviewfieldvisibility/"
+      "url": "/docs/gravityview-dashboard-views/filters/gkgravityviewdashboard-viewsviewfieldvisibility/",
+      "related": []
     },
     {
       "id": "gkgravityviewdashboard-viewsviewoutput",
@@ -213,12 +290,21 @@
           "description": "The layout."
         }
       ],
+      "categories": [
+        "views",
+        "kanban"
+      ],
+      "example": "/**\n * Filter gkgravityviewdashboard-viewsviewoutput\n *\n * @param string $view_template The View template.\n * @param \\GV_View $view The View.\n * @param string $layout The layout.\n * @return string Modified view_template\n */\nadd_filter( 'gkgravityviewdashboard-viewsviewoutput', 'my_custom_gkgravityviewdashboard_viewsviewoutput_filter', 10, 3 );\n\nfunction my_custom_gkgravityviewdashboard_viewsviewoutput_filter($view_template, $view, $layout) {\n    // Modify $view_template as needed\n\n    return $view_template;\n}",
       "since": "2.0.0",
       "source": {
         "file": "src/View.php",
         "line": 410
       },
-      "url": "/docs/gravityview-dashboard-views/filters/gkgravityviewdashboard-viewsviewoutput/"
+      "url": "/docs/gravityview-dashboard-views/filters/gkgravityviewdashboard-viewsviewoutput/",
+      "related": [
+        "gk/gravityview/dashboard-views/view/before",
+        "gk/gravityview/dashboard-views/view/template"
+      ]
     },
     {
       "id": "gkgravityviewdashboard-viewsviewtemplate",
@@ -238,12 +324,22 @@
           "description": "The View."
         }
       ],
+      "categories": [
+        "rendering",
+        "views",
+        "kanban"
+      ],
+      "example": "/**\n * Filter gkgravityviewdashboard-viewsviewtemplate\n *\n * @param string $view_template The View template.\n * @param \\GV_View $view The View.\n * @return string Modified view_template\n */\nadd_filter( 'gkgravityviewdashboard-viewsviewtemplate', 'my_custom_gkgravityviewdashboard_viewsviewtemplate_filter', 10, 2 );\n\nfunction my_custom_gkgravityviewdashboard_viewsviewtemplate_filter($view_template, $view) {\n    // Modify $view_template as needed\n\n    return $view_template;\n}",
       "since": "2.0.0",
       "source": {
         "file": "src/View.php",
         "line": 423
       },
-      "url": "/docs/gravityview-dashboard-views/filters/gkgravityviewdashboard-viewsviewtemplate/"
+      "url": "/docs/gravityview-dashboard-views/filters/gkgravityviewdashboard-viewsviewtemplate/",
+      "related": [
+        "gk/gravityview/dashboard-views/view/before",
+        "gk/gravityview/dashboard-views/view/output"
+      ]
     }
   ],
   "stats": {

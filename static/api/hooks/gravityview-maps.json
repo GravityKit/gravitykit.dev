@@ -1,5 +1,5 @@
 {
-  "generated": "2025-12-15T23:45:33.844Z",
+  "generated": "2025-12-15T23:52:08.144Z",
   "product": {
     "id": "gravityview-maps",
     "label": "GravityView - Maps",
@@ -60,19 +60,28 @@
       "product": "gravityview-maps",
       "description": "Fires when the plugin is loaded.",
       "parameters": [],
+      "categories": [
+        "maps"
+      ],
+      "example": "/**\n * Hook into gkgravitymapsloaded\n *\n * @return void\n */\nadd_action( 'gkgravitymapsloaded', 'my_custom_gkgravitymapsloaded_handler' );\n\nfunction my_custom_gkgravitymapsloaded_handler() {\n    // Your custom code here\n}",
       "since": "3.0",
       "source": {
         "file": "src/Loader.php",
         "line": 234
       },
-      "url": "/docs/gravityview-maps/actions/gkgravitymapsloaded/"
+      "url": "/docs/gravityview-maps/actions/gkgravitymapsloaded/",
+      "related": [
+        "gk/gravitymaps/current_location_instant_search",
+        "gk/gravitymaps/geolocation_fields",
+        "gk/gravitymaps/geolocation_radius_options"
+      ]
     },
     {
       "id": "gkgravitymapsrendermap-canvas",
       "name": "gk/gravitymaps/render/map-canvas",
       "type": "action",
       "product": "gravityview-maps",
-      "description": "| Name | Type | Description |",
+      "description": "Fires during render map canvas processing.",
       "parameters": [
         {
           "name": "entry",
@@ -85,19 +94,25 @@
           "description": "\\Template_Context`"
         }
       ],
+      "categories": [
+        "rendering",
+        "maps"
+      ],
+      "example": "/**\n * Hook into gkgravitymapsrendermap-canvas\n *\n * @param null\\ $entry \\Entry`\n * @param null\\ $context \\Template_Context`\n */\nadd_action( 'gkgravitymapsrendermap-canvas', 'my_custom_gkgravitymapsrendermap_canvas_handler', 10, 2 );\n\nfunction my_custom_gkgravitymapsrendermap_canvas_handler($entry, $context) {\n    // Your custom code here\n}",
       "since": "3.0",
       "source": {
         "file": "src/Views/Map.php",
         "line": 356
       },
-      "url": "/docs/gravityview-maps/actions/gkgravitymapsrendermap-canvas/"
+      "url": "/docs/gravityview-maps/actions/gkgravitymapsrendermap-canvas/",
+      "related": []
     },
     {
       "id": "gravityviewtemplatemapbodyafter",
       "name": "gravityview/template/map/body/after",
       "type": "action",
       "product": "gravityview-maps",
-      "description": "| Name | Type | Description |",
+      "description": "Fires after body processing.",
       "parameters": [
         {
           "name": "context",
@@ -105,19 +120,29 @@
           "description": "The template context."
         }
       ],
+      "categories": [
+        "rendering",
+        "views",
+        "maps",
+        "after"
+      ],
+      "example": "/**\n * Hook into gravityviewtemplatemapbodyafter\n *\n * @param \\Template_Context $context The template context.\n */\nadd_action( 'gravityviewtemplatemapbodyafter', 'my_custom_gravityviewtemplatemapbodyafter_handler', 10, 1 );\n\nfunction my_custom_gravityviewtemplatemapbodyafter_handler($context) {\n    // Your custom code here\n}",
       "since": "2.0",
       "source": {
         "file": "src/Views/Map.php",
         "line": 242
       },
-      "url": "/docs/gravityview-maps/actions/gravityviewtemplatemapbodyafter/"
+      "url": "/docs/gravityview-maps/actions/gravityviewtemplatemapbodyafter/",
+      "related": [
+        "gravityview/template/map/body/before"
+      ]
     },
     {
       "id": "gravityviewtemplatemapbodybefore",
       "name": "gravityview/template/map/body/before",
       "type": "action",
       "product": "gravityview-maps",
-      "description": "| Name | Type | Description |",
+      "description": "Fires before body processing.",
       "parameters": [
         {
           "name": "context",
@@ -125,19 +150,29 @@
           "description": "The template context."
         }
       ],
+      "categories": [
+        "rendering",
+        "views",
+        "maps",
+        "before"
+      ],
+      "example": "/**\n * Hook into gravityviewtemplatemapbodybefore\n *\n * @param \\Template_Context $context The template context.\n */\nadd_action( 'gravityviewtemplatemapbodybefore', 'my_custom_gravityviewtemplatemapbodybefore_handler', 10, 1 );\n\nfunction my_custom_gravityviewtemplatemapbodybefore_handler($context) {\n    // Your custom code here\n}",
       "since": "2.0",
       "source": {
         "file": "src/Views/Map.php",
         "line": 209
       },
-      "url": "/docs/gravityview-maps/actions/gravityviewtemplatemapbodybefore/"
+      "url": "/docs/gravityview-maps/actions/gravityviewtemplatemapbodybefore/",
+      "related": [
+        "gravityview/template/map/body/after"
+      ]
     },
     {
       "id": "sprintfgravityviewtemplatemapentrysafterzone",
       "name": "sprintf(gravityview/template/map/entry%safter, $zone)",
       "type": "action",
       "product": "gravityview-maps",
-      "description": "| Name | Type | Description |",
+      "description": "Fires during map entry%safter, $zone) processing.",
       "parameters": [
         {
           "name": "context",
@@ -145,19 +180,30 @@
           "description": "The template context."
         }
       ],
+      "categories": [
+        "entries",
+        "rendering",
+        "views",
+        "maps",
+        "after"
+      ],
+      "example": "/**\n * Hook into sprintfgravityviewtemplatemapentrysafterzone\n *\n * @param \\Template_Context $context The template context.\n */\nadd_action( 'sprintfgravityviewtemplatemapentrysafterzone', 'my_custom_sprintfgravityviewtemplatemapentrysafterzone_handler', 10, 1 );\n\nfunction my_custom_sprintfgravityviewtemplatemapentrysafterzone_handler($context) {\n    // Your custom code here\n}",
       "since": "2.0",
       "source": {
         "file": "src/Views/Map.php",
         "line": 318
       },
-      "url": "/docs/gravityview-maps/actions/sprintfgravityviewtemplatemapentrysafterzone/"
+      "url": "/docs/gravityview-maps/actions/sprintfgravityviewtemplatemapentrysafterzone/",
+      "related": [
+        "sprintf(gravityview/template/map/entry%sbefore, $zone)"
+      ]
     },
     {
       "id": "sprintfgravityviewtemplatemapentrysbeforezone",
       "name": "sprintf(gravityview/template/map/entry%sbefore, $zone)",
       "type": "action",
       "product": "gravityview-maps",
-      "description": "| Name | Type | Description |",
+      "description": "Fires during map entry%sbefore, $zone) processing.",
       "parameters": [
         {
           "name": "context",
@@ -165,12 +211,23 @@
           "description": "The template context."
         }
       ],
+      "categories": [
+        "entries",
+        "rendering",
+        "views",
+        "maps",
+        "before"
+      ],
+      "example": "/**\n * Hook into sprintfgravityviewtemplatemapentrysbeforezone\n *\n * @param \\Template_Context $context The template context.\n */\nadd_action( 'sprintfgravityviewtemplatemapentrysbeforezone', 'my_custom_sprintfgravityviewtemplatemapentrysbeforezone_handler', 10, 1 );\n\nfunction my_custom_sprintfgravityviewtemplatemapentrysbeforezone_handler($context) {\n    // Your custom code here\n}",
       "since": "2.0",
       "source": {
         "file": "src/Views/Map.php",
         "line": 279
       },
-      "url": "/docs/gravityview-maps/actions/sprintfgravityviewtemplatemapentrysbeforezone/"
+      "url": "/docs/gravityview-maps/actions/sprintfgravityviewtemplatemapentrysbeforezone/",
+      "related": [
+        "sprintf(gravityview/template/map/entry%safter, $zone)"
+      ]
     },
     {
       "id": "gkgravitymapscurrent_location_instant_search",
@@ -179,12 +236,22 @@
       "product": "gravityview-maps",
       "description": "Allows changing of the default setting for the Current Location behavior.",
       "parameters": [],
+      "categories": [
+        "search",
+        "maps"
+      ],
+      "example": "/**\n * Filter gkgravitymapscurrent_location_instant_search\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gkgravitymapscurrent_location_instant_search', 'my_custom_gkgravitymapscurrent_location_instant_search_filter' );\n\nfunction my_custom_gkgravitymapscurrent_location_instant_search_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
       "since": "2.0",
       "source": {
         "file": "templates/search-field-geo_radius.php",
         "line": 27
       },
-      "url": "/docs/gravityview-maps/filters/gkgravitymapscurrent_location_instant_search/"
+      "url": "/docs/gravityview-maps/filters/gkgravitymapscurrent_location_instant_search/",
+      "related": [
+        "gk/gravitymaps/loaded",
+        "gk/gravitymaps/geolocation_fields",
+        "gk/gravitymaps/geolocation_radius_options"
+      ]
     },
     {
       "id": "gkgravitymapsgeolocation_fields",
@@ -204,12 +271,22 @@
           "description": "Which Gravity Forms meta we are using."
         }
       ],
+      "categories": [
+        "fields",
+        "maps"
+      ],
+      "example": "/**\n * Filter gkgravitymapsgeolocation_fields\n *\n * @param array $fields Which fields are geolocation.\n * @param array $form Which Gravity Forms meta we are using.\n * @return array Modified fields\n */\nadd_filter( 'gkgravitymapsgeolocation_fields', 'my_custom_gkgravitymapsgeolocation_fields_filter', 10, 2 );\n\nfunction my_custom_gkgravitymapsgeolocation_fields_filter($fields, $form) {\n    // Modify $fields as needed\n\n    return $fields;\n}",
       "since": null,
       "source": {
         "file": "src/Form_Fields.php",
         "line": 358
       },
-      "url": "/docs/gravityview-maps/filters/gkgravitymapsgeolocation_fields/"
+      "url": "/docs/gravityview-maps/filters/gkgravitymapsgeolocation_fields/",
+      "related": [
+        "gk/gravitymaps/loaded",
+        "gk/gravitymaps/current_location_instant_search",
+        "gk/gravitymaps/geolocation_radius_options"
+      ]
     },
     {
       "id": "gkgravitymapsgeolocation_radius_options",
@@ -234,19 +311,28 @@
           "description": "int\\"
         }
       ],
+      "categories": [
+        "maps"
+      ],
+      "example": "/**\n * Filter gkgravitymapsgeolocation_radius_options\n *\n * @param array $options Which options we are passing forward.\n * @param array $default_options Which are the default options that will be applied afterwords.\n * @param string\\ $selected int\\\n * @return array Modified options\n */\nadd_filter( 'gkgravitymapsgeolocation_radius_options', 'my_custom_gkgravitymapsgeolocation_radius_options_filter', 10, 3 );\n\nfunction my_custom_gkgravitymapsgeolocation_radius_options_filter($options, $default_options, $selected) {\n    // Modify $options as needed\n\n    return $options;\n}",
       "since": "2.0",
       "source": {
         "file": "src/Search_Filter.php",
         "line": 536
       },
-      "url": "/docs/gravityview-maps/filters/gkgravitymapsgeolocation_radius_options/"
+      "url": "/docs/gravityview-maps/filters/gkgravitymapsgeolocation_radius_options/",
+      "related": [
+        "gk/gravitymaps/loaded",
+        "gk/gravitymaps/current_location_instant_search",
+        "gk/gravitymaps/geolocation_fields"
+      ]
     },
     {
       "id": "gkgravitymapsmap-servicesgoogle-mapsapi_key",
       "name": "gk/gravitymaps/map-services/google-maps/api_key",
       "type": "filter",
       "product": "gravityview-maps",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the key value.",
       "parameters": [
         {
           "name": "key",
@@ -254,12 +340,18 @@
           "description": "If the Google API key setting is set in GravityView Settings, use it. Otherwise: ''."
         }
       ],
+      "categories": [
+        "maps",
+        "api"
+      ],
+      "example": "/**\n * Filter gkgravitymapsmap-servicesgoogle-mapsapi_key\n *\n * @param string $key If the Google API key setting is set in GravityView Settings, use it. Otherwise: ''.\n * @return string Modified key\n */\nadd_filter( 'gkgravitymapsmap-servicesgoogle-mapsapi_key', 'my_custom_gkgravitymapsmap_servicesgoogle_mapsapi_key_filter', 10, 1 );\n\nfunction my_custom_gkgravitymapsmap_servicesgoogle_mapsapi_key_filter($key) {\n    // Modify $key as needed\n\n    return $key;\n}",
       "since": "3.2.0",
       "source": {
         "file": "src/Map_Services/Google_Maps.php",
         "line": 225
       },
-      "url": "/docs/gravityview-maps/filters/gkgravitymapsmap-servicesgoogle-mapsapi_key/"
+      "url": "/docs/gravityview-maps/filters/gkgravitymapsmap-servicesgoogle-mapsapi_key/",
+      "related": []
     },
     {
       "id": "gkgravitymapsmapcontrol-pagination",
@@ -279,19 +371,24 @@
           "description": "The map object."
         }
       ],
+      "categories": [
+        "maps"
+      ],
+      "example": "/**\n * Filter gkgravitymapsmapcontrol-pagination\n *\n * @param bool $pagination_override Whether to override the View's native pagination behavior.\n * @param \\Map $map The map object.\n * @return bool Modified pagination_override\n */\nadd_filter( 'gkgravitymapsmapcontrol-pagination', 'my_custom_gkgravitymapsmapcontrol_pagination_filter', 10, 2 );\n\nfunction my_custom_gkgravitymapsmapcontrol_pagination_filter($pagination_override, $map) {\n    // Modify $pagination_override as needed\n\n    return $pagination_override;\n}",
       "since": "3.1.4",
       "source": {
         "file": "src/Template/Map.php",
         "line": 404
       },
-      "url": "/docs/gravityview-maps/filters/gkgravitymapsmapcontrol-pagination/"
+      "url": "/docs/gravityview-maps/filters/gkgravitymapsmapcontrol-pagination/",
+      "related": []
     },
     {
       "id": "gkgravitymapsmapsservice-factoryget-map-service-class-for-view",
       "name": "gk/gravitymaps/maps/service-factory/get-map-service-class-for-view",
       "type": "filter",
       "product": "gravityview-maps",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the default map instance value.",
       "parameters": [
         {
           "name": "default_map_instance",
@@ -304,19 +401,27 @@
           "description": "The view object."
         }
       ],
+      "categories": [
+        "views",
+        "maps"
+      ],
+      "example": "/**\n * Filter gkgravitymapsmapsservice-factoryget-map-service-class-for-view\n *\n * @param string $default_map_instance The default map service class.\n * @param \\View $view The view object.\n * @return string Modified default_map_instance\n */\nadd_filter( 'gkgravitymapsmapsservice-factoryget-map-service-class-for-view', 'my_custom_gkgravitymapsmapsservice_factoryget_map_service_class_for_view_filter', 10, 2 );\n\nfunction my_custom_gkgravitymapsmapsservice_factoryget_map_service_class_for_view_filter($default_map_instance, $view) {\n    // Modify $default_map_instance as needed\n\n    return $default_map_instance;\n}",
       "since": "3.1.0",
       "source": {
         "file": "src/Map_Services/Factory.php",
         "line": 67
       },
-      "url": "/docs/gravityview-maps/filters/gkgravitymapsmapsservice-factoryget-map-service-class-for-view/"
+      "url": "/docs/gravityview-maps/filters/gkgravitymapsmapsservice-factoryget-map-service-class-for-view/",
+      "related": [
+        "gk/gravitymaps/maps/service-factory/get-map-service-instance-for-view"
+      ]
     },
     {
       "id": "gkgravitymapsmapsservice-factoryget-map-service-instance-for-view",
       "name": "gk/gravitymaps/maps/service-factory/get-map-service-instance-for-view",
       "type": "filter",
       "product": "gravityview-maps",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the map value.",
       "parameters": [
         {
           "name": "map",
@@ -329,12 +434,20 @@
           "description": "The view object."
         }
       ],
+      "categories": [
+        "views",
+        "maps"
+      ],
+      "example": "/**\n * Filter gkgravitymapsmapsservice-factoryget-map-service-instance-for-view\n *\n * @param \\Map_Service_Abstract $map The map service instance.\n * @param \\View $view The view object.\n * @return \\Map_Service_Abstract Modified map\n */\nadd_filter( 'gkgravitymapsmapsservice-factoryget-map-service-instance-for-view', 'my_custom_gkgravitymapsmapsservice_factoryget_map_service_instance_for_view_filter', 10, 2 );\n\nfunction my_custom_gkgravitymapsmapsservice_factoryget_map_service_instance_for_view_filter($map, $view) {\n    // Modify $map as needed\n\n    return $map;\n}",
       "since": "3.1.0",
       "source": {
         "file": "src/Map_Services/Factory.php",
         "line": 101
       },
-      "url": "/docs/gravityview-maps/filters/gkgravitymapsmapsservice-factoryget-map-service-instance-for-view/"
+      "url": "/docs/gravityview-maps/filters/gkgravitymapsmapsservice-factoryget-map-service-instance-for-view/",
+      "related": [
+        "gk/gravitymaps/maps/service-factory/get-map-service-class-for-view"
+      ]
     },
     {
       "id": "gkgravitymapsmarkerauto-geocode",
@@ -354,19 +467,24 @@
           "description": "The marker object."
         }
       ],
+      "categories": [
+        "maps"
+      ],
+      "example": "/**\n * Filter gkgravitymapsmarkerauto-geocode\n *\n * @param bool $auto_geocode Whether the marker should be automatically geocoded if no coordinates are found.\n * @param \\Marker $this The marker object.\n * @return bool Modified auto_geocode\n */\nadd_filter( 'gkgravitymapsmarkerauto-geocode', 'my_custom_gkgravitymapsmarkerauto_geocode_filter', 10, 2 );\n\nfunction my_custom_gkgravitymapsmarkerauto_geocode_filter($auto_geocode, $this) {\n    // Modify $auto_geocode as needed\n\n    return $auto_geocode;\n}",
       "since": "3.1.4",
       "source": {
         "file": "src/Marker.php",
         "line": 868
       },
-      "url": "/docs/gravityview-maps/filters/gkgravitymapsmarkerauto-geocode/"
+      "url": "/docs/gravityview-maps/filters/gkgravitymapsmarkerauto-geocode/",
+      "related": []
     },
     {
       "id": "gkgravitymapsmarkerscoordinatesfields-ids",
       "name": "gk/gravitymaps/markers/coordinates/fields-ids",
       "type": "filter",
       "product": "gravityview-maps",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the lat long fields value.",
       "parameters": [
         {
           "name": "lat_long_fields",
@@ -379,12 +497,18 @@
           "description": "Current View object"
         }
       ],
+      "categories": [
+        "fields",
+        "maps"
+      ],
+      "example": "/**\n * Filter gkgravitymapsmarkerscoordinatesfields-ids\n *\n * @param array $lat_long_fields Array of latitude/longitude of Gravity Forms field IDs\n * @param \\View $view Current View object\n * @return array Modified lat_long_fields\n */\nadd_filter( 'gkgravitymapsmarkerscoordinatesfields-ids', 'my_custom_gkgravitymapsmarkerscoordinatesfields_ids_filter', 10, 2 );\n\nfunction my_custom_gkgravitymapsmarkerscoordinatesfields_ids_filter($lat_long_fields, $view) {\n    // Modify $lat_long_fields as needed\n\n    return $lat_long_fields;\n}",
       "since": "3.1.0",
       "source": {
         "file": "src/Search_Filter.php",
         "line": 655
       },
-      "url": "/docs/gravityview-maps/filters/gkgravitymapsmarkerscoordinatesfields-ids/"
+      "url": "/docs/gravityview-maps/filters/gkgravitymapsmarkerscoordinatesfields-ids/",
+      "related": []
     },
     {
       "id": "gkgravitymapssearchreserved-args",
@@ -399,19 +523,25 @@
           "description": "Array of reserved arguments."
         }
       ],
+      "categories": [
+        "search",
+        "maps"
+      ],
+      "example": "/**\n * Filter gkgravitymapssearchreserved-args\n *\n * @param array $reserved_args Array of reserved arguments.\n * @return array Modified reserved_args\n */\nadd_filter( 'gkgravitymapssearchreserved-args', 'my_custom_gkgravitymapssearchreserved_args_filter', 10, 1 );\n\nfunction my_custom_gkgravitymapssearchreserved_args_filter($reserved_args) {\n    // Modify $reserved_args as needed\n\n    return $reserved_args;\n}",
       "since": "3.3.0",
       "source": {
         "file": "src/Search_Filter.php",
         "line": 188
       },
-      "url": "/docs/gravityview-maps/filters/gkgravitymapssearchreserved-args/"
+      "url": "/docs/gravityview-maps/filters/gkgravitymapssearchreserved-args/",
+      "related": []
     },
     {
       "id": "gravityview_maps_google_script_handle",
       "name": "gravityview_maps_google_script_handle",
       "type": "filter",
       "product": "gravityview-maps",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the script slug value.",
       "parameters": [
         {
           "name": "script_slug",
@@ -419,33 +549,47 @@
           "description": "Default: <code>gv-google-maps</code>"
         }
       ],
+      "categories": [
+        "views",
+        "maps",
+        "assets"
+      ],
+      "example": "/**\n * Filter gravityview_maps_google_script_handle\n *\n * @param string $script_slug Default: <code>gv-google-maps</code>\n * @return string Modified script_slug\n */\nadd_filter( 'gravityview_maps_google_script_handle', 'my_custom_gravityview_maps_google_script_handle_filter', 10, 1 );\n\nfunction my_custom_gravityview_maps_google_script_handle_filter($script_slug) {\n    // Modify $script_slug as needed\n\n    return $script_slug;\n}",
       "since": null,
       "source": {
         "file": "src/Map_Services/Google_Maps.php",
         "line": 339
       },
-      "url": "/docs/gravityview-maps/filters/gravityview_maps_google_script_handle/"
+      "url": "/docs/gravityview-maps/filters/gravityview_maps_google_script_handle/",
+      "related": []
     },
     {
       "id": "gravityview_render_after_label",
       "name": "gravityview_render_after_label",
       "type": "filter",
       "product": "gravityview-maps",
-      "description": "Defined in `src/Views/Map.php` at line 97",
+      "description": "Filters during after label processing.",
       "parameters": [],
+      "categories": [
+        "rendering",
+        "views",
+        "after"
+      ],
+      "example": "/**\n * Filter gravityview_render_after_label\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gravityview_render_after_label', 'my_custom_gravityview_render_after_label_filter' );\n\nfunction my_custom_gravityview_render_after_label_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
       "since": null,
       "source": {
         "file": "src/Views/Map.php",
         "line": 97
       },
-      "url": "/docs/gravityview-maps/filters/gravityview_render_after_label/"
+      "url": "/docs/gravityview-maps/filters/gravityview_render_after_label/",
+      "related": []
     },
     {
       "id": "gravityviewmapsavailable_iconsicons",
       "name": "gravityview/maps/available_icons/icons",
       "type": "filter",
       "product": "gravityview-maps",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the field id value.",
       "parameters": [
         {
           "name": "field_id",
@@ -458,19 +602,27 @@
           "description": "Array of icons, with keys of <code>default</code>, <code>theme</code>, and <code>plugin</code>. The keys must match the array keys used by $sections."
         }
       ],
+      "categories": [
+        "views",
+        "maps"
+      ],
+      "example": "/**\n * Filter gravityviewmapsavailable_iconsicons\n *\n * @param int $field_id If set, the key value of the $entry array that holds the icon\n * @param array $icons Array of icons, with keys of <code>default</code>, <code>theme</code>, and <code>plugin</code>. The keys must match the array keys used by $sections.\n * @return int Modified field_id\n */\nadd_filter( 'gravityviewmapsavailable_iconsicons', 'my_custom_gravityviewmapsavailable_iconsicons_filter', 10, 2 );\n\nfunction my_custom_gravityviewmapsavailable_iconsicons_filter($field_id, $icons) {\n    // Modify $field_id as needed\n\n    return $field_id;\n}",
       "since": "TODO: TODO",
       "source": {
         "file": "src/Available_Icons.php",
         "line": 127
       },
-      "url": "/docs/gravityview-maps/filters/gravityviewmapsavailable_iconsicons/"
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsavailable_iconsicons/",
+      "related": [
+        "gravityview/maps/available_icons/sections"
+      ]
     },
     {
       "id": "gravityviewmapsavailable_iconssections",
       "name": "gravityview/maps/available_icons/sections",
       "type": "filter",
       "product": "gravityview-maps",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the field id value.",
       "parameters": [
         {
           "name": "field_id",
@@ -483,12 +635,20 @@
           "description": "Array of icons, with keys of <code>default</code>, <code>theme</code>, and <code>plugin</code>."
         }
       ],
+      "categories": [
+        "views",
+        "maps"
+      ],
+      "example": "/**\n * Filter gravityviewmapsavailable_iconssections\n *\n * @param int $field_id If set, the key value of the $entry array that holds the icon\n * @param array $icons Array of icons, with keys of <code>default</code>, <code>theme</code>, and <code>plugin</code>.\n * @return int Modified field_id\n */\nadd_filter( 'gravityviewmapsavailable_iconssections', 'my_custom_gravityviewmapsavailable_iconssections_filter', 10, 2 );\n\nfunction my_custom_gravityviewmapsavailable_iconssections_filter($field_id, $icons) {\n    // Modify $field_id as needed\n\n    return $field_id;\n}",
       "since": "TODO: TODO",
       "source": {
         "file": "src/Available_Icons.php",
         "line": 118
       },
-      "url": "/docs/gravityview-maps/filters/gravityviewmapsavailable_iconssections/"
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsavailable_iconssections/",
+      "related": [
+        "gravityview/maps/available_icons/icons"
+      ]
     },
     {
       "id": "gravityviewmapschoice_marker_icon_settings",
@@ -508,19 +668,27 @@
           "description": "Gravity Forms entry."
         }
       ],
+      "categories": [
+        "views",
+        "maps"
+      ],
+      "example": "/**\n * Filter gravityviewmapschoice_marker_icon_settings\n *\n * @param \\GF_Field $field Field used to get the choices.\n * @param array $entry Gravity Forms entry.\n * @return \\GF_Field Modified field\n */\nadd_filter( 'gravityviewmapschoice_marker_icon_settings', 'my_custom_gravityviewmapschoice_marker_icon_settings_filter', 10, 2 );\n\nfunction my_custom_gravityviewmapschoice_marker_icon_settings_filter($field, $entry) {\n    // Modify $field as needed\n\n    return $field;\n}",
       "since": "1.9",
       "source": {
         "file": "src/Custom_Map_Icons.php",
         "line": 259
       },
-      "url": "/docs/gravityview-maps/filters/gravityviewmapschoice_marker_icon_settings/"
+      "url": "/docs/gravityview-maps/filters/gravityviewmapschoice_marker_icon_settings/",
+      "related": [
+        "gravityview/maps/request_settings"
+      ]
     },
     {
       "id": "gravityviewmapsfieldicon_pickerbutton_text",
       "name": "gravityview/maps/field/icon_picker/button_text",
       "type": "filter",
       "product": "gravityview-maps",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the button text value.",
       "parameters": [
         {
           "name": "button_text",
@@ -528,19 +696,26 @@
           "description": "Default: \"Select Icon\""
         }
       ],
+      "categories": [
+        "fields",
+        "views",
+        "maps"
+      ],
+      "example": "/**\n * Filter gravityviewmapsfieldicon_pickerbutton_text\n *\n * @param string $button_text Default: \"Select Icon\"\n * @return string Modified button_text\n */\nadd_filter( 'gravityviewmapsfieldicon_pickerbutton_text', 'my_custom_gravityviewmapsfieldicon_pickerbutton_text_filter', 10, 1 );\n\nfunction my_custom_gravityviewmapsfieldicon_pickerbutton_text_filter($button_text) {\n    // Modify $button_text as needed\n\n    return $button_text;\n}",
       "since": "1.4",
       "source": {
         "file": "src/parts/gf-field-icon-picker-form-public.php",
         "line": 30
       },
-      "url": "/docs/gravityview-maps/filters/gravityviewmapsfieldicon_pickerbutton_text/"
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsfieldicon_pickerbutton_text/",
+      "related": []
     },
     {
       "id": "gravityviewmapsgeocodingmapquestlicensed_data",
       "name": "gravityview/maps/geocoding/mapquest/licensed_data",
       "type": "filter",
       "product": "gravityview-maps",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the licensed data value.",
       "parameters": [
         {
           "name": "licensed_data",
@@ -548,19 +723,25 @@
           "description": "True to use MapQuest's licensed endpoints, default is false to use the open endpoints (optional)."
         }
       ],
+      "categories": [
+        "views",
+        "maps"
+      ],
+      "example": "/**\n * Filter gravityviewmapsgeocodingmapquestlicensed_data\n *\n * @param bool $licensed_data True to use MapQuest's licensed endpoints, default is false to use the open endpoints (optional).\n * @return bool Modified licensed_data\n */\nadd_filter( 'gravityviewmapsgeocodingmapquestlicensed_data', 'my_custom_gravityviewmapsgeocodingmapquestlicensed_data_filter', 10, 1 );\n\nfunction my_custom_gravityviewmapsgeocodingmapquestlicensed_data_filter($licensed_data) {\n    // Modify $licensed_data as needed\n\n    return $licensed_data;\n}",
       "since": null,
       "source": {
         "file": "src/Geocoding.php",
         "line": 132
       },
-      "url": "/docs/gravityview-maps/filters/gravityviewmapsgeocodingmapquestlicensed_data/"
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsgeocodingmapquestlicensed_data/",
+      "related": []
     },
     {
       "id": "gravityviewmapsgeocodingproviders.setting.api_key",
       "name": "gravityview/maps/geocoding/providers/ . $setting . /api_key",
       "type": "filter",
       "product": "gravityview-maps",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the key value.",
       "parameters": [
         {
           "name": "key",
@@ -568,19 +749,26 @@
           "description": "API key pulled from GravityView Maps settings or a constant"
         }
       ],
+      "categories": [
+        "views",
+        "maps",
+        "api"
+      ],
+      "example": "/**\n * Filter gravityviewmapsgeocodingproviders.setting.api_key\n *\n * @param string $key API key pulled from GravityView Maps settings or a constant\n * @return string Modified key\n */\nadd_filter( 'gravityviewmapsgeocodingproviders.setting.api_key', 'my_custom_gravityviewmapsgeocodingproviders_setting_api_key_filter', 10, 1 );\n\nfunction my_custom_gravityviewmapsgeocodingproviders_setting_api_key_filter($key) {\n    // Modify $key as needed\n\n    return $key;\n}",
       "since": "1.7",
       "source": {
         "file": "src/Settings.php",
         "line": 126
       },
-      "url": "/docs/gravityview-maps/filters/gravityviewmapsgeocodingproviders.setting.api_key/"
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsgeocodingproviders.setting.api_key/",
+      "related": []
     },
     {
       "id": "gravityviewmapsgeocodingproviderslocale",
       "name": "gravityview/maps/geocoding/providers/locale",
       "type": "filter",
       "product": "gravityview-maps",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the locale value.",
       "parameters": [
         {
           "name": "locale",
@@ -588,19 +776,27 @@
           "description": "string`"
         }
       ],
+      "categories": [
+        "views",
+        "maps"
+      ],
+      "example": "/**\n * Filter gravityviewmapsgeocodingproviderslocale\n *\n * @param null\\ $locale string`\n * @return null\\ Modified locale\n */\nadd_filter( 'gravityviewmapsgeocodingproviderslocale', 'my_custom_gravityviewmapsgeocodingproviderslocale_filter', 10, 1 );\n\nfunction my_custom_gravityviewmapsgeocodingproviderslocale_filter($locale) {\n    // Modify $locale as needed\n\n    return $locale;\n}",
       "since": "1.0",
       "source": {
         "file": "src/Geocoding.php",
         "line": 71
       },
-      "url": "/docs/gravityview-maps/filters/gravityviewmapsgeocodingproviderslocale/"
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsgeocodingproviderslocale/",
+      "related": [
+        "gravityview/maps/geocoding/providers/region"
+      ]
     },
     {
       "id": "gravityviewmapsgeocodingprovidersregion",
       "name": "gravityview/maps/geocoding/providers/region",
       "type": "filter",
       "product": "gravityview-maps",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the region value.",
       "parameters": [
         {
           "name": "region",
@@ -608,19 +804,27 @@
           "description": "string`"
         }
       ],
+      "categories": [
+        "views",
+        "maps"
+      ],
+      "example": "/**\n * Filter gravityviewmapsgeocodingprovidersregion\n *\n * @param null\\ $region string`\n * @return null\\ Modified region\n */\nadd_filter( 'gravityviewmapsgeocodingprovidersregion', 'my_custom_gravityviewmapsgeocodingprovidersregion_filter', 10, 1 );\n\nfunction my_custom_gravityviewmapsgeocodingprovidersregion_filter($region) {\n    // Modify $region as needed\n\n    return $region;\n}",
       "since": "1.0",
       "source": {
         "file": "src/Geocoding.php",
         "line": 79
       },
-      "url": "/docs/gravityview-maps/filters/gravityviewmapsgeocodingprovidersregion/"
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsgeocodingprovidersregion/",
+      "related": [
+        "gravityview/maps/geocoding/providers/locale"
+      ]
     },
     {
       "id": "gravityviewmapsinfowindowcontentvars",
       "name": "gravityview/maps/infowindow/content/vars",
       "type": "filter",
       "product": "gravityview-maps",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the content value.",
       "parameters": [
         {
           "name": "content",
@@ -628,19 +832,25 @@
           "description": "The array containing the template tags as keys and the template values as array values"
         }
       ],
+      "categories": [
+        "views",
+        "maps"
+      ],
+      "example": "/**\n * Filter gravityviewmapsinfowindowcontentvars\n *\n * @param array $content The array containing the template tags as keys and the template values as array values\n * @return array Modified content\n */\nadd_filter( 'gravityviewmapsinfowindowcontentvars', 'my_custom_gravityviewmapsinfowindowcontentvars_filter', 10, 1 );\n\nfunction my_custom_gravityviewmapsinfowindowcontentvars_filter($content) {\n    // Modify $content as needed\n\n    return $content;\n}",
       "since": "1.4",
       "source": {
         "file": "src/InfoWindow.php",
         "line": 87
       },
-      "url": "/docs/gravityview-maps/filters/gravityviewmapsinfowindowcontentvars/"
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsinfowindowcontentvars/",
+      "related": []
     },
     {
       "id": "gravityviewmapsinfowindowhtml",
       "name": "gravityview/maps/infowindow/html",
       "type": "filter",
       "product": "gravityview-maps",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the markup value.",
       "parameters": [
         {
           "name": "markup",
@@ -648,19 +858,28 @@
           "description": "The HTML for the info window markup"
         }
       ],
+      "categories": [
+        "views",
+        "maps"
+      ],
+      "example": "/**\n * Filter gravityviewmapsinfowindowhtml\n *\n * @param string $markup The HTML for the info window markup\n * @return string Modified markup\n */\nadd_filter( 'gravityviewmapsinfowindowhtml', 'my_custom_gravityviewmapsinfowindowhtml_filter', 10, 1 );\n\nfunction my_custom_gravityviewmapsinfowindowhtml_filter($markup) {\n    // Modify $markup as needed\n\n    return $markup;\n}",
       "since": "1.4",
       "source": {
         "file": "src/InfoWindow.php",
         "line": 155
       },
-      "url": "/docs/gravityview-maps/filters/gravityviewmapsinfowindowhtml/"
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsinfowindowhtml/",
+      "related": [
+        "gravityview/maps/infowindow/link_target",
+        "gravityview/maps/infowindow/pre_html"
+      ]
     },
     {
       "id": "gravityviewmapsinfowindowlink_target",
       "name": "gravityview/maps/infowindow/link_target",
       "type": "filter",
       "product": "gravityview-maps",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the target value.",
       "parameters": [
         {
           "name": "target",
@@ -668,19 +887,28 @@
           "description": "Define the entry link target '_top', '_blank', .."
         }
       ],
+      "categories": [
+        "views",
+        "maps"
+      ],
+      "example": "/**\n * Filter gravityviewmapsinfowindowlink_target\n *\n * @param string $target Define the entry link target '_top', '_blank', ..\n * @return string Modified target\n */\nadd_filter( 'gravityviewmapsinfowindowlink_target', 'my_custom_gravityviewmapsinfowindowlink_target_filter', 10, 1 );\n\nfunction my_custom_gravityviewmapsinfowindowlink_target_filter($target) {\n    // Modify $target as needed\n\n    return $target;\n}",
       "since": "1.4",
       "source": {
         "file": "src/InfoWindow.php",
         "line": 66
       },
-      "url": "/docs/gravityview-maps/filters/gravityviewmapsinfowindowlink_target/"
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsinfowindowlink_target/",
+      "related": [
+        "gravityview/maps/infowindow/html",
+        "gravityview/maps/infowindow/pre_html"
+      ]
     },
     {
       "id": "gravityviewmapsinfowindowpre_html",
       "name": "gravityview/maps/infowindow/pre_html",
       "type": "filter",
       "product": "gravityview-maps",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the markup value.",
       "parameters": [
         {
           "name": "markup",
@@ -688,19 +916,29 @@
           "description": "The HTML for the markup"
         }
       ],
+      "categories": [
+        "views",
+        "maps",
+        "before"
+      ],
+      "example": "/**\n * Filter gravityviewmapsinfowindowpre_html\n *\n * @param string $markup The HTML for the markup\n * @return string Modified markup\n */\nadd_filter( 'gravityviewmapsinfowindowpre_html', 'my_custom_gravityviewmapsinfowindowpre_html_filter', 10, 1 );\n\nfunction my_custom_gravityviewmapsinfowindowpre_html_filter($markup) {\n    // Modify $markup as needed\n\n    return $markup;\n}",
       "since": "1.4",
       "source": {
         "file": "src/InfoWindow.php",
         "line": 117
       },
-      "url": "/docs/gravityview-maps/filters/gravityviewmapsinfowindowpre_html/"
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsinfowindowpre_html/",
+      "related": [
+        "gravityview/maps/infowindow/html",
+        "gravityview/maps/infowindow/link_target"
+      ]
     },
     {
       "id": "gravityviewmapsinfowindowpre_htmlvalue.tag",
       "name": "gravityview/maps/infowindow/pre_html/value/ . $tag",
       "type": "filter",
       "product": "gravityview-maps",
-      "description": "`gravityview/maps/infowindow/pre_html/value/\\{$tag\\}` Allow users to filter value before replacing it on the pre template html",
+      "description": "Filters the value value.",
       "parameters": [
         {
           "name": "value",
@@ -708,19 +946,26 @@
           "description": "The content to be shown instead of the [[tag]] placeholder"
         }
       ],
+      "categories": [
+        "views",
+        "maps",
+        "before"
+      ],
+      "example": "/**\n * Filter gravityviewmapsinfowindowpre_htmlvalue.tag\n *\n * @param string $value The content to be shown instead of the [[tag]] placeholder\n * @return string Modified value\n */\nadd_filter( 'gravityviewmapsinfowindowpre_htmlvalue.tag', 'my_custom_gravityviewmapsinfowindowpre_htmlvalue_tag_filter', 10, 1 );\n\nfunction my_custom_gravityviewmapsinfowindowpre_htmlvalue_tag_filter($value) {\n    // Modify $value as needed\n\n    return $value;\n}",
       "since": "1.4",
       "source": {
         "file": "src/InfoWindow.php",
         "line": 143
       },
-      "url": "/docs/gravityview-maps/filters/gravityviewmapsinfowindowpre_htmlvalue.tag/"
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsinfowindowpre_htmlvalue.tag/",
+      "related": []
     },
     {
       "id": "gravityviewmapsmarkeradd",
       "name": "gravityview/maps/marker/add",
       "type": "filter",
       "product": "gravityview-maps",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the marker value.",
       "parameters": [
         {
           "name": "marker",
@@ -733,19 +978,30 @@
           "description": "The View."
         }
       ],
+      "categories": [
+        "views",
+        "maps"
+      ],
+      "example": "/**\n * Filter gravityviewmapsmarkeradd\n *\n * @param \\Marker $marker The marker about to be added.\n * @param \\View $view The View.\n * @return \\Marker Modified marker\n */\nadd_filter( 'gravityviewmapsmarkeradd', 'my_custom_gravityviewmapsmarkeradd_filter', 10, 2 );\n\nfunction my_custom_gravityviewmapsmarkeradd_filter($marker, $view) {\n    // Modify $marker as needed\n\n    return $marker;\n}",
       "since": "1.7.2",
       "source": {
         "file": "src/Data.php",
         "line": 453
       },
-      "url": "/docs/gravityview-maps/filters/gravityviewmapsmarkeradd/"
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsmarkeradd/",
+      "related": [
+        "gravityview/maps/marker/address",
+        "gravityview/maps/marker/field-value",
+        "gravityview/maps/marker/url",
+        "gravityview/maps/marker/use-address-default-values"
+      ]
     },
     {
       "id": "gravityviewmapsmarkeraddress",
       "name": "gravityview/maps/marker/address",
       "type": "filter",
       "product": "gravityview-maps",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the address value.",
       "parameters": [
         {
           "name": "address",
@@ -768,19 +1024,30 @@
           "description": "Marker object."
         }
       ],
+      "categories": [
+        "views",
+        "maps"
+      ],
+      "example": "/**\n * Filter gravityviewmapsmarkeraddress\n *\n * @param string $address Address value.\n * @param array $entry Gravity Forms entry object.\n * @param \\GF_Field_Address $field GF Field array.\n * @param \\Marker $marker Marker object.\n * @return string Modified address\n */\nadd_filter( 'gravityviewmapsmarkeraddress', 'my_custom_gravityviewmapsmarkeraddress_filter', 10, 4 );\n\nfunction my_custom_gravityviewmapsmarkeraddress_filter($address, $entry, $field, $marker) {\n    // Modify $address as needed\n\n    return $address;\n}",
       "since": "1.0.4",
       "source": {
         "file": "src/Marker.php",
         "line": 537
       },
-      "url": "/docs/gravityview-maps/filters/gravityviewmapsmarkeraddress/"
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsmarkeraddress/",
+      "related": [
+        "gravityview/maps/marker/add",
+        "gravityview/maps/marker/field-value",
+        "gravityview/maps/marker/url",
+        "gravityview/maps/marker/use-address-default-values"
+      ]
     },
     {
       "id": "gravityviewmapsmarkerfield-value",
       "name": "gravityview/maps/marker/field-value",
       "type": "filter",
       "product": "gravityview-maps",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the field value value.",
       "parameters": [
         {
           "name": "field_value",
@@ -798,19 +1065,31 @@
           "description": "Gravity Forms Address field object used for the marker"
         }
       ],
+      "categories": [
+        "fields",
+        "views",
+        "maps"
+      ],
+      "example": "/**\n * Filter gravityviewmapsmarkerfield-value\n *\n * @param mixed $field_value The address field value.\n * @param array $entry Gravity Forms entry used for the marker\n * @param \\GF_Field_Address $field Gravity Forms Address field object used for the marker\n * @return mixed Modified field_value\n */\nadd_filter( 'gravityviewmapsmarkerfield-value', 'my_custom_gravityviewmapsmarkerfield_value_filter', 10, 3 );\n\nfunction my_custom_gravityviewmapsmarkerfield_value_filter($field_value, $entry, $field) {\n    // Modify $field_value as needed\n\n    return $field_value;\n}",
       "since": null,
       "source": {
         "file": "src/Marker.php",
         "line": 742
       },
-      "url": "/docs/gravityview-maps/filters/gravityviewmapsmarkerfield-value/"
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsmarkerfield-value/",
+      "related": [
+        "gravityview/maps/marker/add",
+        "gravityview/maps/marker/address",
+        "gravityview/maps/marker/url",
+        "gravityview/maps/marker/use-address-default-values"
+      ]
     },
     {
       "id": "gravityviewmapsmarkersaddressfield_id",
       "name": "gravityview/maps/markers/address/field_id",
       "type": "filter",
       "product": "gravityview-maps",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the address field id value.",
       "parameters": [
         {
           "name": "address_field_id",
@@ -823,19 +1102,26 @@
           "description": "Current View object"
         }
       ],
+      "categories": [
+        "fields",
+        "views",
+        "maps"
+      ],
+      "example": "/**\n * Filter gravityviewmapsmarkersaddressfield_id\n *\n * @param mixed $address_field_id Gravity Forms field ID\n * @param \\View $view Current View object\n * @return mixed Modified address_field_id\n */\nadd_filter( 'gravityviewmapsmarkersaddressfield_id', 'my_custom_gravityviewmapsmarkersaddressfield_id_filter', 10, 2 );\n\nfunction my_custom_gravityviewmapsmarkersaddressfield_id_filter($address_field_id, $view) {\n    // Modify $address_field_id as needed\n\n    return $address_field_id;\n}",
       "since": "1.2",
       "source": {
         "file": "src/Geolocation/Fields.php",
         "line": 474
       },
-      "url": "/docs/gravityview-maps/filters/gravityviewmapsmarkersaddressfield_id/"
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsmarkersaddressfield_id/",
+      "related": []
     },
     {
       "id": "gravityviewmapsmarkersiconfield_id",
       "name": "gravityview/maps/markers/icon/field_id",
       "type": "filter",
       "product": "gravityview-maps",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the value value.",
       "parameters": [
         {
           "name": "value",
@@ -853,19 +1139,26 @@
           "description": "string Form ID"
         }
       ],
+      "categories": [
+        "fields",
+        "views",
+        "maps"
+      ],
+      "example": "/**\n * Filter gravityviewmapsmarkersiconfield_id\n *\n * @param mixed $value string Field ID used to retrieve the map entry icon\n * @param mixed $view_id string View ID\n * @param mixed $form_id string Form ID\n * @return mixed Modified value\n */\nadd_filter( 'gravityviewmapsmarkersiconfield_id', 'my_custom_gravityviewmapsmarkersiconfield_id_filter', 10, 3 );\n\nfunction my_custom_gravityviewmapsmarkersiconfield_id_filter($value, $view_id, $form_id) {\n    // Modify $value as needed\n\n    return $value;\n}",
       "since": "1.2",
       "source": {
         "file": "src/Data.php",
         "line": 224
       },
-      "url": "/docs/gravityview-maps/filters/gravityviewmapsmarkersiconfield_id/"
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsmarkersiconfield_id/",
+      "related": []
     },
     {
       "id": "gravityviewmapsmarkerurl",
       "name": "gravityview/maps/marker/url",
       "type": "filter",
       "product": "gravityview-maps",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the url value.",
       "parameters": [
         {
           "name": "url",
@@ -883,19 +1176,30 @@
           "description": "Marker class instance."
         }
       ],
+      "categories": [
+        "views",
+        "maps"
+      ],
+      "example": "/**\n * Filter gravityviewmapsmarkerurl\n *\n * @param string $url Single entry view url.\n * @param array $entry Gravity Forms entry object.\n * @param \\Marker $marker Marker class instance.\n * @return string Modified url\n */\nadd_filter( 'gravityviewmapsmarkerurl', 'my_custom_gravityviewmapsmarkerurl_filter', 10, 3 );\n\nfunction my_custom_gravityviewmapsmarkerurl_filter($url, $entry, $marker) {\n    // Modify $url as needed\n\n    return $url;\n}",
       "since": "1.4",
       "source": {
         "file": "src/Marker.php",
         "line": 613
       },
-      "url": "/docs/gravityview-maps/filters/gravityviewmapsmarkerurl/"
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsmarkerurl/",
+      "related": [
+        "gravityview/maps/marker/add",
+        "gravityview/maps/marker/address",
+        "gravityview/maps/marker/field-value",
+        "gravityview/maps/marker/use-address-default-values"
+      ]
     },
     {
       "id": "gravityviewmapsmarkeruse-address-default-values",
       "name": "gravityview/maps/marker/use-address-default-values",
       "type": "filter",
       "product": "gravityview-maps",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the use default values value.",
       "parameters": [
         {
           "name": "use_default_values",
@@ -908,19 +1212,30 @@
           "description": "The current Address field"
         }
       ],
+      "categories": [
+        "views",
+        "maps"
+      ],
+      "example": "/**\n * Filter gravityviewmapsmarkeruse-address-default-values\n *\n * @param bool $use_default_values Whether to use default values when generating a marker address\n * @param \\GF_Field_Address $field The current Address field\n * @return bool Modified use_default_values\n */\nadd_filter( 'gravityviewmapsmarkeruse-address-default-values', 'my_custom_gravityviewmapsmarkeruse_address_default_values_filter', 10, 2 );\n\nfunction my_custom_gravityviewmapsmarkeruse_address_default_values_filter($use_default_values, $field) {\n    // Modify $use_default_values as needed\n\n    return $use_default_values;\n}",
       "since": "1.7",
       "source": {
         "file": "src/Marker.php",
         "line": 728
       },
-      "url": "/docs/gravityview-maps/filters/gravityviewmapsmarkeruse-address-default-values/"
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsmarkeruse-address-default-values/",
+      "related": [
+        "gravityview/maps/marker/add",
+        "gravityview/maps/marker/address",
+        "gravityview/maps/marker/field-value",
+        "gravityview/maps/marker/url"
+      ]
     },
     {
       "id": "gravityviewmapsrenderoptions",
       "name": "gravityview/maps/render/options",
       "type": "filter",
       "product": "gravityview-maps",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the map options value.",
       "parameters": [
         {
           "name": "map_options",
@@ -928,19 +1243,26 @@
           "description": "Map Options"
         }
       ],
+      "categories": [
+        "rendering",
+        "views",
+        "maps"
+      ],
+      "example": "/**\n * Filter gravityviewmapsrenderoptions\n *\n * @param array $map_options Map Options\n * @return array Modified map_options\n */\nadd_filter( 'gravityviewmapsrenderoptions', 'my_custom_gravityviewmapsrenderoptions_filter', 10, 1 );\n\nfunction my_custom_gravityviewmapsrenderoptions_filter($map_options) {\n    // Modify $map_options as needed\n\n    return $map_options;\n}",
       "since": null,
       "source": {
         "file": "src/Template/Map.php",
         "line": 471
       },
-      "url": "/docs/gravityview-maps/filters/gravityviewmapsrenderoptions/"
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsrenderoptions/",
+      "related": []
     },
     {
       "id": "gravityviewmapsrequest_settings",
       "name": "gravityview/maps/request_settings",
       "type": "filter",
       "product": "gravityview-maps",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the request settings value.",
       "parameters": [
         {
           "name": "request_settings",
@@ -953,19 +1275,27 @@
           "description": "URL to fetch"
         }
       ],
+      "categories": [
+        "views",
+        "maps"
+      ],
+      "example": "/**\n * Filter gravityviewmapsrequest_settings\n *\n * @param array $request_settings Args passed to wp_remote_request()\n * @param string $url URL to fetch\n * @return array Modified request_settings\n */\nadd_filter( 'gravityviewmapsrequest_settings', 'my_custom_gravityviewmapsrequest_settings_filter', 10, 2 );\n\nfunction my_custom_gravityviewmapsrequest_settings_filter($request_settings, $url) {\n    // Modify $request_settings as needed\n\n    return $request_settings;\n}",
       "since": "1.2",
       "source": {
         "file": "src/HTTP_Adapter.php",
         "line": 37
       },
-      "url": "/docs/gravityview-maps/filters/gravityviewmapsrequest_settings/"
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsrequest_settings/",
+      "related": [
+        "gravityview/maps/choice_marker_icon_settings"
+      ]
     },
     {
       "id": "gravityviewrenderhide-empty-zone",
       "name": "gravityview/render/hide-empty-zone",
       "type": "filter",
       "product": "gravityview-maps",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the hide empty value.",
       "parameters": [
         {
           "name": "hide_empty",
@@ -978,19 +1308,25 @@
           "description": "The template context."
         }
       ],
+      "categories": [
+        "rendering",
+        "views"
+      ],
+      "example": "/**\n * Filter gravityviewrenderhide-empty-zone\n *\n * @param bool $hide_empty Should the row be hidden if the value is empty? Default: don't hide.\n * @param \\Template_Context $context The template context.\n * @return bool Modified hide_empty\n */\nadd_filter( 'gravityviewrenderhide-empty-zone', 'my_custom_gravityviewrenderhide_empty_zone_filter', 10, 2 );\n\nfunction my_custom_gravityviewrenderhide_empty_zone_filter($hide_empty, $context) {\n    // Modify $hide_empty as needed\n\n    return $hide_empty;\n}",
       "since": null,
       "source": {
         "file": "src/Views/Map.php",
         "line": 115
       },
-      "url": "/docs/gravityview-maps/filters/gravityviewrenderhide-empty-zone/"
+      "url": "/docs/gravityview-maps/filters/gravityviewrenderhide-empty-zone/",
+      "related": []
     },
     {
       "id": "gravityviewtemplatefieldlabel",
       "name": "gravityview/template/field/label",
       "type": "filter",
       "product": "gravityview-maps",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the label value.",
       "parameters": [
         {
           "name": "label",
@@ -1003,19 +1339,31 @@
           "description": "The context."
         }
       ],
+      "categories": [
+        "fields",
+        "rendering",
+        "views"
+      ],
+      "example": "/**\n * Filter gravityviewtemplatefieldlabel\n *\n * @param string $label The label to override.\n * @param \\Template_Context $context The context.\n * @return string Modified label\n */\nadd_filter( 'gravityviewtemplatefieldlabel', 'my_custom_gravityviewtemplatefieldlabel_filter', 10, 2 );\n\nfunction my_custom_gravityviewtemplatefieldlabel_filter($label, $context) {\n    // Modify $label as needed\n\n    return $label;\n}",
       "since": "2.0",
       "source": {
         "file": "src/Views/Map.php",
         "line": 107
       },
-      "url": "/docs/gravityview-maps/filters/gravityviewtemplatefieldlabel/"
+      "url": "/docs/gravityview-maps/filters/gravityviewtemplatefieldlabel/",
+      "related": [
+        "gravityview/template/field/class",
+        "gravityview/template/field/context",
+        "gravityview/template/field/entry_link",
+        "gravityview/template/field/output"
+      ]
     },
     {
       "id": "gravityviewtemplatemapentryclass",
       "name": "gravityview/template/map/entry/class",
       "type": "filter",
       "product": "gravityview-maps",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the class value.",
       "parameters": [
         {
           "name": "class",
@@ -1028,12 +1376,20 @@
           "description": "The template context."
         }
       ],
+      "categories": [
+        "entries",
+        "rendering",
+        "views",
+        "maps"
+      ],
+      "example": "/**\n * Filter gravityviewtemplatemapentryclass\n *\n * @param string $class The existing class.\n * @param \\Template_Context $ The template context.\n * @return string Modified class\n */\nadd_filter( 'gravityviewtemplatemapentryclass', 'my_custom_gravityviewtemplatemapentryclass_filter', 10, 2 );\n\nfunction my_custom_gravityviewtemplatemapentryclass_filter($class, $) {\n    // Modify $class as needed\n\n    return $class;\n}",
       "since": null,
       "source": {
         "file": "src/Views/Map.php",
         "line": 190
       },
-      "url": "/docs/gravityview-maps/filters/gravityviewtemplatemapentryclass/"
+      "url": "/docs/gravityview-maps/filters/gravityviewtemplatemapentryclass/",
+      "related": []
     }
   ],
   "stats": {

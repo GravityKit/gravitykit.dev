@@ -1,5 +1,5 @@
 {
-  "generated": "2025-12-15T23:45:33.844Z",
+  "generated": "2025-12-15T23:52:08.144Z",
   "product": {
     "id": "gravity-forms-dynamic-lookup",
     "label": "Gravity Forms Dynamic Lookup Field",
@@ -33,12 +33,17 @@
           "description": "The search parameters."
         }
       ],
+      "categories": [
+        "general"
+      ],
+      "example": "/**\n * Filter gklookupmax-results\n *\n * @param int $max_results The maximum number of results.\n * @param string $source_type The source type.\n * @param array $params The search parameters.\n * @return int Modified max_results\n */\nadd_filter( 'gklookupmax-results', 'my_custom_gklookupmax_results_filter', 10, 3 );\n\nfunction my_custom_gklookupmax_results_filter($max_results, $source_type, $params) {\n    // Modify $max_results as needed\n\n    return $max_results;\n}",
       "since": "1.0.0",
       "source": {
         "file": "includes/Sources/Base.php",
         "line": 183
       },
-      "url": "/docs/gravity-forms-dynamic-lookup/filters/gklookupmax-results/"
+      "url": "/docs/gravity-forms-dynamic-lookup/filters/gklookupmax-results/",
+      "related": []
     }
   ],
   "stats": {

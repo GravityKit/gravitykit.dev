@@ -1,5 +1,5 @@
 {
-  "generated": "2025-12-15T23:45:33.844Z",
+  "generated": "2025-12-15T23:52:08.144Z",
   "product": {
     "id": "gravityview-featured-entries",
     "label": "GravityView - Featured Entries",
@@ -22,12 +22,19 @@
       "product": "gravityview-featured-entries",
       "description": "Flush the GravityView cache for this form",
       "parameters": [],
+      "categories": [
+        "views",
+        "forms",
+        "caching"
+      ],
+      "example": "/**\n * Hook into gravityview_clear_form_cache\n *\n * @return void\n */\nadd_action( 'gravityview_clear_form_cache', 'my_custom_gravityview_clear_form_cache_handler' );\n\nfunction my_custom_gravityview_clear_form_cache_handler() {\n    // Your custom code here\n}",
       "since": "1.5.1",
       "source": {
         "file": "class-gravityview-featured-entries.php",
         "line": 528
       },
-      "url": "/docs/gravityview-featured-entries/actions/gravityview_clear_form_cache/"
+      "url": "/docs/gravityview-featured-entries/actions/gravityview_clear_form_cache/",
+      "related": []
     },
     {
       "id": "post_edd_sl_plugin_updater_setup",
@@ -42,12 +49,17 @@
           "description": "Array of EDD SL plugin data."
         }
       ],
+      "categories": [
+        "after"
+      ],
+      "example": "/**\n * Hook into post_edd_sl_plugin_updater_setup\n *\n * @param array $edd_plugin_data Array of EDD SL plugin data.\n */\nadd_action( 'post_edd_sl_plugin_updater_setup', 'my_custom_post_edd_sl_plugin_updater_setup_handler', 10, 1 );\n\nfunction my_custom_post_edd_sl_plugin_updater_setup_handler($edd_plugin_data) {\n    // Your custom code here\n}",
       "since": "x.x.x: x.x.x",
       "source": {
         "file": "lib/EDD_SL_Plugin_Updater.php",
         "line": 59
       },
-      "url": "/docs/gravityview-featured-entries/actions/post_edd_sl_plugin_updater_setup/"
+      "url": "/docs/gravityview-featured-entries/actions/post_edd_sl_plugin_updater_setup/",
+      "related": []
     },
     {
       "id": "edd_sl_plugin_updater_api_params",
@@ -72,12 +84,17 @@
           "description": "The full path and filename of the file."
         }
       ],
+      "categories": [
+        "api"
+      ],
+      "example": "/**\n * Filter edd_sl_plugin_updater_api_params\n *\n * @param array $api_params The array of data sent in the request.\n * @param array $this-&gt;api_data The array of data set up in the class constructor.\n * @param string $this-&gt;plugin_file The full path and filename of the file.\n * @return array Modified api_params\n */\nadd_filter( 'edd_sl_plugin_updater_api_params', 'my_custom_edd_sl_plugin_updater_api_params_filter', 10, 3 );\n\nfunction my_custom_edd_sl_plugin_updater_api_params_filter($api_params, $this-&gt;api_data, $this-&gt;plugin_file) {\n    // Modify $api_params as needed\n\n    return $api_params;\n}",
       "since": null,
       "source": {
         "file": "lib/EDD_SL_Plugin_Updater.php",
         "line": 560
       },
-      "url": "/docs/gravityview-featured-entries/filters/edd_sl_plugin_updater_api_params/"
+      "url": "/docs/gravityview-featured-entries/filters/edd_sl_plugin_updater_api_params/",
+      "related": []
     },
     {
       "id": "gravityview_featured_entries_always_show",
@@ -92,12 +109,18 @@
           "description": "If returned true, featured entries will be shown even if the search doesn't match the entry"
         }
       ],
+      "categories": [
+        "entries",
+        "views"
+      ],
+      "example": "/**\n * Filter gravityview_featured_entries_always_show\n *\n * @param bool $always_show_featured_entry If returned true, featured entries will be shown even if the search doesn't match the entry\n * @return bool Modified always_show_featured_entry\n */\nadd_filter( 'gravityview_featured_entries_always_show', 'my_custom_gravityview_featured_entries_always_show_filter', 10, 1 );\n\nfunction my_custom_gravityview_featured_entries_always_show_filter($always_show_featured_entry) {\n    // Modify $always_show_featured_entry as needed\n\n    return $always_show_featured_entry;\n}",
       "since": null,
       "source": {
         "file": "class-gravityview-featured-entries.php",
         "line": 292
       },
-      "url": "/docs/gravityview-featured-entries/filters/gravityview_featured_entries_always_show/"
+      "url": "/docs/gravityview-featured-entries/filters/gravityview_featured_entries_always_show/",
+      "related": []
     },
     {
       "id": "gravityview_featured_entries_enable",
@@ -117,12 +140,18 @@
           "description": "Gravity Forms entry array"
         }
       ],
+      "categories": [
+        "entries",
+        "views"
+      ],
+      "example": "/**\n * Filter gravityview_featured_entries_enable\n *\n * @param \\GravityView_View $view The current GravityView_View instance\n * @param array $entry Gravity Forms entry array\n * @return \\GravityView_View Modified view\n */\nadd_filter( 'gravityview_featured_entries_enable', 'my_custom_gravityview_featured_entries_enable_filter', 10, 2 );\n\nfunction my_custom_gravityview_featured_entries_enable_filter($view, $entry) {\n    // Modify $view as needed\n\n    return $view;\n}",
       "since": null,
       "source": {
         "file": "class-gravityview-featured-entries.php",
         "line": 490
       },
-      "url": "/docs/gravityview-featured-entries/filters/gravityview_featured_entries_enable/"
+      "url": "/docs/gravityview-featured-entries/filters/gravityview_featured_entries_enable/",
+      "related": []
     }
   ],
   "stats": {

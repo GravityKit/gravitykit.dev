@@ -1,5 +1,5 @@
 {
-  "generated": "2025-12-15T23:45:33.844Z",
+  "generated": "2025-12-15T23:52:08.144Z",
   "product": {
     "id": "gravityview-social-sharing-seo",
     "label": "GravityView - SEO & Social Sharing",
@@ -19,12 +19,17 @@
       "product": "gravityview-social-sharing-seo",
       "description": "Register your own sharing service.",
       "parameters": [],
+      "categories": [
+        "views"
+      ],
+      "example": "/**\n * Filter gravityview_sharing_services\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gravityview_sharing_services', 'my_custom_gravityview_sharing_services_filter' );\n\nfunction my_custom_gravityview_sharing_services_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
       "since": null,
       "source": {
         "file": "gravityview-sharing-seo.php",
         "line": 106
       },
-      "url": "/docs/gravityview-social-sharing-seo/filters/gravityview_sharing_services/"
+      "url": "/docs/gravityview-social-sharing-seo/filters/gravityview_sharing_services/",
+      "related": []
     },
     {
       "id": "gravityview_socialsharing_field_options",
@@ -39,12 +44,20 @@
           "description": "Field options that will be displayed in the settings modal"
         }
       ],
+      "categories": [
+        "fields",
+        "views"
+      ],
+      "example": "/**\n * Filter gravityview_socialsharing_field_options\n *\n * @param array $new_options Field options that will be displayed in the settings modal\n * @return array Modified new_options\n */\nadd_filter( 'gravityview_socialsharing_field_options', 'my_custom_gravityview_socialsharing_field_options_filter', 10, 1 );\n\nfunction my_custom_gravityview_socialsharing_field_options_filter($new_options) {\n    // Modify $new_options as needed\n\n    return $new_options;\n}",
       "since": "2.0.3",
       "source": {
         "file": "includes/class-gravityview-social-register-field.php",
         "line": 125
       },
-      "url": "/docs/gravityview-social-sharing-seo/filters/gravityview_socialsharing_field_options/"
+      "url": "/docs/gravityview-social-sharing-seo/filters/gravityview_socialsharing_field_options/",
+      "related": [
+        "gravityview_social/wordpress_social_services"
+      ]
     },
     {
       "id": "gravityview_socialwordpress_social_services",
@@ -59,12 +72,19 @@
           "description": "WP social services"
         }
       ],
+      "categories": [
+        "views"
+      ],
+      "example": "/**\n * Filter gravityview_socialwordpress_social_services\n *\n * @param array $services WP social services\n * @return array Modified services\n */\nadd_filter( 'gravityview_socialwordpress_social_services', 'my_custom_gravityview_socialwordpress_social_services_filter', 10, 1 );\n\nfunction my_custom_gravityview_socialwordpress_social_services_filter($services) {\n    // Modify $services as needed\n\n    return $services;\n}",
       "since": null,
       "source": {
         "file": "includes/services/wordpress.php",
         "line": 244
       },
-      "url": "/docs/gravityview-social-sharing-seo/filters/gravityview_socialwordpress_social_services/"
+      "url": "/docs/gravityview-social-sharing-seo/filters/gravityview_socialwordpress_social_services/",
+      "related": [
+        "gravityview_social/sharing_field_options"
+      ]
     }
   ],
   "stats": {

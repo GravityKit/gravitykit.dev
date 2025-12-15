@@ -1,5 +1,5 @@
 {
-  "generated": "2025-12-15T23:45:33.844Z",
+  "generated": "2025-12-15T23:52:08.144Z",
   "product": {
     "id": "gravityrevisions",
     "label": "GravityRevisions",
@@ -25,7 +25,7 @@
       "name": "gravityview/entry-revisions/add-revision",
       "type": "filter",
       "product": "gravityrevisions",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the add revision value.",
       "parameters": [
         {
           "name": "add_revision",
@@ -48,19 +48,31 @@
           "description": "The entry object before being updated"
         }
       ],
+      "categories": [
+        "entries",
+        "views"
+      ],
+      "example": "/**\n * Filter gravityviewentry-revisionsadd-revision\n *\n * @param bool $add_revision Should a revision be added?\n * @param array $form The form object for the entry.\n * @param int $entry_id The entry ID that was updated\n * @param array $original_entry The entry object before being updated\n * @return bool Modified add_revision\n */\nadd_filter( 'gravityviewentry-revisionsadd-revision', 'my_custom_gravityviewentry_revisionsadd_revision_filter', 10, 4 );\n\nfunction my_custom_gravityviewentry_revisionsadd_revision_filter($add_revision, $form, $entry_id, $original_entry) {\n    // Modify $add_revision as needed\n\n    return $add_revision;\n}",
       "since": "1.0.3",
       "source": {
         "file": "class-gv-entry-revisions.php",
         "line": 312
       },
-      "url": "/docs/gravityrevisions/filters/gravityviewentry-revisionsadd-revision/"
+      "url": "/docs/gravityrevisions/filters/gravityviewentry-revisionsadd-revision/",
+      "related": [
+        "gravityview/entry-revisions/diff-ignored-keys",
+        "gravityview/entry-revisions/diff-row-args",
+        "gravityview/entry-revisions/embed-css",
+        "gravityview/entry-revisions/revision-title",
+        "gravityview/entry-revisions/send-notifications"
+      ]
     },
     {
       "id": "gravityviewentry-revisionsdiff-ignored-keys",
       "name": "gravityview/entry-revisions/diff-ignored-keys",
       "type": "filter",
       "product": "gravityrevisions",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the ignored keys value.",
       "parameters": [
         {
           "name": "ignored_keys",
@@ -73,19 +85,31 @@
           "description": "The form connected to the entry/revision diff being displayed"
         }
       ],
+      "categories": [
+        "entries",
+        "views"
+      ],
+      "example": "/**\n * Filter gravityviewentry-revisionsdiff-ignored-keys\n *\n * @param array $ignored_keys Array of field and meta keys, like [ 'id', 'date_updated', '1.2' ]\n * @param array $form The form connected to the entry/revision diff being displayed\n * @return array Modified ignored_keys\n */\nadd_filter( 'gravityviewentry-revisionsdiff-ignored-keys', 'my_custom_gravityviewentry_revisionsdiff_ignored_keys_filter', 10, 2 );\n\nfunction my_custom_gravityviewentry_revisionsdiff_ignored_keys_filter($ignored_keys, $form) {\n    // Modify $ignored_keys as needed\n\n    return $ignored_keys;\n}",
       "since": "1.0",
       "source": {
         "file": "class-gv-entry-revisions.php",
         "line": 177
       },
-      "url": "/docs/gravityrevisions/filters/gravityviewentry-revisionsdiff-ignored-keys/"
+      "url": "/docs/gravityrevisions/filters/gravityviewentry-revisionsdiff-ignored-keys/",
+      "related": [
+        "gravityview/entry-revisions/add-revision",
+        "gravityview/entry-revisions/diff-row-args",
+        "gravityview/entry-revisions/embed-css",
+        "gravityview/entry-revisions/revision-title",
+        "gravityview/entry-revisions/send-notifications"
+      ]
     },
     {
       "id": "gravityviewentry-revisionsdiff-row-args",
       "name": "gravityview/entry-revisions/diff-row-args",
       "type": "filter",
       "product": "gravityrevisions",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the diff row args value.",
       "parameters": [
         {
           "name": "diff_row_args",
@@ -98,19 +122,31 @@
           "description": "Additional information about the current row being rendered. \\{"
         }
       ],
+      "categories": [
+        "entries",
+        "views"
+      ],
+      "example": "/**\n * Filter gravityviewentry-revisionsdiff-row-args\n *\n * @param array $diff_row_args Args passed to GV_Entry_Revisions::text_diff_row(). \\{\n * @param array $context Additional information about the current row being rendered. \\{\n * @return array Modified diff_row_args\n */\nadd_filter( 'gravityviewentry-revisionsdiff-row-args', 'my_custom_gravityviewentry_revisionsdiff_row_args_filter', 10, 2 );\n\nfunction my_custom_gravityviewentry_revisionsdiff_row_args_filter($diff_row_args, $context) {\n    // Modify $diff_row_args as needed\n\n    return $diff_row_args;\n}",
       "since": "1.0",
       "source": {
         "file": "class-gv-entry-revisions.php",
         "line": 967
       },
-      "url": "/docs/gravityrevisions/filters/gravityviewentry-revisionsdiff-row-args/"
+      "url": "/docs/gravityrevisions/filters/gravityviewentry-revisionsdiff-row-args/",
+      "related": [
+        "gravityview/entry-revisions/add-revision",
+        "gravityview/entry-revisions/diff-ignored-keys",
+        "gravityview/entry-revisions/embed-css",
+        "gravityview/entry-revisions/revision-title",
+        "gravityview/entry-revisions/send-notifications"
+      ]
     },
     {
       "id": "gravityviewentry-revisionsembed-css",
       "name": "gravityview/entry-revisions/embed-css",
       "type": "filter",
       "product": "gravityrevisions",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the embed css value.",
       "parameters": [
         {
           "name": "embed_css",
@@ -118,19 +154,32 @@
           "description": "The default is determined by whether a notification is currently being sent"
         }
       ],
+      "categories": [
+        "entries",
+        "views",
+        "assets"
+      ],
+      "example": "/**\n * Filter gravityviewentry-revisionsembed-css\n *\n * @param bool $embed_css The default is determined by whether a notification is currently being sent\n * @return bool Modified embed_css\n */\nadd_filter( 'gravityviewentry-revisionsembed-css', 'my_custom_gravityviewentry_revisionsembed_css_filter', 10, 1 );\n\nfunction my_custom_gravityviewentry_revisionsembed_css_filter($embed_css) {\n    // Modify $embed_css as needed\n\n    return $embed_css;\n}",
       "since": "1.0",
       "source": {
         "file": "includes/merge-tags.php",
         "line": 155
       },
-      "url": "/docs/gravityrevisions/filters/gravityviewentry-revisionsembed-css/"
+      "url": "/docs/gravityrevisions/filters/gravityviewentry-revisionsembed-css/",
+      "related": [
+        "gravityview/entry-revisions/add-revision",
+        "gravityview/entry-revisions/diff-ignored-keys",
+        "gravityview/entry-revisions/diff-row-args",
+        "gravityview/entry-revisions/revision-title",
+        "gravityview/entry-revisions/send-notifications"
+      ]
     },
     {
       "id": "gravityviewentry-revisionslist-htmloutput",
       "name": "gravityview/entry-revisions/list-html/output",
       "type": "filter",
       "product": "gravityrevisions",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the output value.",
       "parameters": [
         {
           "name": "output",
@@ -148,19 +197,25 @@
           "description": "Array of revisions"
         }
       ],
+      "categories": [
+        "entries",
+        "views"
+      ],
+      "example": "/**\n * Filter gravityviewentry-revisionslist-htmloutput\n *\n * @param string $output HTML output\n * @param array $entry Entry displaying the revisions for\n * @param array $revisions Array of revisions\n * @return string Modified output\n */\nadd_filter( 'gravityviewentry-revisionslist-htmloutput', 'my_custom_gravityviewentry_revisionslist_htmloutput_filter', 10, 3 );\n\nfunction my_custom_gravityviewentry_revisionslist_htmloutput_filter($output, $entry, $revisions) {\n    // Modify $output as needed\n\n    return $output;\n}",
       "since": "1.0",
       "source": {
         "file": "class-gv-entry-revisions.php",
         "line": 1232
       },
-      "url": "/docs/gravityrevisions/filters/gravityviewentry-revisionslist-htmloutput/"
+      "url": "/docs/gravityrevisions/filters/gravityviewentry-revisionslist-htmloutput/",
+      "related": []
     },
     {
       "id": "gravityviewentry-revisionsrestoreadd-new",
       "name": "gravityview/entry-revisions/restore/add-new",
       "type": "filter",
       "product": "gravityrevisions",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the add new value.",
       "parameters": [
         {
           "name": "add_new",
@@ -178,19 +233,29 @@
           "description": "Current entry, after restoring values"
         }
       ],
+      "categories": [
+        "entries",
+        "views",
+        "api"
+      ],
+      "example": "/**\n * Filter gravityviewentry-revisionsrestoreadd-new\n *\n * @param bool $add_new Should a new revision be created based on the entry before the restoration? [Default: True]\n * @param array $prior_entry Entry before restoring values\n * @param array $new_entry Current entry, after restoring values\n * @return bool Modified add_new\n */\nadd_filter( 'gravityviewentry-revisionsrestoreadd-new', 'my_custom_gravityviewentry_revisionsrestoreadd_new_filter', 10, 3 );\n\nfunction my_custom_gravityviewentry_revisionsrestoreadd_new_filter($add_new, $prior_entry, $new_entry) {\n    // Modify $add_new as needed\n\n    return $add_new;\n}",
       "since": "1.0",
       "source": {
         "file": "class-gv-entry-revisions.php",
         "line": 765
       },
-      "url": "/docs/gravityrevisions/filters/gravityviewentry-revisionsrestoreadd-new/"
+      "url": "/docs/gravityrevisions/filters/gravityviewentry-revisionsrestoreadd-new/",
+      "related": [
+        "gravityview/entry-revisions/restore/delete-after",
+        "gravityview/entry-revisions/restore/remove-gf-hooks"
+      ]
     },
     {
       "id": "gravityviewentry-revisionsrestoredelete-after",
       "name": "gravityview/entry-revisions/restore/delete-after",
       "type": "filter",
       "product": "gravityrevisions",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the remove after restore value.",
       "parameters": [
         {
           "name": "remove_after_restore",
@@ -208,12 +273,23 @@
           "description": "ID of connected entry"
         }
       ],
+      "categories": [
+        "entries",
+        "views",
+        "api",
+        "after"
+      ],
+      "example": "/**\n * Filter gravityviewentry-revisionsrestoredelete-after\n *\n * @param bool $remove_after_restore [Default: false]\n * @param int $revision_id ID of revision being restored\n * @param int $entry_id ID of connected entry\n * @return bool Modified remove_after_restore\n */\nadd_filter( 'gravityviewentry-revisionsrestoredelete-after', 'my_custom_gravityviewentry_revisionsrestoredelete_after_filter', 10, 3 );\n\nfunction my_custom_gravityviewentry_revisionsrestoredelete_after_filter($remove_after_restore, $revision_id, $entry_id) {\n    // Modify $remove_after_restore as needed\n\n    return $remove_after_restore;\n}",
       "since": "1.0",
       "source": {
         "file": "class-gv-entry-revisions.php",
         "line": 777
       },
-      "url": "/docs/gravityrevisions/filters/gravityviewentry-revisionsrestoredelete-after/"
+      "url": "/docs/gravityrevisions/filters/gravityviewentry-revisionsrestoredelete-after/",
+      "related": [
+        "gravityview/entry-revisions/restore/add-new",
+        "gravityview/entry-revisions/restore/remove-gf-hooks"
+      ]
     },
     {
       "id": "gravityviewentry-revisionsrestoreremove-gf-hooks",
@@ -233,12 +309,22 @@
           "description": "ID of entry being restored to"
         }
       ],
+      "categories": [
+        "entries",
+        "views",
+        "api"
+      ],
+      "example": "/**\n * Filter gravityviewentry-revisionsrestoreremove-gf-hooks\n *\n * @param bool $remove_hooks [Default: true]\n * @param int $entry_id ID of entry being restored to\n * @return bool Modified remove_hooks\n */\nadd_filter( 'gravityviewentry-revisionsrestoreremove-gf-hooks', 'my_custom_gravityviewentry_revisionsrestoreremove_gf_hooks_filter', 10, 2 );\n\nfunction my_custom_gravityviewentry_revisionsrestoreremove_gf_hooks_filter($remove_hooks, $entry_id) {\n    // Modify $remove_hooks as needed\n\n    return $remove_hooks;\n}",
       "since": "1.0",
       "source": {
         "file": "class-gv-entry-revisions.php",
         "line": 737
       },
-      "url": "/docs/gravityrevisions/filters/gravityviewentry-revisionsrestoreremove-gf-hooks/"
+      "url": "/docs/gravityrevisions/filters/gravityviewentry-revisionsrestoreremove-gf-hooks/",
+      "related": [
+        "gravityview/entry-revisions/restore/add-new",
+        "gravityview/entry-revisions/restore/delete-after"
+      ]
     },
     {
       "id": "gravityviewentry-revisionsrevision-title",
@@ -258,19 +344,31 @@
           "description": "Additional information used in the title"
         }
       ],
+      "categories": [
+        "entries",
+        "views"
+      ],
+      "example": "/**\n * Filter gravityviewentry-revisionsrevision-title\n *\n * @param string $revision_title Existing revision title\n * @param array $revision_details Additional information used in the title\n * @return string Modified revision_title\n */\nadd_filter( 'gravityviewentry-revisionsrevision-title', 'my_custom_gravityviewentry_revisionsrevision_title_filter', 10, 2 );\n\nfunction my_custom_gravityviewentry_revisionsrevision_title_filter($revision_title, $revision_details) {\n    // Modify $revision_title as needed\n\n    return $revision_title;\n}",
       "since": "1.0",
       "source": {
         "file": "class-gv-entry-revisions.php",
         "line": 1150
       },
-      "url": "/docs/gravityrevisions/filters/gravityviewentry-revisionsrevision-title/"
+      "url": "/docs/gravityrevisions/filters/gravityviewentry-revisionsrevision-title/",
+      "related": [
+        "gravityview/entry-revisions/add-revision",
+        "gravityview/entry-revisions/diff-ignored-keys",
+        "gravityview/entry-revisions/diff-row-args",
+        "gravityview/entry-revisions/embed-css",
+        "gravityview/entry-revisions/send-notifications"
+      ]
     },
     {
       "id": "gravityviewentry-revisionssend-notifications",
       "name": "gravityview/entry-revisions/send-notifications",
       "type": "filter",
       "product": "gravityrevisions",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the  value.",
       "parameters": [
         {
           "name": "",
@@ -293,19 +391,32 @@
           "description": "The new entry, with only the changed fields"
         }
       ],
+      "categories": [
+        "entries",
+        "views",
+        "notifications"
+      ],
+      "example": "/**\n * Filter gravityviewentry-revisionssend-notifications\n *\n * @param bool $ Send or not. Default: true (send notifications)\n * @param array $revision_to_add The new revision added.\n * @param array $current_entry The replaced entry.\n * @param array $changed_fields The new entry, with only the changed fields\n * @return bool Modified \n */\nadd_filter( 'gravityviewentry-revisionssend-notifications', 'my_custom_gravityviewentry_revisionssend_notifications_filter', 10, 4 );\n\nfunction my_custom_gravityviewentry_revisionssend_notifications_filter($, $revision_to_add, $current_entry, $changed_fields) {\n    // Modify $ as needed\n\n    return $;\n}",
       "since": null,
       "source": {
         "file": "class-gv-entry-revisions.php",
         "line": 419
       },
-      "url": "/docs/gravityrevisions/filters/gravityviewentry-revisionssend-notifications/"
+      "url": "/docs/gravityrevisions/filters/gravityviewentry-revisionssend-notifications/",
+      "related": [
+        "gravityview/entry-revisions/add-revision",
+        "gravityview/entry-revisions/diff-ignored-keys",
+        "gravityview/entry-revisions/diff-row-args",
+        "gravityview/entry-revisions/embed-css",
+        "gravityview/entry-revisions/revision-title"
+      ]
     },
     {
       "id": "gravityviewentry-revisionsshow-filter-links",
       "name": "gravityview/entry-revisions/show-filter-links",
       "type": "filter",
       "product": "gravityrevisions",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the show filter links value.",
       "parameters": [
         {
           "name": "show_filter_links",
@@ -318,12 +429,25 @@
           "description": "GF Form object of current form"
         }
       ],
+      "categories": [
+        "entries",
+        "search",
+        "views"
+      ],
+      "example": "/**\n * Filter gravityviewentry-revisionsshow-filter-links\n *\n * @param bool $show_filter_links True: show the \"approved\"/\"disapproved\" filter links. False: hide them.\n * @param array $form GF Form object of current form\n * @return bool Modified show_filter_links\n */\nadd_filter( 'gravityviewentry-revisionsshow-filter-links', 'my_custom_gravityviewentry_revisionsshow_filter_links_filter', 10, 2 );\n\nfunction my_custom_gravityviewentry_revisionsshow_filter_links_filter($show_filter_links, $form) {\n    // Modify $show_filter_links as needed\n\n    return $show_filter_links;\n}",
       "since": "1.0",
       "source": {
         "file": "includes/entry_list.php",
         "line": 47
       },
-      "url": "/docs/gravityrevisions/filters/gravityviewentry-revisionsshow-filter-links/"
+      "url": "/docs/gravityrevisions/filters/gravityviewentry-revisionsshow-filter-links/",
+      "related": [
+        "gravityview/entry-revisions/add-revision",
+        "gravityview/entry-revisions/diff-ignored-keys",
+        "gravityview/entry-revisions/diff-row-args",
+        "gravityview/entry-revisions/embed-css",
+        "gravityview/entry-revisions/revision-title"
+      ]
     }
   ],
   "stats": {

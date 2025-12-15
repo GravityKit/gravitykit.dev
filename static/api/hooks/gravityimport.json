@@ -1,5 +1,5 @@
 {
-  "generated": "2025-12-15T23:45:33.844Z",
+  "generated": "2025-12-15T23:52:08.144Z",
   "product": {
     "id": "gravityimport",
     "label": "GravityImport",
@@ -70,105 +70,189 @@
       "name": "gravityview-import/after-import",
       "type": "action",
       "product": "gravityimport",
-      "description": "Defined in `src/UI.php` at line 1061",
+      "description": "Fires after gravityview import  import processing.",
       "parameters": [],
+      "categories": [
+        "views",
+        "import",
+        "after"
+      ],
+      "example": "/**\n * Hook into gravityview-importafter-import\n *\n * @return void\n */\nadd_action( 'gravityview-importafter-import', 'my_custom_gravityview_importafter_import_handler' );\n\nfunction my_custom_gravityview_importafter_import_handler() {\n    // Your custom code here\n}",
       "since": null,
       "source": {
         "file": "src/UI.php",
         "line": 1061
       },
-      "url": "/docs/gravityimport/actions/gravityview-importafter-import/"
+      "url": "/docs/gravityimport/actions/gravityview-importafter-import/",
+      "related": [
+        "gravityview-import/before-import",
+        "gravityview-import/import-cap",
+        "gravityview-import/user-agent"
+      ]
     },
     {
       "id": "gravityview-importbefore-import",
       "name": "gravityview-import/before-import",
       "type": "action",
       "product": "gravityimport",
-      "description": "Defined in `src/UI.php` at line 1028",
+      "description": "Fires before gravityview import  import processing.",
       "parameters": [],
+      "categories": [
+        "views",
+        "import",
+        "before"
+      ],
+      "example": "/**\n * Hook into gravityview-importbefore-import\n *\n * @return void\n */\nadd_action( 'gravityview-importbefore-import', 'my_custom_gravityview_importbefore_import_handler' );\n\nfunction my_custom_gravityview_importbefore_import_handler() {\n    // Your custom code here\n}",
       "since": null,
       "source": {
         "file": "src/UI.php",
         "line": 1028
       },
-      "url": "/docs/gravityimport/actions/gravityview-importbefore-import/"
+      "url": "/docs/gravityimport/actions/gravityview-importbefore-import/",
+      "related": [
+        "gravityview-import/after-import",
+        "gravityview-import/import-cap",
+        "gravityview-import/user-agent"
+      ]
     },
     {
       "id": "gravityview-importerafter-add",
       "name": "gravityview-importer/after-add",
       "type": "action",
       "product": "gravityimport",
-      "description": "Defined in `src/Processor.php` at line 2935",
+      "description": "Fires after gravityview importer  add processing.",
       "parameters": [],
+      "categories": [
+        "views",
+        "import",
+        "after"
+      ],
+      "example": "/**\n * Hook into gravityview-importerafter-add\n *\n * @return void\n */\nadd_action( 'gravityview-importerafter-add', 'my_custom_gravityview_importerafter_add_handler' );\n\nfunction my_custom_gravityview_importerafter_add_handler() {\n    // Your custom code here\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 2935
       },
-      "url": "/docs/gravityimport/actions/gravityview-importerafter-add/"
+      "url": "/docs/gravityimport/actions/gravityview-importerafter-add/",
+      "related": [
+        "gravityview-importer/after-update",
+        "gravityview-importer/config",
+        "gravityview-importer/end-of-file",
+        "gravityview-importer/process-row",
+        "gravityview-importer/strict-mode"
+      ]
     },
     {
       "id": "gravityview-importerafter-update",
       "name": "gravityview-importer/after-update",
       "type": "action",
       "product": "gravityimport",
-      "description": "Defined in `src/Processor.php` at line 2921",
+      "description": "Fires after gravityview importer  update processing.",
       "parameters": [],
+      "categories": [
+        "views",
+        "import",
+        "after"
+      ],
+      "example": "/**\n * Hook into gravityview-importerafter-update\n *\n * @return void\n */\nadd_action( 'gravityview-importerafter-update', 'my_custom_gravityview_importerafter_update_handler' );\n\nfunction my_custom_gravityview_importerafter_update_handler() {\n    // Your custom code here\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 2921
       },
-      "url": "/docs/gravityimport/actions/gravityview-importerafter-update/"
+      "url": "/docs/gravityimport/actions/gravityview-importerafter-update/",
+      "related": [
+        "gravityview-importer/after-add",
+        "gravityview-importer/config",
+        "gravityview-importer/end-of-file",
+        "gravityview-importer/process-row",
+        "gravityview-importer/strict-mode"
+      ]
     },
     {
       "id": "gravityview-importerconfig",
       "name": "gravityview-importer/config",
       "type": "action",
       "product": "gravityimport",
-      "description": "Defined in `src/Processor.php` at line 1002",
+      "description": "Fires during gravityview importer config processing.",
       "parameters": [],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Hook into gravityview-importerconfig\n *\n * @return void\n */\nadd_action( 'gravityview-importerconfig', 'my_custom_gravityview_importerconfig_handler' );\n\nfunction my_custom_gravityview_importerconfig_handler() {\n    // Your custom code here\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 1002
       },
-      "url": "/docs/gravityimport/actions/gravityview-importerconfig/"
+      "url": "/docs/gravityimport/actions/gravityview-importerconfig/",
+      "related": [
+        "gravityview-importer/after-add",
+        "gravityview-importer/after-update",
+        "gravityview-importer/end-of-file",
+        "gravityview-importer/process-row",
+        "gravityview-importer/strict-mode"
+      ]
     },
     {
       "id": "gravityview-importerend-of-file",
       "name": "gravityview-importer/end-of-file",
       "type": "action",
       "product": "gravityimport",
-      "description": "Defined in `src/Processor.php` at line 879",
+      "description": "Fires during gravityview importer end of file processing.",
       "parameters": [],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Hook into gravityview-importerend-of-file\n *\n * @return void\n */\nadd_action( 'gravityview-importerend-of-file', 'my_custom_gravityview_importerend_of_file_handler' );\n\nfunction my_custom_gravityview_importerend_of_file_handler() {\n    // Your custom code here\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 879
       },
-      "url": "/docs/gravityimport/actions/gravityview-importerend-of-file/"
+      "url": "/docs/gravityimport/actions/gravityview-importerend-of-file/",
+      "related": [
+        "gravityview-importer/after-add",
+        "gravityview-importer/after-update",
+        "gravityview-importer/config",
+        "gravityview-importer/process-row",
+        "gravityview-importer/strict-mode"
+      ]
     },
     {
       "id": "gravityview-importerprocess-row",
       "name": "gravityview-importer/process-row",
       "type": "action",
       "product": "gravityimport",
-      "description": "Defined in `src/Processor.php` at line 432",
+      "description": "Fires during gravityview importer process row processing.",
       "parameters": [],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Hook into gravityview-importerprocess-row\n *\n * @return void\n */\nadd_action( 'gravityview-importerprocess-row', 'my_custom_gravityview_importerprocess_row_handler' );\n\nfunction my_custom_gravityview_importerprocess_row_handler() {\n    // Your custom code here\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 432
       },
-      "url": "/docs/gravityimport/actions/gravityview-importerprocess-row/"
+      "url": "/docs/gravityimport/actions/gravityview-importerprocess-row/",
+      "related": [
+        "gravityview-importer/after-add",
+        "gravityview-importer/after-update",
+        "gravityview-importer/config",
+        "gravityview-importer/end-of-file",
+        "gravityview-importer/strict-mode"
+      ]
     },
     {
       "id": "gravityviewimportbatchcreated",
       "name": "gravityview/import/batch/created",
       "type": "action",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Fires during batch created processing.",
       "parameters": [
         {
           "name": "batch",
@@ -176,19 +260,27 @@
           "description": "The batch."
         }
       ],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Hook into gravityviewimportbatchcreated\n *\n * @param array $batch The batch.\n */\nadd_action( 'gravityviewimportbatchcreated', 'my_custom_gravityviewimportbatchcreated_handler', 10, 1 );\n\nfunction my_custom_gravityviewimportbatchcreated_handler($batch) {\n    // Your custom code here\n}",
       "since": null,
       "source": {
         "file": "src/Batch.php",
         "line": 160
       },
-      "url": "/docs/gravityimport/actions/gravityviewimportbatchcreated/"
+      "url": "/docs/gravityimport/actions/gravityviewimportbatchcreated/",
+      "related": [
+        "gravityview/import/batch/create"
+      ]
     },
     {
       "id": "gravityviewimportconfig",
       "name": "gravityview/import/config",
       "type": "action",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Fires during import config processing.",
       "parameters": [
         {
           "name": "config",
@@ -201,19 +293,31 @@
           "description": "The batch."
         }
       ],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Hook into gravityviewimportconfig\n *\n * @param \\Goodby\\CSV\\Import\\Standard\\Lexer\\Config $config The config object.\n * @param array $batch The batch.\n */\nadd_action( 'gravityviewimportconfig', 'my_custom_gravityviewimportconfig_handler', 10, 2 );\n\nfunction my_custom_gravityviewimportconfig_handler($config, $batch) {\n    // Your custom code here\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 1011
       },
-      "url": "/docs/gravityimport/actions/gravityviewimportconfig/"
+      "url": "/docs/gravityimport/actions/gravityviewimportconfig/",
+      "related": [
+        "gravityview/import/capabilities",
+        "gravityview/import/has_resources",
+        "gravityview/import/meta_fields",
+        "gravityview/import/unstrict",
+        "gravityview/import/user-agent"
+      ]
     },
     {
       "id": "gravityviewimportentrycreated",
       "name": "gravityview/import/entry/created",
       "type": "action",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Fires during entry created processing.",
       "parameters": [
         {
           "name": "entry",
@@ -226,19 +330,29 @@
           "description": "The batch."
         }
       ],
+      "categories": [
+        "entries",
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Hook into gravityviewimportentrycreated\n *\n * @param array $entry The entry.\n * @param array $batch The batch.\n */\nadd_action( 'gravityviewimportentrycreated', 'my_custom_gravityviewimportentrycreated_handler', 10, 2 );\n\nfunction my_custom_gravityviewimportentrycreated_handler($entry, $batch) {\n    // Your custom code here\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 2943
       },
-      "url": "/docs/gravityimport/actions/gravityviewimportentrycreated/"
+      "url": "/docs/gravityimport/actions/gravityviewimportentrycreated/",
+      "related": [
+        "gravityview/import/entry/updated",
+        "gravityview/import/entry/validate"
+      ]
     },
     {
       "id": "gravityviewimportentryupdated",
       "name": "gravityview/import/entry/updated",
       "type": "action",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Fires during entry updated processing.",
       "parameters": [
         {
           "name": "entry",
@@ -256,19 +370,29 @@
           "description": "The batch."
         }
       ],
+      "categories": [
+        "entries",
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Hook into gravityviewimportentryupdated\n *\n * @param array $entry The entry.\n * @param array $old_entry The entry.\n * @param array $batch The batch.\n */\nadd_action( 'gravityviewimportentryupdated', 'my_custom_gravityviewimportentryupdated_handler', 10, 3 );\n\nfunction my_custom_gravityviewimportentryupdated_handler($entry, $old_entry, $batch) {\n    // Your custom code here\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 2930
       },
-      "url": "/docs/gravityimport/actions/gravityviewimportentryupdated/"
+      "url": "/docs/gravityimport/actions/gravityviewimportentryupdated/",
+      "related": [
+        "gravityview/import/entry/created",
+        "gravityview/import/entry/validate"
+      ]
     },
     {
       "id": "gravityviewimportprocessbatchstatus",
       "name": "gravityview/import/process/\\{$batch[status]\\}",
       "type": "action",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Fires during process \\{$batch[status]\\} processing.",
       "parameters": [
         {
           "name": "batch",
@@ -276,19 +400,27 @@
           "description": "The batch."
         }
       ],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Hook into gravityviewimportprocessbatchstatus\n *\n * @param array $batch The batch.\n */\nadd_action( 'gravityviewimportprocessbatchstatus', 'my_custom_gravityviewimportprocessbatchstatus_handler', 10, 1 );\n\nfunction my_custom_gravityviewimportprocessbatchstatus_handler($batch) {\n    // Your custom code here\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 1526
       },
-      "url": "/docs/gravityimport/actions/gravityviewimportprocessbatchstatus/"
+      "url": "/docs/gravityimport/actions/gravityviewimportprocessbatchstatus/",
+      "related": [
+        "gravityview/import/process/row"
+      ]
     },
     {
       "id": "gravityviewimportprocessorinit",
       "name": "gravityview/import/processor/init",
       "type": "action",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Fires during processor init processing.",
       "parameters": [
         {
           "name": "processor",
@@ -301,19 +433,27 @@
           "description": "The args."
         }
       ],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Hook into gravityviewimportprocessorinit\n *\n * @param \\GravityKit\\GravityImport\\Processor $processor The processor.\n * @param array $args The args.\n */\nadd_action( 'gravityviewimportprocessorinit', 'my_custom_gravityviewimportprocessorinit_handler', 10, 2 );\n\nfunction my_custom_gravityviewimportprocessorinit_handler($processor, $args) {\n    // Your custom code here\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 69
       },
-      "url": "/docs/gravityimport/actions/gravityviewimportprocessorinit/"
+      "url": "/docs/gravityimport/actions/gravityviewimportprocessorinit/",
+      "related": [
+        "gravityview/import/processor/args"
+      ]
     },
     {
       "id": "gravityviewimportprocessrow",
       "name": "gravityview/import/process/row",
       "type": "action",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Fires during process row processing.",
       "parameters": [
         {
           "name": "row",
@@ -331,19 +471,27 @@
           "description": "The batch."
         }
       ],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Hook into gravityviewimportprocessrow\n *\n * @param array $row The row.\n * @param int $number The row number (starts from 1, the headers).\n * @param array $batch The batch.\n */\nadd_action( 'gravityviewimportprocessrow', 'my_custom_gravityviewimportprocessrow_handler', 10, 3 );\n\nfunction my_custom_gravityviewimportprocessrow_handler($row, $number, $batch) {\n    // Your custom code here\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 441
       },
-      "url": "/docs/gravityimport/actions/gravityviewimportprocessrow/"
+      "url": "/docs/gravityimport/actions/gravityviewimportprocessrow/",
+      "related": [
+        "gravityview/import/process/\\{$batch[status]\\}"
+      ]
     },
     {
       "id": "gravityviewimportprocessrowerror",
       "name": "gravityview/import/process/row/error",
       "type": "action",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Fires during row error processing.",
       "parameters": [
         {
           "name": "row",
@@ -361,19 +509,27 @@
           "description": "The batch."
         }
       ],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Hook into gravityviewimportprocessrowerror\n *\n * @param object $row The row object in the database.\n * @param string $error The error.\n * @param array $batch The batch.\n */\nadd_action( 'gravityviewimportprocessrowerror', 'my_custom_gravityviewimportprocessrowerror_handler', 10, 3 );\n\nfunction my_custom_gravityviewimportprocessrowerror_handler($row, $error, $batch) {\n    // Your custom code here\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 3228
       },
-      "url": "/docs/gravityimport/actions/gravityviewimportprocessrowerror/"
+      "url": "/docs/gravityimport/actions/gravityviewimportprocessrowerror/",
+      "related": [
+        "gravityview/import/process/row/skipped"
+      ]
     },
     {
       "id": "gravityviewimportprocessrowskipped",
       "name": "gravityview/import/process/row/skipped",
       "type": "action",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Fires during row skipped processing.",
       "parameters": [
         {
           "name": "row",
@@ -386,12 +542,20 @@
           "description": "The batch."
         }
       ],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Hook into gravityviewimportprocessrowskipped\n *\n * @param object $row The row.\n * @param array $batch The batch.\n */\nadd_action( 'gravityviewimportprocessrowskipped', 'my_custom_gravityviewimportprocessrowskipped_handler', 10, 2 );\n\nfunction my_custom_gravityviewimportprocessrowskipped_handler($row, $batch) {\n    // Your custom code here\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 1553
       },
-      "url": "/docs/gravityimport/actions/gravityviewimportprocessrowskipped/"
+      "url": "/docs/gravityimport/actions/gravityviewimportprocessrowskipped/",
+      "related": [
+        "gravityview/import/process/row/error"
+      ]
     },
     {
       "id": "gkgravityimportrestrequest-validation-skip-params",
@@ -406,12 +570,18 @@
           "description": "REST request parameters that are safe to ignore."
         }
       ],
+      "categories": [
+        "import",
+        "api"
+      ],
+      "example": "/**\n * Filter gkgravityimportrestrequest-validation-skip-params\n *\n * @param array $rest_params_to_ignore REST request parameters that are safe to ignore.\n * @return array Modified rest_params_to_ignore\n */\nadd_filter( 'gkgravityimportrestrequest-validation-skip-params', 'my_custom_gkgravityimportrestrequest_validation_skip_params_filter', 10, 1 );\n\nfunction my_custom_gkgravityimportrestrequest_validation_skip_params_filter($rest_params_to_ignore) {\n    // Modify $rest_params_to_ignore as needed\n\n    return $rest_params_to_ignore;\n}",
       "since": "TBD: TBD",
       "source": {
         "file": "src/REST_Batch_Controller.php",
         "line": 453
       },
-      "url": "/docs/gravityimport/filters/gkgravityimportrestrequest-validation-skip-params/"
+      "url": "/docs/gravityimport/filters/gkgravityimportrestrequest-validation-skip-params/",
+      "related": []
     },
     {
       "id": "gkgravityimportuiform-data",
@@ -426,103 +596,171 @@
           "description": "From data with available fields and feeds."
         }
       ],
+      "categories": [
+        "forms",
+        "import"
+      ],
+      "example": "/**\n * Filter gkgravityimportuiform-data\n *\n * @param array $form_data From data with available fields and feeds.\n * @return array Modified form_data\n */\nadd_filter( 'gkgravityimportuiform-data', 'my_custom_gkgravityimportuiform_data_filter', 10, 1 );\n\nfunction my_custom_gkgravityimportuiform_data_filter($form_data) {\n    // Modify $form_data as needed\n\n    return $form_data;\n}",
       "since": "2.4.10",
       "source": {
         "file": "src/UI.php",
         "line": 1181
       },
-      "url": "/docs/gravityimport/filters/gkgravityimportuiform-data/"
+      "url": "/docs/gravityimport/filters/gkgravityimportuiform-data/",
+      "related": []
     },
     {
       "id": "gravityview-importerstrict-mode",
       "name": "gravityview-importer/strict-mode",
       "type": "filter",
       "product": "gravityimport",
-      "description": "Defined in `src/Processor.php` at line 1678",
+      "description": "Filters during gravityview importer strict mode processing.",
       "parameters": [],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Filter gravityview-importerstrict-mode\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gravityview-importerstrict-mode', 'my_custom_gravityview_importerstrict_mode_filter' );\n\nfunction my_custom_gravityview_importerstrict_mode_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 1678
       },
-      "url": "/docs/gravityimport/filters/gravityview-importerstrict-mode/"
+      "url": "/docs/gravityimport/filters/gravityview-importerstrict-mode/",
+      "related": [
+        "gravityview-importer/after-add",
+        "gravityview-importer/after-update",
+        "gravityview-importer/config",
+        "gravityview-importer/end-of-file",
+        "gravityview-importer/process-row"
+      ]
     },
     {
       "id": "gravityview-importerstrict-moderadio-choices",
       "name": "gravityview-importer/strict-mode/radio-choices",
       "type": "filter",
       "product": "gravityimport",
-      "description": "Defined in `src/Processor.php` at line 1678",
+      "description": "Filters during strict mode radio choices processing.",
       "parameters": [],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Filter gravityview-importerstrict-moderadio-choices\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gravityview-importerstrict-moderadio-choices', 'my_custom_gravityview_importerstrict_moderadio_choices_filter' );\n\nfunction my_custom_gravityview_importerstrict_moderadio_choices_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 1678
       },
-      "url": "/docs/gravityimport/filters/gravityview-importerstrict-moderadio-choices/"
+      "url": "/docs/gravityimport/filters/gravityview-importerstrict-moderadio-choices/",
+      "related": []
     },
     {
       "id": "gravityview-importerunstrict",
       "name": "gravityview-importer/unstrict",
       "type": "filter",
       "product": "gravityimport",
-      "description": "Defined in `src/Processor.php` at line 957",
+      "description": "Filters during gravityview importer unstrict processing.",
       "parameters": [],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Filter gravityview-importerunstrict\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gravityview-importerunstrict', 'my_custom_gravityview_importerunstrict_filter' );\n\nfunction my_custom_gravityview_importerunstrict_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 957
       },
-      "url": "/docs/gravityimport/filters/gravityview-importerunstrict/"
+      "url": "/docs/gravityimport/filters/gravityview-importerunstrict/",
+      "related": [
+        "gravityview-importer/after-add",
+        "gravityview-importer/after-update",
+        "gravityview-importer/config",
+        "gravityview-importer/end-of-file",
+        "gravityview-importer/process-row"
+      ]
     },
     {
       "id": "gravityview-importeruse-default-value",
       "name": "gravityview-importer/use-default-value",
       "type": "filter",
       "product": "gravityimport",
-      "description": "Defined in `src/Processor.php` at line 2502",
+      "description": "Filters during gravityview importer use default value processing.",
       "parameters": [],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Filter gravityview-importeruse-default-value\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gravityview-importeruse-default-value', 'my_custom_gravityview_importeruse_default_value_filter' );\n\nfunction my_custom_gravityview_importeruse_default_value_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 2502
       },
-      "url": "/docs/gravityimport/filters/gravityview-importeruse-default-value/"
+      "url": "/docs/gravityimport/filters/gravityview-importeruse-default-value/",
+      "related": [
+        "gravityview-importer/after-add",
+        "gravityview-importer/after-update",
+        "gravityview-importer/config",
+        "gravityview-importer/end-of-file",
+        "gravityview-importer/process-row"
+      ]
     },
     {
       "id": "gravityview-importimport-cap",
       "name": "gravityview-import/import-cap",
       "type": "filter",
       "product": "gravityimport",
-      "description": "- Defined in `src/REST_Batch_Controller.php` at line 158",
+      "description": "Filters during gravityview import import cap processing.",
       "parameters": [],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Filter gravityview-importimport-cap\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gravityview-importimport-cap', 'my_custom_gravityview_importimport_cap_filter' );\n\nfunction my_custom_gravityview_importimport_cap_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
       "since": null,
       "source": {
         "file": "src/REST_Batch_Controller.php",
         "line": 158
       },
-      "url": "/docs/gravityimport/filters/gravityview-importimport-cap/"
+      "url": "/docs/gravityimport/filters/gravityview-importimport-cap/",
+      "related": [
+        "gravityview-import/after-import",
+        "gravityview-import/before-import",
+        "gravityview-import/user-agent"
+      ]
     },
     {
       "id": "gravityview-importuser-agent",
       "name": "gravityview-import/user-agent",
       "type": "filter",
       "product": "gravityimport",
-      "description": "Defined in `src/Processor.php` at line 2844",
+      "description": "Filters during gravityview import user agent processing.",
       "parameters": [],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Filter gravityview-importuser-agent\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gravityview-importuser-agent', 'my_custom_gravityview_importuser_agent_filter' );\n\nfunction my_custom_gravityview_importuser_agent_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 2844
       },
-      "url": "/docs/gravityimport/filters/gravityview-importuser-agent/"
+      "url": "/docs/gravityimport/filters/gravityview-importuser-agent/",
+      "related": [
+        "gravityview-import/after-import",
+        "gravityview-import/before-import",
+        "gravityview-import/import-cap"
+      ]
     },
     {
       "id": "gravityviewexportnote_typesblacklist",
       "name": "gravityview/export/note_types/blacklist",
       "type": "filter",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the note types blacklist value.",
       "parameters": [
         {
           "name": "note_types_blacklist",
@@ -530,19 +768,25 @@
           "description": "Default: [ gravityview ]"
         }
       ],
+      "categories": [
+        "views",
+        "export"
+      ],
+      "example": "/**\n * Filter gravityviewexportnote_typesblacklist\n *\n * @param array $note_types_blacklist Default: [ gravityview ]\n * @return array Modified note_types_blacklist\n */\nadd_filter( 'gravityviewexportnote_typesblacklist', 'my_custom_gravityviewexportnote_typesblacklist_filter', 10, 1 );\n\nfunction my_custom_gravityviewexportnote_typesblacklist_filter($note_types_blacklist) {\n    // Modify $note_types_blacklist as needed\n\n    return $note_types_blacklist;\n}",
       "since": "2.0",
       "source": {
         "file": "src/GF_Export_Screen.php",
         "line": 80
       },
-      "url": "/docs/gravityimport/filters/gravityviewexportnote_typesblacklist/"
+      "url": "/docs/gravityimport/filters/gravityviewexportnote_typesblacklist/",
+      "related": []
     },
     {
       "id": "gravityviewimportbatchcreate",
       "name": "gravityview/import/batch/create",
       "type": "filter",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the batch value.",
       "parameters": [
         {
           "name": "batch",
@@ -550,33 +794,53 @@
           "description": "The batch."
         }
       ],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Filter gravityviewimportbatchcreate\n *\n * @param array $batch The batch.\n * @return array Modified batch\n */\nadd_filter( 'gravityviewimportbatchcreate', 'my_custom_gravityviewimportbatchcreate_filter', 10, 1 );\n\nfunction my_custom_gravityviewimportbatchcreate_filter($batch) {\n    // Modify $batch as needed\n\n    return $batch;\n}",
       "since": null,
       "source": {
         "file": "src/Batch.php",
         "line": 150
       },
-      "url": "/docs/gravityimport/filters/gravityviewimportbatchcreate/"
+      "url": "/docs/gravityimport/filters/gravityviewimportbatchcreate/",
+      "related": [
+        "gravityview/import/batch/created"
+      ]
     },
     {
       "id": "gravityviewimportcapabilities",
       "name": "gravityview/import/capabilities",
       "type": "filter",
       "product": "gravityimport",
-      "description": "Defined in `src/UI.php` at line 71",
+      "description": "Filters during import capabilities processing.",
       "parameters": [],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Filter gravityviewimportcapabilities\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gravityviewimportcapabilities', 'my_custom_gravityviewimportcapabilities_filter' );\n\nfunction my_custom_gravityviewimportcapabilities_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
       "since": null,
       "source": {
         "file": "src/UI.php",
         "line": 71
       },
-      "url": "/docs/gravityimport/filters/gravityviewimportcapabilities/"
+      "url": "/docs/gravityimport/filters/gravityviewimportcapabilities/",
+      "related": [
+        "gravityview/import/config",
+        "gravityview/import/has_resources",
+        "gravityview/import/meta_fields",
+        "gravityview/import/unstrict",
+        "gravityview/import/user-agent"
+      ]
     },
     {
       "id": "gravityviewimportcolumncheckboxunchecked",
       "name": "gravityview/import/column/checkbox/unchecked",
       "type": "filter",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the field value.",
       "parameters": [
         {
           "name": "field",
@@ -594,19 +858,25 @@
           "description": "The batch."
         }
       ],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Filter gravityviewimportcolumncheckboxunchecked\n *\n * @param \\GF_Field $field The checkbox field.\n * @param array $column The column that is being processed.\n * @param array $batch The batch.\n * @return \\GF_Field Modified field\n */\nadd_filter( 'gravityviewimportcolumncheckboxunchecked', 'my_custom_gravityviewimportcolumncheckboxunchecked_filter', 10, 3 );\n\nfunction my_custom_gravityviewimportcolumncheckboxunchecked_filter($field, $column, $batch) {\n    // Modify $field as needed\n\n    return $field;\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 1339
       },
-      "url": "/docs/gravityimport/filters/gravityviewimportcolumncheckboxunchecked/"
+      "url": "/docs/gravityimport/filters/gravityviewimportcolumncheckboxunchecked/",
+      "related": []
     },
     {
       "id": "gravityviewimportcolumnconsentchecked",
       "name": "gravityview/import/column/consent/checked",
       "type": "filter",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the field value.",
       "parameters": [
         {
           "name": "field",
@@ -624,19 +894,25 @@
           "description": "The batch."
         }
       ],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Filter gravityviewimportcolumnconsentchecked\n *\n * @param \\GF_Field $field The consent field.\n * @param array $column The column that is being processed.\n * @param array $batch The batch.\n * @return \\GF_Field Modified field\n */\nadd_filter( 'gravityviewimportcolumnconsentchecked', 'my_custom_gravityviewimportcolumnconsentchecked_filter', 10, 3 );\n\nfunction my_custom_gravityviewimportcolumnconsentchecked_filter($field, $column, $batch) {\n    // Modify $field as needed\n\n    return $field;\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 2118
       },
-      "url": "/docs/gravityimport/filters/gravityviewimportcolumnconsentchecked/"
+      "url": "/docs/gravityimport/filters/gravityviewimportcolumnconsentchecked/",
+      "related": []
     },
     {
       "id": "gravityviewimportcolumndata",
       "name": "gravityview/import/column/data",
       "type": "filter",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the column value.",
       "parameters": [
         {
           "name": "column",
@@ -649,19 +925,27 @@
           "description": "The batch."
         }
       ],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Filter gravityviewimportcolumndata\n *\n * @param array $column The column schema definition.\n * @param array $batch The batch.\n * @return array Modified column\n */\nadd_filter( 'gravityviewimportcolumndata', 'my_custom_gravityviewimportcolumndata_filter', 10, 2 );\n\nfunction my_custom_gravityviewimportcolumndata_filter($column, $batch) {\n    // Modify $column as needed\n\n    return $column;\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 1928
       },
-      "url": "/docs/gravityimport/filters/gravityviewimportcolumndata/"
+      "url": "/docs/gravityimport/filters/gravityviewimportcolumndata/",
+      "related": [
+        "gravityview/import/column/default"
+      ]
     },
     {
       "id": "gravityviewimportcolumndefault",
       "name": "gravityview/import/column/default",
       "type": "filter",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the column value.",
       "parameters": [
         {
           "name": "column",
@@ -674,19 +958,27 @@
           "description": "The batch."
         }
       ],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Filter gravityviewimportcolumndefault\n *\n * @param array $column The column.\n * @param array $batch The batch.\n * @return array Modified column\n */\nadd_filter( 'gravityviewimportcolumndefault', 'my_custom_gravityviewimportcolumndefault_filter', 10, 2 );\n\nfunction my_custom_gravityviewimportcolumndefault_filter($column, $batch) {\n    // Modify $column as needed\n\n    return $column;\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 2511
       },
-      "url": "/docs/gravityimport/filters/gravityviewimportcolumndefault/"
+      "url": "/docs/gravityimport/filters/gravityviewimportcolumndefault/",
+      "related": [
+        "gravityview/import/column/data"
+      ]
     },
     {
       "id": "gravityviewimportcolumnfilename",
       "name": "gravityview/import/column/file/name",
       "type": "filter",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the url value.",
       "parameters": [
         {
           "name": "url",
@@ -709,19 +1001,27 @@
           "description": "The batch."
         }
       ],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Filter gravityviewimportcolumnfilename\n *\n * @param string $url The current cell value.\n * @param \\GF_Field $field The upload field.\n * @param array $column The column that is being processed.\n * @param array $batch The batch.\n * @return string Modified url\n */\nadd_filter( 'gravityviewimportcolumnfilename', 'my_custom_gravityviewimportcolumnfilename_filter', 10, 4 );\n\nfunction my_custom_gravityviewimportcolumnfilename_filter($url, $field, $column, $batch) {\n    // Modify $url as needed\n\n    return $url;\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 2047
       },
-      "url": "/docs/gravityimport/filters/gravityviewimportcolumnfilename/"
+      "url": "/docs/gravityimport/filters/gravityviewimportcolumnfilename/",
+      "related": [
+        "gravityview/import/column/file/source"
+      ]
     },
     {
       "id": "gravityviewimportcolumnfilesource",
       "name": "gravityview/import/column/file/source",
       "type": "filter",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the url value.",
       "parameters": [
         {
           "name": "url",
@@ -744,19 +1044,27 @@
           "description": "The batch."
         }
       ],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Filter gravityviewimportcolumnfilesource\n *\n * @param string $url The current cell value.\n * @param \\GF_Field $field The upload field.\n * @param array $column The column that is being processed.\n * @param array $batch The batch.\n * @return string Modified url\n */\nadd_filter( 'gravityviewimportcolumnfilesource', 'my_custom_gravityviewimportcolumnfilesource_filter', 10, 4 );\n\nfunction my_custom_gravityviewimportcolumnfilesource_filter($url, $field, $column, $batch) {\n    // Modify $url as needed\n\n    return $url;\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 2008
       },
-      "url": "/docs/gravityimport/filters/gravityviewimportcolumnfilesource/"
+      "url": "/docs/gravityimport/filters/gravityviewimportcolumnfilesource/",
+      "related": [
+        "gravityview/import/column/file/name"
+      ]
     },
     {
       "id": "gravityviewimportcolumnmultiselectdelimiter",
       "name": "gravityview/import/column/multiselect/delimiter",
       "type": "filter",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the field value.",
       "parameters": [
         {
           "name": "field",
@@ -774,19 +1082,27 @@
           "description": "The batch."
         }
       ],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Filter gravityviewimportcolumnmultiselectdelimiter\n *\n * @param \\GF_Field $field The multiselect field.\n * @param array $column The column that is being processed.\n * @param array $batch The batch.\n * @return \\GF_Field Modified field\n */\nadd_filter( 'gravityviewimportcolumnmultiselectdelimiter', 'my_custom_gravityviewimportcolumnmultiselectdelimiter_filter', 10, 3 );\n\nfunction my_custom_gravityviewimportcolumnmultiselectdelimiter_filter($field, $column, $batch) {\n    // Modify $field as needed\n\n    return $field;\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 1299
       },
-      "url": "/docs/gravityimport/filters/gravityviewimportcolumnmultiselectdelimiter/"
+      "url": "/docs/gravityimport/filters/gravityviewimportcolumnmultiselectdelimiter/",
+      "related": [
+        "gravityview/import/column/multiselect/strict"
+      ]
     },
     {
       "id": "gravityviewimportcolumnmultiselectstrict",
       "name": "gravityview/import/column/multiselect/strict",
       "type": "filter",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the field value.",
       "parameters": [
         {
           "name": "field",
@@ -799,19 +1115,27 @@
           "description": "The batch."
         }
       ],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Filter gravityviewimportcolumnmultiselectstrict\n *\n * @param \\GF_Field $field The multiselect field.\n * @param array $batch The batch.\n * @return \\GF_Field Modified field\n */\nadd_filter( 'gravityviewimportcolumnmultiselectstrict', 'my_custom_gravityviewimportcolumnmultiselectstrict_filter', 10, 2 );\n\nfunction my_custom_gravityviewimportcolumnmultiselectstrict_filter($field, $batch) {\n    // Modify $field as needed\n\n    return $field;\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 1820
       },
-      "url": "/docs/gravityimport/filters/gravityviewimportcolumnmultiselectstrict/"
+      "url": "/docs/gravityimport/filters/gravityviewimportcolumnmultiselectstrict/",
+      "related": [
+        "gravityview/import/column/multiselect/delimiter"
+      ]
     },
     {
       "id": "gravityviewimportcolumnnotesuser",
       "name": "gravityview/import/column/notes/user",
       "type": "filter",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the note value.",
       "parameters": [
         {
           "name": "note",
@@ -829,19 +1153,25 @@
           "description": "The batch."
         }
       ],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Filter gravityviewimportcolumnnotesuser\n *\n * @param object $note The note.\n * @param array $entry The entry.\n * @param array $batch The batch.\n * @return object Modified note\n */\nadd_filter( 'gravityviewimportcolumnnotesuser', 'my_custom_gravityviewimportcolumnnotesuser_filter', 10, 3 );\n\nfunction my_custom_gravityviewimportcolumnnotesuser_filter($note, $entry, $batch) {\n    // Modify $note as needed\n\n    return $note;\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 2892
       },
-      "url": "/docs/gravityimport/filters/gravityviewimportcolumnnotesuser/"
+      "url": "/docs/gravityimport/filters/gravityviewimportcolumnnotesuser/",
+      "related": []
     },
     {
       "id": "gravityviewimportcolumnradiostrict",
       "name": "gravityview/import/column/radio/strict",
       "type": "filter",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the field value.",
       "parameters": [
         {
           "name": "field",
@@ -854,19 +1184,25 @@
           "description": "The batch."
         }
       ],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Filter gravityviewimportcolumnradiostrict\n *\n * @param \\GF_Field $field The radio field.\n * @param array $batch The batch.\n * @return \\GF_Field Modified field\n */\nadd_filter( 'gravityviewimportcolumnradiostrict', 'my_custom_gravityviewimportcolumnradiostrict_filter', 10, 2 );\n\nfunction my_custom_gravityviewimportcolumnradiostrict_filter($field, $batch) {\n    // Modify $field as needed\n\n    return $field;\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 1687
       },
-      "url": "/docs/gravityimport/filters/gravityviewimportcolumnradiostrict/"
+      "url": "/docs/gravityimport/filters/gravityviewimportcolumnradiostrict/",
+      "related": []
     },
     {
       "id": "gravityviewimportcolumnselectstrict",
       "name": "gravityview/import/column/select/strict",
       "type": "filter",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the field value.",
       "parameters": [
         {
           "name": "field",
@@ -879,19 +1215,25 @@
           "description": "The batch."
         }
       ],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Filter gravityviewimportcolumnselectstrict\n *\n * @param \\GF_Field $field The select field.\n * @param array $batch The batch.\n * @return \\GF_Field Modified field\n */\nadd_filter( 'gravityviewimportcolumnselectstrict', 'my_custom_gravityviewimportcolumnselectstrict_filter', 10, 2 );\n\nfunction my_custom_gravityviewimportcolumnselectstrict_filter($field, $batch) {\n    // Modify $field as needed\n\n    return $field;\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 1718
       },
-      "url": "/docs/gravityimport/filters/gravityviewimportcolumnselectstrict/"
+      "url": "/docs/gravityimport/filters/gravityviewimportcolumnselectstrict/",
+      "related": []
     },
     {
       "id": "gravityviewimportcolumnsignaturename",
       "name": "gravityview/import/column/signature/name",
       "type": "filter",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the url value.",
       "parameters": [
         {
           "name": "url",
@@ -914,19 +1256,27 @@
           "description": "The batch."
         }
       ],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Filter gravityviewimportcolumnsignaturename\n *\n * @param string $url The current cell value.\n * @param \\GF_Field $field The signature field.\n * @param array $column The column that is being processed.\n * @param array $batch The batch.\n * @return string Modified url\n */\nadd_filter( 'gravityviewimportcolumnsignaturename', 'my_custom_gravityviewimportcolumnsignaturename_filter', 10, 4 );\n\nfunction my_custom_gravityviewimportcolumnsignaturename_filter($url, $field, $column, $batch) {\n    // Modify $url as needed\n\n    return $url;\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 2232
       },
-      "url": "/docs/gravityimport/filters/gravityviewimportcolumnsignaturename/"
+      "url": "/docs/gravityimport/filters/gravityviewimportcolumnsignaturename/",
+      "related": [
+        "gravityview/import/column/signature/source"
+      ]
     },
     {
       "id": "gravityviewimportcolumnsignaturesource",
       "name": "gravityview/import/column/signature/source",
       "type": "filter",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the url value.",
       "parameters": [
         {
           "name": "url",
@@ -949,19 +1299,27 @@
           "description": "The batch."
         }
       ],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Filter gravityviewimportcolumnsignaturesource\n *\n * @param string $url The current cell value.\n * @param \\GF_Field $field The signature field.\n * @param array $column The column that is being processed.\n * @param array $batch The batch.\n * @return string Modified url\n */\nadd_filter( 'gravityviewimportcolumnsignaturesource', 'my_custom_gravityviewimportcolumnsignaturesource_filter', 10, 4 );\n\nfunction my_custom_gravityviewimportcolumnsignaturesource_filter($url, $field, $column, $batch) {\n    // Modify $url as needed\n\n    return $url;\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 2262
       },
-      "url": "/docs/gravityimport/filters/gravityviewimportcolumnsignaturesource/"
+      "url": "/docs/gravityimport/filters/gravityviewimportcolumnsignaturesource/",
+      "related": [
+        "gravityview/import/column/signature/name"
+      ]
     },
     {
       "id": "gravityviewimportentryvalidate",
       "name": "gravityview/import/entry/validate",
       "type": "filter",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the validation result value.",
       "parameters": [
         {
           "name": "validation_result",
@@ -979,19 +1337,29 @@
           "description": "The batch."
         }
       ],
+      "categories": [
+        "entries",
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Filter gravityviewimportentryvalidate\n *\n * @param array $validation_result The current validation result.\n * @param object $row The row.\n * @param array $batch The batch.\n * @return array Modified validation_result\n */\nadd_filter( 'gravityviewimportentryvalidate', 'my_custom_gravityviewimportentryvalidate_filter', 10, 3 );\n\nfunction my_custom_gravityviewimportentryvalidate_filter($validation_result, $row, $batch) {\n    // Modify $validation_result as needed\n\n    return $validation_result;\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 2675
       },
-      "url": "/docs/gravityimport/filters/gravityviewimportentryvalidate/"
+      "url": "/docs/gravityimport/filters/gravityviewimportentryvalidate/",
+      "related": [
+        "gravityview/import/entry/created",
+        "gravityview/import/entry/updated"
+      ]
     },
     {
       "id": "gravityviewimportfieldsmulti-input",
       "name": "gravityview/import/fields/multi-input",
       "type": "filter",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the  value.",
       "parameters": [
         {
           "name": "",
@@ -999,19 +1367,26 @@
           "description": "The batch."
         }
       ],
+      "categories": [
+        "fields",
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Filter gravityviewimportfieldsmulti-input\n *\n * @param array $ The batch.\n * @return array Modified \n */\nadd_filter( 'gravityviewimportfieldsmulti-input', 'my_custom_gravityviewimportfieldsmulti_input_filter', 10, 1 );\n\nfunction my_custom_gravityviewimportfieldsmulti_input_filter($) {\n    // Modify $ as needed\n\n    return $;\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 1147
       },
-      "url": "/docs/gravityimport/filters/gravityviewimportfieldsmulti-input/"
+      "url": "/docs/gravityimport/filters/gravityviewimportfieldsmulti-input/",
+      "related": []
     },
     {
       "id": "gravityviewimportfieldunrequire",
       "name": "gravityview/import/field/unrequire",
       "type": "filter",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the field value.",
       "parameters": [
         {
           "name": "field",
@@ -1024,19 +1399,28 @@
           "description": "The batch."
         }
       ],
+      "categories": [
+        "fields",
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Filter gravityviewimportfieldunrequire\n *\n * @param \\GF_Field $field The field.\n * @param array $batch The batch.\n * @return \\GF_Field Modified field\n */\nadd_filter( 'gravityviewimportfieldunrequire', 'my_custom_gravityviewimportfieldunrequire_filter', 10, 2 );\n\nfunction my_custom_gravityviewimportfieldunrequire_filter($field, $batch) {\n    // Modify $field as needed\n\n    return $field;\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 1635
       },
-      "url": "/docs/gravityimport/filters/gravityviewimportfieldunrequire/"
+      "url": "/docs/gravityimport/filters/gravityviewimportfieldunrequire/",
+      "related": [
+        "gravityview/import/field/validate"
+      ]
     },
     {
       "id": "gravityviewimportfieldvalidate",
       "name": "gravityview/import/field/validate",
       "type": "filter",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the validation result value.",
       "parameters": [
         {
           "name": "validation_result",
@@ -1054,19 +1438,28 @@
           "description": "The batch."
         }
       ],
+      "categories": [
+        "fields",
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Filter gravityviewimportfieldvalidate\n *\n * @param array $validation_result The current validation result.\n * @param object $row The row.\n * @param array $batch The batch.\n * @return array Modified validation_result\n */\nadd_filter( 'gravityviewimportfieldvalidate', 'my_custom_gravityviewimportfieldvalidate_filter', 10, 3 );\n\nfunction my_custom_gravityviewimportfieldvalidate_filter($validation_result, $row, $batch) {\n    // Modify $validation_result as needed\n\n    return $validation_result;\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 2693
       },
-      "url": "/docs/gravityimport/filters/gravityviewimportfieldvalidate/"
+      "url": "/docs/gravityimport/filters/gravityviewimportfieldvalidate/",
+      "related": [
+        "gravityview/import/field/unrequire"
+      ]
     },
     {
       "id": "gravityviewimporthaltsleep",
       "name": "gravityview/import/halt/sleep",
       "type": "filter",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the batch value.",
       "parameters": [
         {
           "name": "batch",
@@ -1074,19 +1467,27 @@
           "description": "The batch."
         }
       ],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Filter gravityviewimporthaltsleep\n *\n * @param array $batch The batch.\n * @return array Modified batch\n */\nadd_filter( 'gravityviewimporthaltsleep', 'my_custom_gravityviewimporthaltsleep_filter', 10, 1 );\n\nfunction my_custom_gravityviewimporthaltsleep_filter($batch) {\n    // Modify $batch as needed\n\n    return $batch;\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 928
       },
-      "url": "/docs/gravityimport/filters/gravityviewimporthaltsleep/"
+      "url": "/docs/gravityimport/filters/gravityviewimporthaltsleep/",
+      "related": [
+        "gravityview/import/halt/timeout"
+      ]
     },
     {
       "id": "gravityviewimporthalttimeout",
       "name": "gravityview/import/halt/timeout",
       "type": "filter",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the batch value.",
       "parameters": [
         {
           "name": "batch",
@@ -1094,19 +1495,27 @@
           "description": "The batch."
         }
       ],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Filter gravityviewimporthalttimeout\n *\n * @param array $batch The batch.\n * @return array Modified batch\n */\nadd_filter( 'gravityviewimporthalttimeout', 'my_custom_gravityviewimporthalttimeout_filter', 10, 1 );\n\nfunction my_custom_gravityviewimporthalttimeout_filter($batch) {\n    // Modify $batch as needed\n\n    return $batch;\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 909
       },
-      "url": "/docs/gravityimport/filters/gravityviewimporthalttimeout/"
+      "url": "/docs/gravityimport/filters/gravityviewimporthalttimeout/",
+      "related": [
+        "gravityview/import/halt/sleep"
+      ]
     },
     {
       "id": "gravityviewimporthas_resources",
       "name": "gravityview/import/has_resources",
       "type": "filter",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the  value.",
       "parameters": [
         {
           "name": "",
@@ -1114,19 +1523,31 @@
           "description": "The processor."
         }
       ],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Filter gravityviewimporthas_resources\n *\n * @param \\GravityKit\\GravityImport\\Processor $ The processor.\n * @return \\GravityKit\\GravityImport\\Processor Modified \n */\nadd_filter( 'gravityviewimporthas_resources', 'my_custom_gravityviewimporthas_resources_filter', 10, 1 );\n\nfunction my_custom_gravityviewimporthas_resources_filter($) {\n    // Modify $ as needed\n\n    return $;\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 268
       },
-      "url": "/docs/gravityimport/filters/gravityviewimporthas_resources/"
+      "url": "/docs/gravityimport/filters/gravityviewimporthas_resources/",
+      "related": [
+        "gravityview/import/config",
+        "gravityview/import/capabilities",
+        "gravityview/import/meta_fields",
+        "gravityview/import/unstrict",
+        "gravityview/import/user-agent"
+      ]
     },
     {
       "id": "gravityviewimportmeta_fields",
       "name": "gravityview/import/meta_fields",
       "type": "filter",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the  value.",
       "parameters": [
         {
           "name": "",
@@ -1134,19 +1555,32 @@
           "description": "Key-value array of known meta fields"
         }
       ],
+      "categories": [
+        "fields",
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Filter gravityviewimportmeta_fields\n *\n * @param array $ Key-value array of known meta fields\n * @return array Modified \n */\nadd_filter( 'gravityviewimportmeta_fields', 'my_custom_gravityviewimportmeta_fields_filter', 10, 1 );\n\nfunction my_custom_gravityviewimportmeta_fields_filter($) {\n    // Modify $ as needed\n\n    return $;\n}",
       "since": null,
       "source": {
         "file": "src/Core.php",
         "line": 230
       },
-      "url": "/docs/gravityimport/filters/gravityviewimportmeta_fields/"
+      "url": "/docs/gravityimport/filters/gravityviewimportmeta_fields/",
+      "related": [
+        "gravityview/import/config",
+        "gravityview/import/capabilities",
+        "gravityview/import/has_resources",
+        "gravityview/import/unstrict",
+        "gravityview/import/user-agent"
+      ]
     },
     {
       "id": "gravityviewimportparseexcerpt",
       "name": "gravityview/import/parse/excerpt",
       "type": "filter",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the batch value.",
       "parameters": [
         {
           "name": "batch",
@@ -1154,19 +1588,27 @@
           "description": "The batch."
         }
       ],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Filter gravityviewimportparseexcerpt\n *\n * @param array $batch The batch.\n * @return array Modified batch\n */\nadd_filter( 'gravityviewimportparseexcerpt', 'my_custom_gravityviewimportparseexcerpt_filter', 10, 1 );\n\nfunction my_custom_gravityviewimportparseexcerpt_filter($batch) {\n    // Modify $batch as needed\n\n    return $batch;\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 404
       },
-      "url": "/docs/gravityimport/filters/gravityviewimportparseexcerpt/"
+      "url": "/docs/gravityimport/filters/gravityviewimportparseexcerpt/",
+      "related": [
+        "gravityview/import/parse/typemap"
+      ]
     },
     {
       "id": "gravityviewimportparsetypemap",
       "name": "gravityview/import/parse/typemap",
       "type": "filter",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the column value.",
       "parameters": [
         {
           "name": "column",
@@ -1179,33 +1621,50 @@
           "description": "The batch."
         }
       ],
+      "categories": [
+        "views",
+        "import",
+        "maps"
+      ],
+      "example": "/**\n * Filter gravityviewimportparsetypemap\n *\n * @param string $column The column header.\n * @param array $batch The batch.\n * @return string Modified column\n */\nadd_filter( 'gravityviewimportparsetypemap', 'my_custom_gravityviewimportparsetypemap_filter', 10, 2 );\n\nfunction my_custom_gravityviewimportparsetypemap_filter($column, $batch) {\n    // Modify $column as needed\n\n    return $column;\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 3332
       },
-      "url": "/docs/gravityimport/filters/gravityviewimportparsetypemap/"
+      "url": "/docs/gravityimport/filters/gravityviewimportparsetypemap/",
+      "related": [
+        "gravityview/import/parse/excerpt"
+      ]
     },
     {
       "id": "gravityviewimportprocessorargs",
       "name": "gravityview/import/processor/args",
       "type": "filter",
       "product": "gravityimport",
-      "description": "Defined in `src/Processor.php` at line 61",
+      "description": "Filters during processor args processing.",
       "parameters": [],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Filter gravityviewimportprocessorargs\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gravityviewimportprocessorargs', 'my_custom_gravityviewimportprocessorargs_filter' );\n\nfunction my_custom_gravityviewimportprocessorargs_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 61
       },
-      "url": "/docs/gravityimport/filters/gravityviewimportprocessorargs/"
+      "url": "/docs/gravityimport/filters/gravityviewimportprocessorargs/",
+      "related": [
+        "gravityview/import/processor/init"
+      ]
     },
     {
       "id": "gravityviewimportrestcap",
       "name": "gravityview/import/rest/cap",
       "type": "filter",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the cap value.",
       "parameters": [
         {
           "name": "cap",
@@ -1223,19 +1682,26 @@
           "description": "The REST request."
         }
       ],
+      "categories": [
+        "views",
+        "import",
+        "api"
+      ],
+      "example": "/**\n * Filter gravityviewimportrestcap\n *\n * @param string $cap The required capability.\n * @param string $permission The accessed permission. Set to the permission check callback method name.\n * @param \\WP_REST_Request $request The REST request.\n * @return string Modified cap\n */\nadd_filter( 'gravityviewimportrestcap', 'my_custom_gravityviewimportrestcap_filter', 10, 3 );\n\nfunction my_custom_gravityviewimportrestcap_filter($cap, $permission, $request) {\n    // Modify $cap as needed\n\n    return $cap;\n}",
       "since": null,
       "source": {
         "file": "src/REST_Batch_Controller.php",
         "line": 166
       },
-      "url": "/docs/gravityimport/filters/gravityviewimportrestcap/"
+      "url": "/docs/gravityimport/filters/gravityviewimportrestcap/",
+      "related": []
     },
     {
       "id": "gravityviewimportrunbatch",
       "name": "gravityview/import/run/batch",
       "type": "filter",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the  value.",
       "parameters": [
         {
           "name": "",
@@ -1243,19 +1709,25 @@
           "description": "The processor."
         }
       ],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Filter gravityviewimportrunbatch\n *\n * @param \\GravityKit\\GravityImport\\Processor $ The processor.\n * @return \\GravityKit\\GravityImport\\Processor Modified \n */\nadd_filter( 'gravityviewimportrunbatch', 'my_custom_gravityviewimportrunbatch_filter', 10, 1 );\n\nfunction my_custom_gravityviewimportrunbatch_filter($) {\n    // Modify $ as needed\n\n    return $;\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 114
       },
-      "url": "/docs/gravityimport/filters/gravityviewimportrunbatch/"
+      "url": "/docs/gravityimport/filters/gravityviewimportrunbatch/",
+      "related": []
     },
     {
       "id": "gravityviewimportunstrict",
       "name": "gravityview/import/unstrict",
       "type": "filter",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the allow mismatched rows value.",
       "parameters": [
         {
           "name": "allow_mismatched_rows",
@@ -1268,19 +1740,31 @@
           "description": "The batch"
         }
       ],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Filter gravityviewimportunstrict\n *\n * @param bool $allow_mismatched_rows Default: true\n * @param array $batch The batch\n * @return bool Modified allow_mismatched_rows\n */\nadd_filter( 'gravityviewimportunstrict', 'my_custom_gravityviewimportunstrict_filter', 10, 2 );\n\nfunction my_custom_gravityviewimportunstrict_filter($allow_mismatched_rows, $batch) {\n    // Modify $allow_mismatched_rows as needed\n\n    return $allow_mismatched_rows;\n}",
       "since": "2.0: Changed default to true",
       "source": {
         "file": "src/Processor.php",
         "line": 966
       },
-      "url": "/docs/gravityimport/filters/gravityviewimportunstrict/"
+      "url": "/docs/gravityimport/filters/gravityviewimportunstrict/",
+      "related": [
+        "gravityview/import/config",
+        "gravityview/import/capabilities",
+        "gravityview/import/has_resources",
+        "gravityview/import/meta_fields",
+        "gravityview/import/user-agent"
+      ]
     },
     {
       "id": "gravityviewimportuser-agent",
       "name": "gravityview/import/user-agent",
       "type": "filter",
       "product": "gravityimport",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the entry value.",
       "parameters": [
         {
           "name": "entry",
@@ -1298,12 +1782,24 @@
           "description": "The row data."
         }
       ],
+      "categories": [
+        "views",
+        "import"
+      ],
+      "example": "/**\n * Filter gravityviewimportuser-agent\n *\n * @param array $entry The entry.\n * @param array $batch The batch.\n * @param array $data The row data.\n * @return array Modified entry\n */\nadd_filter( 'gravityviewimportuser-agent', 'my_custom_gravityviewimportuser_agent_filter', 10, 3 );\n\nfunction my_custom_gravityviewimportuser_agent_filter($entry, $batch, $data) {\n    // Modify $entry as needed\n\n    return $entry;\n}",
       "since": null,
       "source": {
         "file": "src/Processor.php",
         "line": 2854
       },
-      "url": "/docs/gravityimport/filters/gravityviewimportuser-agent/"
+      "url": "/docs/gravityimport/filters/gravityviewimportuser-agent/",
+      "related": [
+        "gravityview/import/config",
+        "gravityview/import/capabilities",
+        "gravityview/import/has_resources",
+        "gravityview/import/meta_fields",
+        "gravityview/import/unstrict"
+      ]
     }
   ],
   "stats": {

@@ -1,5 +1,5 @@
 {
-  "generated": "2025-12-15T23:45:33.844Z",
+  "generated": "2025-12-15T23:52:08.144Z",
   "product": {
     "id": "gravityview-ratings-reviews",
     "label": "GravityView - Ratings & Reviews",
@@ -60,12 +60,20 @@
           "description": "The post ID."
         }
       ],
+      "categories": [
+        "forms"
+      ],
+      "example": "/**\n * Hook into comment_form\n *\n * @param int $post_id The post ID.\n */\nadd_action( 'comment_form', 'my_custom_comment_form_handler', 10, 1 );\n\nfunction my_custom_comment_form_handler($post_id) {\n    // Your custom code here\n}",
       "since": "0.1.0",
       "source": {
         "file": "templates/review-form.php",
         "line": 159
       },
-      "url": "/docs/gravityview-ratings-reviews/actions/comment_form/"
+      "url": "/docs/gravityview-ratings-reviews/actions/comment_form/",
+      "related": [
+        "comment_form_after",
+        "comment_form_before"
+      ]
     },
     {
       "id": "comment_form_after",
@@ -74,12 +82,21 @@
       "product": "gravityview-ratings-reviews",
       "description": "Fires after the comment form.",
       "parameters": [],
+      "categories": [
+        "forms",
+        "after"
+      ],
+      "example": "/**\n * Hook into comment_form_after\n *\n * @return void\n */\nadd_action( 'comment_form_after', 'my_custom_comment_form_after_handler' );\n\nfunction my_custom_comment_form_after_handler() {\n    // Your custom code here\n}",
       "since": "0.1.0",
       "source": {
         "file": "templates/review-form.php",
         "line": 173
       },
-      "url": "/docs/gravityview-ratings-reviews/actions/comment_form_after/"
+      "url": "/docs/gravityview-ratings-reviews/actions/comment_form_after/",
+      "related": [
+        "comment_form",
+        "comment_form_before"
+      ]
     },
     {
       "id": "comment_form_after_fields",
@@ -88,12 +105,19 @@
       "product": "gravityview-ratings-reviews",
       "description": "Fires after the comment fields in the comment form.",
       "parameters": [],
+      "categories": [
+        "fields",
+        "forms",
+        "after"
+      ],
+      "example": "/**\n * Hook into comment_form_after_fields\n *\n * @return void\n */\nadd_action( 'comment_form_after_fields', 'my_custom_comment_form_after_fields_handler' );\n\nfunction my_custom_comment_form_after_fields_handler() {\n    // Your custom code here\n}",
       "since": "0.1.0",
       "source": {
         "file": "templates/review-form.php",
         "line": 133
       },
-      "url": "/docs/gravityview-ratings-reviews/actions/comment_form_after_fields/"
+      "url": "/docs/gravityview-ratings-reviews/actions/comment_form_after_fields/",
+      "related": []
     },
     {
       "id": "comment_form_before",
@@ -102,12 +126,21 @@
       "product": "gravityview-ratings-reviews",
       "description": "Fires before the comment form.",
       "parameters": [],
+      "categories": [
+        "forms",
+        "before"
+      ],
+      "example": "/**\n * Hook into comment_form_before\n *\n * @return void\n */\nadd_action( 'comment_form_before', 'my_custom_comment_form_before_handler' );\n\nfunction my_custom_comment_form_before_handler() {\n    // Your custom code here\n}",
       "since": "0.1.0",
       "source": {
         "file": "templates/review-form.php",
         "line": 23
       },
-      "url": "/docs/gravityview-ratings-reviews/actions/comment_form_before/"
+      "url": "/docs/gravityview-ratings-reviews/actions/comment_form_before/",
+      "related": [
+        "comment_form",
+        "comment_form_after"
+      ]
     },
     {
       "id": "comment_form_before_fields",
@@ -116,12 +149,19 @@
       "product": "gravityview-ratings-reviews",
       "description": "Fires before the comment fields in the comment form.",
       "parameters": [],
+      "categories": [
+        "fields",
+        "forms",
+        "before"
+      ],
+      "example": "/**\n * Hook into comment_form_before_fields\n *\n * @return void\n */\nadd_action( 'comment_form_before_fields', 'my_custom_comment_form_before_fields_handler' );\n\nfunction my_custom_comment_form_before_fields_handler() {\n    // Your custom code here\n}",
       "since": "0.1.0",
       "source": {
         "file": "templates/review-form.php",
         "line": 114
       },
-      "url": "/docs/gravityview-ratings-reviews/actions/comment_form_before_fields/"
+      "url": "/docs/gravityview-ratings-reviews/actions/comment_form_before_fields/",
+      "related": []
     },
     {
       "id": "comment_form_comments_closed",
@@ -130,12 +170,17 @@
       "product": "gravityview-ratings-reviews",
       "description": "Fires after the comment form if comments are closed.",
       "parameters": [],
+      "categories": [
+        "forms"
+      ],
+      "example": "/**\n * Hook into comment_form_comments_closed\n *\n * @return void\n */\nadd_action( 'comment_form_comments_closed', 'my_custom_comment_form_comments_closed_handler' );\n\nfunction my_custom_comment_form_comments_closed_handler() {\n    // Your custom code here\n}",
       "since": "0.1.0",
       "source": {
         "file": "templates/review-form.php",
         "line": 180
       },
-      "url": "/docs/gravityview-ratings-reviews/actions/comment_form_comments_closed/"
+      "url": "/docs/gravityview-ratings-reviews/actions/comment_form_comments_closed/",
+      "related": []
     },
     {
       "id": "comment_form_logged_in_after",
@@ -155,12 +200,20 @@
           "description": "If the commenter is a registered user, the display name, blank otherwise."
         }
       ],
+      "categories": [
+        "forms",
+        "after"
+      ],
+      "example": "/**\n * Hook into comment_form_logged_in_after\n *\n * @param array $commenter An array containing the comment author's username, email, and URL.\n * @param string $user_identity If the commenter is a registered user, the display name, blank otherwise.\n */\nadd_action( 'comment_form_logged_in_after', 'my_custom_comment_form_logged_in_after_handler', 10, 2 );\n\nfunction my_custom_comment_form_logged_in_after_handler($commenter, $user_identity) {\n    // Your custom code here\n}",
       "since": "0.1.0",
       "source": {
         "file": "templates/review-form.php",
         "line": 104
       },
-      "url": "/docs/gravityview-ratings-reviews/actions/comment_form_logged_in_after/"
+      "url": "/docs/gravityview-ratings-reviews/actions/comment_form_logged_in_after/",
+      "related": [
+        "comment_form_logged_in"
+      ]
     },
     {
       "id": "comment_form_must_log_in_after",
@@ -169,12 +222,18 @@
       "product": "gravityview-ratings-reviews",
       "description": "Fires after the HTML-formatted 'must log in after' message in the comment form.",
       "parameters": [],
+      "categories": [
+        "forms",
+        "after"
+      ],
+      "example": "/**\n * Hook into comment_form_must_log_in_after\n *\n * @return void\n */\nadd_action( 'comment_form_must_log_in_after', 'my_custom_comment_form_must_log_in_after_handler' );\n\nfunction my_custom_comment_form_must_log_in_after_handler() {\n    // Your custom code here\n}",
       "since": "0.1.0",
       "source": {
         "file": "templates/review-form.php",
         "line": 35
       },
-      "url": "/docs/gravityview-ratings-reviews/actions/comment_form_must_log_in_after/"
+      "url": "/docs/gravityview-ratings-reviews/actions/comment_form_must_log_in_after/",
+      "related": []
     },
     {
       "id": "comment_form_top",
@@ -183,12 +242,17 @@
       "product": "gravityview-ratings-reviews",
       "description": "Fires at the top of the comment form, inside the &lt;form&gt; tag.",
       "parameters": [],
+      "categories": [
+        "forms"
+      ],
+      "example": "/**\n * Hook into comment_form_top\n *\n * @return void\n */\nadd_action( 'comment_form_top', 'my_custom_comment_form_top_handler' );\n\nfunction my_custom_comment_form_top_handler() {\n    // Your custom code here\n}",
       "since": "0.1.0",
       "source": {
         "file": "templates/review-form.php",
         "line": 76
       },
-      "url": "/docs/gravityview-ratings-reviews/actions/comment_form_top/"
+      "url": "/docs/gravityview-ratings-reviews/actions/comment_form_top/",
+      "related": []
     },
     {
       "id": "gravityview_ratings_reviews_after_enqueue",
@@ -197,12 +261,18 @@
       "product": "gravityview-ratings-reviews",
       "description": "Fires after required scripts and styles are enqueued.",
       "parameters": [],
+      "categories": [
+        "views",
+        "after"
+      ],
+      "example": "/**\n * Hook into gravityview_ratings_reviews_after_enqueue\n *\n * @return void\n */\nadd_action( 'gravityview_ratings_reviews_after_enqueue', 'my_custom_gravityview_ratings_reviews_after_enqueue_handler' );\n\nfunction my_custom_gravityview_ratings_reviews_after_enqueue_handler() {\n    // Your custom code here\n}",
       "since": "0.1.0",
       "source": {
         "file": "includes/class-component.php",
         "line": 82
       },
-      "url": "/docs/gravityview-ratings-reviews/actions/gravityview_ratings_reviews_after_enqueue/"
+      "url": "/docs/gravityview-ratings-reviews/actions/gravityview_ratings_reviews_after_enqueue/",
+      "related": []
     },
     {
       "id": "gravityview_ratings_reviews_before_enqueue",
@@ -211,12 +281,18 @@
       "product": "gravityview-ratings-reviews",
       "description": "Fires before required scripts and styles are enqueued.",
       "parameters": [],
+      "categories": [
+        "views",
+        "before"
+      ],
+      "example": "/**\n * Hook into gravityview_ratings_reviews_before_enqueue\n *\n * @return void\n */\nadd_action( 'gravityview_ratings_reviews_before_enqueue', 'my_custom_gravityview_ratings_reviews_before_enqueue_handler' );\n\nfunction my_custom_gravityview_ratings_reviews_before_enqueue_handler() {\n    // Your custom code here\n}",
       "since": "0.1.0",
       "source": {
         "file": "includes/class-component.php",
         "line": 72
       },
-      "url": "/docs/gravityview-ratings-reviews/actions/gravityview_ratings_reviews_before_enqueue/"
+      "url": "/docs/gravityview-ratings-reviews/actions/gravityview_ratings_reviews_before_enqueue/",
+      "related": []
     },
     {
       "id": "limited_to_one_review_after",
@@ -225,12 +301,18 @@
       "product": "gravityview-ratings-reviews",
       "description": "Fires after the HTML-formatted 'limited to one review' message.",
       "parameters": [],
+      "categories": [
+        "views",
+        "after"
+      ],
+      "example": "/**\n * Hook into limited_to_one_review_after\n *\n * @return void\n */\nadd_action( 'limited_to_one_review_after', 'my_custom_limited_to_one_review_after_handler' );\n\nfunction my_custom_limited_to_one_review_after_handler() {\n    // Your custom code here\n}",
       "since": "0.1.0",
       "source": {
         "file": "templates/review-form.php",
         "line": 64
       },
-      "url": "/docs/gravityview-ratings-reviews/actions/limited_to_one_review_after/"
+      "url": "/docs/gravityview-ratings-reviews/actions/limited_to_one_review_after/",
+      "related": []
     },
     {
       "id": "comment_form_field_comment",
@@ -245,12 +327,18 @@
           "description": "The content of the comment textarea field."
         }
       ],
+      "categories": [
+        "fields",
+        "forms"
+      ],
+      "example": "/**\n * Filter comment_form_field_comment\n *\n * @param string $args_comment_field The content of the comment textarea field.\n * @return string Modified args_comment_field\n */\nadd_filter( 'comment_form_field_comment', 'my_custom_comment_form_field_comment_filter', 10, 1 );\n\nfunction my_custom_comment_form_field_comment_filter($args_comment_field) {\n    // Modify $args_comment_field as needed\n\n    return $args_comment_field;\n}",
       "since": "0.1.0",
       "source": {
         "file": "templates/review-form.php",
         "line": 144
       },
-      "url": "/docs/gravityview-ratings-reviews/filters/comment_form_field_comment/"
+      "url": "/docs/gravityview-ratings-reviews/filters/comment_form_field_comment/",
+      "related": []
     },
     {
       "id": "comment_form_field_name",
@@ -265,12 +353,18 @@
           "description": "The HTML-formatted output of the comment form field."
         }
       ],
+      "categories": [
+        "fields",
+        "forms"
+      ],
+      "example": "/**\n * Filter comment_form_field_name\n *\n * @param string $field The HTML-formatted output of the comment form field.\n * @return string Modified field\n */\nadd_filter( 'comment_form_field_name', 'my_custom_comment_form_field_name_filter', 10, 1 );\n\nfunction my_custom_comment_form_field_name_filter($field) {\n    // Modify $field as needed\n\n    return $field;\n}",
       "since": "0.1.0",
       "source": {
         "file": "templates/review-form.php",
         "line": 126
       },
-      "url": "/docs/gravityview-ratings-reviews/filters/comment_form_field_name/"
+      "url": "/docs/gravityview-ratings-reviews/filters/comment_form_field_name/",
+      "related": []
     },
     {
       "id": "comment_form_logged_in",
@@ -295,12 +389,19 @@
           "description": "If the commenter is a registered user, the display name, blank otherwise."
         }
       ],
+      "categories": [
+        "forms"
+      ],
+      "example": "/**\n * Filter comment_form_logged_in\n *\n * @param string $args_logged_in The logged-in-as HTML-formatted message.\n * @param array $commenter An array containing the comment author's username, email, and URL.\n * @param string $user_identity If the commenter is a registered user, the display name, blank otherwise.\n * @return string Modified args_logged_in\n */\nadd_filter( 'comment_form_logged_in', 'my_custom_comment_form_logged_in_filter', 10, 3 );\n\nfunction my_custom_comment_form_logged_in_filter($args_logged_in, $commenter, $user_identity) {\n    // Modify $args_logged_in as needed\n\n    return $args_logged_in;\n}",
       "since": "0.1.0",
       "source": {
         "file": "templates/review-form.php",
         "line": 91
       },
-      "url": "/docs/gravityview-ratings-reviews/filters/comment_form_logged_in/"
+      "url": "/docs/gravityview-ratings-reviews/filters/comment_form_logged_in/",
+      "related": [
+        "comment_form_logged_in_after"
+      ]
     },
     {
       "id": "edit_comment_link",
@@ -325,12 +426,17 @@
           "description": "Anchor tag for the edit link."
         }
       ],
+      "categories": [
+        "editing"
+      ],
+      "example": "/**\n * Filter edit_comment_link\n *\n * @param int $comment_id Comment ID.\n * @param string $text Anchor text.\n * @param string $link Anchor tag for the edit link.\n * @return int Modified comment_id\n */\nadd_filter( 'edit_comment_link', 'my_custom_edit_comment_link_filter', 10, 3 );\n\nfunction my_custom_edit_comment_link_filter($comment_id, $text, $link) {\n    // Modify $comment_id as needed\n\n    return $comment_id;\n}",
       "since": "0.1.0",
       "source": {
         "file": "includes/class-helper.php",
         "line": 555
       },
-      "url": "/docs/gravityview-ratings-reviews/filters/edit_comment_link/"
+      "url": "/docs/gravityview-ratings-reviews/filters/edit_comment_link/",
+      "related": []
     },
     {
       "id": "get_edit_comment_link",
@@ -345,19 +451,24 @@
           "description": "The edit link."
         }
       ],
+      "categories": [
+        "editing"
+      ],
+      "example": "/**\n * Filter get_edit_comment_link\n *\n * @param string $location The edit link.\n * @return string Modified location\n */\nadd_filter( 'get_edit_comment_link', 'my_custom_get_edit_comment_link_filter', 10, 1 );\n\nfunction my_custom_get_edit_comment_link_filter($location) {\n    // Modify $location as needed\n\n    return $location;\n}",
       "since": null,
       "source": {
         "file": "includes/class-helper.php",
         "line": 515
       },
-      "url": "/docs/gravityview-ratings-reviews/filters/get_edit_comment_link/"
+      "url": "/docs/gravityview-ratings-reviews/filters/get_edit_comment_link/",
+      "related": []
     },
     {
       "id": "gkratings-reviewsrating-required",
       "name": "gk/ratings-reviews/rating-required",
       "type": "filter",
       "product": "gravityview-ratings-reviews",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the is rating required value.",
       "parameters": [
         {
           "name": "is_rating_required",
@@ -370,12 +481,17 @@
           "description": "null`"
         }
       ],
+      "categories": [
+        "views"
+      ],
+      "example": "/**\n * Filter gkratings-reviewsrating-required\n *\n * @param bool $is_rating_required Whether the rating is required.\n * @param object\\ $view null`\n * @return bool Modified is_rating_required\n */\nadd_filter( 'gkratings-reviewsrating-required', 'my_custom_gkratings_reviewsrating_required_filter', 10, 2 );\n\nfunction my_custom_gkratings_reviewsrating_required_filter($is_rating_required, $view) {\n    // Modify $is_rating_required as needed\n\n    return $is_rating_required;\n}",
       "since": null,
       "source": {
         "file": "includes/class-helper.php",
         "line": 1704
       },
-      "url": "/docs/gravityview-ratings-reviews/filters/gkratings-reviewsrating-required/"
+      "url": "/docs/gravityview-ratings-reviews/filters/gkratings-reviewsrating-required/",
+      "related": []
     },
     {
       "id": "gravityview_ratings_reviews_merge_tags",
@@ -390,12 +506,17 @@
           "description": "Available merge tags in the <code>\\{tag\\}</code> =&gt; <code>Label</code> format."
         }
       ],
+      "categories": [
+        "views"
+      ],
+      "example": "/**\n * Filter gravityview_ratings_reviews_merge_tags\n *\n * @param array $merge_tags Available merge tags in the <code>\\{tag\\}</code> =&gt; <code>Label</code> format.\n * @return array Modified merge_tags\n */\nadd_filter( 'gravityview_ratings_reviews_merge_tags', 'my_custom_gravityview_ratings_reviews_merge_tags_filter', 10, 1 );\n\nfunction my_custom_gravityview_ratings_reviews_merge_tags_filter($merge_tags) {\n    // Modify $merge_tags as needed\n\n    return $merge_tags;\n}",
       "since": "2.3.0",
       "source": {
         "file": "includes/class-review.php",
         "line": 1230
       },
-      "url": "/docs/gravityview-ratings-reviews/filters/gravityview_ratings_reviews_merge_tags/"
+      "url": "/docs/gravityview-ratings-reviews/filters/gravityview_ratings_reviews_merge_tags/",
+      "related": []
     },
     {
       "id": "gravityview_ratings_reviews_replace_merge_tag",
@@ -435,19 +556,24 @@
           "description": "Gravity Forms entry data."
         }
       ],
+      "categories": [
+        "views"
+      ],
+      "example": "/**\n * Filter gravityview_ratings_reviews_replace_merge_tag\n *\n * @param int\\ $replacement float\\\n * @param string $merge_tag Merge tag to replace.\n * @param string $text Text where the replacement takes place.\n * @param array $entry_ratings_detailed Entry ratings data generated by \\{@see \\GravityView_Ratings_Reviews_Helper::get_ratings_detailed\\}\n * @param array $form Gravity Forms form data.\n * @param array $entry Gravity Forms entry data.\n * @return int\\ Modified replacement\n */\nadd_filter( 'gravityview_ratings_reviews_replace_merge_tag', 'my_custom_gravityview_ratings_reviews_replace_merge_tag_filter', 10, 6 );\n\nfunction my_custom_gravityview_ratings_reviews_replace_merge_tag_filter($replacement, $merge_tag, $text, $entry_ratings_detailed, $form, $entry) {\n    // Modify $replacement as needed\n\n    return $replacement;\n}",
       "since": "2.3.0",
       "source": {
         "file": "includes/class-review.php",
         "line": 1347
       },
-      "url": "/docs/gravityview-ratings-reviews/filters/gravityview_ratings_reviews_replace_merge_tag/"
+      "url": "/docs/gravityview-ratings-reviews/filters/gravityview_ratings_reviews_replace_merge_tag/",
+      "related": []
     },
     {
       "id": "gv_ratings_reviews_allow_empty_comments",
       "name": "gv_ratings_reviews_allow_empty_comments",
       "type": "filter",
       "product": "gravityview-ratings-reviews",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the allowed value.",
       "parameters": [
         {
           "name": "allowed",
@@ -465,12 +591,17 @@
           "description": "The ID of the submitted comment"
         }
       ],
+      "categories": [
+        "views"
+      ],
+      "example": "/**\n * Filter gv_ratings_reviews_allow_empty_comments\n *\n * @param bool $allowed True or false\n * @param int $view_id The ID of the current View\n * @param int $comment_post_ID The ID of the submitted comment\n * @return bool Modified allowed\n */\nadd_filter( 'gv_ratings_reviews_allow_empty_comments', 'my_custom_gv_ratings_reviews_allow_empty_comments_filter', 10, 3 );\n\nfunction my_custom_gv_ratings_reviews_allow_empty_comments_filter($allowed, $view_id, $comment_post_ID) {\n    // Modify $allowed as needed\n\n    return $allowed;\n}",
       "since": "1.3",
       "source": {
         "file": "includes/class-review.php",
         "line": 318
       },
-      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_allow_empty_comments/"
+      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_allow_empty_comments/",
+      "related": []
     },
     {
       "id": "gv_ratings_reviews_disable_downvoting",
@@ -485,12 +616,17 @@
           "description": "Whether to disable downvoting. Default: false or the value set in the View settings."
         }
       ],
+      "categories": [
+        "views"
+      ],
+      "example": "/**\n * Filter gv_ratings_reviews_disable_downvoting\n *\n * @param bool $disable_downvoting Whether to disable downvoting. Default: false or the value set in the View settings.\n * @return bool Modified disable_downvoting\n */\nadd_filter( 'gv_ratings_reviews_disable_downvoting', 'my_custom_gv_ratings_reviews_disable_downvoting_filter', 10, 1 );\n\nfunction my_custom_gv_ratings_reviews_disable_downvoting_filter($disable_downvoting) {\n    // Modify $disable_downvoting as needed\n\n    return $disable_downvoting;\n}",
       "since": "2.3.0",
       "source": {
         "file": "includes/class-helper.php",
         "line": 1766
       },
-      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_disable_downvoting/"
+      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_disable_downvoting/",
+      "related": []
     },
     {
       "id": "gv_ratings_reviews_display_reviews",
@@ -510,19 +646,24 @@
           "description": "ID of the View being displayed"
         }
       ],
+      "categories": [
+        "views"
+      ],
+      "example": "/**\n * Filter gv_ratings_reviews_display_reviews\n *\n * @param bool $display_reviews Whether the commments are open and it's not Edit Entry screen\n * @param int $view_id ID of the View being displayed\n * @return bool Modified display_reviews\n */\nadd_filter( 'gv_ratings_reviews_display_reviews', 'my_custom_gv_ratings_reviews_display_reviews_filter', 10, 2 );\n\nfunction my_custom_gv_ratings_reviews_display_reviews_filter($display_reviews, $view_id) {\n    // Modify $display_reviews as needed\n\n    return $display_reviews;\n}",
       "since": "1.0.3-beta",
       "source": {
         "file": "includes/class-review.php",
         "line": 769
       },
-      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_display_reviews/"
+      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_display_reviews/",
+      "related": []
     },
     {
       "id": "gv_ratings_reviews_get_reviews_atts",
       "name": "gv_ratings_reviews_get_reviews_atts",
       "type": "filter",
       "product": "gravityview-ratings-reviews",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the status value.",
       "parameters": [
         {
           "name": "status",
@@ -540,19 +681,24 @@
           "description": "\\WP_Post`"
         }
       ],
+      "categories": [
+        "views"
+      ],
+      "example": "/**\n * Filter gv_ratings_reviews_get_reviews_atts\n *\n * @param string $status Status for reviews. Default: approve\n * @param array $atts Settings for get_comments()\n * @param int\\ $post \\WP_Post`\n * @return string Modified status\n */\nadd_filter( 'gv_ratings_reviews_get_reviews_atts', 'my_custom_gv_ratings_reviews_get_reviews_atts_filter', 10, 3 );\n\nfunction my_custom_gv_ratings_reviews_get_reviews_atts_filter($status, $atts, $post) {\n    // Modify $status as needed\n\n    return $status;\n}",
       "since": "2.0.1",
       "source": {
         "file": "includes/class-helper.php",
         "line": 106
       },
-      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_get_reviews_atts/"
+      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_get_reviews_atts/",
+      "related": []
     },
     {
       "id": "gv_ratings_reviews_is_user_allowed_to_review",
       "name": "gv_ratings_reviews_is_user_allowed_to_review",
       "type": "filter",
       "product": "gravityview-ratings-reviews",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the reviewdata value.",
       "parameters": [
         {
           "name": "reviewdata",
@@ -570,12 +716,17 @@
           "description": "\\WP_Error`"
         }
       ],
+      "categories": [
+        "views"
+      ],
+      "example": "/**\n * Filter gv_ratings_reviews_is_user_allowed_to_review\n *\n * @param array $reviewdata Comment data array, including author, email,\n * @param int\\ $post_bridge \\WP_Post`\n * @param bool\\ $is_allowed \\WP_Error`\n * @return array Modified reviewdata\n */\nadd_filter( 'gv_ratings_reviews_is_user_allowed_to_review', 'my_custom_gv_ratings_reviews_is_user_allowed_to_review_filter', 10, 3 );\n\nfunction my_custom_gv_ratings_reviews_is_user_allowed_to_review_filter($reviewdata, $post_bridge, $is_allowed) {\n    // Modify $reviewdata as needed\n\n    return $reviewdata;\n}",
       "since": "2.0.1",
       "source": {
         "file": "includes/class-helper.php",
         "line": 1507
       },
-      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_is_user_allowed_to_review/"
+      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_is_user_allowed_to_review/",
+      "related": []
     },
     {
       "id": "gv_ratings_reviews_js_vars",
@@ -584,19 +735,24 @@
       "product": "gravityview-ratings-reviews",
       "description": "Filter the array of data to be localized for javascript",
       "parameters": [],
+      "categories": [
+        "views"
+      ],
+      "example": "/**\n * Filter gv_ratings_reviews_js_vars\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gv_ratings_reviews_js_vars', 'my_custom_gv_ratings_reviews_js_vars_filter' );\n\nfunction my_custom_gv_ratings_reviews_js_vars_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
       "since": "1.3",
       "source": {
         "file": "includes/class-review.php",
         "line": 1194
       },
-      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_js_vars/"
+      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_js_vars/",
+      "related": []
     },
     {
       "id": "gv_ratings_reviews_post_bridge_title",
       "name": "gv_ratings_reviews_post_bridge_title",
       "type": "filter",
       "product": "gravityview-ratings-reviews",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the post bridge title value.",
       "parameters": [
         {
           "name": "post_bridge_title",
@@ -609,19 +765,25 @@
           "description": "Gravity Forms entry to create the post bridge for."
         }
       ],
+      "categories": [
+        "views",
+        "after"
+      ],
+      "example": "/**\n * Filter gv_ratings_reviews_post_bridge_title\n *\n * @param string $post_bridge_title Existing title format: \"GF entry ID %d, GF form ID %d\"\n * @param array $entry Gravity Forms entry to create the post bridge for.\n * @return string Modified post_bridge_title\n */\nadd_filter( 'gv_ratings_reviews_post_bridge_title', 'my_custom_gv_ratings_reviews_post_bridge_title_filter', 10, 2 );\n\nfunction my_custom_gv_ratings_reviews_post_bridge_title_filter($post_bridge_title, $entry) {\n    // Modify $post_bridge_title as needed\n\n    return $post_bridge_title;\n}",
       "since": null,
       "source": {
         "file": "includes/class-post-bridge.php",
         "line": 169
       },
-      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_post_bridge_title/"
+      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_post_bridge_title/",
+      "related": []
     },
     {
       "id": "gv_ratings_reviews_ratings_allowed",
       "name": "gv_ratings_reviews_ratings_allowed",
       "type": "filter",
       "product": "gravityview-ratings-reviews",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the allow ratings value.",
       "parameters": [
         {
           "name": "allow_ratings",
@@ -644,12 +806,17 @@
           "description": "array\\"
         }
       ],
+      "categories": [
+        "views"
+      ],
+      "example": "/**\n * Filter gv_ratings_reviews_ratings_allowed\n *\n * @param bool $allow_ratings True: Yes, allow ratings; false: no, don't allow ratings\n * @param object\\ $form array\\\n * @param object\\ $entry array\\\n * @param object\\ $view array\\\n * @return bool Modified allow_ratings\n */\nadd_filter( 'gv_ratings_reviews_ratings_allowed', 'my_custom_gv_ratings_reviews_ratings_allowed_filter', 10, 4 );\n\nfunction my_custom_gv_ratings_reviews_ratings_allowed_filter($allow_ratings, $form, $entry, $view) {\n    // Modify $allow_ratings as needed\n\n    return $allow_ratings;\n}",
       "since": null,
       "source": {
         "file": "includes/class-helper.php",
         "line": 1680
       },
-      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_ratings_allowed/"
+      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_ratings_allowed/",
+      "related": []
     },
     {
       "id": "gv_ratings_reviews_review_form_fields",
@@ -664,12 +831,19 @@
           "description": "The default comment fields."
         }
       ],
+      "categories": [
+        "fields",
+        "views",
+        "forms"
+      ],
+      "example": "/**\n * Filter gv_ratings_reviews_review_form_fields\n *\n * @param array $fields The default comment fields.\n * @return array Modified fields\n */\nadd_filter( 'gv_ratings_reviews_review_form_fields', 'my_custom_gv_ratings_reviews_review_form_fields_filter', 10, 1 );\n\nfunction my_custom_gv_ratings_reviews_review_form_fields_filter($fields) {\n    // Modify $fields as needed\n\n    return $fields;\n}",
       "since": "0.1.0",
       "source": {
         "file": "includes/class-review.php",
         "line": 1111
       },
-      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_review_form_fields/"
+      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_review_form_fields/",
+      "related": []
     },
     {
       "id": "gv_ratings_reviews_review_form_settings",
@@ -684,19 +858,25 @@
           "description": "The default comment form arguments."
         }
       ],
+      "categories": [
+        "views",
+        "forms"
+      ],
+      "example": "/**\n * Filter gv_ratings_reviews_review_form_settings\n *\n * @param array $defaults The default comment form arguments.\n * @return array Modified defaults\n */\nadd_filter( 'gv_ratings_reviews_review_form_settings', 'my_custom_gv_ratings_reviews_review_form_settings_filter', 10, 1 );\n\nfunction my_custom_gv_ratings_reviews_review_form_settings_filter($defaults) {\n    // Modify $defaults as needed\n\n    return $defaults;\n}",
       "since": "1.3",
       "source": {
         "file": "includes/class-review.php",
         "line": 1147
       },
-      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_review_form_settings/"
+      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_review_form_settings/",
+      "related": []
     },
     {
       "id": "gv_ratings_reviews_reviews_allowed",
       "name": "gv_ratings_reviews_reviews_allowed",
       "type": "filter",
       "product": "gravityview-ratings-reviews",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the allow ratings value.",
       "parameters": [
         {
           "name": "allow_ratings",
@@ -719,12 +899,17 @@
           "description": "array\\"
         }
       ],
+      "categories": [
+        "views"
+      ],
+      "example": "/**\n * Filter gv_ratings_reviews_reviews_allowed\n *\n * @param bool $allow_ratings True: Yes, allow reviews; false: no, don't allow reviews\n * @param array\\ $form int`\n * @param array\\ $entry int`\n * @param \\GravityView_View\\ $view array\\\n * @return bool Modified allow_ratings\n */\nadd_filter( 'gv_ratings_reviews_reviews_allowed', 'my_custom_gv_ratings_reviews_reviews_allowed_filter', 10, 4 );\n\nfunction my_custom_gv_ratings_reviews_reviews_allowed_filter($allow_ratings, $form, $entry, $view) {\n    // Modify $allow_ratings as needed\n\n    return $allow_ratings;\n}",
       "since": null,
       "source": {
         "file": "includes/class-helper.php",
         "line": 1734
       },
-      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_reviews_allowed/"
+      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_reviews_allowed/",
+      "related": []
     },
     {
       "id": "gv_ratings_reviews_star_rating",
@@ -744,19 +929,24 @@
           "description": "HTML element with a star rating"
         }
       ],
+      "categories": [
+        "views"
+      ],
+      "example": "/**\n * Filter gv_ratings_reviews_star_rating\n *\n * @param array $r Optional array of star ratings arguments.\n * @param string $output HTML element with a star rating\n * @return array Modified r\n */\nadd_filter( 'gv_ratings_reviews_star_rating', 'my_custom_gv_ratings_reviews_star_rating_filter', 10, 2 );\n\nfunction my_custom_gv_ratings_reviews_star_rating_filter($r, $output) {\n    // Modify $r as needed\n\n    return $r;\n}",
       "since": "0.1.0",
       "source": {
         "file": "includes/class-helper.php",
         "line": 934
       },
-      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_star_rating/"
+      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_star_rating/",
+      "related": []
     },
     {
       "id": "gv_ratings_reviews_star_rating_titles",
       "name": "gv_ratings_reviews_star_rating_titles",
       "type": "filter",
       "product": "gravityview-ratings-reviews",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the stars value.",
       "parameters": [
         {
           "name": "stars",
@@ -764,19 +954,24 @@
           "description": "The array of star ratings"
         }
       ],
+      "categories": [
+        "views"
+      ],
+      "example": "/**\n * Filter gv_ratings_reviews_star_rating_titles\n *\n * @param array $stars The array of star ratings\n * @return array Modified stars\n */\nadd_filter( 'gv_ratings_reviews_star_rating_titles', 'my_custom_gv_ratings_reviews_star_rating_titles_filter', 10, 1 );\n\nfunction my_custom_gv_ratings_reviews_star_rating_titles_filter($stars) {\n    // Modify $stars as needed\n\n    return $stars;\n}",
       "since": "0.1.1",
       "source": {
         "file": "includes/class-helper.php",
         "line": 796
       },
-      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_star_rating_titles/"
+      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_star_rating_titles/",
+      "related": []
     },
     {
       "id": "gv_ratings_reviews_use_advanced_sorting",
       "name": "gv_ratings_reviews_use_advanced_sorting",
       "type": "filter",
       "product": "gravityview-ratings-reviews",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the use advanced sorting value.",
       "parameters": [
         {
           "name": "use_advanced_sorting",
@@ -789,12 +984,17 @@
           "description": "Gravity Forms form array"
         }
       ],
+      "categories": [
+        "views"
+      ],
+      "example": "/**\n * Filter gv_ratings_reviews_use_advanced_sorting\n *\n * @param bool $use_advanced_sorting Whether to add advanced sorting options (sort by 1 star ratings, 2 stars, etc) Default: false\n * @param array $form Gravity Forms form array\n * @return bool Modified use_advanced_sorting\n */\nadd_filter( 'gv_ratings_reviews_use_advanced_sorting', 'my_custom_gv_ratings_reviews_use_advanced_sorting_filter', 10, 2 );\n\nfunction my_custom_gv_ratings_reviews_use_advanced_sorting_filter($use_advanced_sorting, $form) {\n    // Modify $use_advanced_sorting as needed\n\n    return $use_advanced_sorting;\n}",
       "since": null,
       "source": {
         "file": "includes/class-form-fields.php",
         "line": 181
       },
-      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_use_advanced_sorting/"
+      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_use_advanced_sorting/",
+      "related": []
     },
     {
       "id": "gv_ratings_reviews_vote_rating",
@@ -814,19 +1014,24 @@
           "description": "HTML element with a vote rating"
         }
       ],
+      "categories": [
+        "views"
+      ],
+      "example": "/**\n * Filter gv_ratings_reviews_vote_rating\n *\n * @param array $r Array of args used to generate the output\n * @param string $output HTML element with a vote rating\n * @return array Modified r\n */\nadd_filter( 'gv_ratings_reviews_vote_rating', 'my_custom_gv_ratings_reviews_vote_rating_filter', 10, 2 );\n\nfunction my_custom_gv_ratings_reviews_vote_rating_filter($r, $output) {\n    // Modify $r as needed\n\n    return $r;\n}",
       "since": "0.1.0",
       "source": {
         "file": "includes/class-helper.php",
         "line": 1148
       },
-      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_vote_rating/"
+      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_vote_rating/",
+      "related": []
     },
     {
       "id": "gv_ratings_reviews_vote_rating_text",
       "name": "gv_ratings_reviews_vote_rating_text",
       "type": "filter",
       "product": "gravityview-ratings-reviews",
-      "description": "| Name | Type | Description |",
+      "description": "Filters the original rating text value.",
       "parameters": [
         {
           "name": "original_rating_text",
@@ -834,12 +1039,17 @@
           "description": "\\{"
         }
       ],
+      "categories": [
+        "views"
+      ],
+      "example": "/**\n * Filter gv_ratings_reviews_vote_rating_text\n *\n * @param array $original_rating_text \\{\n * @return array Modified original_rating_text\n */\nadd_filter( 'gv_ratings_reviews_vote_rating_text', 'my_custom_gv_ratings_reviews_vote_rating_text_filter', 10, 1 );\n\nfunction my_custom_gv_ratings_reviews_vote_rating_text_filter($original_rating_text) {\n    // Modify $original_rating_text as needed\n\n    return $original_rating_text;\n}",
       "since": null,
       "source": {
         "file": "includes/class-helper.php",
         "line": 1037
       },
-      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_vote_rating_text/"
+      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_vote_rating_text/",
+      "related": []
     },
     {
       "id": "gv_reviews_number",
@@ -859,12 +1069,17 @@
           "description": "A translatable string formatted based on whether the count is equal to 0, 1, or 1+."
         }
       ],
+      "categories": [
+        "views"
+      ],
+      "example": "/**\n * Filter gv_reviews_number\n *\n * @param int $number The number of entry reviews.\n * @param string $output A translatable string formatted based on whether the count is equal to 0, 1, or 1+.\n * @return int Modified number\n */\nadd_filter( 'gv_reviews_number', 'my_custom_gv_reviews_number_filter', 10, 2 );\n\nfunction my_custom_gv_reviews_number_filter($number, $output) {\n    // Modify $number as needed\n\n    return $number;\n}",
       "since": "0.1.0",
       "source": {
         "file": "includes/class-helper.php",
         "line": 219
       },
-      "url": "/docs/gravityview-ratings-reviews/filters/gv_reviews_number/"
+      "url": "/docs/gravityview-ratings-reviews/filters/gv_reviews_number/",
+      "related": []
     }
   ],
   "stats": {

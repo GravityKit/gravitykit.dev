@@ -38,6 +38,121 @@ function log(message, color = '') {
 }
 
 /**
+ * Generate a description from hook name and type when one doesn't exist
+ */
+function generateDescription(hookName, hookType, params = []) {
+  // Parse the hook name to extract meaningful parts
+  const parts = hookName.split(/[/_]/).filter(Boolean);
+
+  // Build description from parts
+  const action = hookType === 'action' ? 'Fires' : 'Filters';
+  const context = parts.slice(-2).join(' ').replace(/-/g, ' ');
+
+  // Identify common patterns
+  if (hookName.includes('/before')) {
+    return `${action} before ${context.replace('before', '').trim()} processing.`;
+  }
+  if (hookName.includes('/after')) {
+    return `${action} after ${context.replace('after', '').trim()} processing.`;
+  }
+  if (hookType === 'filter' && params.length > 0) {
+    return `Filters the ${params[0].name.replace(/_/g, ' ')} value.`;
+  }
+
+  return `${action} during ${context} processing.`;
+}
+
+/**
+ * Infer category/tags from hook name
+ */
+function inferCategories(hookName) {
+  const categories = [];
+  const name = hookName.toLowerCase();
+
+  // Core categories
+  if (name.includes('entry') || name.includes('entries')) categories.push('entries');
+  if (name.includes('field')) categories.push('fields');
+  if (name.includes('search') || name.includes('filter')) categories.push('search');
+  if (name.includes('template') || name.includes('render')) categories.push('rendering');
+  if (name.includes('edit')) categories.push('editing');
+  if (name.includes('view')) categories.push('views');
+  if (name.includes('form')) categories.push('forms');
+  if (name.includes('widget')) categories.push('widgets');
+  if (name.includes('export')) categories.push('export');
+  if (name.includes('import')) categories.push('import');
+  if (name.includes('calendar') || name.includes('event')) categories.push('calendar');
+  if (name.includes('chart')) categories.push('charts');
+  if (name.includes('map') || name.includes('marker')) categories.push('maps');
+  if (name.includes('board') || name.includes('card') || name.includes('lane')) categories.push('kanban');
+  if (name.includes('approval') || name.includes('approve')) categories.push('approval');
+  if (name.includes('notification') || name.includes('email')) categories.push('notifications');
+  if (name.includes('permission') || name.includes('capability') || name.includes('access')) categories.push('permissions');
+  if (name.includes('admin')) categories.push('admin');
+  if (name.includes('frontend')) categories.push('frontend');
+  if (name.includes('api') || name.includes('rest')) categories.push('api');
+  if (name.includes('shortcode')) categories.push('shortcodes');
+  if (name.includes('script') || name.includes('style') || name.includes('css')) categories.push('assets');
+  if (name.includes('cache')) categories.push('caching');
+
+  // Timing categories
+  if (name.includes('before') || name.includes('pre_')) categories.push('before');
+  if (name.includes('after') || name.includes('post_')) categories.push('after');
+
+  return categories.length > 0 ? categories : ['general'];
+}
+
+/**
+ * Find related hooks based on naming patterns
+ */
+function findRelatedHooks(hookName, allHookNames) {
+  const related = [];
+
+  // Remove before/after to find pairs
+  const baseName = hookName
+    .replace(/\/before$/, '')
+    .replace(/\/after$/, '')
+    .replace(/_before$/, '')
+    .replace(/_after$/, '')
+    .replace(/\/pre_/, '/')
+    .replace(/\/post_/, '/');
+
+  for (const other of allHookNames) {
+    if (other === hookName) continue;
+
+    const otherBase = other
+      .replace(/\/before$/, '')
+      .replace(/\/after$/, '')
+      .replace(/_before$/, '')
+      .replace(/_after$/, '')
+      .replace(/\/pre_/, '/')
+      .replace(/\/post_/, '/');
+
+    // Same base = related (before/after pairs)
+    if (baseName === otherBase) {
+      related.push(other);
+      continue;
+    }
+
+    // Similar prefix (same feature area)
+    const hookPrefix = hookName.split('/').slice(0, -1).join('/');
+    const otherPrefix = other.split('/').slice(0, -1).join('/');
+    if (hookPrefix && hookPrefix === otherPrefix && related.length < 5) {
+      related.push(other);
+    }
+  }
+
+  return related.slice(0, 5); // Limit to 5 related hooks
+}
+
+/**
+ * Extract usage example from markdown content
+ */
+function extractExample(content) {
+  const exampleMatch = content.match(/## Usage Example\n\n```php\n([\s\S]*?)```/);
+  return exampleMatch ? exampleMatch[1].trim() : null;
+}
+
+/**
  * Parse a hook markdown file and extract metadata
  */
 function parseHookFile(filePath, productId, hookType) {
@@ -83,11 +198,7 @@ function parseHookFile(filePath, productId, hookType) {
 
   const hookName = getActualHookName();
 
-  // Extract description (first paragraph after the title)
-  const descMatch = content.match(/^#[^\n]+\n\n([^\n#]+)/m);
-  const description = descMatch ? descMatch[1].trim() : '';
-
-  // Extract parameters table
+  // Extract parameters table FIRST (needed for description generation)
   const params = [];
   const paramsMatch = content.match(/## Parameters\n\n\|[^\n]+\n\|[^\n]+\n((?:\|[^\n]+\n)*)/);
   if (paramsMatch) {
@@ -111,6 +222,20 @@ function parseHookFile(filePath, productId, hookType) {
     }
   }
 
+  // Extract description (first paragraph after the main title, before ## heading)
+  // Look for content between "# Action/Filter: hookname" and the first "## " section
+  const contentAfterFrontmatter = content.replace(/^---[\s\S]*?---\n*/, '');
+  const descMatch = contentAfterFrontmatter.match(/^# (?:Action|Filter):[^\n]+\n\n([^#`|\n][^\n]*)/);
+  let description = descMatch ? descMatch[1].trim() : '';
+
+  // If description is empty, starts with code/table markers, or is garbage, generate one
+  if (!description || description.startsWith('|') || description.startsWith('`') || description === 'Name' || description.length < 10) {
+    description = generateDescription(hookName, hookType, params);
+  }
+
+  // Extract usage example
+  const example = extractExample(content);
+
   // Extract since version
   const sinceMatch = content.match(/### Since\n\n-\s*(.+)/);
   const since = sinceMatch ? sinceMatch[1].trim() : null;
@@ -129,6 +254,8 @@ function parseHookFile(filePath, productId, hookType) {
     product: productId,
     description,
     parameters: params,
+    categories: inferCategories(hookName),
+    example,               // Usage example code
     since,
     source,
     url: `/docs/${productId}/${hookType}s/${getId()}/`,
@@ -207,6 +334,12 @@ function collectAllHooks() {
   }
 
   allHooks.stats.totalHooks = allHooks.stats.totalActions + allHooks.stats.totalFilters;
+
+  // Second pass: Add related hooks now that we have all hook names
+  const allHookNames = allHooks.hooks.map(h => h.name);
+  for (const hook of allHooks.hooks) {
+    hook.related = findRelatedHooks(hook.name, allHookNames);
+  }
 
   return allHooks;
 }

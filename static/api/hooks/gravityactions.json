@@ -1,5 +1,5 @@
 {
-  "generated": "2025-12-15T23:45:33.844Z",
+  "generated": "2025-12-15T23:52:08.144Z",
   "product": {
     "id": "gravityactions",
     "label": "GravityActions",
@@ -65,12 +65,24 @@
           "description": "What variables are being passed down to the modal."
         }
       ],
+      "categories": [
+        "rendering",
+        "after"
+      ],
+      "example": "/**\n * Hook into gkgravityactionsafter_modal_render\n *\n * @param array $template_vars What variables are being passed down to the modal.\n */\nadd_action( 'gkgravityactionsafter_modal_render', 'my_custom_gkgravityactionsafter_modal_render_handler', 10, 1 );\n\nfunction my_custom_gkgravityactionsafter_modal_render_handler($template_vars) {\n    // Your custom code here\n}",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Admin.php",
         "line": 230
       },
-      "url": "/docs/gravityactions/actions/gkgravityactionsafter_modal_render/"
+      "url": "/docs/gravityactions/actions/gkgravityactionsafter_modal_render/",
+      "related": [
+        "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/after_modal_render:\\{$view\\}",
+        "gk/gravityactions/before_modal_render",
+        "gk/gravityactions/before_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/before_modal_render:\\{$view\\}"
+      ]
     },
     {
       "id": "gkgravityactionsafter_modal_renderaction_key",
@@ -85,12 +97,24 @@
           "description": "What variables are being passed down to the modal."
         }
       ],
+      "categories": [
+        "rendering",
+        "after"
+      ],
+      "example": "/**\n * Hook into gkgravityactionsafter_modal_renderaction_key\n *\n * @param array $template_vars What variables are being passed down to the modal.\n */\nadd_action( 'gkgravityactionsafter_modal_renderaction_key', 'my_custom_gkgravityactionsafter_modal_renderaction_key_handler', 10, 1 );\n\nfunction my_custom_gkgravityactionsafter_modal_renderaction_key_handler($template_vars) {\n    // Your custom code here\n}",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Admin.php",
         "line": 248
       },
-      "url": "/docs/gravityactions/actions/gkgravityactionsafter_modal_renderaction_key/"
+      "url": "/docs/gravityactions/actions/gkgravityactionsafter_modal_renderaction_key/",
+      "related": [
+        "gk/gravityactions/after_modal_render",
+        "gk/gravityactions/after_modal_render:\\{$view\\}",
+        "gk/gravityactions/before_modal_render",
+        "gk/gravityactions/before_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/before_modal_render:\\{$view\\}"
+      ]
     },
     {
       "id": "gkgravityactionsafter_modal_renderview",
@@ -105,12 +129,25 @@
           "description": "What variables are being passed down to the modal."
         }
       ],
+      "categories": [
+        "rendering",
+        "views",
+        "after"
+      ],
+      "example": "/**\n * Hook into gkgravityactionsafter_modal_renderview\n *\n * @param array $template_vars What variables are being passed down to the modal.\n */\nadd_action( 'gkgravityactionsafter_modal_renderview', 'my_custom_gkgravityactionsafter_modal_renderview_handler', 10, 1 );\n\nfunction my_custom_gkgravityactionsafter_modal_renderview_handler($template_vars) {\n    // Your custom code here\n}",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Admin.php",
         "line": 239
       },
-      "url": "/docs/gravityactions/actions/gkgravityactionsafter_modal_renderview/"
+      "url": "/docs/gravityactions/actions/gkgravityactionsafter_modal_renderview/",
+      "related": [
+        "gk/gravityactions/after_modal_render",
+        "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/before_modal_render",
+        "gk/gravityactions/before_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/before_modal_render:\\{$view\\}"
+      ]
     },
     {
       "id": "gkgravityactionsbefore_modal_render",
@@ -125,12 +162,24 @@
           "description": "What variables are being passed down to the modal."
         }
       ],
+      "categories": [
+        "rendering",
+        "before"
+      ],
+      "example": "/**\n * Hook into gkgravityactionsbefore_modal_render\n *\n * @param array $template_vars What variables are being passed down to the modal.\n */\nadd_action( 'gkgravityactionsbefore_modal_render', 'my_custom_gkgravityactionsbefore_modal_render_handler', 10, 1 );\n\nfunction my_custom_gkgravityactionsbefore_modal_render_handler($template_vars) {\n    // Your custom code here\n}",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Admin.php",
         "line": 201
       },
-      "url": "/docs/gravityactions/actions/gkgravityactionsbefore_modal_render/"
+      "url": "/docs/gravityactions/actions/gkgravityactionsbefore_modal_render/",
+      "related": [
+        "gk/gravityactions/after_modal_render",
+        "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/after_modal_render:\\{$view\\}",
+        "gk/gravityactions/before_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/before_modal_render:\\{$view\\}"
+      ]
     },
     {
       "id": "gkgravityactionsbefore_modal_renderaction_key",
@@ -145,12 +194,24 @@
           "description": "What variables are being passed down to the modal."
         }
       ],
+      "categories": [
+        "rendering",
+        "before"
+      ],
+      "example": "/**\n * Hook into gkgravityactionsbefore_modal_renderaction_key\n *\n * @param array $template_vars What variables are being passed down to the modal.\n */\nadd_action( 'gkgravityactionsbefore_modal_renderaction_key', 'my_custom_gkgravityactionsbefore_modal_renderaction_key_handler', 10, 1 );\n\nfunction my_custom_gkgravityactionsbefore_modal_renderaction_key_handler($template_vars) {\n    // Your custom code here\n}",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Admin.php",
         "line": 219
       },
-      "url": "/docs/gravityactions/actions/gkgravityactionsbefore_modal_renderaction_key/"
+      "url": "/docs/gravityactions/actions/gkgravityactionsbefore_modal_renderaction_key/",
+      "related": [
+        "gk/gravityactions/after_modal_render",
+        "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/after_modal_render:\\{$view\\}",
+        "gk/gravityactions/before_modal_render",
+        "gk/gravityactions/before_modal_render:\\{$view\\}"
+      ]
     },
     {
       "id": "gkgravityactionsbefore_modal_renderview",
@@ -165,12 +226,25 @@
           "description": "What variables are being passed down to the modal."
         }
       ],
+      "categories": [
+        "rendering",
+        "views",
+        "before"
+      ],
+      "example": "/**\n * Hook into gkgravityactionsbefore_modal_renderview\n *\n * @param array $template_vars What variables are being passed down to the modal.\n */\nadd_action( 'gkgravityactionsbefore_modal_renderview', 'my_custom_gkgravityactionsbefore_modal_renderview_handler', 10, 1 );\n\nfunction my_custom_gkgravityactionsbefore_modal_renderview_handler($template_vars) {\n    // Your custom code here\n}",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Admin.php",
         "line": 210
       },
-      "url": "/docs/gravityactions/actions/gkgravityactionsbefore_modal_renderview/"
+      "url": "/docs/gravityactions/actions/gkgravityactionsbefore_modal_renderview/",
+      "related": [
+        "gk/gravityactions/after_modal_render",
+        "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/after_modal_render:\\{$view\\}",
+        "gk/gravityactions/before_modal_render",
+        "gk/gravityactions/before_modal_render:\\{$action_key\\}"
+      ]
     },
     {
       "id": "gkgravityactionsloaded",
@@ -179,12 +253,23 @@
       "product": "gravityactions",
       "description": "Triggers an action when the plugin is fully loaded.",
       "parameters": [],
+      "categories": [
+        "general"
+      ],
+      "example": "/**\n * Hook into gkgravityactionsloaded\n *\n * @return void\n */\nadd_action( 'gkgravityactionsloaded', 'my_custom_gkgravityactionsloaded_handler' );\n\nfunction my_custom_gkgravityactionsloaded_handler() {\n    // Your custom code here\n}",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Plugin.php",
         "line": 93
       },
-      "url": "/docs/gravityactions/actions/gkgravityactionsloaded/"
+      "url": "/docs/gravityactions/actions/gkgravityactionsloaded/",
+      "related": [
+        "gk/gravityactions/after_modal_render",
+        "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/after_modal_render:\\{$view\\}",
+        "gk/gravityactions/before_modal_render",
+        "gk/gravityactions/before_modal_render:\\{$action_key\\}"
+      ]
     },
     {
       "id": "gkgravityactionstemplate_after_include",
@@ -209,12 +294,24 @@
           "description": "Current instance of the Template."
         }
       ],
+      "categories": [
+        "rendering",
+        "after"
+      ],
+      "example": "/**\n * Hook into gkgravityactionstemplate_after_include\n *\n * @param string $file Complete path to include the PHP File.\n * @param array $name Template name.\n * @param self $template Current instance of the Template.\n */\nadd_action( 'gkgravityactionstemplate_after_include', 'my_custom_gkgravityactionstemplate_after_include_handler', 10, 3 );\n\nfunction my_custom_gkgravityactionstemplate_after_include_handler($file, $name, $template) {\n    // Your custom code here\n}",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
         "line": 1098
       },
-      "url": "/docs/gravityactions/actions/gkgravityactionstemplate_after_include/"
+      "url": "/docs/gravityactions/actions/gkgravityactionstemplate_after_include/",
+      "related": [
+        "gk/gravityactions/after_modal_render",
+        "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/after_modal_render:\\{$view\\}",
+        "gk/gravityactions/before_modal_render",
+        "gk/gravityactions/before_modal_render:\\{$action_key\\}"
+      ]
     },
     {
       "id": "gkgravityactionstemplate_after_includehook_name",
@@ -239,12 +336,24 @@
           "description": "Current instance of the Template."
         }
       ],
+      "categories": [
+        "rendering",
+        "after"
+      ],
+      "example": "/**\n * Hook into gkgravityactionstemplate_after_includehook_name\n *\n * @param string $file Complete path to include the PHP File.\n * @param array $name Template name.\n * @param self $template Current instance of the Template.\n */\nadd_action( 'gkgravityactionstemplate_after_includehook_name', 'my_custom_gkgravityactionstemplate_after_includehook_name_handler', 10, 3 );\n\nfunction my_custom_gkgravityactionstemplate_after_includehook_name_handler($file, $name, $template) {\n    // Your custom code here\n}",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
         "line": 1113
       },
-      "url": "/docs/gravityactions/actions/gkgravityactionstemplate_after_includehook_name/"
+      "url": "/docs/gravityactions/actions/gkgravityactionstemplate_after_includehook_name/",
+      "related": [
+        "gk/gravityactions/after_modal_render",
+        "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/after_modal_render:\\{$view\\}",
+        "gk/gravityactions/before_modal_render",
+        "gk/gravityactions/before_modal_render:\\{$action_key\\}"
+      ]
     },
     {
       "id": "gkgravityactionstemplate_before_include",
@@ -269,12 +378,24 @@
           "description": "Current instance of the Template"
         }
       ],
+      "categories": [
+        "rendering",
+        "before"
+      ],
+      "example": "/**\n * Hook into gkgravityactionstemplate_before_include\n *\n * @param string $file Complete path to include the PHP File\n * @param array $name Template name\n * @param self $template Current instance of the Template\n */\nadd_action( 'gkgravityactionstemplate_before_include', 'my_custom_gkgravityactionstemplate_before_include_handler', 10, 3 );\n\nfunction my_custom_gkgravityactionstemplate_before_include_handler($file, $name, $template) {\n    // Your custom code here\n}",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
         "line": 1056
       },
-      "url": "/docs/gravityactions/actions/gkgravityactionstemplate_before_include/"
+      "url": "/docs/gravityactions/actions/gkgravityactionstemplate_before_include/",
+      "related": [
+        "gk/gravityactions/after_modal_render",
+        "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/after_modal_render:\\{$view\\}",
+        "gk/gravityactions/before_modal_render",
+        "gk/gravityactions/before_modal_render:\\{$action_key\\}"
+      ]
     },
     {
       "id": "gkgravityactionstemplate_before_includehook_name",
@@ -299,12 +420,24 @@
           "description": "Current instance of the Template."
         }
       ],
+      "categories": [
+        "rendering",
+        "before"
+      ],
+      "example": "/**\n * Hook into gkgravityactionstemplate_before_includehook_name\n *\n * @param string $file Complete path to include the PHP File.\n * @param array $name Template name.\n * @param self $template Current instance of the Template.\n */\nadd_action( 'gkgravityactionstemplate_before_includehook_name', 'my_custom_gkgravityactionstemplate_before_includehook_name_handler', 10, 3 );\n\nfunction my_custom_gkgravityactionstemplate_before_includehook_name_handler($file, $name, $template) {\n    // Your custom code here\n}",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
         "line": 1071
       },
-      "url": "/docs/gravityactions/actions/gkgravityactionstemplate_before_includehook_name/"
+      "url": "/docs/gravityactions/actions/gkgravityactionstemplate_before_includehook_name/",
+      "related": [
+        "gk/gravityactions/after_modal_render",
+        "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/after_modal_render:\\{$view\\}",
+        "gk/gravityactions/before_modal_render",
+        "gk/gravityactions/before_modal_render:\\{$action_key\\}"
+      ]
     },
     {
       "id": "gkgravityactionsbulk_actions_map",
@@ -319,12 +452,23 @@
           "description": "List of objects for the edit actions."
         }
       ],
+      "categories": [
+        "maps"
+      ],
+      "example": "/**\n * Filter gkgravityactionsbulk_actions_map\n *\n * @param \\ActionInterface[] $map List of objects for the edit actions.\n * @return \\ActionInterface[] Modified map\n */\nadd_filter( 'gkgravityactionsbulk_actions_map', 'my_custom_gkgravityactionsbulk_actions_map_filter', 10, 1 );\n\nfunction my_custom_gkgravityactionsbulk_actions_map_filter($map) {\n    // Modify $map as needed\n\n    return $map;\n}",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Actions/Mapper.php",
         "line": 117
       },
-      "url": "/docs/gravityactions/filters/gkgravityactionsbulk_actions_map/"
+      "url": "/docs/gravityactions/filters/gkgravityactionsbulk_actions_map/",
+      "related": [
+        "gk/gravityactions/after_modal_render",
+        "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/after_modal_render:\\{$view\\}",
+        "gk/gravityactions/before_modal_render",
+        "gk/gravityactions/before_modal_render:\\{$action_key\\}"
+      ]
     },
     {
       "id": "gkgravityactionsedit_actionsupported_form_meta",
@@ -333,12 +477,18 @@
       "product": "gravityactions",
       "description": "Filter to allow short-circuiting the modal rendering.",
       "parameters": [],
+      "categories": [
+        "editing",
+        "forms"
+      ],
+      "example": "/**\n * Filter gkgravityactionsedit_actionsupported_form_meta\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gkgravityactionsedit_actionsupported_form_meta', 'my_custom_gkgravityactionsedit_actionsupported_form_meta_filter' );\n\nfunction my_custom_gkgravityactionsedit_actionsupported_form_meta_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
       "since": "1.3",
       "source": {
         "file": "src/GravityActions/Actions/EditAction.php",
         "line": 203
       },
-      "url": "/docs/gravityactions/filters/gkgravityactionsedit_actionsupported_form_meta/"
+      "url": "/docs/gravityactions/filters/gkgravityactionsedit_actionsupported_form_meta/",
+      "related": []
     },
     {
       "id": "gkgravityactionsemail_actionget_field",
@@ -347,12 +497,21 @@
       "product": "gravityactions",
       "description": "Filter any field before returning it's values.",
       "parameters": [],
+      "categories": [
+        "fields",
+        "notifications"
+      ],
+      "example": "/**\n * Filter gkgravityactionsemail_actionget_field\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gkgravityactionsemail_actionget_field', 'my_custom_gkgravityactionsemail_actionget_field_filter' );\n\nfunction my_custom_gkgravityactionsemail_actionget_field_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
       "since": "1.3",
       "source": {
         "file": "src/GravityActions/Actions/EmailAction.php",
         "line": 474
       },
-      "url": "/docs/gravityactions/filters/gkgravityactionsemail_actionget_field/"
+      "url": "/docs/gravityactions/filters/gkgravityactionsemail_actionget_field/",
+      "related": [
+        "gk/gravityactions/email_action/get_field:\\{$field->id\\}",
+        "gk/gravityactions/email_action/get_fields"
+      ]
     },
     {
       "id": "gkgravityactionsemail_actionget_fieldfield-id",
@@ -361,12 +520,21 @@
       "product": "gravityactions",
       "description": "Filter of a specific field before returning it.",
       "parameters": [],
+      "categories": [
+        "fields",
+        "notifications"
+      ],
+      "example": "/**\n * Filter gkgravityactionsemail_actionget_fieldfield-id\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gkgravityactionsemail_actionget_fieldfield-id', 'my_custom_gkgravityactionsemail_actionget_fieldfield_id_filter' );\n\nfunction my_custom_gkgravityactionsemail_actionget_fieldfield_id_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
       "since": "1.3",
       "source": {
         "file": "src/GravityActions/Actions/EmailAction.php",
         "line": 484
       },
-      "url": "/docs/gravityactions/filters/gkgravityactionsemail_actionget_fieldfield-id/"
+      "url": "/docs/gravityactions/filters/gkgravityactionsemail_actionget_fieldfield-id/",
+      "related": [
+        "gk/gravityactions/email_action/get_field",
+        "gk/gravityactions/email_action/get_fields"
+      ]
     },
     {
       "id": "gkgravityactionsemail_actionget_fields",
@@ -375,12 +543,21 @@
       "product": "gravityactions",
       "description": "Filter to allow short-circuiting the modal rendering.",
       "parameters": [],
+      "categories": [
+        "fields",
+        "notifications"
+      ],
+      "example": "/**\n * Filter gkgravityactionsemail_actionget_fields\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gkgravityactionsemail_actionget_fields', 'my_custom_gkgravityactionsemail_actionget_fields_filter' );\n\nfunction my_custom_gkgravityactionsemail_actionget_fields_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
       "since": "1.3",
       "source": {
         "file": "src/GravityActions/Actions/EmailAction.php",
         "line": 419
       },
-      "url": "/docs/gravityactions/filters/gkgravityactionsemail_actionget_fields/"
+      "url": "/docs/gravityactions/filters/gkgravityactionsemail_actionget_fields/",
+      "related": [
+        "gk/gravityactions/email_action/get_field",
+        "gk/gravityactions/email_action/get_field:\\{$field->id\\}"
+      ]
     },
     {
       "id": "gkgravityactionshide_hidden_inputs",
@@ -395,12 +572,23 @@
           "description": "True: hide inputs hidden by the form. False: show inputs hidden by the form."
         }
       ],
+      "categories": [
+        "general"
+      ],
+      "example": "/**\n * Filter gkgravityactionshide_hidden_inputs\n *\n * @param bool $hide_hidden_inputs True: hide inputs hidden by the form. False: show inputs hidden by the form.\n * @return bool Modified hide_hidden_inputs\n */\nadd_filter( 'gkgravityactionshide_hidden_inputs', 'my_custom_gkgravityactionshide_hidden_inputs_filter', 10, 1 );\n\nfunction my_custom_gkgravityactionshide_hidden_inputs_filter($hide_hidden_inputs) {\n    // Modify $hide_hidden_inputs as needed\n\n    return $hide_hidden_inputs;\n}",
       "since": "1.2",
       "source": {
         "file": "src/admin-views/components/fields/complex/time.php",
         "line": 15
       },
-      "url": "/docs/gravityactions/filters/gkgravityactionshide_hidden_inputs/"
+      "url": "/docs/gravityactions/filters/gkgravityactionshide_hidden_inputs/",
+      "related": [
+        "gk/gravityactions/after_modal_render",
+        "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/after_modal_render:\\{$view\\}",
+        "gk/gravityactions/before_modal_render",
+        "gk/gravityactions/before_modal_render:\\{$action_key\\}"
+      ]
     },
     {
       "id": "gkgravityactionsis_truthy_strings",
@@ -409,12 +597,23 @@
       "product": "gravityactions",
       "description": "Provides an opportunity to modify strings that will be deemed to evaluate to true.",
       "parameters": [],
+      "categories": [
+        "general"
+      ],
+      "example": "/**\n * Filter gkgravityactionsis_truthy_strings\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gkgravityactionsis_truthy_strings', 'my_custom_gkgravityactionsis_truthy_strings_filter' );\n\nfunction my_custom_gkgravityactionsis_truthy_strings_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
       "since": "1.0",
       "source": {
         "file": "src/functions/variables.php",
         "line": 26
       },
-      "url": "/docs/gravityactions/filters/gkgravityactionsis_truthy_strings/"
+      "url": "/docs/gravityactions/filters/gkgravityactionsis_truthy_strings/",
+      "related": [
+        "gk/gravityactions/after_modal_render",
+        "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/after_modal_render:\\{$view\\}",
+        "gk/gravityactions/before_modal_render",
+        "gk/gravityactions/before_modal_render:\\{$action_key\\}"
+      ]
     },
     {
       "id": "gkgravityactionsmodalverify-nonce",
@@ -434,12 +633,17 @@
           "description": "The nonce passed to the modal loading."
         }
       ],
+      "categories": [
+        "general"
+      ],
+      "example": "/**\n * Filter gkgravityactionsmodalverify-nonce\n *\n * @param bool $should_verify_nonce Whether to verify the nonce passed to the modal loading.\n * @param string $nonce The nonce passed to the modal loading.\n * @return bool Modified should_verify_nonce\n */\nadd_filter( 'gkgravityactionsmodalverify-nonce', 'my_custom_gkgravityactionsmodalverify_nonce_filter', 10, 2 );\n\nfunction my_custom_gkgravityactionsmodalverify_nonce_filter($should_verify_nonce, $nonce) {\n    // Modify $should_verify_nonce as needed\n\n    return $should_verify_nonce;\n}",
       "since": "1.4",
       "source": {
         "file": "src/GravityActions/Admin.php",
         "line": 118
       },
-      "url": "/docs/gravityactions/filters/gkgravityactionsmodalverify-nonce/"
+      "url": "/docs/gravityactions/filters/gkgravityactionsmodalverify-nonce/",
+      "related": []
     },
     {
       "id": "gkgravityactionspre_modal_render",
@@ -459,12 +663,24 @@
           "description": "What variables are being passed down to the modal."
         }
       ],
+      "categories": [
+        "rendering",
+        "before"
+      ],
+      "example": "/**\n * Filter gkgravityactionspre_modal_render\n *\n * @param mixed $pre_render Variable that determines if we will short circuit the modal rendering.\n * @param array $template_vars What variables are being passed down to the modal.\n * @return mixed Modified pre_render\n */\nadd_filter( 'gkgravityactionspre_modal_render', 'my_custom_gkgravityactionspre_modal_render_filter', 10, 2 );\n\nfunction my_custom_gkgravityactionspre_modal_render_filter($pre_render, $template_vars) {\n    // Modify $pre_render as needed\n\n    return $pre_render;\n}",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Admin.php",
         "line": 169
       },
-      "url": "/docs/gravityactions/filters/gkgravityactionspre_modal_render/"
+      "url": "/docs/gravityactions/filters/gkgravityactionspre_modal_render/",
+      "related": [
+        "gk/gravityactions/after_modal_render",
+        "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/after_modal_render:\\{$view\\}",
+        "gk/gravityactions/before_modal_render",
+        "gk/gravityactions/before_modal_render:\\{$action_key\\}"
+      ]
     },
     {
       "id": "gkgravityactionspre_modal_renderaction_key",
@@ -484,12 +700,24 @@
           "description": "What variables are being passed down to the modal."
         }
       ],
+      "categories": [
+        "rendering",
+        "before"
+      ],
+      "example": "/**\n * Filter gkgravityactionspre_modal_renderaction_key\n *\n * @param mixed $pre_render Variable that determines if we will short circuit the modal rendering.\n * @param array $template_vars What variables are being passed down to the modal.\n * @return mixed Modified pre_render\n */\nadd_filter( 'gkgravityactionspre_modal_renderaction_key', 'my_custom_gkgravityactionspre_modal_renderaction_key_filter', 10, 2 );\n\nfunction my_custom_gkgravityactionspre_modal_renderaction_key_filter($pre_render, $template_vars) {\n    // Modify $pre_render as needed\n\n    return $pre_render;\n}",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Admin.php",
         "line": 189
       },
-      "url": "/docs/gravityactions/filters/gkgravityactionspre_modal_renderaction_key/"
+      "url": "/docs/gravityactions/filters/gkgravityactionspre_modal_renderaction_key/",
+      "related": [
+        "gk/gravityactions/after_modal_render",
+        "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/after_modal_render:\\{$view\\}",
+        "gk/gravityactions/before_modal_render",
+        "gk/gravityactions/before_modal_render:\\{$action_key\\}"
+      ]
     },
     {
       "id": "gkgravityactionspre_modal_renderview",
@@ -509,12 +737,25 @@
           "description": "What variables are being passed down to the modal."
         }
       ],
+      "categories": [
+        "rendering",
+        "views",
+        "before"
+      ],
+      "example": "/**\n * Filter gkgravityactionspre_modal_renderview\n *\n * @param mixed $pre_render Variable that determines if we will short circuit the modal rendering.\n * @param array $template_vars What variables are being passed down to the modal.\n * @return mixed Modified pre_render\n */\nadd_filter( 'gkgravityactionspre_modal_renderview', 'my_custom_gkgravityactionspre_modal_renderview_filter', 10, 2 );\n\nfunction my_custom_gkgravityactionspre_modal_renderview_filter($pre_render, $template_vars) {\n    // Modify $pre_render as needed\n\n    return $pre_render;\n}",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Admin.php",
         "line": 179
       },
-      "url": "/docs/gravityactions/filters/gkgravityactionspre_modal_renderview/"
+      "url": "/docs/gravityactions/filters/gkgravityactionspre_modal_renderview/",
+      "related": [
+        "gk/gravityactions/after_modal_render",
+        "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/after_modal_render:\\{$view\\}",
+        "gk/gravityactions/before_modal_render",
+        "gk/gravityactions/before_modal_render:\\{$action_key\\}"
+      ]
     },
     {
       "id": "gkgravityactionstemplate_after_include_html",
@@ -544,12 +785,24 @@
           "description": "Current instance of the Template."
         }
       ],
+      "categories": [
+        "rendering",
+        "after"
+      ],
+      "example": "/**\n * Filter gkgravityactionstemplate_after_include_html\n *\n * @param string $html The final HTML.\n * @param string $file Complete path to include the PHP File.\n * @param array $name Template name.\n * @param self $template Current instance of the Template.\n * @return string Modified html\n */\nadd_filter( 'gkgravityactionstemplate_after_include_html', 'my_custom_gkgravityactionstemplate_after_include_html_filter', 10, 4 );\n\nfunction my_custom_gkgravityactionstemplate_after_include_html_filter($html, $file, $name, $template) {\n    // Modify $html as needed\n\n    return $html;\n}",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
         "line": 1012
       },
-      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_after_include_html/"
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_after_include_html/",
+      "related": [
+        "gk/gravityactions/after_modal_render",
+        "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/after_modal_render:\\{$view\\}",
+        "gk/gravityactions/before_modal_render",
+        "gk/gravityactions/before_modal_render:\\{$action_key\\}"
+      ]
     },
     {
       "id": "gkgravityactionstemplate_after_include_htmlhook_name",
@@ -579,12 +832,24 @@
           "description": "Current instance of the Template."
         }
       ],
+      "categories": [
+        "rendering",
+        "after"
+      ],
+      "example": "/**\n * Filter gkgravityactionstemplate_after_include_htmlhook_name\n *\n * @param string $html The final HTML.\n * @param string $file Complete path to include the PHP File.\n * @param array $name Template name.\n * @param self $template Current instance of the Template.\n * @return string Modified html\n */\nadd_filter( 'gkgravityactionstemplate_after_include_htmlhook_name', 'my_custom_gkgravityactionstemplate_after_include_htmlhook_name_filter', 10, 4 );\n\nfunction my_custom_gkgravityactionstemplate_after_include_htmlhook_name_filter($html, $file, $name, $template) {\n    // Modify $html as needed\n\n    return $html;\n}",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
         "line": 1028
       },
-      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_after_include_htmlhook_name/"
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_after_include_htmlhook_name/",
+      "related": [
+        "gk/gravityactions/after_modal_render",
+        "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/after_modal_render:\\{$view\\}",
+        "gk/gravityactions/before_modal_render",
+        "gk/gravityactions/before_modal_render:\\{$action_key\\}"
+      ]
     },
     {
       "id": "gkgravityactionstemplate_before_include_html",
@@ -614,12 +879,24 @@
           "description": "Current instance of the Template."
         }
       ],
+      "categories": [
+        "rendering",
+        "before"
+      ],
+      "example": "/**\n * Filter gkgravityactionstemplate_before_include_html\n *\n * @param string $html The final HTML.\n * @param string $file Complete path to include the PHP File.\n * @param array $name Template name.\n * @param self $template Current instance of the Template.\n * @return string Modified html\n */\nadd_filter( 'gkgravityactionstemplate_before_include_html', 'my_custom_gkgravityactionstemplate_before_include_html_filter', 10, 4 );\n\nfunction my_custom_gkgravityactionstemplate_before_include_html_filter($html, $file, $name, $template) {\n    // Modify $html as needed\n\n    return $html;\n}",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
         "line": 924
       },
-      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_before_include_html/"
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_before_include_html/",
+      "related": [
+        "gk/gravityactions/after_modal_render",
+        "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/after_modal_render:\\{$view\\}",
+        "gk/gravityactions/before_modal_render",
+        "gk/gravityactions/before_modal_render:\\{$action_key\\}"
+      ]
     },
     {
       "id": "gkgravityactionstemplate_before_include_htmlhook_name",
@@ -649,12 +926,24 @@
           "description": "Current instance of the Template."
         }
       ],
+      "categories": [
+        "rendering",
+        "before"
+      ],
+      "example": "/**\n * Filter gkgravityactionstemplate_before_include_htmlhook_name\n *\n * @param string $html The final HTML.\n * @param string $file Complete path to include the PHP File.\n * @param array $name Template name.\n * @param self $template Current instance of the Template.\n * @return string Modified html\n */\nadd_filter( 'gkgravityactionstemplate_before_include_htmlhook_name', 'my_custom_gkgravityactionstemplate_before_include_htmlhook_name_filter', 10, 4 );\n\nfunction my_custom_gkgravityactionstemplate_before_include_htmlhook_name_filter($html, $file, $name, $template) {\n    // Modify $html as needed\n\n    return $html;\n}",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
         "line": 940
       },
-      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_before_include_htmlhook_name/"
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_before_include_htmlhook_name/",
+      "related": [
+        "gk/gravityactions/after_modal_render",
+        "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/after_modal_render:\\{$view\\}",
+        "gk/gravityactions/before_modal_render",
+        "gk/gravityactions/before_modal_render:\\{$action_key\\}"
+      ]
     },
     {
       "id": "gkgravityactionstemplate_done",
@@ -684,12 +973,23 @@
           "description": "If we should also print the Template."
         }
       ],
+      "categories": [
+        "rendering"
+      ],
+      "example": "/**\n * Filter gkgravityactionstemplate_done\n *\n * @param string $ null     Whether to continue displaying the template or not.\n * @param array $name Template name.\n * @param array $template_vars Any template vars data you need to expose to this file.\n * @param bool $echo If we should also print the Template.\n * @return string Modified \n */\nadd_filter( 'gkgravityactionstemplate_done', 'my_custom_gkgravityactionstemplate_done_filter', 10, 4 );\n\nfunction my_custom_gkgravityactionstemplate_done_filter($, $name, $template_vars, $echo) {\n    // Modify $ as needed\n\n    return $;\n}",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
         "line": 653
       },
-      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_done/"
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_done/",
+      "related": [
+        "gk/gravityactions/after_modal_render",
+        "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/after_modal_render:\\{$view\\}",
+        "gk/gravityactions/before_modal_render",
+        "gk/gravityactions/before_modal_render:\\{$action_key\\}"
+      ]
     },
     {
       "id": "gkgravityactionstemplate_file",
@@ -714,12 +1014,23 @@
           "description": "Current instance of the Template"
         }
       ],
+      "categories": [
+        "rendering"
+      ],
+      "example": "/**\n * Filter gkgravityactionstemplate_file\n *\n * @param string $file Complete path to include the PHP File\n * @param array $name Template name\n * @param self $template Current instance of the Template\n * @return string Modified file\n */\nadd_filter( 'gkgravityactionstemplate_file', 'my_custom_gkgravityactionstemplate_file_filter', 10, 3 );\n\nfunction my_custom_gkgravityactionstemplate_file_filter($file, $name, $template) {\n    // Modify $file as needed\n\n    return $file;\n}",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
         "line": 619
       },
-      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_file/"
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_file/",
+      "related": [
+        "gk/gravityactions/after_modal_render",
+        "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/after_modal_render:\\{$view\\}",
+        "gk/gravityactions/before_modal_render",
+        "gk/gravityactions/before_modal_render:\\{$action_key\\}"
+      ]
     },
     {
       "id": "gkgravityactionstemplate_html",
@@ -749,12 +1060,23 @@
           "description": "Current instance of the Template."
         }
       ],
+      "categories": [
+        "rendering"
+      ],
+      "example": "/**\n * Filter gkgravityactionstemplate_html\n *\n * @param string $html The final HTML.\n * @param string $file Complete path to include the PHP File.\n * @param array $name Template name.\n * @param self $template Current instance of the Template.\n * @return string Modified html\n */\nadd_filter( 'gkgravityactionstemplate_html', 'my_custom_gkgravityactionstemplate_html_filter', 10, 4 );\n\nfunction my_custom_gkgravityactionstemplate_html_filter($html, $file, $name, $template) {\n    // Modify $html as needed\n\n    return $html;\n}",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
         "line": 880
       },
-      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_html/"
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_html/",
+      "related": [
+        "gk/gravityactions/after_modal_render",
+        "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/after_modal_render:\\{$view\\}",
+        "gk/gravityactions/before_modal_render",
+        "gk/gravityactions/before_modal_render:\\{$action_key\\}"
+      ]
     },
     {
       "id": "gkgravityactionstemplate_htmlhook_name",
@@ -784,12 +1106,23 @@
           "description": "Current instance of the Template."
         }
       ],
+      "categories": [
+        "rendering"
+      ],
+      "example": "/**\n * Filter gkgravityactionstemplate_htmlhook_name\n *\n * @param string $html The final HTML.\n * @param string $file Complete path to include the PHP File.\n * @param array $name Template name.\n * @param self $template Current instance of the Template.\n * @return string Modified html\n */\nadd_filter( 'gkgravityactionstemplate_htmlhook_name', 'my_custom_gkgravityactionstemplate_htmlhook_name_filter', 10, 4 );\n\nfunction my_custom_gkgravityactionstemplate_htmlhook_name_filter($html, $file, $name, $template) {\n    // Modify $html as needed\n\n    return $html;\n}",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
         "line": 896
       },
-      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_htmlhook_name/"
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_htmlhook_name/",
+      "related": [
+        "gk/gravityactions/after_modal_render",
+        "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/after_modal_render:\\{$view\\}",
+        "gk/gravityactions/before_modal_render",
+        "gk/gravityactions/before_modal_render:\\{$action_key\\}"
+      ]
     },
     {
       "id": "gkgravityactionstemplate_include_html",
@@ -819,12 +1152,23 @@
           "description": "Current instance of the Template."
         }
       ],
+      "categories": [
+        "rendering"
+      ],
+      "example": "/**\n * Filter gkgravityactionstemplate_include_html\n *\n * @param string $html The final HTML.\n * @param string $file Complete path to include the PHP File.\n * @param array $name Template name.\n * @param self $template Current instance of the Template.\n * @return string Modified html\n */\nadd_filter( 'gkgravityactionstemplate_include_html', 'my_custom_gkgravityactionstemplate_include_html_filter', 10, 4 );\n\nfunction my_custom_gkgravityactionstemplate_include_html_filter($html, $file, $name, $template) {\n    // Modify $html as needed\n\n    return $html;\n}",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
         "line": 968
       },
-      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_include_html/"
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_include_html/",
+      "related": [
+        "gk/gravityactions/after_modal_render",
+        "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/after_modal_render:\\{$view\\}",
+        "gk/gravityactions/before_modal_render",
+        "gk/gravityactions/before_modal_render:\\{$action_key\\}"
+      ]
     },
     {
       "id": "gkgravityactionstemplate_include_htmlhook_name",
@@ -854,12 +1198,23 @@
           "description": "Current instance of the Template."
         }
       ],
+      "categories": [
+        "rendering"
+      ],
+      "example": "/**\n * Filter gkgravityactionstemplate_include_htmlhook_name\n *\n * @param string $html The final HTML.\n * @param string $file Complete path to include the PHP File.\n * @param array $name Template name.\n * @param self $template Current instance of the Template.\n * @return string Modified html\n */\nadd_filter( 'gkgravityactionstemplate_include_htmlhook_name', 'my_custom_gkgravityactionstemplate_include_htmlhook_name_filter', 10, 4 );\n\nfunction my_custom_gkgravityactionstemplate_include_htmlhook_name_filter($html, $file, $name, $template) {\n    // Modify $html as needed\n\n    return $html;\n}",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
         "line": 984
       },
-      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_include_htmlhook_name/"
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_include_htmlhook_name/",
+      "related": [
+        "gk/gravityactions/after_modal_render",
+        "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/after_modal_render:\\{$view\\}",
+        "gk/gravityactions/before_modal_render",
+        "gk/gravityactions/before_modal_render:\\{$action_key\\}"
+      ]
     },
     {
       "id": "gkgravityactionstemplate_origin_base_folder",
@@ -879,12 +1234,23 @@
           "description": "Current instance of the Template."
         }
       ],
+      "categories": [
+        "rendering"
+      ],
+      "example": "/**\n * Filter gkgravityactionstemplate_origin_base_folder\n *\n * @param array $namespace Which is the base folder we will look for files in the plugin.\n * @param self $template Current instance of the Template.\n * @return array Modified namespace\n */\nadd_filter( 'gkgravityactionstemplate_origin_base_folder', 'my_custom_gkgravityactionstemplate_origin_base_folder_filter', 10, 2 );\n\nfunction my_custom_gkgravityactionstemplate_origin_base_folder_filter($namespace, $template) {\n    // Modify $namespace as needed\n\n    return $namespace;\n}",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
         "line": 438
       },
-      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_origin_base_folder/"
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_origin_base_folder/",
+      "related": [
+        "gk/gravityactions/after_modal_render",
+        "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/after_modal_render:\\{$view\\}",
+        "gk/gravityactions/before_modal_render",
+        "gk/gravityactions/before_modal_render:\\{$action_key\\}"
+      ]
     },
     {
       "id": "gkgravityactionstemplate_path_list",
@@ -904,12 +1270,23 @@
           "description": "Current instance of the Template"
         }
       ],
+      "categories": [
+        "rendering"
+      ],
+      "example": "/**\n * Filter gkgravityactionstemplate_path_list\n *\n * @param array $folders Complete path to include the base public folder\n * @param self $template Current instance of the Template\n * @return array Modified folders\n */\nadd_filter( 'gkgravityactionstemplate_path_list', 'my_custom_gkgravityactionstemplate_path_list_filter', 10, 2 );\n\nfunction my_custom_gkgravityactionstemplate_path_list_filter($folders, $template) {\n    // Modify $folders as needed\n\n    return $folders;\n}",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
         "line": 502
       },
-      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_path_list/"
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_path_list/",
+      "related": [
+        "gk/gravityactions/after_modal_render",
+        "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/after_modal_render:\\{$view\\}",
+        "gk/gravityactions/before_modal_render",
+        "gk/gravityactions/before_modal_render:\\{$action_key\\}"
+      ]
     },
     {
       "id": "gkgravityactionstemplate_plugin_path",
@@ -929,12 +1306,23 @@
           "description": "Current instance of the Template."
         }
       ],
+      "categories": [
+        "rendering"
+      ],
+      "example": "/**\n * Filter gkgravityactionstemplate_plugin_path\n *\n * @param string $path Complete path to include the base plugin folder.\n * @param self $template Current instance of the Template.\n * @return string Modified path\n */\nadd_filter( 'gkgravityactionstemplate_plugin_path', 'my_custom_gkgravityactionstemplate_plugin_path_filter', 10, 2 );\n\nfunction my_custom_gkgravityactionstemplate_plugin_path_filter($path, $template) {\n    // Modify $path as needed\n\n    return $path;\n}",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
         "line": 389
       },
-      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_plugin_path/"
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_plugin_path/",
+      "related": [
+        "gk/gravityactions/after_modal_render",
+        "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/after_modal_render:\\{$view\\}",
+        "gk/gravityactions/before_modal_render",
+        "gk/gravityactions/before_modal_render:\\{$action_key\\}"
+      ]
     },
     {
       "id": "gkgravityactionstemplate_pre_html",
@@ -964,12 +1352,24 @@
           "description": "Current instance of the Template"
         }
       ],
+      "categories": [
+        "rendering",
+        "before"
+      ],
+      "example": "/**\n * Filter gkgravityactionstemplate_pre_html\n *\n * @param string $html The initial HTML\n * @param string $file Complete path to include the PHP File\n * @param array $name Template name\n * @param self $template Current instance of the Template\n * @return string Modified html\n */\nadd_filter( 'gkgravityactionstemplate_pre_html', 'my_custom_gkgravityactionstemplate_pre_html_filter', 10, 4 );\n\nfunction my_custom_gkgravityactionstemplate_pre_html_filter($html, $file, $name, $template) {\n    // Modify $html as needed\n\n    return $html;\n}",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
         "line": 724
       },
-      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_pre_html/"
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_pre_html/",
+      "related": [
+        "gk/gravityactions/after_modal_render",
+        "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/after_modal_render:\\{$view\\}",
+        "gk/gravityactions/before_modal_render",
+        "gk/gravityactions/before_modal_render:\\{$action_key\\}"
+      ]
     },
     {
       "id": "gkgravityactionstemplate_pre_htmlhook_name",
@@ -999,12 +1399,24 @@
           "description": "Current instance of the Template"
         }
       ],
+      "categories": [
+        "rendering",
+        "before"
+      ],
+      "example": "/**\n * Filter gkgravityactionstemplate_pre_htmlhook_name\n *\n * @param string $html The initial HTML\n * @param string $file Complete path to include the PHP File\n * @param array $name Template name\n * @param self $template Current instance of the Template\n * @return string Modified html\n */\nadd_filter( 'gkgravityactionstemplate_pre_htmlhook_name', 'my_custom_gkgravityactionstemplate_pre_htmlhook_name_filter', 10, 4 );\n\nfunction my_custom_gkgravityactionstemplate_pre_htmlhook_name_filter($html, $file, $name, $template) {\n    // Modify $html as needed\n\n    return $html;\n}",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
         "line": 740
       },
-      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_pre_htmlhook_name/"
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_pre_htmlhook_name/",
+      "related": [
+        "gk/gravityactions/after_modal_render",
+        "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/after_modal_render:\\{$view\\}",
+        "gk/gravityactions/before_modal_render",
+        "gk/gravityactions/before_modal_render:\\{$action_key\\}"
+      ]
     },
     {
       "id": "gkgravityactionstemplate_public_namespace",
@@ -1024,12 +1436,23 @@
           "description": "Current instance of the Template"
         }
       ],
+      "categories": [
+        "rendering"
+      ],
+      "example": "/**\n * Filter gkgravityactionstemplate_public_namespace\n *\n * @param array $namespace Which is the namespace we will look for files in the theme\n * @param self $template Current instance of the Template\n * @return array Modified namespace\n */\nadd_filter( 'gkgravityactionstemplate_public_namespace', 'my_custom_gkgravityactionstemplate_public_namespace_filter', 10, 2 );\n\nfunction my_custom_gkgravityactionstemplate_public_namespace_filter($namespace, $template) {\n    // Modify $namespace as needed\n\n    return $namespace;\n}",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
         "line": 419
       },
-      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_public_namespace/"
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_public_namespace/",
+      "related": [
+        "gk/gravityactions/after_modal_render",
+        "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/after_modal_render:\\{$view\\}",
+        "gk/gravityactions/before_modal_render",
+        "gk/gravityactions/before_modal_render:\\{$action_key\\}"
+      ]
     },
     {
       "id": "gkgravityactionstemplate_public_path",
@@ -1049,12 +1472,23 @@
           "description": "Current instance of the Template."
         }
       ],
+      "categories": [
+        "rendering"
+      ],
+      "example": "/**\n * Filter gkgravityactionstemplate_public_path\n *\n * @param string $path Complete path to include the base public folder.\n * @param self $template Current instance of the Template.\n * @return string Modified path\n */\nadd_filter( 'gkgravityactionstemplate_public_path', 'my_custom_gkgravityactionstemplate_public_path_filter', 10, 2 );\n\nfunction my_custom_gkgravityactionstemplate_public_path_filter($path, $template) {\n    // Modify $path as needed\n\n    return $path;\n}",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
         "line": 474
       },
-      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_public_path/"
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_public_path/",
+      "related": [
+        "gk/gravityactions/after_modal_render",
+        "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/after_modal_render:\\{$view\\}",
+        "gk/gravityactions/before_modal_render",
+        "gk/gravityactions/before_modal_render:\\{$action_key\\}"
+      ]
     },
     {
       "id": "gkgravityactionstemplate_theme_path_list",
@@ -1079,12 +1513,23 @@
           "description": "Current instance of the Template."
         }
       ],
+      "categories": [
+        "rendering"
+      ],
+      "example": "/**\n * Filter gkgravityactionstemplate_theme_path_list\n *\n * @param array $folders Complete path to include the base public folder.\n * @param string $namespace Loads the files from a specified folder from the themes.\n * @param self $template Current instance of the Template.\n * @return array Modified folders\n */\nadd_filter( 'gkgravityactionstemplate_theme_path_list', 'my_custom_gkgravityactionstemplate_theme_path_list_filter', 10, 3 );\n\nfunction my_custom_gkgravityactionstemplate_theme_path_list_filter($folders, $namespace, $template) {\n    // Modify $folders as needed\n\n    return $folders;\n}",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
         "line": 541
       },
-      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_theme_path_list/"
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_theme_path_list/",
+      "related": [
+        "gk/gravityactions/after_modal_render",
+        "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/after_modal_render:\\{$view\\}",
+        "gk/gravityactions/before_modal_render",
+        "gk/gravityactions/before_modal_render:\\{$action_key\\}"
+      ]
     },
     {
       "id": "gkgravityactionstemplate_vars",
@@ -1114,12 +1559,23 @@
           "description": "Current instance of the Template"
         }
       ],
+      "categories": [
+        "rendering"
+      ],
+      "example": "/**\n * Filter gkgravityactionstemplate_vars\n *\n * @param array $template_vars Local template vars array of data\n * @param string $file Complete path to include the PHP File\n * @param array $name Template name\n * @param self $template Current instance of the Template\n * @return array Modified template_vars\n */\nadd_filter( 'gkgravityactionstemplate_vars', 'my_custom_gkgravityactionstemplate_vars_filter', 10, 4 );\n\nfunction my_custom_gkgravityactionstemplate_vars_filter($template_vars, $file, $name, $template) {\n    // Modify $template_vars as needed\n\n    return $template_vars;\n}",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
         "line": 362
       },
-      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_vars/"
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_vars/",
+      "related": [
+        "gk/gravityactions/after_modal_render",
+        "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/after_modal_render:\\{$view\\}",
+        "gk/gravityactions/before_modal_render",
+        "gk/gravityactions/before_modal_render:\\{$action_key\\}"
+      ]
     },
     {
       "id": "gkgravityactionstemplate_vars_get",
@@ -1154,12 +1610,23 @@
           "description": "Current instance of the Template."
         }
       ],
+      "categories": [
+        "rendering"
+      ],
+      "example": "/**\n * Filter gkgravityactionstemplate_vars_get\n *\n * @param mixed $value The value that will be filtered.\n * @param array\\ $index string`\n * @param mixed $default Default value if the search finds nothing.\n * @param bool $is_local Use the Local or Global template vars.\n * @param self $template Current instance of the Template.\n * @return mixed Modified value\n */\nadd_filter( 'gkgravityactionstemplate_vars_get', 'my_custom_gkgravityactionstemplate_vars_get_filter', 10, 5 );\n\nfunction my_custom_gkgravityactionstemplate_vars_get_filter($value, $index, $default, $is_local, $template) {\n    // Modify $value as needed\n\n    return $value;\n}",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
         "line": 295
       },
-      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_vars_get/"
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_vars_get/",
+      "related": [
+        "gk/gravityactions/after_modal_render",
+        "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+        "gk/gravityactions/after_modal_render:\\{$view\\}",
+        "gk/gravityactions/before_modal_render",
+        "gk/gravityactions/before_modal_render:\\{$action_key\\}"
+      ]
     }
   ],
   "stats": {

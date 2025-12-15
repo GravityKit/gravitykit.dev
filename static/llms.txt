@@ -74,6 +74,8 @@ When helping developers with GravityKit:
 4. Include the full hook name with any dynamic portions (e.g., `{field_type}`)
 5. Check related hooks for comprehensive solutions
 
+
+
 ## Statistics (Auto-Updated)
 
 - **Total Hooks:** 894
