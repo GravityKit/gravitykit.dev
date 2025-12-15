@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 /**
- * Generate index.md files for Actions and Filters directories
- * This enables the ./Actions/ and ./Filters/ links to work in Docusaurus
+ * Generate index.md files for actions and filters directories
+ * This enables the ./actions/ and ./filters/ links to work in Docusaurus
  */
 
 import fs from 'node:fs';
@@ -12,7 +12,7 @@ import { fileURLToPath } from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const docsDir = path.join(__dirname, '..', 'docs');
 
-// Find all Actions and Filters directories
+// Find all actions and filters directories (lowercase)
 function findCategoryDirs(dir) {
   const results = [];
   const entries = fs.readdirSync(dir, { withFileTypes: true });
@@ -20,7 +20,7 @@ function findCategoryDirs(dir) {
   for (const entry of entries) {
     const fullPath = path.join(dir, entry.name);
     if (entry.isDirectory()) {
-      if (entry.name === 'Actions' || entry.name === 'Filters') {
+      if (entry.name === 'actions' || entry.name === 'filters') {
         results.push(fullPath);
       } else {
         results.push(...findCategoryDirs(fullPath));
@@ -55,22 +55,26 @@ function getProductName(dirPath) {
 function generateIndexContent(dirPath, category) {
   const productName = getProductName(dirPath);
   const hookCount = countHooks(dirPath);
-  const hookType = category === 'Actions' ? 'action' : 'filter';
-  const hookTypePlural = category === 'Actions' ? 'actions' : 'filters';
+  // category is lowercase ('actions' or 'filters')
+  const isActions = category === 'actions';
+  const hookType = isActions ? 'action' : 'filter';
+  const hookTypePlural = isActions ? 'actions' : 'filters';
+  // Capitalize for display
+  const categoryTitle = category.charAt(0).toUpperCase() + category.slice(1);
   // Actions at position 2, Filters at position 3 (product index is at 1)
-  const sidebarPosition = category === 'Actions' ? 2 : 3;
+  const sidebarPosition = isActions ? 2 : 3;
 
-  const description = category === 'Actions'
+  const description = isActions
     ? `Actions allow you to run custom code at specific points during ${productName}'s execution.`
     : `Filters allow you to modify data as it passes through ${productName}.`;
 
   return `---
 sidebar_position: ${sidebarPosition}
-title: ${category}
+title: ${categoryTitle}
 description: ${productName} ${hookTypePlural}
 ---
 
-# ${category}
+# ${categoryTitle}
 
 ${description}
 

@@ -123,6 +123,21 @@ function deleteDirRecursive(dir) {
 }
 
 /**
+ * Rename directory to lowercase if it exists
+ */
+function lowercaseDirectory(dir, name) {
+  const upperPath = path.join(dir, name);
+  const lowerPath = path.join(dir, name.toLowerCase());
+
+  if (fs.existsSync(upperPath) && upperPath !== lowerPath) {
+    // Use a temp name to handle case-insensitive filesystems (macOS)
+    const tempPath = path.join(dir, `_temp_${name.toLowerCase()}`);
+    fs.renameSync(upperPath, tempPath);
+    fs.renameSync(tempPath, lowerPath);
+  }
+}
+
+/**
  * Run wp-hooks-documentor for a product
  */
 function generateHooksDocs(product, config, options) {
@@ -257,6 +272,10 @@ function generateHooksDocs(product, config, options) {
       copyDirRecursive(generatedHooksDir, finalOutputDir);
     }
 
+    // Rename Actions/Filters to lowercase for cleaner URLs
+    lowercaseDirectory(finalOutputDir, 'Actions');
+    lowercaseDirectory(finalOutputDir, 'Filters');
+
     // Generate index.md for the product
     generateProductIndex(product, finalOutputDir);
 
@@ -273,9 +292,9 @@ function generateHooksDocs(product, config, options) {
 function generateProductIndex(product, outputDir) {
   const indexPath = path.join(outputDir, 'index.md');
 
-  // Check if Actions and Filters directories exist
-  const actionsDir = path.join(outputDir, 'Actions');
-  const filtersDir = path.join(outputDir, 'Filters');
+  // Check if actions and filters directories exist (lowercase)
+  const actionsDir = path.join(outputDir, 'actions');
+  const filtersDir = path.join(outputDir, 'filters');
 
   const hasActions = fs.existsSync(actionsDir) && fs.readdirSync(actionsDir).filter(f => f.endsWith('.md')).length > 0;
   const hasFilters = fs.existsSync(filtersDir) && fs.readdirSync(filtersDir).filter(f => f.endsWith('.md')).length > 0;
@@ -297,13 +316,13 @@ This documentation covers all WordPress hooks (actions and filters) available in
 
 ${hasActions ? `## Actions
 
-[View all Actions](./Actions/) (${actionCount} hooks)
+[View all Actions](./actions/) (${actionCount} hooks)
 
 Actions allow you to run custom code at specific points during ${product.label}'s execution.
 ` : ''}
 ${hasFilters ? `## Filters
 
-[View all Filters](./Filters/) (${filterCount} hooks)
+[View all Filters](./filters/) (${filterCount} hooks)
 
 Filters allow you to modify data as it passes through ${product.label}.
 ` : ''}
