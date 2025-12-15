@@ -183,13 +183,19 @@ const config = {
         darkTheme: prismThemes.dracula,
         additionalLanguages: ['php', 'bash'],
       },
-      // Algolia search disabled until configured
-      // algolia: {
-      //   appId: 'YOUR_APP_ID',
-      //   apiKey: 'YOUR_SEARCH_API_KEY',
-      //   indexName: 'gravitykit',
-      //   contextualSearch: true,
-      // },
+      // Algolia DocSearch - configured via environment variables
+      // Set these in GitHub repository secrets:
+      // - ALGOLIA_APP_ID
+      // - ALGOLIA_API_KEY (search-only API key)
+      // - ALGOLIA_INDEX_NAME
+      ...(process.env.ALGOLIA_APP_ID && process.env.ALGOLIA_API_KEY && {
+        algolia: {
+          appId: process.env.ALGOLIA_APP_ID,
+          apiKey: process.env.ALGOLIA_API_KEY,
+          indexName: process.env.ALGOLIA_INDEX_NAME || 'gravitykit',
+          contextualSearch: true,
+        },
+      }),
     }),
 
 
