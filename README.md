@@ -28,7 +28,7 @@ npm install
 npm run repos:clone
 
 # Generate hooks documentation
-npm run regen:hooks
+npm run hooks:generate
 
 # Start local development server
 npm start
@@ -76,7 +76,7 @@ gh auth login
 | Command | Description |
 |---------|-------------|
 | `npm run repos:clone` | Clone/update all product repositories from GitHub |
-| `npm run regen:hooks` | Generate hooks documentation from cloned repos |
+| `npm run hooks:generate` | Generate hooks documentation from cloned repos |
 | `npm run docs:full` | Full pipeline: clone repos, generate docs, build site |
 | `npm start` | Start local development server |
 | `npm run build` | Build static site for production |
@@ -95,10 +95,10 @@ npm run repos:clone -- --help           # Show help
 
 **Generate Documentation**
 ```bash
-npm run regen:hooks                     # Generate all hooks docs
-npm run regen:hooks -- --product gravityview  # Generate specific product
-npm run regen:hooks -- --dry-run        # Preview without making changes
-npm run regen:hooks -- --help           # Show help
+npm run hooks:generate                     # Generate all hooks docs
+npm run hooks:generate -- --product gravityview  # Generate specific product
+npm run hooks:generate -- --dry-run        # Preview without making changes
+npm run hooks:generate -- --help           # Show help
 ```
 
 ## Project Structure
@@ -171,7 +171,7 @@ Central configuration file mapping products to GitHub repositories:
 
 ```bash
 npm run repos:clone -- --product new-product
-npm run regen:hooks -- --product new-product
+npm run hooks:generate -- --product new-product
 ```
 
 ## Deployment
@@ -265,7 +265,7 @@ The build will skip products that don't have generated documentation. Run:
 
 ```bash
 npm run repos:clone
-npm run regen:hooks
+npm run hooks:generate
 ```
 
 ## Support

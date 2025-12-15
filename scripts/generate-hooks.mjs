@@ -7,10 +7,10 @@
  * hooks documentation using wp-hooks-documentor.
  *
  * Usage:
- *   npm run regen:hooks          # Regenerate all hooks docs
- *   npm run regen:hooks -- --product gravityview  # Single product (exact ID)
- *   npm run regen:hooks -- --dry-run  # Preview without changes
- *   npm run regen:hooks -- --list     # List available product IDs
+ *   npm run hooks:generate          # Regenerate all hooks docs
+ *   npm run hooks:generate -- --product gravityview  # Single product (exact ID)
+ *   npm run hooks:generate -- --dry-run  # Preview without changes
+ *   npm run hooks:generate -- --list     # List available product IDs
  *
  * Prerequisites:
  *   - wp-hooks-documentor installed globally: npm i -g github:GravityKit/wp-hooks-documentor
@@ -344,7 +344,7 @@ This documentation provides a comprehensive reference for all WordPress hooks (a
 
 ## Products
 
-${productList || '_No products generated yet. Run `npm run regen:hooks` to generate documentation._'}
+${productList || '_No products generated yet. Run `npm run hooks:generate` to generate documentation._'}
 
 ## About Hooks
 
@@ -397,7 +397,7 @@ function printHelp() {
 ${colors.bright}Regenerate Hooks Documentation from GitHub Repositories${colors.reset}
 
 ${colors.cyan}Usage:${colors.reset}
-  npm run regen:hooks [options]
+  npm run hooks:generate [options]
 
 ${colors.cyan}Options:${colors.reset}
   --product, -p <id>    Generate docs for a specific product only (exact ID match)
@@ -406,10 +406,10 @@ ${colors.cyan}Options:${colors.reset}
   --help, -h            Show this help message
 
 ${colors.cyan}Examples:${colors.reset}
-  npm run regen:hooks                      # Generate all hooks docs
-  npm run regen:hooks -- --list            # Show all product IDs
-  npm run regen:hooks -- -p gravityview    # Generate only GravityView
-  npm run regen:hooks -- --dry-run         # Preview mode
+  npm run hooks:generate                      # Generate all hooks docs
+  npm run hooks:generate -- --list            # Show all product IDs
+  npm run hooks:generate -- -p gravityview    # Generate only GravityView
+  npm run hooks:generate -- --dry-run         # Preview mode
 
 ${colors.cyan}Prerequisites:${colors.reset}
   1. Install wp-hooks-documentor: npm i -g github:GravityKit/wp-hooks-documentor
@@ -429,7 +429,7 @@ ${colors.bright}Available Product IDs${colors.reset}
 
 ${products.map((p) => `  ${colors.cyan}${p.id}${colors.reset} → ${p.label}`).join('\n')}
 
-${colors.dim}Use: npm run regen:hooks -- --product <id>${colors.reset}
+${colors.dim}Use: npm run hooks:generate -- --product <id>${colors.reset}
 `);
 }
 

@@ -14,7 +14,8 @@
     "write-heading-ids": "docusaurus write-heading-ids",
     "repos:clone": "node ./scripts/clone-repos.mjs",
     "repos:update": "node ./scripts/clone-repos.mjs",
-    "docs:generate": "node ./scripts/generate-hooks.mjs && node ./scripts/generate-category-indexes.mjs",
+    "hooks:generate": "node ./scripts/generate-hooks.mjs",
+    "docs:generate": "npm run hooks:generate && node ./scripts/generate-category-indexes.mjs",
     "docs:full": "npm run repos:clone && npm run docs:generate && npm run build"
   },
   "dependencies": {

@@ -467,7 +467,7 @@ async function main() {
 
   logSuccess('All repositories processed successfully!');
   logInfo(`Repos are in: ${reposDir}`);
-  logInfo('Next step: npm run regen:hooks');
+  logInfo('Next step: npm run hooks:generate');
 
   return 0;
 }
