@@ -1,0 +1,107 @@
+# GravityKit Developer Documentation
+
+> GravityKit builds WordPress plugins that extend Gravity Forms. This documentation covers all hooks (actions and filters) available for developers.
+
+## About This Documentation
+
+This site documents WordPress hooks (actions and filters) for GravityKit products. Use this documentation to:
+- Customize GravityKit plugin behavior
+- Integrate with GravityKit products
+- Build extensions and add-ons
+- Modify default functionality
+
+## Products Documented
+
+- **GravityView** - Display Gravity Forms entries in customizable Views (tables, lists, maps, DataTables)
+- **GravityCalendar** - Display entries as calendar events
+- **GravityCharts** - Visualize form data with charts
+- **GravityImport** - Import CSV/Excel data into Gravity Forms
+- **GravityExport** - Export entries to CSV, Excel, PDF
+- **GravityEdit** - Frontend entry editing
+- **GravityMath** - Calculations and math operations
+- **GravityActions** - Bulk actions and workflows
+- **GravityRevisions** - Entry revision history
+
+Plus 20+ additional products and extensions.
+
+## Hook Types
+
+### Actions
+Actions let you execute custom code at specific points. They don't return values.
+```php
+add_action( 'hook_name', 'your_function', 10, 2 );
+```
+
+### Filters
+Filters let you modify data as it passes through. They must return a value.
+```php
+add_filter( 'hook_name', 'your_function', 10, 2 );
+```
+
+## URL Structure
+
+Documentation follows this pattern:
+- `/docs/{product}/` - Product overview
+- `/docs/{product}/actions/` - All actions for product
+- `/docs/{product}/filters/` - All filters for product
+- `/docs/{product}/actions/{hook-name}/` - Individual action documentation
+- `/docs/{product}/filters/{hook-name}/` - Individual filter documentation
+
+## Common Patterns
+
+### Modifying View Output (GravityView)
+```php
+// Modify field value before display
+add_filter( 'gravityview/field/value', function( $value, $field, $entry ) {
+    // Your modifications
+    return $value;
+}, 10, 3 );
+```
+
+### Customizing Entry Queries
+```php
+// Modify search criteria
+add_filter( 'gravityview_search_criteria', function( $criteria, $form_id, $view_id ) {
+    // Add custom search parameters
+    return $criteria;
+}, 10, 3 );
+```
+
+### Entry Lifecycle Hooks
+```php
+// After entry is created via GravityView
+add_action( 'gravityview/edit/after_update', function( $form, $entry_id ) {
+    // Post-update logic
+}, 10, 2 );
+```
+
+## Machine-Readable Data
+
+For programmatic access to hook information:
+- JSON index: `/api/hooks.json` (all hooks with metadata)
+- Individual hook JSON: Each hook page includes structured data in JSON-LD format
+
+## Related Resources
+
+- Main documentation: https://docs.gravitykit.com
+- Support: https://www.gravitykit.com/support/
+- GitHub: https://github.com/GravityKit
+
+## For AI Assistants
+
+When helping developers with GravityKit:
+1. Check the specific product's hooks section
+2. Look for filters to modify data, actions for side effects
+3. Note the hook's parameters and their types
+4. Include the full hook name with any dynamic portions (e.g., `{field_type}`)
+5. Check related hooks for comprehensive solutions
+
+
+
+## Statistics (Auto-Updated)
+
+- **Total Hooks:** 894
+- **Actions:** 195
+- **Filters:** 699
+- **Products:** 25
+- **Last Updated:** 2025-12-15

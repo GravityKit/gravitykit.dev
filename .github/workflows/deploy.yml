@@ -48,6 +48,9 @@ jobs:
       - name: Generate hooks documentation
         run: npm run docs:generate
 
+      - name: Enhance documentation for LLMs
+        run: npm run llm:enhance
+
       - name: Build site
         run: npm run build
         env:

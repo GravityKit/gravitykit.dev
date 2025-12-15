@@ -16,7 +16,8 @@
     "repos:update": "node ./scripts/clone-repos.mjs",
     "hooks:generate": "node ./scripts/generate-hooks.mjs",
     "docs:generate": "npm run hooks:generate && node ./scripts/generate-category-indexes.mjs",
-    "docs:full": "npm run repos:clone && npm run docs:generate && npm run build"
+    "llm:enhance": "node ./scripts/enhance-for-llms.mjs",
+    "docs:full": "npm run repos:clone && npm run docs:generate && npm run llm:enhance && npm run build"
   },
   "dependencies": {
     "@docusaurus/core": "^3.5.2",

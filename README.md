@@ -222,6 +222,36 @@ npm run docs:full  # Clone repos, generate docs, build
 # Then deploy the 'build' directory to your host
 ```
 
+## LLM-Friendly Documentation
+
+This documentation is optimized for consumption by Large Language Models (LLMs) to help developers using AI assistants:
+
+### Features
+
+- **`/llms.txt`** - Context file following the emerging llms.txt standard
+- **`/api/hooks.json`** - Complete hooks database in JSON format
+- **`/api/hooks-compact.json`** - Lightweight version for quick lookups
+- **Usage examples** - Every hook includes copy-paste-ready code examples
+- **Structured data** - Consistent frontmatter and parameter tables
+
+### Machine-Readable API
+
+The hooks API provides programmatic access to all hook information:
+
+```bash
+# Full hooks database
+curl https://gravitykit.dev/api/hooks.json
+
+# Compact version (smaller payload)
+curl https://gravitykit.dev/api/hooks-compact.json
+```
+
+### Regenerating LLM Enhancements
+
+```bash
+npm run llm:enhance  # Regenerate JSON APIs and add examples
+```
+
 ## Search Configuration
 
 The site uses Algolia DocSearch for search functionality. To configure:
