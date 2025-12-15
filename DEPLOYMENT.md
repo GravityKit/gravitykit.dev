@@ -5,7 +5,7 @@ This guide explains how to deploy the unified GravityKit documentation site to `
 ## Prerequisites
 
 1. **Domain Configuration**: Ensure `gravitykit.dev` DNS is configured to point to your hosting provider
-2. **Repository**: Push the `gravitykit-docs` directory to a Git repository (GitHub recommended)
+2. **Repository**: Push the `gravitykit.dev` directory to a Git repository (GitHub recommended)
 3. **Node.js**: Version 18 or higher installed
 
 ## Deployment Options
@@ -20,7 +20,7 @@ Vercel provides excellent Docusaurus support with automatic deployments.
    - Go to [vercel.com](https://vercel.com)
    - Click "New Project"
    - Import your repository
-   - Select the `Products/gravitykit-docs` directory as the root
+   - Select the `gravitykit.dev` directory as the root
 
 2. **Configure Build Settings**
    ```
@@ -58,7 +58,7 @@ Netlify also provides excellent Docusaurus support.
    - Connect to your Git repository
 
 2. **Build Settings**
-   - Base directory: `Products/gravitykit-docs`
+   - Base directory: `gravitykit.dev`
    - Build command: `npm run build`
    - Publish directory: `build`
 
@@ -77,7 +77,7 @@ For GitHub Pages deployment:
 
 1. **Repository Setup**
    ```bash
-   cd Products/gravitykit-docs
+   cd gravitykit.dev
    git init
    git add .
    git commit -m "Initial commit"
@@ -105,7 +105,7 @@ For self-hosted deployment on your own server:
 
 1. **Build Site**
    ```bash
-   cd Products/gravitykit-docs
+   cd gravitykit.dev
    npm install
    npm run build
    ```
@@ -121,7 +121,7 @@ For self-hosted deployment on your own server:
    server {
        listen 80;
        server_name gravitykit.dev;
-       root /var/www/gravitykit-docs/build;
+       root /var/www/gravitykit.dev/build;
 
        index index.html;
 
@@ -141,9 +141,9 @@ For self-hosted deployment on your own server:
    ```apache
    <VirtualHost *:80>
        ServerName gravitykit.dev
-       DocumentRoot /var/www/gravitykit-docs/build
+       DocumentRoot /var/www/gravitykit.dev/build
 
-       <Directory /var/www/gravitykit-docs/build>
+       <Directory /var/www/gravitykit.dev/build>
            Options -Indexes +FollowSymLinks
            AllowOverride All
            Require all granted
@@ -232,12 +232,12 @@ jobs:
 
     - name: Install dependencies
       run: |
-        cd Products/gravitykit-docs
+        cd gravitykit.dev
         npm install
 
     - name: Build
       run: |
-        cd Products/gravitykit-docs
+        cd gravitykit.dev
         npm run build
 
     - name: Deploy to Vercel

@@ -104,7 +104,7 @@ npm run hooks:generate -- --help           # Show help
 ## Project Structure
 
 ```
-gravitykit-docs/
+gravitykit.dev/
 ├── docs/                       # Documentation output
 │   ├── index.md               # Main homepage
 │   ├── gravityview/           # Each product gets its own directory

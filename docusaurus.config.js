@@ -54,7 +54,7 @@ const config = {
 
   // GitHub pages deployment config.
   organizationName: 'gravitykit',
-  projectName: 'gravitykit-docs',
+  projectName: 'gravitykit.dev',
 
   onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
