@@ -1,0 +1,29 @@
+.heroBanner {
+  padding: 4rem 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 996px) {
+  .heroBanner {
+    padding: 2rem;
+  }
+}
+
+.products {
+  padding: 4rem 0;
+  background-color: var(--ifm-color-emphasis-100);
+}
+
+:global(.card) {
+  height: 100%;
+}
+:global( .card__header ){
+  display: flex;
+  gap: 1rem;
+}
+:global( .card__header img) {
+  height: 60px;
+  width: 60px;
+}

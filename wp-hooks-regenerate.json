@@ -1,0 +1,378 @@
+{
+  "_comment": "Set WP_PLUGINS_DIR environment variable to override wp_plugins_dir for local regeneration",
+  "wp_plugins_dir": "",
+  "defaults": {
+    "ignoreFiles": [
+      "**/vendor/**",
+      "**/vendor_prefixed/**",
+      "**/node_modules/**",
+      "**/tests/**",
+      "**/test/**",
+      "**/.git/**",
+      "**/build/**",
+      "**/dist/**",
+      "**/tmp/**",
+      "**/temp/**",
+      "**/*.min.js",
+      "**/*.min.css"
+    ],
+    "ignoreHooks": [
+      "deprecated_*",
+      "private_*",
+      "_internal_*",
+      "gk/foundation*"
+    ],
+    "customFields": {
+      "since": true,
+      "deprecated": true,
+      "internal": false,
+      "example": true
+    },
+    "outputStructure": {
+      "actions": true,
+      "filters": true,
+      "byFile": true,
+      "byFeature": false
+    }
+  },
+  "plugins": {
+    "gravityview-advanced-filtering": {
+      "wp_plugin_dir": "gravityview-advanced-filter"
+    },
+    "gravityview-dashboard-views": {
+      "wp_plugin_dir": "gravityview-dashboard"
+    },
+    "gravityview-social-sharing-seo": {
+      "wp_plugin_dir": "gravityview-social-sharing-seo"
+    },
+    "calendar": {
+      "wp_plugin_dir": "Calendar"
+    }
+  },
+  "products": [
+    {
+      "id": "gravityactions",
+      "docs": {
+        "path": "../../Products/GravityActions/docusaurus/docs",
+        "routeBasePath": "docs/gravityactions",
+        "editUrl": "https://github.com/GravityKit/GravityActions/edit/develop/"
+      },
+      "nav": {
+        "label": "GravityActions",
+        "href": "/docs/gravityactions/hooks"
+      }
+    },
+    {
+      "id": "gravityview-advanced-filtering",
+      "docs": {
+        "path": "../../Products/GravityView-Advanced-Filtering/docusaurus/docs",
+        "routeBasePath": "docs/gravityview-advanced-filtering",
+        "editUrl": "https://github.com/GravityKit/Advanced-Filter/edit/develop/"
+      },
+      "nav": {
+        "label": "GravityView - Advanced Filtering",
+        "href": "/docs/gravityview-advanced-filtering/hooks"
+      }
+    },
+    {
+      "id": "gravityview-az-filters",
+      "docs": {
+        "path": "../../Products/GravityView-AZ-Filters/docusaurus/docs",
+        "routeBasePath": "docs/gravityview-az-filters",
+        "editUrl": "https://github.com/GravityKit/AZ-Filters/edit/develop/"
+      },
+      "nav": {
+        "label": "GravityView - A-Z Filters",
+        "href": "/docs/gravityview-az-filters/hooks"
+      }
+    },
+    {
+      "id": "gravityboard",
+      "docs": {
+        "path": "../../Products/GravityBoard/docusaurus/docs",
+        "routeBasePath": "docs/gravityboard",
+        "editUrl": "https://github.com/GravityKit/GravityBoard/edit/develop/"
+      },
+      "nav": {
+        "label": "GravityBoard",
+        "href": "/docs/gravityboard/hooks"
+      }
+    },
+    {
+      "id": "calendar",
+      "docs": {
+        "path": "../../Products/GravityCalendar/docusaurus/docs",
+        "routeBasePath": "docs/gravitycalendar",
+        "editUrl": "https://github.com/GravityKit/GravityCalendar/edit/develop/"
+      },
+      "nav": {
+        "label": "GravityCalendar",
+        "href": "/docs/gravitycalendar/hooks"
+      }
+    },
+    {
+      "id": "gravitycharts",
+      "docs": {
+        "path": "../../Products/GravityCharts/docusaurus/docs",
+        "routeBasePath": "docs/gravitycharts",
+        "editUrl": "https://github.com/GravityKit/GravityCharts/edit/develop/"
+      },
+      "nav": {
+        "label": "GravityCharts",
+        "href": "/docs/gravitycharts/hooks"
+      }
+    },
+    {
+      "id": "gravityview-dashboard-views",
+      "docs": {
+        "path": "../../Products/GravityView-Dashboard-Views/docusaurus/docs",
+        "routeBasePath": "docs/gravityview-dashboard-views",
+        "editUrl": "https://github.com/GravityKit/Dashboard-Views/edit/develop/"
+      },
+      "nav": {
+        "label": "GravityView - Dashboard Views",
+        "href": "/docs/gravityview-dashboard-views/hooks"
+      }
+    },
+    {
+      "id": "datatables",
+      "docs": {
+        "path": "../../Products/GravityView-DataTables/docusaurus/docs",
+        "routeBasePath": "docs/gravityview-datatables",
+        "editUrl": "https://github.com/GravityKit/DataTables/edit/develop/"
+      },
+      "nav": {
+        "label": "GravityView - DataTables",
+        "href": "/docs/gravityview-datatables/hooks"
+      }
+    },
+    {
+      "id": "gravityview-diy-layout",
+      "docs": {
+        "path": "../../Products/GravityView-DIY/docusaurus/docs",
+        "routeBasePath": "docs/gravityview-diy-layout",
+        "editUrl": "https://github.com/GravityKit/DIY/edit/develop/"
+      },
+      "nav": {
+        "label": "gravityview-diy-layout",
+        "href": "/docs/gravityview-diy-layout/hooks"
+      }
+    },
+    {
+      "id": "gravity-forms-dynamic-lookup",
+      "docs": {
+        "path": "../../Products/Dynamic-Lookup/docusaurus/docs",
+        "routeBasePath": "docs/gravity-forms-dynamic-lookup",
+        "editUrl": "https://github.com/GravityKit/gravity-forms-dynamic-lookup/edit/develop/"
+      },
+      "nav": {
+        "label": "Gravity Forms Dynamic Lookup Field",
+        "href": "/docs/gravity-forms-dynamic-lookup/hooks"
+      }
+    },
+    {
+      "id": "gravityedit",
+      "docs": {
+        "path": "../../Products/GravityEdit/docusaurus/docs",
+        "routeBasePath": "docs/gravityedit",
+        "editUrl": "https://github.com/GravityKit/GravityEdit/edit/develop/"
+      },
+      "nav": {
+        "label": "GravityEdit",
+        "href": "/docs/gravityedit/hooks"
+      }
+    },
+    {
+      "id": "gravity-forms-elementor-widget",
+      "docs": {
+        "path": "../../Products/Elementor-Widget/docusaurus/docs",
+        "routeBasePath": "docs/gravity-forms-elementor-widget",
+        "editUrl": "https://github.com/GravityKit/gravity-forms-elementor-widget/edit/develop/"
+      },
+      "nav": {
+        "label": "GravityView - Elementor Widget",
+        "href": "/docs/gravity-forms-elementor-widget/hooks"
+      }
+    },
+    {
+      "id": "gravity-forms-event-field",
+      "docs": {
+        "path": "../../Products/Event-Field/docusaurus/docs",
+        "routeBasePath": "docs/gravity-forms-event-field",
+        "editUrl": "https://github.com/GravityKit/Event-Field/edit/develop/"
+      },
+      "nav": {
+        "label": "Gravity Forms Event Field",
+        "href": "/docs/gravity-forms-event-field/hooks"
+      }
+    },
+    {
+      "id": "gravityexport",
+      "docs": {
+        "path": "../../Products/GravityExport/docusaurus/docs",
+        "routeBasePath": "docs/gravityexport",
+        "editUrl": "https://github.com/GravityKit/GravityExport/edit/develop/"
+      },
+      "nav": {
+        "label": "GravityExport",
+        "href": "/docs/gravityexport/hooks"
+      }
+    },
+    {
+      "id": "gravityview-featured-entries",
+      "docs": {
+        "path": "../../Products/GravityView-Featured-Entries/docusaurus/docs",
+        "routeBasePath": "docs/gravityview-featured-entries",
+        "editUrl": "https://github.com/GravityKit/Featured-Entries/edit/develop/"
+      },
+      "nav": {
+        "label": "GravityView - Featured Entries",
+        "href": "/docs/gravityview-featured-entries/hooks"
+      }
+    },
+    {
+      "id": "gravityimport",
+      "docs": {
+        "path": "../../Products/GravityImport/docusaurus/docs",
+        "routeBasePath": "docs/gravityimport",
+        "editUrl": "https://github.com/GravityKit/GravityImport/edit/develop/"
+      },
+      "nav": {
+        "label": "GravityImport",
+        "href": "/docs/gravityimport/hooks"
+      }
+    },
+    {
+      "id": "gravityview-magic-links",
+      "docs": {
+        "path": "../../Products/GravityView-Magic-Links/docusaurus/docs",
+        "routeBasePath": "docs/gravityview-magic-links",
+        "editUrl": "https://github.com/GravityKit/gravityview-magic-links/edit/develop/"
+      },
+      "nav": {
+        "label": "GravityView - Magic Links",
+        "href": "/docs/gravityview-magic-links/hooks"
+      }
+    },
+    {
+      "id": "gravityview-maps",
+      "docs": {
+        "path": "../../Products/GravityMaps/docusaurus/docs",
+        "routeBasePath": "docs/gravityview-maps",
+        "editUrl": "https://github.com/GravityKit/Maps/edit/develop/"
+      },
+      "nav": {
+        "label": "GravityView - Maps",
+        "href": "/docs/gravityview-maps/hooks"
+      }
+    },
+    {
+      "id": "gravitymath",
+      "docs": {
+        "path": "../../Products/GravityMath/docusaurus/docs",
+        "routeBasePath": "docs/gravitymath",
+        "editUrl": "https://github.com/gravityview/gravityview-math/edit/develop/"
+      },
+      "nav": {
+        "label": "GravityMath",
+        "href": "/docs/gravitymath/hooks"
+      }
+    },
+    {
+      "id": "gravitymigrate",
+      "docs": {
+        "path": "../../Products/GravityMigrate/docusaurus/docs",
+        "routeBasePath": "docs/gravitymigrate",
+        "editUrl": "https://github.com/GravityKit/GravityMigrate/edit/develop/"
+      },
+      "nav": {
+        "label": "GravityMigrate",
+        "href": "/docs/gravitymigrate/hooks"
+      }
+    },
+    {
+      "id": "gravityview-multiple-forms",
+      "docs": {
+        "path": "../../Products/GravityView-Multiple-Forms/docusaurus/docs",
+        "routeBasePath": "docs/gravityview-multiple-forms",
+        "editUrl": "https://github.com/GravityKit/Multiple-Forms/edit/develop/"
+      },
+      "nav": {
+        "label": "GravityView - Multiple Forms",
+        "href": "/docs/gravityview-multiple-forms/hooks"
+      }
+    },
+    {
+      "id": "gravityview-ratings-reviews",
+      "docs": {
+        "path": "../../Products/GravityView-Ratings-Reviews/docusaurus/docs",
+        "routeBasePath": "docs/gravityview-ratings-reviews",
+        "editUrl": "https://github.com/GravityKit/Ratings-Reviews/edit/develop/"
+      },
+      "nav": {
+        "label": "GravityView - Ratings & Reviews",
+        "href": "/docs/gravityview-ratings-reviews/hooks"
+      }
+    },
+    {
+      "id": "gravityrevisions",
+      "docs": {
+        "path": "../../Products/GravityRevisions/docusaurus/docs",
+        "routeBasePath": "docs/gravityrevisions",
+        "editUrl": "https://github.com/GravityKit/GravityRevisions/edit/develop/"
+      },
+      "nav": {
+        "label": "GravityRevisions",
+        "href": "/docs/gravityrevisions/hooks"
+      }
+    },
+    {
+      "id": "gravityview-social-sharing-seo",
+      "docs": {
+        "path": "../../Products/GravityView-Social-Sharing-SEO/docusaurus/docs",
+        "routeBasePath": "docs/gravityview-social-sharing-seo",
+        "editUrl": "https://github.com/GravityKit/Social-Sharing/edit/develop/"
+      },
+      "nav": {
+        "label": "GravityView - SEO & Social Sharing",
+        "href": "/docs/gravityview-social-sharing-seo/hooks"
+      }
+    },
+    {
+      "id": "gravity-forms-entry-tags",
+      "docs": {
+        "path": "../../Products/Entry-Tags/docusaurus/docs",
+        "routeBasePath": "docs/gravity-forms-entry-tags",
+        "editUrl": "https://github.com/GravityKit/Entry-Tags/edit/develop/"
+      },
+      "nav": {
+        "label": "Gravity Forms Entry Tags",
+        "href": "/docs/gravity-forms-entry-tags/hooks"
+      }
+    },
+    {
+      "id": "gravityview",
+      "docs": {
+        "path": "../../Products/GravityView/docusaurus/docs",
+        "routeBasePath": "docs/gravityview",
+        "editUrl": "https://github.com/GravityKit/GravityView/edit/develop/"
+      },
+      "nav": {
+        "label": "GravityView",
+        "href": "/docs/gravityview/hooks"
+      }
+    },
+    {
+      "id": "gravity-forms-zero-spam",
+      "docs": {
+        "path": "../../Products/Zero-Spam/docusaurus/docs",
+        "routeBasePath": "docs/gravity-forms-zero-spam",
+        "editUrl": "https://github.com/GravityKit/gravity-forms-zero-spam/edit/develop/"
+      },
+      "nav": {
+        "label": "Gravity Forms Zero Spam",
+        "href": "/docs/gravity-forms-zero-spam/hooks"
+      }
+    }
+  ]
+}

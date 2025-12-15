@@ -1,0 +1,590 @@
+#!/usr/bin/env node
+
+/**
+ * Regenerate Hooks Documentation from GitHub Repositories
+ *
+ * This script processes cloned GitHub repositories to generate
+ * hooks documentation using wp-hooks-documentor.
+ *
+ * Usage:
+ *   npm run regen:hooks          # Regenerate all hooks docs
+ *   npm run regen:hooks -- --product gravityview  # Single product (exact ID)
+ *   npm run regen:hooks -- --dry-run  # Preview without changes
+ *   npm run regen:hooks -- --list     # List available product IDs
+ *
+ * Prerequisites:
+ *   - wp-hooks-documentor installed globally: npm i -g @10up/wp-hooks-documentor
+ *   - Repos cloned via: npm run repos:clone
+ */
+
+import { spawnSync } from 'node:child_process';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const PROJECT_ROOT = path.resolve(__dirname, '..');
+
+// ANSI color codes
+const colors = {
+  reset: '\x1b[0m',
+  bright: '\x1b[1m',
+  dim: '\x1b[2m',
+  red: '\x1b[31m',
+  green: '\x1b[32m',
+  yellow: '\x1b[33m',
+  blue: '\x1b[34m',
+  cyan: '\x1b[36m',
+};
+
+function log(message, color = '') {
+  console.log(`${color}${message}${colors.reset}`);
+}
+
+function logInfo(message) {
+  log(`ℹ️  ${message}`, colors.blue);
+}
+
+function logSuccess(message) {
+  log(`✅ ${message}`, colors.green);
+}
+
+function logWarning(message) {
+  log(`⚠️  ${message}`, colors.yellow);
+}
+
+function logError(message) {
+  log(`❌ ${message}`, colors.red);
+}
+
+function logStep(message) {
+  log(`\n${colors.bright}▶ ${message}${colors.reset}`);
+}
+
+/**
+ * Load configuration from repos-config.json
+ */
+function loadConfig() {
+  const configPath = path.join(PROJECT_ROOT, 'repos-config.json');
+
+  if (!fs.existsSync(configPath)) {
+    throw new Error(`Configuration file not found: ${configPath}`);
+  }
+
+  const raw = fs.readFileSync(configPath, 'utf8');
+  return JSON.parse(raw);
+}
+
+/**
+ * Check if wp-hooks-documentor is available
+ */
+function checkWpHooksDocumentor() {
+  const result = spawnSync('wp-hooks-documentor', ['--version'], {
+    encoding: 'utf8',
+    stdio: 'pipe',
+  });
+
+  if (result.error || result.status !== 0) {
+    return false;
+  }
+  return true;
+}
+
+/**
+ * Copy directory recursively
+ */
+function copyDirRecursive(src, dest) {
+  if (!fs.existsSync(src)) return;
+
+  fs.mkdirSync(dest, { recursive: true });
+
+  const entries = fs.readdirSync(src, { withFileTypes: true });
+
+  for (const entry of entries) {
+    const srcPath = path.join(src, entry.name);
+    const destPath = path.join(dest, entry.name);
+
+    if (entry.isDirectory()) {
+      copyDirRecursive(srcPath, destPath);
+    } else {
+      fs.copyFileSync(srcPath, destPath);
+    }
+  }
+}
+
+/**
+ * Delete directory recursively
+ */
+function deleteDirRecursive(dir) {
+  if (fs.existsSync(dir)) {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+}
+
+/**
+ * Run wp-hooks-documentor for a product
+ */
+function generateHooksDocs(product, config, options) {
+  const reposDir = path.resolve(PROJECT_ROOT, config.reposDir);
+  const outputBaseDir = path.resolve(PROJECT_ROOT, config.outputDir);
+
+  // Get repo directory name from repo path (org/repo -> repo)
+  const repoName = product.repo.split('/')[1];
+  const repoDir = path.join(reposDir, repoName);
+
+  // Check if repo exists
+  if (!fs.existsSync(repoDir)) {
+    return {
+      ok: false,
+      id: product.id,
+      reason: `Repository not cloned. Run: npm run repos:clone -- --product ${product.id}`,
+    };
+  }
+
+  // Determine input directory (the cloned repo)
+  const inputDir = product.srcDir
+    ? path.join(repoDir, product.srcDir)
+    : repoDir;
+
+  if (!fs.existsSync(inputDir)) {
+    return {
+      ok: false,
+      id: product.id,
+      reason: `Source directory not found: ${inputDir}`,
+    };
+  }
+
+  // Final output directory for this product's hooks
+  const finalOutputDir = path.join(outputBaseDir, product.id);
+
+  if (options.dryRun) {
+    logInfo(`[DRY RUN] Would generate: ${product.id}`);
+    logInfo(`  Input: ${path.relative(PROJECT_ROOT, inputDir)}`);
+    logInfo(`  Output: ${path.relative(PROJECT_ROOT, finalOutputDir)}`);
+    return { ok: true, id: product.id, action: 'dry_run' };
+  }
+
+  log(`\n${colors.cyan}=== ${product.label} (${product.id}) ===${colors.reset}`);
+  logInfo(`Input:  ${path.relative(PROJECT_ROOT, inputDir)}`);
+  logInfo(`Output: ${path.relative(PROJECT_ROOT, finalOutputDir)}`);
+
+  // Create a temporary working directory for wp-hooks-documentor
+  const tempWorkDir = path.join(PROJECT_ROOT, '.tmp-hooks-work', product.id);
+  const tempOutputDir = path.join(tempWorkDir, 'output');
+
+  try {
+    // Clean up any previous temp directory
+    deleteDirRecursive(tempWorkDir);
+    fs.mkdirSync(tempWorkDir, { recursive: true });
+    fs.mkdirSync(tempOutputDir, { recursive: true });
+
+    // Create wp-hooks-doc.json in the temp directory with RELATIVE paths
+    const hooksConfig = {
+      input: inputDir,  // Absolute path to source
+      outputDir: './output',  // Relative to temp work dir
+      title: product.label,
+      tagline: `Hooks documentation for ${product.label}`,
+      ignoreFiles: config.defaults.ignoreFiles || [],
+      ignoreHooks: config.defaults.ignoreHooks || [],
+      customFields: config.defaults.customFields || {},
+      // Don't build the site, just generate markdown
+      skipBuild: true,
+    };
+
+    // Merge any product-specific overrides
+    if (product.ignoreFiles) {
+      hooksConfig.ignoreFiles = [...hooksConfig.ignoreFiles, ...product.ignoreFiles];
+    }
+    if (product.ignoreHooks) {
+      hooksConfig.ignoreHooks = [...hooksConfig.ignoreHooks, ...product.ignoreHooks];
+    }
+
+    const configPath = path.join(tempWorkDir, 'wp-hooks-doc.json');
+    fs.writeFileSync(configPath, JSON.stringify(hooksConfig, null, 2));
+
+    // Run wp-hooks-documentor from the temp directory
+    const result = spawnSync('wp-hooks-documentor', ['generate', '--skip-build'], {
+      cwd: tempWorkDir,
+      stdio: 'inherit',
+      shell: false,
+    });
+
+    if (result.error) {
+      if (result.error.code === 'ENOENT') {
+        return {
+          ok: false,
+          id: product.id,
+          reason: 'wp-hooks-documentor not found. Install: npm i -g @10up/wp-hooks-documentor',
+        };
+      }
+      return {
+        ok: false,
+        id: product.id,
+        reason: result.error.message,
+      };
+    }
+
+    if (result.status !== 0) {
+      return {
+        ok: false,
+        id: product.id,
+        reason: `Exit code ${result.status}`,
+      };
+    }
+
+    // Find where the hooks were generated
+    // wp-hooks-documentor creates: output/docs/hooks/{Actions,Filters}
+    const generatedHooksDir = path.join(tempOutputDir, 'docs', 'hooks');
+
+    if (!fs.existsSync(generatedHooksDir)) {
+      // Try alternative location
+      const altHooksDir = path.join(tempOutputDir, 'hooks');
+      if (fs.existsSync(altHooksDir)) {
+        // Copy from alternative location
+        deleteDirRecursive(finalOutputDir);
+        copyDirRecursive(altHooksDir, finalOutputDir);
+      } else {
+        return {
+          ok: false,
+          id: product.id,
+          reason: 'No hooks documentation was generated',
+        };
+      }
+    } else {
+      // Copy generated hooks to final location
+      deleteDirRecursive(finalOutputDir);
+      copyDirRecursive(generatedHooksDir, finalOutputDir);
+    }
+
+    // Generate index.md for the product
+    generateProductIndex(product, finalOutputDir);
+
+    return { ok: true, id: product.id, action: 'generated' };
+  } finally {
+    // Clean up temp directory
+    deleteDirRecursive(tempWorkDir);
+  }
+}
+
+/**
+ * Generate an index.md file for a product's hooks documentation
+ */
+function generateProductIndex(product, outputDir) {
+  const indexPath = path.join(outputDir, 'index.md');
+
+  // Check if Actions and Filters directories exist
+  const actionsDir = path.join(outputDir, 'Actions');
+  const filtersDir = path.join(outputDir, 'Filters');
+
+  const hasActions = fs.existsSync(actionsDir) && fs.readdirSync(actionsDir).filter(f => f.endsWith('.md')).length > 0;
+  const hasFilters = fs.existsSync(filtersDir) && fs.readdirSync(filtersDir).filter(f => f.endsWith('.md')).length > 0;
+
+  const actionCount = hasActions ? fs.readdirSync(actionsDir).filter(f => f.endsWith('.md')).length : 0;
+  const filterCount = hasFilters ? fs.readdirSync(filtersDir).filter(f => f.endsWith('.md')).length : 0;
+
+  const content = `---
+sidebar_position: 1
+title: ${product.label} Hooks
+description: WordPress hooks (actions and filters) available in ${product.label}
+---
+
+# ${product.label} Hooks
+
+This documentation covers all WordPress hooks (actions and filters) available in ${product.label}.
+
+**Total hooks:** ${actionCount + filterCount} (${actionCount} actions, ${filterCount} filters)
+
+${hasActions ? `## Actions
+
+[View all Actions](./Actions/) (${actionCount} hooks)
+
+Actions allow you to run custom code at specific points during ${product.label}'s execution.
+` : ''}
+${hasFilters ? `## Filters
+
+[View all Filters](./Filters/) (${filterCount} hooks)
+
+Filters allow you to modify data as it passes through ${product.label}.
+` : ''}
+## Source Code
+
+The source code for ${product.label} is available on GitHub:
+- [GitHub Repository](https://github.com/${product.repo})
+`;
+
+  fs.writeFileSync(indexPath, content);
+}
+
+/**
+ * Generate main hooks index page
+ */
+function generateMainIndex(config, results) {
+  const outputDir = path.resolve(PROJECT_ROOT, config.outputDir);
+  const indexPath = path.join(outputDir, 'index.md');
+
+  const successfulProducts = results
+    .filter((r) => r.ok && r.action === 'generated')
+    .map((r) => config.products.find((p) => p.id === r.id))
+    .filter(Boolean);
+
+  const productList = successfulProducts
+    .map((p) => `- [${p.label}](./${p.id}/)`)
+    .join('\n');
+
+  const content = `---
+sidebar_position: 1
+title: GravityKit Hooks Reference
+description: Complete reference for WordPress hooks in GravityKit products
+---
+
+# GravityKit Hooks Reference
+
+This documentation provides a comprehensive reference for all WordPress hooks (actions and filters) available in GravityKit products.
+
+## Products
+
+${productList || '_No products generated yet. Run `npm run regen:hooks` to generate documentation._'}
+
+## About Hooks
+
+WordPress hooks allow developers to modify or extend plugin functionality without editing core files:
+
+- **Actions**: Run custom code at specific points during execution
+- **Filters**: Modify data as it passes through the system
+
+## Contributing
+
+Found an issue or want to improve the documentation? Each hook page links to its source code on GitHub.
+`;
+
+  fs.writeFileSync(indexPath, content);
+}
+
+/**
+ * Parse command line arguments
+ */
+function parseArgs(args) {
+  const options = {
+    product: null,
+    dryRun: false,
+    help: false,
+    list: false,
+  };
+
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i];
+
+    if (arg === '--product' || arg === '-p') {
+      options.product = args[++i];
+    } else if (arg === '--dry-run' || arg === '-n') {
+      options.dryRun = true;
+    } else if (arg === '--help' || arg === '-h') {
+      options.help = true;
+    } else if (arg === '--list' || arg === '-l') {
+      options.list = true;
+    }
+  }
+
+  return options;
+}
+
+/**
+ * Print help message
+ */
+function printHelp() {
+  console.log(`
+${colors.bright}Regenerate Hooks Documentation from GitHub Repositories${colors.reset}
+
+${colors.cyan}Usage:${colors.reset}
+  npm run regen:hooks [options]
+
+${colors.cyan}Options:${colors.reset}
+  --product, -p <id>    Generate docs for a specific product only (exact ID match)
+  --dry-run, -n         Preview what would be generated without making changes
+  --list, -l            List all available product IDs
+  --help, -h            Show this help message
+
+${colors.cyan}Examples:${colors.reset}
+  npm run regen:hooks                      # Generate all hooks docs
+  npm run regen:hooks -- --list            # Show all product IDs
+  npm run regen:hooks -- -p gravityview    # Generate only GravityView
+  npm run regen:hooks -- --dry-run         # Preview mode
+
+${colors.cyan}Prerequisites:${colors.reset}
+  1. Install wp-hooks-documentor: npm i -g @10up/wp-hooks-documentor
+  2. Clone repositories: npm run repos:clone
+
+${colors.cyan}Output:${colors.reset}
+  Documentation is generated to: ${path.relative(process.cwd(), path.join(PROJECT_ROOT, 'docs/hooks'))}
+`);
+}
+
+/**
+ * Print list of available products
+ */
+function printProductList(products) {
+  console.log(`
+${colors.bright}Available Product IDs${colors.reset}
+
+${products.map((p) => `  ${colors.cyan}${p.id}${colors.reset} → ${p.label}`).join('\n')}
+
+${colors.dim}Use: npm run regen:hooks -- --product <id>${colors.reset}
+`);
+}
+
+/**
+ * Main function
+ */
+async function main() {
+  const args = process.argv.slice(2);
+  const options = parseArgs(args);
+
+  if (options.help) {
+    printHelp();
+    return 0;
+  }
+
+  logStep('Loading configuration');
+
+  let config;
+  try {
+    config = loadConfig();
+    logSuccess(`Loaded ${config.products.length} products from repos-config.json`);
+  } catch (err) {
+    logError(`Failed to load configuration: ${err.message}`);
+    return 1;
+  }
+
+  if (options.list) {
+    printProductList(config.products);
+    return 0;
+  }
+
+  logStep('Checking prerequisites');
+
+  if (!checkWpHooksDocumentor()) {
+    logError('wp-hooks-documentor is not installed or not in PATH');
+    logInfo('Install it with: npm i -g @10up/wp-hooks-documentor');
+    return 1;
+  }
+  logSuccess('wp-hooks-documentor is available');
+
+  // Check repos directory
+  const reposDir = path.resolve(PROJECT_ROOT, config.reposDir);
+  if (!fs.existsSync(reposDir)) {
+    logError(`Repos directory not found: ${reposDir}`);
+    logInfo('Clone repositories first: npm run repos:clone');
+    return 1;
+  }
+
+  // Count available repos
+  const availableRepos = fs.readdirSync(reposDir, { withFileTypes: true })
+    .filter((d) => d.isDirectory() && !d.name.startsWith('.'))
+    .length;
+
+  if (availableRepos === 0) {
+    logError('No repositories found. Clone them first: npm run repos:clone');
+    return 1;
+  }
+  logSuccess(`Found ${availableRepos} cloned repositories`);
+
+  // Filter products if specific one requested
+  let products = config.products;
+  if (options.product) {
+    // Exact match on product ID
+    const exactMatch = products.filter((p) => p.id === options.product);
+
+    if (exactMatch.length > 0) {
+      products = exactMatch;
+    } else {
+      // No exact match - show available options
+      const similar = products.filter(
+        (p) =>
+          p.id.includes(options.product) ||
+          p.repo.toLowerCase().includes(options.product.toLowerCase())
+      );
+
+      logError(`No product found with ID: ${options.product}`);
+      if (similar.length > 0) {
+        logInfo('Did you mean one of these?');
+        similar.forEach((p) => console.log(`    ${p.id}`));
+      }
+      logInfo('Use --list to see all available product IDs');
+      return 1;
+    }
+    logInfo(`Selected: ${products[0].id}`);
+  }
+
+  // Ensure output directory exists
+  const outputDir = path.resolve(PROJECT_ROOT, config.outputDir);
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
+  }
+
+  logStep(`Generating hooks documentation for ${products.length} products`);
+
+  if (options.dryRun) {
+    logWarning('DRY RUN MODE - No files will be created or modified');
+  }
+
+  const results = [];
+  for (const product of products) {
+    const result = generateHooksDocs(product, config, options);
+    results.push(result);
+
+    // Stop on fatal errors (like missing tool)
+    if (!result.ok && result.reason.includes('wp-hooks-documentor not found')) {
+      break;
+    }
+  }
+
+  // Generate main index if not dry run and we generated something
+  if (!options.dryRun && results.some((r) => r.ok)) {
+    generateMainIndex(config, results);
+  }
+
+  // Clean up temp work directory
+  const tempWorkRoot = path.join(PROJECT_ROOT, '.tmp-hooks-work');
+  deleteDirRecursive(tempWorkRoot);
+
+  // Print summary
+  logStep('Summary');
+
+  const generated = results.filter((r) => r.ok && r.action === 'generated');
+  const dryRuns = results.filter((r) => r.ok && r.action === 'dry_run');
+  const failed = results.filter((r) => !r.ok);
+
+  if (generated.length > 0) {
+    logSuccess(`Generated: ${generated.length}`);
+    generated.forEach((r) => console.log(`    ${r.id}`));
+  }
+
+  if (dryRuns.length > 0) {
+    logInfo(`Would generate: ${dryRuns.length}`);
+  }
+
+  if (failed.length > 0) {
+    logError(`Failed: ${failed.length}`);
+    failed.forEach((r) => {
+      console.log(`    ${r.id}: ${r.reason}`);
+    });
+  }
+
+  console.log('');
+
+  if (failed.length > 0) {
+    logWarning('Some products failed. Check the errors above.');
+    return 1;
+  }
+
+  if (!options.dryRun && generated.length > 0) {
+    logSuccess('Hooks documentation generated successfully!');
+    logInfo(`Output directory: ${path.relative(process.cwd(), outputDir)}`);
+    logInfo('Next step: npm run build');
+  }
+
+  return 0;
+}
+
+process.exit(await main());
