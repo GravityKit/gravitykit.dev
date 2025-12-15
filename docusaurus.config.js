@@ -63,7 +63,11 @@ const config = {
   markdown: {
     format: 'md',
     mermaid: false,
+    preprocessor: ({filePath, fileContent}) => fileContent,
   },
+
+  // Sitemap generation for SEO
+  trailingSlash: true,
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
@@ -87,6 +91,15 @@ const config = {
         theme: {
           customCss: './src/css/custom.css',
         },
+        // Sitemap configuration for SEO
+        sitemap: {
+          changefreq: 'weekly',
+          priority: 0.5,
+          ignorePatterns: ['/tags/**'],
+          filename: 'sitemap.xml',
+        },
+        // Google Tag Manager (can be configured later)
+        gtag: undefined,
       }),
     ],
   ],
@@ -94,8 +107,9 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      // Replace with your project's social card
-      image: 'img/gravitykit-social-card.jpg',
+      // Social card for link previews (1200x630 recommended)
+      // TODO: Create custom social card image
+      image: 'img/gravitykit-logo.svg',
       navbar: {
         title: 'GravityKit Dev Docs',
         logo: {
@@ -177,6 +191,14 @@ const config = {
       //   contextualSearch: true,
       // },
     }),
+
+  // Local search temporarily disabled - @easyops-cn/docusaurus-search-local
+  // requires a default docs plugin instance but we use multi-instance architecture.
+  // Options for future implementation:
+  // 1. Algolia DocSearch (free for open source) - designed for multi-instance
+  // 2. Typesense DocSearch - self-hosted alternative
+  // 3. flexsearch plugin - may have better multi-instance support
+  themes: [],
 
   plugins: product_docs_plugins.filter((pluginEntry) => {
     if (!Array.isArray(pluginEntry) || pluginEntry[0] !== '@docusaurus/plugin-content-docs') {

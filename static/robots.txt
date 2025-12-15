@@ -1,0 +1,11 @@
+# Robots.txt for GravityKit Developer Documentation
+# https://gravitykit.dev
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://gravitykit.dev/sitemap.xml
+
+# Disallow build artifacts and internal paths
+Disallow: /assets/js/*.js.map
