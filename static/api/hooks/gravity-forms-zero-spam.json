@@ -1,0 +1,39 @@
+{
+  "generated": "2025-12-15T23:45:33.844Z",
+  "product": {
+    "id": "gravity-forms-zero-spam",
+    "label": "Gravity Forms Zero Spam",
+    "repo": "GravityKit/gravity-forms-zero-spam",
+    "actions": [],
+    "filters": [
+      "gf_zero_spam_add_key_field"
+    ]
+  },
+  "hooks": [
+    {
+      "id": "gf_zero_spam_add_key_field",
+      "name": "gf_zero_spam_add_key_field",
+      "type": "filter",
+      "product": "gravity-forms-zero-spam",
+      "description": "Allows the zero spam key field to be disabled by returning false.",
+      "parameters": [
+        {
+          "name": "add_key_field",
+          "type": "bool",
+          "description": "Whether to add the key field to the form. Default true."
+        }
+      ],
+      "since": "1.4",
+      "source": {
+        "file": "gravityforms-zero-spam.php",
+        "line": 129
+      },
+      "url": "/docs/gravity-forms-zero-spam/filters/gf_zero_spam_add_key_field/"
+    }
+  ],
+  "stats": {
+    "total": 1,
+    "actions": 0,
+    "filters": 1
+  }
+}

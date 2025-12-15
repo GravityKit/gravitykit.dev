@@ -1,0 +1,741 @@
+{
+  "generated": "2025-12-15T23:45:33.844Z",
+  "product": {
+    "id": "gravitymath",
+    "label": "GravityMath",
+    "repo": "gravityview/gravityview-math",
+    "actions": [
+      "gravityview/math/init"
+    ],
+    "filters": [
+      "gk/gravitymath/scope/form/transform-meta-value",
+      "gk/gravitymath/summary/data",
+      "gk/gravitymath/summary/entries",
+      "gk/gravitymath/summary/headers",
+      "gk/gravitymath/summary/template",
+      "gk/gravitymath/table-footer-calculation/supported-fields-schema",
+      "gk/gravitymath/use_db_cache",
+      "gravityview/math/accuracy_message",
+      "gravityview/math/admin_notice",
+      "gravityview/math/aggregate_data/modify_field_value",
+      "gravityview/math/debug",
+      "gravityview/math/debug_message",
+      "gravityview/math/entries/visible",
+      "gravityview/math/no_results_message",
+      "gravityview/math/precision",
+      "gravityview/math/sanitize",
+      "gravityview/math/shortcode/before",
+      "gravityview/math/shortcode/default_value",
+      "gravityview/math/shortcode/output",
+      "gravityview/math/suppress_errors",
+      "gravityview/math/table_footer_calculation/calculation_result",
+      "gravityview/math/table_footer_calculation/format_duration_field_calculation_result",
+      "gravityview/math/table_footer_calculation/math_shortcode",
+      "gravityview/math/thousands_sep"
+    ]
+  },
+  "hooks": [
+    {
+      "id": "gravityviewmathinit",
+      "name": "gravityview/math/init",
+      "type": "action",
+      "product": "gravitymath",
+      "description": "| Name | Type | Description |",
+      "parameters": [],
+      "since": "1.0",
+      "source": {
+        "file": "includes/class-gravitymath-engine.php",
+        "line": 68
+      },
+      "url": "/docs/gravitymath/actions/gravityviewmathinit/"
+    },
+    {
+      "id": "gkgravitymathscopeformtransform-meta-value",
+      "name": "gk/gravitymath/scope/form/transform-meta-value",
+      "type": "filter",
+      "product": "gravitymath",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "transformation",
+          "type": "string",
+          "description": "SQL statement to transform the meta value."
+        },
+        {
+          "name": "field",
+          "type": "null\\",
+          "description": "\\GF_Field`"
+        },
+        {
+          "name": "table",
+          "type": "string",
+          "description": "Table name or alias. Default: 'details' (alias for the entry meta table)."
+        },
+        {
+          "name": "column",
+          "type": "string",
+          "description": "Column name. Default: 'meta_value'."
+        }
+      ],
+      "since": "2.3.3",
+      "source": {
+        "file": "includes/class-gravitymath-gravityforms.php",
+        "line": 747
+      },
+      "url": "/docs/gravitymath/filters/gkgravitymathscopeformtransform-meta-value/"
+    },
+    {
+      "id": "gkgravitymathsummarydata",
+      "name": "gk/gravitymath/summary/data",
+      "type": "filter",
+      "product": "gravitymath",
+      "description": "Modifies the calculation data before rendering the summary table.",
+      "parameters": [
+        {
+          "name": "table_data",
+          "type": "string[]",
+          "description": "The table data."
+        },
+        {
+          "name": "form",
+          "type": "array",
+          "description": "The form object."
+        },
+        {
+          "name": "request",
+          "type": "\\GravityMath_Summary_Request",
+          "description": "The request object."
+        },
+        {
+          "name": "raw_data",
+          "type": "array",
+          "description": "The raw data."
+        }
+      ],
+      "since": "2.5.0",
+      "source": {
+        "file": "includes/summary/class-gravitymath-summary-helpers.php",
+        "line": 394
+      },
+      "url": "/docs/gravitymath/filters/gkgravitymathsummarydata/"
+    },
+    {
+      "id": "gkgravitymathsummaryentries",
+      "name": "gk/gravitymath/summary/entries",
+      "type": "filter",
+      "product": "gravitymath",
+      "description": "Modifies entries object used for calculations.",
+      "parameters": [
+        {
+          "name": "entries",
+          "type": "null\\",
+          "description": "\\Entry_Collection`"
+        },
+        {
+          "name": "view",
+          "type": "\\View",
+          "description": "The View object."
+        },
+        {
+          "name": "request",
+          "type": "\\GravityMath_Summary_Request",
+          "description": "The request object."
+        }
+      ],
+      "since": "2.8.0",
+      "source": {
+        "file": "includes/summary/class-gravitymath-summary-helpers.php",
+        "line": 511
+      },
+      "url": "/docs/gravitymath/filters/gkgravitymathsummaryentries/"
+    },
+    {
+      "id": "gkgravitymathsummaryheaders",
+      "name": "gk/gravitymath/summary/headers",
+      "type": "filter",
+      "product": "gravitymath",
+      "description": "Modifies the table headers before rendering the summary table.",
+      "parameters": [
+        {
+          "name": "table_headers",
+          "type": "string[]",
+          "description": "The table headers."
+        },
+        {
+          "name": "form",
+          "type": "array",
+          "description": "The form object."
+        },
+        {
+          "name": "request",
+          "type": "\\GravityMath_Summary_Request",
+          "description": "The request object."
+        }
+      ],
+      "since": "2.5.0",
+      "source": {
+        "file": "includes/summary/class-gravitymath-summary-helpers.php",
+        "line": 407
+      },
+      "url": "/docs/gravitymath/filters/gkgravitymathsummaryheaders/"
+    },
+    {
+      "id": "gkgravitymathsummarytemplate",
+      "name": "gk/gravitymath/summary/template",
+      "type": "filter",
+      "product": "gravitymath",
+      "description": "Modifies the template used to display the summary table.",
+      "parameters": [
+        {
+          "name": "template_file",
+          "type": "string",
+          "description": "The template file path."
+        }
+      ],
+      "since": "2.5.0",
+      "source": {
+        "file": "includes/summary/class-gravitymath-summary-helpers.php",
+        "line": 426
+      },
+      "url": "/docs/gravitymath/filters/gkgravitymathsummarytemplate/"
+    },
+    {
+      "id": "gkgravitymathtable-footer-calculationsupported-fields-schema",
+      "name": "gk/gravitymath/table-footer-calculation/supported-fields-schema",
+      "type": "filter",
+      "product": "gravitymath",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "supported_fields_schema",
+          "type": "array",
+          "description": "Supported fields."
+        },
+        {
+          "name": "available_calculation_types",
+          "type": "array",
+          "description": "Supported calculations."
+        }
+      ],
+      "since": "2.3.3",
+      "source": {
+        "file": "includes/class-gravitymath-table-footer-calculation.php",
+        "line": 240
+      },
+      "url": "/docs/gravitymath/filters/gkgravitymathtable-footer-calculationsupported-fields-schema/"
+    },
+    {
+      "id": "gkgravitymathuse_db_cache",
+      "name": "gk/gravitymath/use_db_cache",
+      "type": "filter",
+      "product": "gravitymath",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "use_cache",
+          "type": "bool",
+          "description": "Should GravityMath cache results?"
+        },
+        {
+          "name": "context",
+          "type": "string",
+          "description": "Context of the filter (default: \"gravityforms\")."
+        }
+      ],
+      "since": "2.2",
+      "source": {
+        "file": "includes/class-gravitymath-gravityforms.php",
+        "line": 1146
+      },
+      "url": "/docs/gravitymath/filters/gkgravitymathuse_db_cache/"
+    },
+    {
+      "id": "gravityviewmathaccuracy_message",
+      "name": "gravityview/math/accuracy_message",
+      "type": "filter",
+      "product": "gravitymath",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "message",
+          "type": "string",
+          "description": "Default: \"* Results may not be accurate.\"."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "includes/class-gravitymath-report.php",
+        "line": 337
+      },
+      "url": "/docs/gravitymath/filters/gravityviewmathaccuracy_message/"
+    },
+    {
+      "id": "gravityviewmathadmin_notice",
+      "name": "gravityview/math/admin_notice",
+      "type": "filter",
+      "product": "gravitymath",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "message",
+          "type": "string",
+          "description": "Default: \"You can only see this message because you are logged in and have permissions.\"."
+        }
+      ],
+      "since": "1.2",
+      "source": {
+        "file": "includes/class-gravitymath-report.php",
+        "line": 327
+      },
+      "url": "/docs/gravitymath/filters/gravityviewmathadmin_notice/"
+    },
+    {
+      "id": "gravityviewmathaggregate_datamodify_field_value",
+      "name": "gravityview/math/aggregate_data/modify_field_value",
+      "type": "filter",
+      "product": "gravitymath",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "transformed_value",
+          "type": "string",
+          "description": "Transformed field value."
+        },
+        {
+          "name": "orginal_value",
+          "type": "string",
+          "description": "Original field value."
+        },
+        {
+          "name": "field_id",
+          "type": "int\\",
+          "description": "float\\"
+        },
+        {
+          "name": "entry",
+          "type": "array",
+          "description": "Entry data."
+        },
+        {
+          "name": "modifier_tag",
+          "type": "string\\",
+          "description": "null`"
+        },
+        {
+          "name": "entries",
+          "type": "array[]",
+          "description": "Array of entries."
+        }
+      ],
+      "since": "2.0",
+      "source": {
+        "file": "includes/class-gravitymath-gravityforms.php",
+        "line": 1032
+      },
+      "url": "/docs/gravitymath/filters/gravityviewmathaggregate_datamodify_field_value/"
+    },
+    {
+      "id": "gravityviewmathdebug",
+      "name": "gravityview/math/debug",
+      "type": "filter",
+      "product": "gravitymath",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "this",
+          "type": "\\GravityMath_Report",
+          "description": "The report."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "includes/class-gravitymath-report.php",
+        "line": 253
+      },
+      "url": "/docs/gravitymath/filters/gravityviewmathdebug/"
+    },
+    {
+      "id": "gravityviewmathdebug_message",
+      "name": "gravityview/math/debug_message",
+      "type": "filter",
+      "product": "gravitymath",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "final_message",
+          "type": "string",
+          "description": "Message content to be output."
+        },
+        {
+          "name": "data",
+          "type": "array",
+          "description": "Error data to be displayed (empty array or [<code>code</code>, <code>leads</code>, <code>input_id</code>, <code>default_value</code>])."
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "includes/class-gravitymath-report.php",
+        "line": 565
+      },
+      "url": "/docs/gravitymath/filters/gravityviewmathdebug_message/"
+    },
+    {
+      "id": "gravityviewmathentriesvisible",
+      "name": "gravityview/math/entries/visible",
+      "type": "filter",
+      "product": "gravitymath",
+      "description": "| Name | Type | Description |",
+      "parameters": [],
+      "since": "2.0",
+      "source": {
+        "file": "includes/class-gravitymath-gravityforms.php",
+        "line": 775
+      },
+      "url": "/docs/gravitymath/filters/gravityviewmathentriesvisible/"
+    },
+    {
+      "id": "gravityviewmathno_results_message",
+      "name": "gravityview/math/no_results_message",
+      "type": "filter",
+      "product": "gravitymath",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "message",
+          "type": "string",
+          "description": "Default: \"** No Results Currently Available.\"."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "includes/class-gravitymath-report.php",
+        "line": 348
+      },
+      "url": "/docs/gravitymath/filters/gravityviewmathno_results_message/"
+    },
+    {
+      "id": "gravityviewmathprecision",
+      "name": "gravityview/math/precision",
+      "type": "filter",
+      "product": "gravitymath",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "float_precision",
+          "type": "int",
+          "description": "The number of decimal places to use as a maximum precision level."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "includes/class-gravitymath-shortcode.php",
+        "line": 99
+      },
+      "url": "/docs/gravitymath/filters/gravityviewmathprecision/"
+    },
+    {
+      "id": "gravityviewmathsanitize",
+      "name": "gravityview/math/sanitize",
+      "type": "filter",
+      "product": "gravitymath",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "sanitized_formula",
+          "type": "string",
+          "description": "Sanitized formula."
+        },
+        {
+          "name": "original_formula",
+          "type": "string",
+          "description": "Original formula."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "includes/class-gravitymath-shortcode.php",
+        "line": 168
+      },
+      "url": "/docs/gravitymath/filters/gravityviewmathsanitize/"
+    },
+    {
+      "id": "gravityviewmathshortcodebefore",
+      "name": "gravityview/math/shortcode/before",
+      "type": "filter",
+      "product": "gravitymath",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "formula",
+          "type": "string",
+          "description": "The math formula to modify."
+        },
+        {
+          "name": "atts",
+          "type": "array",
+          "description": "Shortcode parameters."
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "description": "Content passed to the shortcode."
+        },
+        {
+          "name": "shortcode",
+          "type": "string",
+          "description": "Shortcode used (default: <code>gv_math</code>)."
+        },
+        {
+          "name": "this",
+          "type": "\\GravityMath_Shortcode",
+          "description": "is Current object."
+        },
+        {
+          "name": "nesting_level",
+          "type": "int",
+          "description": "Current nesting level."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "includes/class-gravitymath-shortcode.php",
+        "line": 300
+      },
+      "url": "/docs/gravitymath/filters/gravityviewmathshortcodebefore/"
+    },
+    {
+      "id": "gravityviewmathshortcodedefault_value",
+      "name": "gravityview/math/shortcode/default_value",
+      "type": "filter",
+      "product": "gravitymath",
+      "description": "Defined in `includes/class-gravitymath-shortcode.php` at line 230",
+      "parameters": [],
+      "since": null,
+      "source": {
+        "file": "includes/class-gravitymath-shortcode.php",
+        "line": 230
+      },
+      "url": "/docs/gravitymath/filters/gravityviewmathshortcodedefault_value/"
+    },
+    {
+      "id": "gravityviewmathshortcodeoutput",
+      "name": "gravityview/math/shortcode/output",
+      "type": "filter",
+      "product": "gravitymath",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "result",
+          "type": "string",
+          "description": "Shortcode output."
+        },
+        {
+          "name": "atts",
+          "type": "array",
+          "description": "Shortcode parameters."
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "description": "Content passed to the shortcode."
+        },
+        {
+          "name": "shortcode",
+          "type": "string",
+          "description": "Shortcode used (default: <code>gv_math</code>)."
+        },
+        {
+          "name": "this",
+          "type": "\\GravityMath_Shortcode",
+          "description": "Current object."
+        },
+        {
+          "name": "nesting_level",
+          "type": "string",
+          "description": "Level of shortcode nesting."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "includes/class-gravitymath-shortcode.php",
+        "line": 337
+      },
+      "url": "/docs/gravitymath/filters/gravityviewmathshortcodeoutput/"
+    },
+    {
+      "id": "gravityviewmathsuppress_errors",
+      "name": "gravityview/math/suppress_errors",
+      "type": "filter",
+      "product": "gravitymath",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "suppress_errors",
+          "type": "bool",
+          "description": "True: don't show the errors. False: show the errors. Default: false."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "includes/class-gravitymath-report.php",
+        "line": 999
+      },
+      "url": "/docs/gravitymath/filters/gravityviewmathsuppress_errors/"
+    },
+    {
+      "id": "gravityviewmathtable_footer_calculationcalculation_result",
+      "name": "gravityview/math/table_footer_calculation/calculation_result",
+      "type": "filter",
+      "product": "gravitymath",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "calculation_result",
+          "type": "string",
+          "description": "Calculation result."
+        },
+        {
+          "name": "field",
+          "type": "array",
+          "description": "Field data."
+        },
+        {
+          "name": "column",
+          "type": "array",
+          "description": "Column data."
+        },
+        {
+          "name": "math_shortcode",
+          "type": "string",
+          "description": "Math shortcode."
+        }
+      ],
+      "since": "2.0",
+      "source": {
+        "file": "includes/class-gravitymath-table-footer-calculation.php",
+        "line": 667
+      },
+      "url": "/docs/gravitymath/filters/gravityviewmathtable_footer_calculationcalculation_result/"
+    },
+    {
+      "id": "gravityviewmathtable_footer_calculationformat_duration_field_calculation_result",
+      "name": "gravityview/math/table_footer_calculation/format_duration_field_calculation_result",
+      "type": "filter",
+      "product": "gravitymath",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "calculation_result",
+          "type": "float",
+          "description": "Total duration in seconds."
+        },
+        {
+          "name": "filter_data",
+          "type": "array",
+          "description": "\\{"
+        }
+      ],
+      "since": "2.0",
+      "source": {
+        "file": "includes/class-gravitymath-table-footer-calculation.php",
+        "line": 883
+      },
+      "url": "/docs/gravitymath/filters/gravityviewmathtable_footer_calculationformat_duration_field_calculation_result/"
+    },
+    {
+      "id": "gravityviewmathtable_footer_calculationmath_shortcode",
+      "name": "gravityview/math/table_footer_calculation/math_shortcode",
+      "type": "filter",
+      "product": "gravitymath",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "shortcode",
+          "type": "string",
+          "description": "The Math shortcode being used for calculation."
+        },
+        {
+          "name": "scope",
+          "type": "string",
+          "description": "The scope in which the calculation is being performed."
+        },
+        {
+          "name": "field_id",
+          "type": "string",
+          "description": "The ID of the field being calculated."
+        },
+        {
+          "name": "view_id",
+          "type": "int",
+          "description": "The ID of the GravityView view."
+        },
+        {
+          "name": "form_id",
+          "type": "int",
+          "description": "The ID of the Gravity Forms form."
+        },
+        {
+          "name": "calculation_type",
+          "type": "string",
+          "description": "The type of calculation being performed (e.g., 'count', 'sum', 'avg')."
+        },
+        {
+          "name": "field",
+          "type": "array",
+          "description": "Data about the field being calculated."
+        },
+        {
+          "name": "column",
+          "type": "array",
+          "description": "Data about the column in the view."
+        },
+        {
+          "name": "formula",
+          "type": "string",
+          "description": "The math formula used for the calculation."
+        },
+        {
+          "name": "process_empty_meta",
+          "type": "string",
+          "description": "Whether to process fields with empty meta (1 or 0)."
+        },
+        {
+          "name": "multi_select_count_method",
+          "type": "string",
+          "description": "Method for counting multi-select field choices (count individually or as one)."
+        }
+      ],
+      "since": "2.0",
+      "source": {
+        "file": "includes/class-gravitymath-table-footer-calculation.php",
+        "line": 795
+      },
+      "url": "/docs/gravitymath/filters/gravityviewmathtable_footer_calculationmath_shortcode/"
+    },
+    {
+      "id": "gravityviewmaththousands_sep",
+      "name": "gravityview/math/thousands_sep",
+      "type": "filter",
+      "product": "gravitymath",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "thousands_sep",
+          "type": "string",
+          "description": "The thousands separator for numbers. Normally either a comma or dot."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "includes/class-gravitymath-shortcode.php",
+        "line": 193
+      },
+      "url": "/docs/gravitymath/filters/gravityviewmaththousands_sep/"
+    }
+  ],
+  "stats": {
+    "total": 25,
+    "actions": 1,
+    "filters": 24
+  }
+}

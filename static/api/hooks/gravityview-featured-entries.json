@@ -1,0 +1,133 @@
+{
+  "generated": "2025-12-15T23:45:33.844Z",
+  "product": {
+    "id": "gravityview-featured-entries",
+    "label": "GravityView - Featured Entries",
+    "repo": "GravityKit/Featured-Entries",
+    "actions": [
+      "gravityview_clear_form_cache",
+      "post_edd_sl_plugin_updater_setup"
+    ],
+    "filters": [
+      "edd_sl_plugin_updater_api_params",
+      "gravityview_featured_entries_always_show",
+      "gravityview_featured_entries_enable"
+    ]
+  },
+  "hooks": [
+    {
+      "id": "gravityview_clear_form_cache",
+      "name": "gravityview_clear_form_cache",
+      "type": "action",
+      "product": "gravityview-featured-entries",
+      "description": "Flush the GravityView cache for this form",
+      "parameters": [],
+      "since": "1.5.1",
+      "source": {
+        "file": "class-gravityview-featured-entries.php",
+        "line": 528
+      },
+      "url": "/docs/gravityview-featured-entries/actions/gravityview_clear_form_cache/"
+    },
+    {
+      "id": "post_edd_sl_plugin_updater_setup",
+      "name": "post_edd_sl_plugin_updater_setup",
+      "type": "action",
+      "product": "gravityview-featured-entries",
+      "description": "Fires after the $edd_plugin_data is setup.",
+      "parameters": [
+        {
+          "name": "edd_plugin_data",
+          "type": "array",
+          "description": "Array of EDD SL plugin data."
+        }
+      ],
+      "since": "x.x.x: x.x.x",
+      "source": {
+        "file": "lib/EDD_SL_Plugin_Updater.php",
+        "line": 59
+      },
+      "url": "/docs/gravityview-featured-entries/actions/post_edd_sl_plugin_updater_setup/"
+    },
+    {
+      "id": "edd_sl_plugin_updater_api_params",
+      "name": "edd_sl_plugin_updater_api_params",
+      "type": "filter",
+      "product": "gravityview-featured-entries",
+      "description": "Filters the parameters sent in the API request.",
+      "parameters": [
+        {
+          "name": "api_params",
+          "type": "array",
+          "description": "The array of data sent in the request."
+        },
+        {
+          "name": "this-&gt;api_data",
+          "type": "array",
+          "description": "The array of data set up in the class constructor."
+        },
+        {
+          "name": "this-&gt;plugin_file",
+          "type": "string",
+          "description": "The full path and filename of the file."
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "lib/EDD_SL_Plugin_Updater.php",
+        "line": 560
+      },
+      "url": "/docs/gravityview-featured-entries/filters/edd_sl_plugin_updater_api_params/"
+    },
+    {
+      "id": "gravityview_featured_entries_always_show",
+      "name": "gravityview_featured_entries_always_show",
+      "type": "filter",
+      "product": "gravityview-featured-entries",
+      "description": "Allow override of default behavior, which is to respect search queries.",
+      "parameters": [
+        {
+          "name": "always_show_featured_entry",
+          "type": "bool",
+          "description": "If returned true, featured entries will be shown even if the search doesn't match the entry"
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "class-gravityview-featured-entries.php",
+        "line": 292
+      },
+      "url": "/docs/gravityview-featured-entries/filters/gravityview_featured_entries_always_show/"
+    },
+    {
+      "id": "gravityview_featured_entries_enable",
+      "name": "gravityview_featured_entries_enable",
+      "type": "filter",
+      "product": "gravityview-featured-entries",
+      "description": "Enable or disable featured entries for this entry",
+      "parameters": [
+        {
+          "name": "view",
+          "type": "\\GravityView_View",
+          "description": "The current GravityView_View instance"
+        },
+        {
+          "name": "entry",
+          "type": "array",
+          "description": "Gravity Forms entry array"
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "class-gravityview-featured-entries.php",
+        "line": 490
+      },
+      "url": "/docs/gravityview-featured-entries/filters/gravityview_featured_entries_enable/"
+    }
+  ],
+  "stats": {
+    "total": 5,
+    "actions": 2,
+    "filters": 3
+  }
+}

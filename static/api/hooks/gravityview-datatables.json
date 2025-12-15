@@ -1,0 +1,592 @@
+{
+  "generated": "2025-12-15T23:45:33.844Z",
+  "product": {
+    "id": "gravityview-datatables",
+    "label": "GravityView - DataTables",
+    "repo": "GravityKit/DataTables",
+    "actions": [
+      "gk/gravityview/datatables/output/before",
+      "gravityview_datatables_scripts_styles",
+      "gravityview_datatables_settings_row"
+    ],
+    "filters": [
+      "gravityview_datatables_button_labels",
+      "gravityview_datatables_js_options",
+      "gravityview_datatables_lengthmenu",
+      "gravityview_datatables_loading_text",
+      "gravityview_datatables_style_src",
+      "gravityview_dt_default_settings",
+      "gravityview_dt_rowgroup_script_src",
+      "gravityview_dt_rowgroup_style_src",
+      "gravityview/datatables/button",
+      "gravityview/datatables/button_ . $button",
+      "gravityview/datatables/config/language",
+      "gravityview/datatables/config/locale",
+      "gravityview/datatables/field_filters/atts",
+      "gravityview/datatables/field_filters/placeholder",
+      "gravityview/datatables/json/header/content_length",
+      "gravityview/datatables/output",
+      "gravityview/datatables/output/entry",
+      "gravityview/entry/cell/attributes",
+      "gravityview/entry/row/attributes",
+      "gravityview/search-all-split-words",
+      "gravityview/view/wrapper_container"
+    ]
+  },
+  "hooks": [
+    {
+      "id": "gkgravityviewdatatablesoutputbefore",
+      "name": "gk/gravityview/datatables/output/before",
+      "type": "action",
+      "product": "gravityview-datatables",
+      "description": "Runs before generating the output data.",
+      "parameters": [
+        {
+          "name": "entries",
+          "type": "\\GV\\Entry_Collection",
+          "description": "The collection of entries for the current search."
+        },
+        {
+          "name": "view",
+          "type": "\\View",
+          "description": "The View."
+        },
+        {
+          "name": "post",
+          "type": "\\WP_Post",
+          "description": "The current View or post/page where View is embedded."
+        }
+      ],
+      "since": "TODO: TODO",
+      "source": {
+        "file": "includes/class-datatables-data.php",
+        "line": 633
+      },
+      "url": "/docs/gravityview-datatables/actions/gkgravityviewdatatablesoutputbefore/"
+    },
+    {
+      "id": "gravityview_datatables_scripts_styles",
+      "name": "gravityview_datatables_scripts_styles",
+      "type": "action",
+      "product": "gravityview-datatables",
+      "description": "Extend datatables by including other scripts and styles.",
+      "parameters": [],
+      "since": null,
+      "source": {
+        "file": "includes/class-datatables-data.php",
+        "line": 1378
+      },
+      "url": "/docs/gravityview-datatables/actions/gravityview_datatables_scripts_styles/"
+    },
+    {
+      "id": "gravityview_datatables_settings_row",
+      "name": "gravityview_datatables_settings_row",
+      "type": "action",
+      "product": "gravityview-datatables",
+      "description": "Hook: gravityview_datatables_settings_row.",
+      "parameters": [
+        {
+          "name": "ds",
+          "type": "array",
+          "description": "DataTables settings stored in <code>_gravityview_datatables_settings</code> postmeta"
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "includes/class-admin-datatables.php",
+        "line": 125
+      },
+      "url": "/docs/gravityview-datatables/actions/gravityview_datatables_settings_row/"
+    },
+    {
+      "id": "gravityview_datatables_button_labels",
+      "name": "gravityview_datatables_button_labels",
+      "type": "filter",
+      "product": "gravityview-datatables",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "button_labels",
+          "type": "array",
+          "description": "Array of button types and their associated labels"
+        },
+        {
+          "name": "context",
+          "type": "string",
+          "description": "Where the labels are being shown. Allows for modifying the label for the View Settings vs frontend (default: \"admin\")"
+        }
+      ],
+      "since": "2.4",
+      "source": {
+        "file": "includes/extensions/class-datatables-buttons.php",
+        "line": 107
+      },
+      "url": "/docs/gravityview-datatables/filters/gravityview_datatables_button_labels/"
+    },
+    {
+      "id": "gravityview_datatables_js_options",
+      "name": "gravityview_datatables_js_options",
+      "type": "filter",
+      "product": "gravityview-datatables",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "dt_config",
+          "type": "array",
+          "description": "The configuration for the current View"
+        },
+        {
+          "name": "view_id",
+          "type": "int",
+          "description": "The ID of the View being configured"
+        },
+        {
+          "name": "post",
+          "type": "\\WP_Post",
+          "description": "Current View or post/page where View is embedded"
+        },
+        {
+          "name": "this",
+          "type": "\\GV_Extension_DataTables_Data",
+          "description": "The current instance of the class."
+        }
+      ],
+      "since": "3.3: Added $this parameter.",
+      "source": {
+        "file": "includes/class-datatables-data.php",
+        "line": 1286
+      },
+      "url": "/docs/gravityview-datatables/filters/gravityview_datatables_js_options/"
+    },
+    {
+      "id": "gravityview_datatables_lengthmenu",
+      "name": "gravityview_datatables_lengthmenu",
+      "type": "filter",
+      "product": "gravityview-datatables",
+      "description": "Modifies the values shown in the page length menu.",
+      "parameters": [
+        {
+          "name": "values",
+          "type": "array",
+          "description": "Array of values and labels for the page length menu."
+        },
+        {
+          "name": "view_data",
+          "type": "array",
+          "description": "The View data as an array \\{@see \\GV\\View::as_data()\\}."
+        }
+      ],
+      "since": "3.3.5",
+      "source": {
+        "file": "includes/class-datatables-data.php",
+        "line": 874
+      },
+      "url": "/docs/gravityview-datatables/filters/gravityview_datatables_lengthmenu/"
+    },
+    {
+      "id": "gravityview_datatables_loading_text",
+      "name": "gravityview_datatables_loading_text",
+      "type": "filter",
+      "product": "gravityview-datatables",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "loading_text",
+          "type": "string",
+          "description": "Default: Loading data…"
+        },
+        {
+          "name": "view",
+          "type": "\\View",
+          "description": "The View"
+        }
+      ],
+      "since": "2.5: Added $view parameter",
+      "source": {
+        "file": "includes/class-datatables-data.php",
+        "line": 949
+      },
+      "url": "/docs/gravityview-datatables/filters/gravityview_datatables_loading_text/"
+    },
+    {
+      "id": "gravityview_datatables_style_src",
+      "name": "gravityview_datatables_style_src",
+      "type": "filter",
+      "product": "gravityview-datatables",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "css_source",
+          "type": "string",
+          "description": "URL to the datatables.css file"
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "includes/class-datatables-template.php",
+        "line": 39
+      },
+      "url": "/docs/gravityview-datatables/filters/gravityview_datatables_style_src/"
+    },
+    {
+      "id": "gravityview_dt_default_settings",
+      "name": "gravityview_dt_default_settings",
+      "type": "filter",
+      "product": "gravityview-datatables",
+      "description": "Hook: gravityview_dt_default_settings.",
+      "parameters": [
+        {
+          "name": "defaults",
+          "type": "array",
+          "description": "Empty array of settings, to be filled-in by DT extensions"
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "includes/class-admin-datatables.php",
+        "line": 114
+      },
+      "url": "/docs/gravityview-datatables/filters/gravityview_dt_default_settings/"
+    },
+    {
+      "id": "gravityview_dt_rowgroup_script_src",
+      "name": "gravityview_dt_rowgroup_script_src",
+      "type": "filter",
+      "product": "gravityview-datatables",
+      "description": "Include RowGroup core script (DT plugin) Use your own DataTables core script by using the `gravityview_dt_rowgroup_script_src` filter",
+      "parameters": [],
+      "since": null,
+      "source": {
+        "file": "includes/extensions/class-datatables-rowgroup.php",
+        "line": 180
+      },
+      "url": "/docs/gravityview-datatables/filters/gravityview_dt_rowgroup_script_src/"
+    },
+    {
+      "id": "gravityview_dt_rowgroup_style_src",
+      "name": "gravityview_dt_rowgroup_style_src",
+      "type": "filter",
+      "product": "gravityview-datatables",
+      "description": "Use your own RowGroup stylesheet by using the `gravityview_dt_rowgroup_style_src` filter",
+      "parameters": [],
+      "since": null,
+      "source": {
+        "file": "includes/extensions/class-datatables-rowgroup.php",
+        "line": 188
+      },
+      "url": "/docs/gravityview-datatables/filters/gravityview_dt_rowgroup_style_src/"
+    },
+    {
+      "id": "gravityviewdatatablesbutton",
+      "name": "gravityview/datatables/button",
+      "type": "filter",
+      "product": "gravityview-datatables",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "button_config",
+          "type": "array",
+          "description": "Associative array of button options (mandatory 'extend' and 'text' (e.g. add pdf orientation with 'orientation' =&gt; 'landscape' )"
+        },
+        {
+          "name": "view_id",
+          "type": "int",
+          "description": "View ID"
+        }
+      ],
+      "since": "2.0",
+      "source": {
+        "file": "includes/extensions/class-datatables-buttons.php",
+        "line": 222
+      },
+      "url": "/docs/gravityview-datatables/filters/gravityviewdatatablesbutton/"
+    },
+    {
+      "id": "gravityviewdatatablesbutton_.button",
+      "name": "gravityview/datatables/button_ . $button",
+      "type": "filter",
+      "product": "gravityview-datatables",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "button_config",
+          "type": "array",
+          "description": "Associative array of button options (mandatory 'extend' and 'text' (e.g. add pdf orientation with 'orientation' =&gt; 'landscape' )"
+        },
+        {
+          "name": "view_id",
+          "type": "int",
+          "description": "View ID"
+        }
+      ],
+      "since": "2.0",
+      "source": {
+        "file": "includes/extensions/class-datatables-buttons.php",
+        "line": 222
+      },
+      "url": "/docs/gravityview-datatables/filters/gravityviewdatatablesbutton_.button/"
+    },
+    {
+      "id": "gravityviewdatatablesconfiglanguage",
+      "name": "gravityview/datatables/config/language",
+      "type": "filter",
+      "product": "gravityview-datatables",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "translations",
+          "type": "array",
+          "description": "The translations mapping array from <code>GV_Extension_DataTables_Data::get_translations()</code>"
+        },
+        {
+          "name": "locale",
+          "type": "string",
+          "description": "The blog's locale, fetched from <code>get_locale()</code> Override language settings"
+        },
+        {
+          "name": "language",
+          "type": "array",
+          "description": "The language settings array.\\n <a href=\"https://github.com/DataTables/Plugins/blob/master/i18n/English.lang\">See a sample file with all available translations and their matching keys</a>"
+        }
+      ],
+      "since": "1.2.2: \\{@link <a href=\"https://github.com/DataTables/Plugins/blob/master/i18n/English.lang\">https://github.com/DataTables/Plugins/blob/master/i18n/English.lang</a>\\}",
+      "source": {
+        "file": "includes/class-datatables-data.php",
+        "line": 972
+      },
+      "url": "/docs/gravityview-datatables/filters/gravityviewdatatablesconfiglanguage/"
+    },
+    {
+      "id": "gravityviewdatatablesconfiglocale",
+      "name": "gravityview/datatables/config/locale",
+      "type": "filter",
+      "product": "gravityview-datatables",
+      "description": "Change the locale used to fetch translations.",
+      "parameters": [],
+      "since": "1.2.3",
+      "source": {
+        "file": "includes/class-datatables-data.php",
+        "line": 910
+      },
+      "url": "/docs/gravityview-datatables/filters/gravityviewdatatablesconfiglocale/"
+    },
+    {
+      "id": "gravityviewdatatablesfield_filtersatts",
+      "name": "gravityview/datatables/field_filters/atts",
+      "type": "filter",
+      "product": "gravityview-datatables",
+      "description": "Modifies the attributes passed to the field filtering JS.",
+      "parameters": [
+        {
+          "name": "field",
+          "type": "\\GV\\GF_Field\\",
+          "description": "\\GV\\Internal_Field`"
+        }
+      ],
+      "since": "3.0",
+      "source": {
+        "file": "includes/class-datatables-field-filters.php",
+        "line": 374
+      },
+      "url": "/docs/gravityview-datatables/filters/gravityviewdatatablesfield_filtersatts/"
+    },
+    {
+      "id": "gravityviewdatatablesfield_filtersplaceholder",
+      "name": "gravityview/datatables/field_filters/placeholder",
+      "type": "filter",
+      "product": "gravityview-datatables",
+      "description": "Modifies the placeholder text used in the per-field filters.",
+      "parameters": [],
+      "since": "3.0",
+      "source": {
+        "file": "includes/class-datatables-field-filters.php",
+        "line": 359
+      },
+      "url": "/docs/gravityview-datatables/filters/gravityviewdatatablesfield_filtersplaceholder/"
+    },
+    {
+      "id": "gravityviewdatatablesjsonheadercontent_length",
+      "name": "gravityview/datatables/json/header/content_length",
+      "type": "filter",
+      "product": "gravityview-datatables",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "has_content_length",
+          "type": "bool",
+          "description": "true by default"
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "includes/class-datatables-data.php",
+        "line": 272
+      },
+      "url": "/docs/gravityview-datatables/filters/gravityviewdatatablesjsonheadercontent_length/"
+    },
+    {
+      "id": "gravityviewdatatablesoutput",
+      "name": "gravityview/datatables/output",
+      "type": "filter",
+      "product": "gravityview-datatables",
+      "description": "| Name | Type | Description |",
+      "parameters": [],
+      "since": "2.3",
+      "source": {
+        "file": "includes/class-datatables-processing-mode.php",
+        "line": 130
+      },
+      "url": "/docs/gravityview-datatables/filters/gravityviewdatatablesoutput/"
+    },
+    {
+      "id": "gravityviewdatatablesoutputentry",
+      "name": "gravityview/datatables/output/entry",
+      "type": "filter",
+      "product": "gravityview-datatables",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "temp",
+          "type": "array",
+          "description": "Array of values for the entry, one item per field being rendered by \\GV\\Field_Renderer()"
+        },
+        {
+          "name": "view",
+          "type": "\\View",
+          "description": "Current View being processed"
+        },
+        {
+          "name": "entry",
+          "type": "array",
+          "description": "Current Gravity Forms entry array"
+        }
+      ],
+      "since": "2.3.1",
+      "source": {
+        "file": "includes/class-datatables-data.php",
+        "line": 711
+      },
+      "url": "/docs/gravityview-datatables/filters/gravityviewdatatablesoutputentry/"
+    },
+    {
+      "id": "gravityviewentrycellattributes",
+      "name": "gravityview/entry/cell/attributes",
+      "type": "filter",
+      "product": "gravityview-datatables",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "attributes",
+          "type": "array",
+          "description": "The HTML attributes."
+        },
+        {
+          "name": "field",
+          "type": "\\GV\\Field",
+          "description": "The field these attributes are for."
+        },
+        {
+          "name": "entry",
+          "type": "\\GV\\Entry",
+          "description": "The entry this is being called for."
+        },
+        {
+          "name": "",
+          "type": "\\GV\\View_Template",
+          "description": "This template."
+        }
+      ],
+      "since": "2.0",
+      "source": {
+        "file": "includes/class-gv-template-view-datatable.php",
+        "line": 151
+      },
+      "url": "/docs/gravityview-datatables/filters/gravityviewentrycellattributes/"
+    },
+    {
+      "id": "gravityviewentryrowattributes",
+      "name": "gravityview/entry/row/attributes",
+      "type": "filter",
+      "product": "gravityview-datatables",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "attributes",
+          "type": "array",
+          "description": "The HTML attributes."
+        },
+        {
+          "name": "entry",
+          "type": "\\GV\\Entry",
+          "description": "The entry this is being called for."
+        },
+        {
+          "name": "",
+          "type": "\\GV\\View_Template",
+          "description": "This template."
+        }
+      ],
+      "since": "2.0",
+      "source": {
+        "file": "includes/class-gv-template-view-datatable.php",
+        "line": 108
+      },
+      "url": "/docs/gravityview-datatables/filters/gravityviewentryrowattributes/"
+    },
+    {
+      "id": "gravityviewsearch-all-split-words",
+      "name": "gravityview/search-all-split-words",
+      "type": "filter",
+      "product": "gravityview-datatables",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "split_words",
+          "type": "bool",
+          "description": "True: split a phrase into words; False: search whole word only [Default: true]"
+        }
+      ],
+      "since": "2.1.1",
+      "source": {
+        "file": "includes/class-datatables-data.php",
+        "line": 575
+      },
+      "url": "/docs/gravityview-datatables/filters/gravityviewsearch-all-split-words/"
+    },
+    {
+      "id": "gravityviewviewwrapper_container",
+      "name": "gravityview/view/wrapper_container",
+      "type": "filter",
+      "product": "gravityview-datatables",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "wrapper_container",
+          "type": "string",
+          "description": "Wrapper container HTML markup"
+        },
+        {
+          "name": "anchor_id",
+          "type": "string",
+          "description": "(optional) Unique anchor ID to identify the view."
+        },
+        {
+          "name": "view",
+          "type": "\\GV\\View",
+          "description": "The View."
+        }
+      ],
+      "since": "2.7",
+      "source": {
+        "file": "templates/views/datatable.php",
+        "line": 23
+      },
+      "url": "/docs/gravityview-datatables/filters/gravityviewviewwrapper_container/"
+    }
+  ],
+  "stats": {
+    "total": 24,
+    "actions": 3,
+    "filters": 21
+  }
+}

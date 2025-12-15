@@ -1,0 +1,132 @@
+{
+  "generated": "2025-12-15T23:45:33.844Z",
+  "product": {
+    "id": "gravityview-magic-links",
+    "label": "GravityView - Magic Links",
+    "repo": "GravityKit/gravityview-magic-links",
+    "actions": [
+      "gk/gravityview/metaboxes/magic-links/after",
+      "gk/gravityview/metaboxes/magic-links/before"
+    ],
+    "filters": [
+      "gk/gravityview/magic-links/email-field-types",
+      "gk/gravityview/magic-links/email/message",
+      "gk/gravityview/magic-links/email/subject"
+    ]
+  },
+  "hooks": [
+    {
+      "id": "gkgravityviewmetaboxesmagic-linksafter",
+      "name": "gk/gravityview/metaboxes/magic-links/after",
+      "type": "action",
+      "product": "gravityview-magic-links",
+      "description": "Render additional Magic Links settings after the default settings",
+      "parameters": [],
+      "since": "1.0",
+      "source": {
+        "file": "templates/settings-metabox.php",
+        "line": 61
+      },
+      "url": "/docs/gravityview-magic-links/actions/gkgravityviewmetaboxesmagic-linksafter/"
+    },
+    {
+      "id": "gkgravityviewmetaboxesmagic-linksbefore",
+      "name": "gk/gravityview/metaboxes/magic-links/before",
+      "type": "action",
+      "product": "gravityview-magic-links",
+      "description": "Render additional Magic Links settings before the default settings",
+      "parameters": [],
+      "since": "1.0",
+      "source": {
+        "file": "templates/settings-metabox.php",
+        "line": 28
+      },
+      "url": "/docs/gravityview-magic-links/actions/gkgravityviewmetaboxesmagic-linksbefore/"
+    },
+    {
+      "id": "gkgravityviewmagic-linksemail-field-types",
+      "name": "gk/gravityview/magic-links/email-field-types",
+      "type": "filter",
+      "product": "gravityview-magic-links",
+      "description": "Filter the field types to get",
+      "parameters": [
+        {
+          "name": "field_types",
+          "type": "array",
+          "description": "The field types to get."
+        },
+        {
+          "name": "form",
+          "type": "\\GF_Form",
+          "description": "The form object."
+        },
+        {
+          "name": "view_id",
+          "type": "int",
+          "description": "The View ID."
+        }
+      ],
+      "since": "1.0.0",
+      "source": {
+        "file": "includes/admin/class-view-settings.php",
+        "line": 263
+      },
+      "url": "/docs/gravityview-magic-links/filters/gkgravityviewmagic-linksemail-field-types/"
+    },
+    {
+      "id": "gkgravityviewmagic-linksemailmessage",
+      "name": "gk/gravityview/magic-links/email/message",
+      "type": "filter",
+      "product": "gravityview-magic-links",
+      "description": "Filter the magic link email message.",
+      "parameters": [
+        {
+          "name": "message",
+          "type": "string",
+          "description": "The email message."
+        },
+        {
+          "name": "magic_link",
+          "type": "string",
+          "description": "The magic link URL."
+        },
+        {
+          "name": "expiration",
+          "type": "int",
+          "description": "The expiration time in seconds."
+        }
+      ],
+      "since": "1.0.0",
+      "source": {
+        "file": "includes/class-magic-link-handler.php",
+        "line": 1148
+      },
+      "url": "/docs/gravityview-magic-links/filters/gkgravityviewmagic-linksemailmessage/"
+    },
+    {
+      "id": "gkgravityviewmagic-linksemailsubject",
+      "name": "gk/gravityview/magic-links/email/subject",
+      "type": "filter",
+      "product": "gravityview-magic-links",
+      "description": "Filter the magic link email subject.",
+      "parameters": [
+        {
+          "name": "subject",
+          "type": "string",
+          "description": "The email subject."
+        }
+      ],
+      "since": "1.0.0",
+      "source": {
+        "file": "includes/class-magic-link-handler.php",
+        "line": 1096
+      },
+      "url": "/docs/gravityview-magic-links/filters/gkgravityviewmagic-linksemailsubject/"
+    }
+  ],
+  "stats": {
+    "total": 5,
+    "actions": 2,
+    "filters": 3
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "generated": "2025-12-15T23:45:33.844Z",
+  "product": {
+    "id": "gravity-forms-event-field",
+    "label": "Gravity Forms Event Field",
+    "repo": "GravityKit/Event-Field",
+    "actions": [],
+    "filters": [
+      "gform_disable_form_legacy_css",
+      "gk/field-event/cron-value",
+      "gk/field-event/inputs/repeat-input"
+    ]
+  },
+  "hooks": [
+    {
+      "id": "gform_disable_form_legacy_css",
+      "name": "gform_disable_form_legacy_css",
+      "type": "filter",
+      "product": "gravity-forms-event-field",
+      "description": "Allows users to disable legacy CSS files from being loaded on the Front End.",
+      "parameters": [
+        {
+          "name": "",
+          "type": "bool",
+          "description": "Whether to disable legacy css."
+        }
+      ],
+      "since": "2.5-beta-rc-3",
+      "source": {
+        "file": "src/EventAddon.php",
+        "line": 519
+      },
+      "url": "/docs/gravity-forms-event-field/filters/gform_disable_form_legacy_css/"
+    },
+    {
+      "id": "gkfield-eventcron-value",
+      "name": "gk/field-event/cron-value",
+      "type": "filter",
+      "product": "gravity-forms-event-field",
+      "description": "Filters the cron value.",
+      "parameters": [
+        {
+          "name": "cron",
+          "type": "array",
+          "description": "The cron value."
+        }
+      ],
+      "since": "1.0.0",
+      "source": {
+        "file": "src/EventField.php",
+        "line": 1147
+      },
+      "url": "/docs/gravity-forms-event-field/filters/gkfield-eventcron-value/"
+    },
+    {
+      "id": "gkfield-eventinputsrepeat-input",
+      "name": "gk/field-event/inputs/repeat-input",
+      "type": "filter",
+      "product": "gravity-forms-event-field",
+      "description": "Modify the repeat input.",
+      "parameters": [
+        {
+          "name": "repeat",
+          "type": "array",
+          "description": "The repeat input array. \\{@see \\GravityKit\\EventField\\EventField::configure_input\\} for keys."
+        }
+      ],
+      "since": "1.4.2",
+      "source": {
+        "file": "views/public/section-event-options-inputs.php",
+        "line": 27
+      },
+      "url": "/docs/gravity-forms-event-field/filters/gkfield-eventinputsrepeat-input/"
+    }
+  ],
+  "stats": {
+    "total": 3,
+    "actions": 0,
+    "filters": 3
+  }
+}

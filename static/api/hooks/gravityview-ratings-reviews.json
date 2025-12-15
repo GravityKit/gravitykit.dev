@@ -1,0 +1,875 @@
+{
+  "generated": "2025-12-15T23:45:33.844Z",
+  "product": {
+    "id": "gravityview-ratings-reviews",
+    "label": "GravityView - Ratings & Reviews",
+    "repo": "GravityKit/Ratings-Reviews",
+    "actions": [
+      "comment_form",
+      "comment_form_after",
+      "comment_form_after_fields",
+      "comment_form_before",
+      "comment_form_before_fields",
+      "comment_form_comments_closed",
+      "comment_form_logged_in_after",
+      "comment_form_must_log_in_after",
+      "comment_form_top",
+      "gravityview_ratings_reviews_after_enqueue",
+      "gravityview_ratings_reviews_before_enqueue",
+      "limited_to_one_review_after"
+    ],
+    "filters": [
+      "comment_form_field_comment",
+      "comment_form_field_\\{$name\\}",
+      "comment_form_logged_in",
+      "edit_comment_link",
+      "get_edit_comment_link",
+      "gk/ratings-reviews/rating-required",
+      "gravityview_ratings_reviews_merge_tags",
+      "gravityview_ratings_reviews_replace_merge_tag",
+      "gv_ratings_reviews_allow_empty_comments",
+      "gv_ratings_reviews_disable_downvoting",
+      "gv_ratings_reviews_display_reviews",
+      "gv_ratings_reviews_get_reviews_atts",
+      "gv_ratings_reviews_is_user_allowed_to_review",
+      "gv_ratings_reviews_js_vars",
+      "gv_ratings_reviews_post_bridge_title",
+      "gv_ratings_reviews_ratings_allowed",
+      "gv_ratings_reviews_review_form_fields",
+      "gv_ratings_reviews_review_form_settings",
+      "gv_ratings_reviews_reviews_allowed",
+      "gv_ratings_reviews_star_rating",
+      "gv_ratings_reviews_star_rating_titles",
+      "gv_ratings_reviews_use_advanced_sorting",
+      "gv_ratings_reviews_vote_rating",
+      "gv_ratings_reviews_vote_rating_text",
+      "gv_reviews_number"
+    ]
+  },
+  "hooks": [
+    {
+      "id": "comment_form",
+      "name": "comment_form",
+      "type": "action",
+      "product": "gravityview-ratings-reviews",
+      "description": "Fires at the bottom of the comment form, inside the closing  tag.",
+      "parameters": [
+        {
+          "name": "post_id",
+          "type": "int",
+          "description": "The post ID."
+        }
+      ],
+      "since": "0.1.0",
+      "source": {
+        "file": "templates/review-form.php",
+        "line": 159
+      },
+      "url": "/docs/gravityview-ratings-reviews/actions/comment_form/"
+    },
+    {
+      "id": "comment_form_after",
+      "name": "comment_form_after",
+      "type": "action",
+      "product": "gravityview-ratings-reviews",
+      "description": "Fires after the comment form.",
+      "parameters": [],
+      "since": "0.1.0",
+      "source": {
+        "file": "templates/review-form.php",
+        "line": 173
+      },
+      "url": "/docs/gravityview-ratings-reviews/actions/comment_form_after/"
+    },
+    {
+      "id": "comment_form_after_fields",
+      "name": "comment_form_after_fields",
+      "type": "action",
+      "product": "gravityview-ratings-reviews",
+      "description": "Fires after the comment fields in the comment form.",
+      "parameters": [],
+      "since": "0.1.0",
+      "source": {
+        "file": "templates/review-form.php",
+        "line": 133
+      },
+      "url": "/docs/gravityview-ratings-reviews/actions/comment_form_after_fields/"
+    },
+    {
+      "id": "comment_form_before",
+      "name": "comment_form_before",
+      "type": "action",
+      "product": "gravityview-ratings-reviews",
+      "description": "Fires before the comment form.",
+      "parameters": [],
+      "since": "0.1.0",
+      "source": {
+        "file": "templates/review-form.php",
+        "line": 23
+      },
+      "url": "/docs/gravityview-ratings-reviews/actions/comment_form_before/"
+    },
+    {
+      "id": "comment_form_before_fields",
+      "name": "comment_form_before_fields",
+      "type": "action",
+      "product": "gravityview-ratings-reviews",
+      "description": "Fires before the comment fields in the comment form.",
+      "parameters": [],
+      "since": "0.1.0",
+      "source": {
+        "file": "templates/review-form.php",
+        "line": 114
+      },
+      "url": "/docs/gravityview-ratings-reviews/actions/comment_form_before_fields/"
+    },
+    {
+      "id": "comment_form_comments_closed",
+      "name": "comment_form_comments_closed",
+      "type": "action",
+      "product": "gravityview-ratings-reviews",
+      "description": "Fires after the comment form if comments are closed.",
+      "parameters": [],
+      "since": "0.1.0",
+      "source": {
+        "file": "templates/review-form.php",
+        "line": 180
+      },
+      "url": "/docs/gravityview-ratings-reviews/actions/comment_form_comments_closed/"
+    },
+    {
+      "id": "comment_form_logged_in_after",
+      "name": "comment_form_logged_in_after",
+      "type": "action",
+      "product": "gravityview-ratings-reviews",
+      "description": "Fires after the is_user_logged_in() check in the comment form.",
+      "parameters": [
+        {
+          "name": "commenter",
+          "type": "array",
+          "description": "An array containing the comment author's username, email, and URL."
+        },
+        {
+          "name": "user_identity",
+          "type": "string",
+          "description": "If the commenter is a registered user, the display name, blank otherwise."
+        }
+      ],
+      "since": "0.1.0",
+      "source": {
+        "file": "templates/review-form.php",
+        "line": 104
+      },
+      "url": "/docs/gravityview-ratings-reviews/actions/comment_form_logged_in_after/"
+    },
+    {
+      "id": "comment_form_must_log_in_after",
+      "name": "comment_form_must_log_in_after",
+      "type": "action",
+      "product": "gravityview-ratings-reviews",
+      "description": "Fires after the HTML-formatted 'must log in after' message in the comment form.",
+      "parameters": [],
+      "since": "0.1.0",
+      "source": {
+        "file": "templates/review-form.php",
+        "line": 35
+      },
+      "url": "/docs/gravityview-ratings-reviews/actions/comment_form_must_log_in_after/"
+    },
+    {
+      "id": "comment_form_top",
+      "name": "comment_form_top",
+      "type": "action",
+      "product": "gravityview-ratings-reviews",
+      "description": "Fires at the top of the comment form, inside the &lt;form&gt; tag.",
+      "parameters": [],
+      "since": "0.1.0",
+      "source": {
+        "file": "templates/review-form.php",
+        "line": 76
+      },
+      "url": "/docs/gravityview-ratings-reviews/actions/comment_form_top/"
+    },
+    {
+      "id": "gravityview_ratings_reviews_after_enqueue",
+      "name": "gravityview_ratings_reviews_after_enqueue",
+      "type": "action",
+      "product": "gravityview-ratings-reviews",
+      "description": "Fires after required scripts and styles are enqueued.",
+      "parameters": [],
+      "since": "0.1.0",
+      "source": {
+        "file": "includes/class-component.php",
+        "line": 82
+      },
+      "url": "/docs/gravityview-ratings-reviews/actions/gravityview_ratings_reviews_after_enqueue/"
+    },
+    {
+      "id": "gravityview_ratings_reviews_before_enqueue",
+      "name": "gravityview_ratings_reviews_before_enqueue",
+      "type": "action",
+      "product": "gravityview-ratings-reviews",
+      "description": "Fires before required scripts and styles are enqueued.",
+      "parameters": [],
+      "since": "0.1.0",
+      "source": {
+        "file": "includes/class-component.php",
+        "line": 72
+      },
+      "url": "/docs/gravityview-ratings-reviews/actions/gravityview_ratings_reviews_before_enqueue/"
+    },
+    {
+      "id": "limited_to_one_review_after",
+      "name": "limited_to_one_review_after",
+      "type": "action",
+      "product": "gravityview-ratings-reviews",
+      "description": "Fires after the HTML-formatted 'limited to one review' message.",
+      "parameters": [],
+      "since": "0.1.0",
+      "source": {
+        "file": "templates/review-form.php",
+        "line": 64
+      },
+      "url": "/docs/gravityview-ratings-reviews/actions/limited_to_one_review_after/"
+    },
+    {
+      "id": "comment_form_field_comment",
+      "name": "comment_form_field_comment",
+      "type": "filter",
+      "product": "gravityview-ratings-reviews",
+      "description": "Filter the content of the comment textarea field for display.",
+      "parameters": [
+        {
+          "name": "args_comment_field",
+          "type": "string",
+          "description": "The content of the comment textarea field."
+        }
+      ],
+      "since": "0.1.0",
+      "source": {
+        "file": "templates/review-form.php",
+        "line": 144
+      },
+      "url": "/docs/gravityview-ratings-reviews/filters/comment_form_field_comment/"
+    },
+    {
+      "id": "comment_form_field_name",
+      "name": "comment_form_field_\\{$name\\}",
+      "type": "filter",
+      "product": "gravityview-ratings-reviews",
+      "description": "Filter a comment form field for display.",
+      "parameters": [
+        {
+          "name": "field",
+          "type": "string",
+          "description": "The HTML-formatted output of the comment form field."
+        }
+      ],
+      "since": "0.1.0",
+      "source": {
+        "file": "templates/review-form.php",
+        "line": 126
+      },
+      "url": "/docs/gravityview-ratings-reviews/filters/comment_form_field_name/"
+    },
+    {
+      "id": "comment_form_logged_in",
+      "name": "comment_form_logged_in",
+      "type": "filter",
+      "product": "gravityview-ratings-reviews",
+      "description": "Filter the 'logged in' message for the comment form for display.",
+      "parameters": [
+        {
+          "name": "args_logged_in",
+          "type": "string",
+          "description": "The logged-in-as HTML-formatted message."
+        },
+        {
+          "name": "commenter",
+          "type": "array",
+          "description": "An array containing the comment author's username, email, and URL."
+        },
+        {
+          "name": "user_identity",
+          "type": "string",
+          "description": "If the commenter is a registered user, the display name, blank otherwise."
+        }
+      ],
+      "since": "0.1.0",
+      "source": {
+        "file": "templates/review-form.php",
+        "line": 91
+      },
+      "url": "/docs/gravityview-ratings-reviews/filters/comment_form_logged_in/"
+    },
+    {
+      "id": "edit_comment_link",
+      "name": "edit_comment_link",
+      "type": "filter",
+      "product": "gravityview-ratings-reviews",
+      "description": "Filter the comment edit link anchor tag.",
+      "parameters": [
+        {
+          "name": "comment_id",
+          "type": "int",
+          "description": "Comment ID."
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "description": "Anchor text."
+        },
+        {
+          "name": "link",
+          "type": "string",
+          "description": "Anchor tag for the edit link."
+        }
+      ],
+      "since": "0.1.0",
+      "source": {
+        "file": "includes/class-helper.php",
+        "line": 555
+      },
+      "url": "/docs/gravityview-ratings-reviews/filters/edit_comment_link/"
+    },
+    {
+      "id": "get_edit_comment_link",
+      "name": "get_edit_comment_link",
+      "type": "filter",
+      "product": "gravityview-ratings-reviews",
+      "description": "Filter the comment edit link.",
+      "parameters": [
+        {
+          "name": "location",
+          "type": "string",
+          "description": "The edit link."
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "includes/class-helper.php",
+        "line": 515
+      },
+      "url": "/docs/gravityview-ratings-reviews/filters/get_edit_comment_link/"
+    },
+    {
+      "id": "gkratings-reviewsrating-required",
+      "name": "gk/ratings-reviews/rating-required",
+      "type": "filter",
+      "product": "gravityview-ratings-reviews",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "is_rating_required",
+          "type": "bool",
+          "description": "Whether the rating is required."
+        },
+        {
+          "name": "view",
+          "type": "object\\",
+          "description": "null`"
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "includes/class-helper.php",
+        "line": 1704
+      },
+      "url": "/docs/gravityview-ratings-reviews/filters/gkratings-reviewsrating-required/"
+    },
+    {
+      "id": "gravityview_ratings_reviews_merge_tags",
+      "name": "gravityview_ratings_reviews_merge_tags",
+      "type": "filter",
+      "product": "gravityview-ratings-reviews",
+      "description": "Modifies the list of available merge tags.",
+      "parameters": [
+        {
+          "name": "merge_tags",
+          "type": "array",
+          "description": "Available merge tags in the <code>\\{tag\\}</code> =&gt; <code>Label</code> format."
+        }
+      ],
+      "since": "2.3.0",
+      "source": {
+        "file": "includes/class-review.php",
+        "line": 1230
+      },
+      "url": "/docs/gravityview-ratings-reviews/filters/gravityview_ratings_reviews_merge_tags/"
+    },
+    {
+      "id": "gravityview_ratings_reviews_replace_merge_tag",
+      "name": "gravityview_ratings_reviews_replace_merge_tag",
+      "type": "filter",
+      "product": "gravityview-ratings-reviews",
+      "description": "Replaces merge tag with its value.",
+      "parameters": [
+        {
+          "name": "replacement",
+          "type": "int\\",
+          "description": "float\\"
+        },
+        {
+          "name": "merge_tag",
+          "type": "string",
+          "description": "Merge tag to replace."
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "description": "Text where the replacement takes place."
+        },
+        {
+          "name": "entry_ratings_detailed",
+          "type": "array",
+          "description": "Entry ratings data generated by \\{@see \\GravityView_Ratings_Reviews_Helper::get_ratings_detailed\\}"
+        },
+        {
+          "name": "form",
+          "type": "array",
+          "description": "Gravity Forms form data."
+        },
+        {
+          "name": "entry",
+          "type": "array",
+          "description": "Gravity Forms entry data."
+        }
+      ],
+      "since": "2.3.0",
+      "source": {
+        "file": "includes/class-review.php",
+        "line": 1347
+      },
+      "url": "/docs/gravityview-ratings-reviews/filters/gravityview_ratings_reviews_replace_merge_tag/"
+    },
+    {
+      "id": "gv_ratings_reviews_allow_empty_comments",
+      "name": "gv_ratings_reviews_allow_empty_comments",
+      "type": "filter",
+      "product": "gravityview-ratings-reviews",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "allowed",
+          "type": "bool",
+          "description": "True or false"
+        },
+        {
+          "name": "view_id",
+          "type": "int",
+          "description": "The ID of the current View"
+        },
+        {
+          "name": "comment_post_ID",
+          "type": "int",
+          "description": "The ID of the submitted comment"
+        }
+      ],
+      "since": "1.3",
+      "source": {
+        "file": "includes/class-review.php",
+        "line": 318
+      },
+      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_allow_empty_comments/"
+    },
+    {
+      "id": "gv_ratings_reviews_disable_downvoting",
+      "name": "gv_ratings_reviews_disable_downvoting",
+      "type": "filter",
+      "product": "gravityview-ratings-reviews",
+      "description": "Controls whether downvoting is disabled.",
+      "parameters": [
+        {
+          "name": "disable_downvoting",
+          "type": "bool",
+          "description": "Whether to disable downvoting. Default: false or the value set in the View settings."
+        }
+      ],
+      "since": "2.3.0",
+      "source": {
+        "file": "includes/class-helper.php",
+        "line": 1766
+      },
+      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_disable_downvoting/"
+    },
+    {
+      "id": "gv_ratings_reviews_display_reviews",
+      "name": "gv_ratings_reviews_display_reviews",
+      "type": "filter",
+      "product": "gravityview-ratings-reviews",
+      "description": "Whether to display reviews for the View",
+      "parameters": [
+        {
+          "name": "display_reviews",
+          "type": "bool",
+          "description": "Whether the commments are open and it's not Edit Entry screen"
+        },
+        {
+          "name": "view_id",
+          "type": "int",
+          "description": "ID of the View being displayed"
+        }
+      ],
+      "since": "1.0.3-beta",
+      "source": {
+        "file": "includes/class-review.php",
+        "line": 769
+      },
+      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_display_reviews/"
+    },
+    {
+      "id": "gv_ratings_reviews_get_reviews_atts",
+      "name": "gv_ratings_reviews_get_reviews_atts",
+      "type": "filter",
+      "product": "gravityview-ratings-reviews",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "status",
+          "type": "string",
+          "description": "Status for reviews. Default: approve"
+        },
+        {
+          "name": "atts",
+          "type": "array",
+          "description": "Settings for get_comments()"
+        },
+        {
+          "name": "post",
+          "type": "int\\",
+          "description": "\\WP_Post`"
+        }
+      ],
+      "since": "2.0.1",
+      "source": {
+        "file": "includes/class-helper.php",
+        "line": 106
+      },
+      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_get_reviews_atts/"
+    },
+    {
+      "id": "gv_ratings_reviews_is_user_allowed_to_review",
+      "name": "gv_ratings_reviews_is_user_allowed_to_review",
+      "type": "filter",
+      "product": "gravityview-ratings-reviews",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "reviewdata",
+          "type": "array",
+          "description": "Comment data array, including author, email,"
+        },
+        {
+          "name": "post_bridge",
+          "type": "int\\",
+          "description": "\\WP_Post`"
+        },
+        {
+          "name": "is_allowed",
+          "type": "bool\\",
+          "description": "\\WP_Error`"
+        }
+      ],
+      "since": "2.0.1",
+      "source": {
+        "file": "includes/class-helper.php",
+        "line": 1507
+      },
+      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_is_user_allowed_to_review/"
+    },
+    {
+      "id": "gv_ratings_reviews_js_vars",
+      "name": "gv_ratings_reviews_js_vars",
+      "type": "filter",
+      "product": "gravityview-ratings-reviews",
+      "description": "Filter the array of data to be localized for javascript",
+      "parameters": [],
+      "since": "1.3",
+      "source": {
+        "file": "includes/class-review.php",
+        "line": 1194
+      },
+      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_js_vars/"
+    },
+    {
+      "id": "gv_ratings_reviews_post_bridge_title",
+      "name": "gv_ratings_reviews_post_bridge_title",
+      "type": "filter",
+      "product": "gravityview-ratings-reviews",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "post_bridge_title",
+          "type": "string",
+          "description": "Existing title format: \"GF entry ID %d, GF form ID %d\""
+        },
+        {
+          "name": "entry",
+          "type": "array",
+          "description": "Gravity Forms entry to create the post bridge for."
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "includes/class-post-bridge.php",
+        "line": 169
+      },
+      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_post_bridge_title/"
+    },
+    {
+      "id": "gv_ratings_reviews_ratings_allowed",
+      "name": "gv_ratings_reviews_ratings_allowed",
+      "type": "filter",
+      "product": "gravityview-ratings-reviews",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "allow_ratings",
+          "type": "bool",
+          "description": "True: Yes, allow ratings; false: no, don't allow ratings"
+        },
+        {
+          "name": "form",
+          "type": "object\\",
+          "description": "array\\"
+        },
+        {
+          "name": "entry",
+          "type": "object\\",
+          "description": "array\\"
+        },
+        {
+          "name": "view",
+          "type": "object\\",
+          "description": "array\\"
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "includes/class-helper.php",
+        "line": 1680
+      },
+      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_ratings_allowed/"
+    },
+    {
+      "id": "gv_ratings_reviews_review_form_fields",
+      "name": "gv_ratings_reviews_review_form_fields",
+      "type": "filter",
+      "product": "gravityview-ratings-reviews",
+      "description": "Filter the default comment form fields.",
+      "parameters": [
+        {
+          "name": "fields",
+          "type": "array",
+          "description": "The default comment fields."
+        }
+      ],
+      "since": "0.1.0",
+      "source": {
+        "file": "includes/class-review.php",
+        "line": 1111
+      },
+      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_review_form_fields/"
+    },
+    {
+      "id": "gv_ratings_reviews_review_form_settings",
+      "name": "gv_ratings_reviews_review_form_settings",
+      "type": "filter",
+      "product": "gravityview-ratings-reviews",
+      "description": "Filter the comment form default arguments.",
+      "parameters": [
+        {
+          "name": "defaults",
+          "type": "array",
+          "description": "The default comment form arguments."
+        }
+      ],
+      "since": "1.3",
+      "source": {
+        "file": "includes/class-review.php",
+        "line": 1147
+      },
+      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_review_form_settings/"
+    },
+    {
+      "id": "gv_ratings_reviews_reviews_allowed",
+      "name": "gv_ratings_reviews_reviews_allowed",
+      "type": "filter",
+      "product": "gravityview-ratings-reviews",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "allow_ratings",
+          "type": "bool",
+          "description": "True: Yes, allow reviews; false: no, don't allow reviews"
+        },
+        {
+          "name": "form",
+          "type": "array\\",
+          "description": "int`"
+        },
+        {
+          "name": "entry",
+          "type": "array\\",
+          "description": "int`"
+        },
+        {
+          "name": "view",
+          "type": "\\GravityView_View\\",
+          "description": "array\\"
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "includes/class-helper.php",
+        "line": 1734
+      },
+      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_reviews_allowed/"
+    },
+    {
+      "id": "gv_ratings_reviews_star_rating",
+      "name": "gv_ratings_reviews_star_rating",
+      "type": "filter",
+      "product": "gravityview-ratings-reviews",
+      "description": "Filter for HTML element with a star rating.",
+      "parameters": [
+        {
+          "name": "r",
+          "type": "array",
+          "description": "Optional array of star ratings arguments."
+        },
+        {
+          "name": "output",
+          "type": "string",
+          "description": "HTML element with a star rating"
+        }
+      ],
+      "since": "0.1.0",
+      "source": {
+        "file": "includes/class-helper.php",
+        "line": 934
+      },
+      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_star_rating/"
+    },
+    {
+      "id": "gv_ratings_reviews_star_rating_titles",
+      "name": "gv_ratings_reviews_star_rating_titles",
+      "type": "filter",
+      "product": "gravityview-ratings-reviews",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "stars",
+          "type": "array",
+          "description": "The array of star ratings"
+        }
+      ],
+      "since": "0.1.1",
+      "source": {
+        "file": "includes/class-helper.php",
+        "line": 796
+      },
+      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_star_rating_titles/"
+    },
+    {
+      "id": "gv_ratings_reviews_use_advanced_sorting",
+      "name": "gv_ratings_reviews_use_advanced_sorting",
+      "type": "filter",
+      "product": "gravityview-ratings-reviews",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "use_advanced_sorting",
+          "type": "bool",
+          "description": "Whether to add advanced sorting options (sort by 1 star ratings, 2 stars, etc) Default: false"
+        },
+        {
+          "name": "form",
+          "type": "array",
+          "description": "Gravity Forms form array"
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "includes/class-form-fields.php",
+        "line": 181
+      },
+      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_use_advanced_sorting/"
+    },
+    {
+      "id": "gv_ratings_reviews_vote_rating",
+      "name": "gv_ratings_reviews_vote_rating",
+      "type": "filter",
+      "product": "gravityview-ratings-reviews",
+      "description": "Filter for HTML element with a vote rating.",
+      "parameters": [
+        {
+          "name": "r",
+          "type": "array",
+          "description": "Array of args used to generate the output"
+        },
+        {
+          "name": "output",
+          "type": "string",
+          "description": "HTML element with a vote rating"
+        }
+      ],
+      "since": "0.1.0",
+      "source": {
+        "file": "includes/class-helper.php",
+        "line": 1148
+      },
+      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_vote_rating/"
+    },
+    {
+      "id": "gv_ratings_reviews_vote_rating_text",
+      "name": "gv_ratings_reviews_vote_rating_text",
+      "type": "filter",
+      "product": "gravityview-ratings-reviews",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "original_rating_text",
+          "type": "array",
+          "description": "\\{"
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "includes/class-helper.php",
+        "line": 1037
+      },
+      "url": "/docs/gravityview-ratings-reviews/filters/gv_ratings_reviews_vote_rating_text/"
+    },
+    {
+      "id": "gv_reviews_number",
+      "name": "gv_reviews_number",
+      "type": "filter",
+      "product": "gravityview-ratings-reviews",
+      "description": "Filter the comments count for display.",
+      "parameters": [
+        {
+          "name": "number",
+          "type": "int",
+          "description": "The number of entry reviews."
+        },
+        {
+          "name": "output",
+          "type": "string",
+          "description": "A translatable string formatted based on whether the count is equal to 0, 1, or 1+."
+        }
+      ],
+      "since": "0.1.0",
+      "source": {
+        "file": "includes/class-helper.php",
+        "line": 219
+      },
+      "url": "/docs/gravityview-ratings-reviews/filters/gv_reviews_number/"
+    }
+  ],
+  "stats": {
+    "total": 37,
+    "actions": 12,
+    "filters": 25
+  }
+}

@@ -1,0 +1,189 @@
+{
+  "generated": "2025-12-15T23:45:33.844Z",
+  "product": {
+    "id": "gravityexport",
+    "label": "GravityExport",
+    "repo": "GravityKit/GravityExport",
+    "actions": [
+      "gk/gravityexport/save/exported/entry",
+      "gk/gravityexport/save/exported/manual"
+    ],
+    "filters": [
+      "gk/gravityexport/pdf/settings/defaults",
+      "gk/gravityexport/permalinks/reserved-terms",
+      "gk/gravityexport/router/default_endpoint",
+      "gk/gravityexport/router/endpoints",
+      "gk/gravityexport/save/settings/filename-formats",
+      "gk/gravityexport/save/settings/ftp",
+      "gk/multiple_rows/settings/defaults"
+    ]
+  },
+  "hooks": [
+    {
+      "id": "gkgravityexportsaveexportedentry",
+      "name": "gk/gravityexport/save/exported/entry",
+      "type": "action",
+      "product": "gravityexport",
+      "description": "Event dispatched when the export was triggered by an entry.",
+      "parameters": [],
+      "since": "$ver$: $ver$",
+      "source": {
+        "file": "add-ons/save/src/Addon/SaveAddon.php",
+        "line": 821
+      },
+      "url": "/docs/gravityexport/actions/gkgravityexportsaveexportedentry/"
+    },
+    {
+      "id": "gkgravityexportsaveexportedmanual",
+      "name": "gk/gravityexport/save/exported/manual",
+      "type": "action",
+      "product": "gravityexport",
+      "description": "Event dispatched when export was manually triggered.",
+      "parameters": [],
+      "since": "1.6.0",
+      "source": {
+        "file": "add-ons/save/src/Addon/SaveAddon.php",
+        "line": 973
+      },
+      "url": "/docs/gravityexport/actions/gkgravityexportsaveexportedmanual/"
+    },
+    {
+      "id": "gkgravityexportpdfsettingsdefaults",
+      "name": "gk/gravityexport/pdf/settings/defaults",
+      "type": "filter",
+      "product": "gravityexport",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "defaults",
+          "type": "array",
+          "description": "The defaults settings."
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "add-ons/pdf-renderer/src/Plugin.php",
+        "line": 694
+      },
+      "url": "/docs/gravityexport/filters/gkgravityexportpdfsettingsdefaults/"
+    },
+    {
+      "id": "gkgravityexportpermalinksreserved-terms",
+      "name": "gk/gravityexport/permalinks/reserved-terms",
+      "type": "filter",
+      "product": "gravityexport",
+      "description": "Modifies the list of reserved terms that are excluded from permalinks.",
+      "parameters": [
+        {
+          "name": "extra_reserved_terms",
+          "type": "string[]",
+          "description": "List of extra reserved terms."
+        },
+        {
+          "name": "reserved_terms",
+          "type": "string[]",
+          "description": "The list of reserved WordPress terms."
+        }
+      ],
+      "since": "1.5.0",
+      "source": {
+        "file": "src/Exporting/CustomExportEndpoint.php",
+        "line": 310
+      },
+      "url": "/docs/gravityexport/filters/gkgravityexportpermalinksreserved-terms/"
+    },
+    {
+      "id": "gkgravityexportrouterdefault_endpoint",
+      "name": "gk/gravityexport/router/default_endpoint",
+      "type": "filter",
+      "product": "gravityexport",
+      "description": "```php",
+      "parameters": [],
+      "since": "1.5.0",
+      "source": {
+        "file": "src/Routing/GravityExportRouter.php",
+        "line": 143
+      },
+      "url": "/docs/gravityexport/filters/gkgravityexportrouterdefault_endpoint/"
+    },
+    {
+      "id": "gkgravityexportrouterendpoints",
+      "name": "gk/gravityexport/router/endpoints",
+      "type": "filter",
+      "product": "gravityexport",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "endpoints",
+          "type": "array",
+          "description": "The list of endpoints."
+        }
+      ],
+      "since": "1.5.0",
+      "source": {
+        "file": "src/Routing/GravityExportRouter.php",
+        "line": 82
+      },
+      "url": "/docs/gravityexport/filters/gkgravityexportrouterendpoints/"
+    },
+    {
+      "id": "gkgravityexportsavesettingsfilename-formats",
+      "name": "gk/gravityexport/save/settings/filename-formats",
+      "type": "filter",
+      "product": "gravityexport",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "formats",
+          "type": "array[]",
+          "description": "Associative array with <code>value</code>, <code>label</code>, and <code>format</code> keys."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "add-ons/save/src/Addon/SaveAddon.php",
+        "line": 284
+      },
+      "url": "/docs/gravityexport/filters/gkgravityexportsavesettingsfilename-formats/"
+    },
+    {
+      "id": "gkgravityexportsavesettingsftp",
+      "name": "gk/gravityexport/save/settings/ftp",
+      "type": "filter",
+      "product": "gravityexport",
+      "description": "| Name | Type | Description |",
+      "parameters": [],
+      "since": "1.0.8",
+      "source": {
+        "file": "add-ons/save/src/Service/ConnectionManagerService.php",
+        "line": 95
+      },
+      "url": "/docs/gravityexport/filters/gkgravityexportsavesettingsftp/"
+    },
+    {
+      "id": "gkmultiple_rowssettingsdefaults",
+      "name": "gk/multiple_rows/settings/defaults",
+      "type": "filter",
+      "product": "gravityexport",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "defaults",
+          "type": "array",
+          "description": "The defaults settings."
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "add-ons/multi-row/src/Plugin.php",
+        "line": 285
+      },
+      "url": "/docs/gravityexport/filters/gkmultiple_rowssettingsdefaults/"
+    }
+  ],
+  "stats": {
+    "total": 9,
+    "actions": 2,
+    "filters": 7
+  }
+}

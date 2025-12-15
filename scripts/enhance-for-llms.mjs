@@ -340,16 +340,59 @@ async function main() {
   const hooksData = collectAllHooks();
   log(`  Found ${hooksData.stats.totalHooks} hooks across ${hooksData.stats.productCount} products`, colors.green);
 
-  // Step 2: Write hooks.json API file
-  log('\n▶ Generating hooks.json API...', colors.cyan);
+  // Step 2: Write per-product JSON files (primary method for LLMs)
+  log('\n▶ Generating per-product JSON APIs...', colors.cyan);
   const apiDir = path.join(PROJECT_ROOT, 'static', 'api');
-  fs.mkdirSync(apiDir, { recursive: true });
+  const hooksDir = path.join(apiDir, 'hooks');
+  fs.mkdirSync(hooksDir, { recursive: true });
 
+  // Create individual product JSON files
+  for (const [productId, productInfo] of Object.entries(hooksData.products)) {
+    const productHooks = hooksData.hooks.filter(h => h.product === productId);
+    const productData = {
+      generated: hooksData.generated,
+      product: productInfo,
+      hooks: productHooks,
+      stats: {
+        total: productHooks.length,
+        actions: productHooks.filter(h => h.type === 'action').length,
+        filters: productHooks.filter(h => h.type === 'filter').length,
+      },
+    };
+
+    const productJsonPath = path.join(hooksDir, `${productId}.json`);
+    fs.writeFileSync(productJsonPath, JSON.stringify(productData, null, 2));
+  }
+  log(`  Created: static/api/hooks/{product}.json (${Object.keys(hooksData.products).length} files)`, colors.green);
+
+  // Step 3: Create index.json with product list and stats (lightweight)
+  const indexData = {
+    generated: hooksData.generated,
+    version: '1.0',
+    baseUrl: '/api/hooks/',
+    stats: hooksData.stats,
+    products: Object.entries(hooksData.products).map(([id, info]) => ({
+      id,
+      label: info.label,
+      repo: info.repo,
+      actions: info.actions.length,
+      filters: info.filters.length,
+      total: info.actions.length + info.filters.length,
+      url: `/api/hooks/${id}.json`,
+    })),
+  };
+
+  const indexJsonPath = path.join(hooksDir, 'index.json');
+  fs.writeFileSync(indexJsonPath, JSON.stringify(indexData, null, 2));
+  log(`  Created: static/api/hooks/index.json (product directory)`, colors.green);
+
+  // Step 4: Keep full hooks.json for backward compatibility but note it's large
   const hooksJsonPath = path.join(apiDir, 'hooks.json');
   fs.writeFileSync(hooksJsonPath, JSON.stringify(hooksData, null, 2));
-  log(`  Created: static/api/hooks.json`, colors.green);
+  const sizeKB = Math.round(fs.statSync(hooksJsonPath).size / 1024);
+  log(`  Created: static/api/hooks.json (${sizeKB}KB - use per-product files instead)`, colors.yellow);
 
-  // Step 3: Create a compact version for quick lookups
+  // Step 5: Create a compact version for quick lookups
   const compactHooks = {
     generated: hooksData.generated,
     hooks: hooksData.hooks.map(h => ({
@@ -404,10 +447,17 @@ async function main() {
   // Summary
   log('\n✅ LLM Enhancement Complete!\n', colors.bright + colors.green);
   log('Files created/updated:', colors.yellow);
-  log('  • static/api/hooks.json - Full hooks database for programmatic access');
+  log('  • static/api/hooks/index.json - Product directory (lightweight)');
+  log('  • static/api/hooks/{product}.json - Per-product hooks (25 files)');
+  log('  • static/api/hooks.json - Full database (large, use per-product instead)');
   log('  • static/api/hooks-compact.json - Compact version for quick lookups');
   log('  • static/llms.txt - LLM context file with updated stats');
   log(`  • ${enhanced} hook files enhanced with usage examples\n`);
+
+  log('Recommended usage:', colors.cyan);
+  log('  1. Fetch /api/hooks/index.json to discover products');
+  log('  2. Fetch /api/hooks/{product}.json for specific product hooks');
+  log('  3. Use /llms.txt for AI assistant context\n');
 
   return 0;
 }

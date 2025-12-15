@@ -1,0 +1,684 @@
+{
+  "generated": "2025-12-15T23:45:33.844Z",
+  "product": {
+    "id": "gravityedit",
+    "label": "GravityEdit",
+    "repo": "GravityKit/GravityEdit",
+    "actions": [],
+    "filters": [
+      "gk/gravityedit/restore_display_name",
+      "gk/gravityedit/user_registration/config",
+      "gk/gravityedit/user_registration/entry",
+      "gk/gravityedit/user_registration/preserve_role",
+      "gk/gravityedit/user_registration/restored_user",
+      "gk/gravityedit/user_registration/trigger_update",
+      "gravityview-inline-edit/edit-mode",
+      "gravityview-inline-edit/edit-style",
+      "gravityview-inline-edit/entry-updated",
+      "gravityview-inline-edit/entry-updated/ . $type",
+      "gravityview-inline-edit/form-buttons",
+      "gravityview-inline-edit/ignored-fields",
+      "gravityview-inline-edit/inline-edit-caps",
+      "gravityview-inline-edit/\\{$input_type\\}-wrapper-attributes",
+      "gravityview-inline-edit/jquery-ui-theme",
+      "gravityview-inline-edit/js-settings",
+      "gravityview-inline-edit/poshytip-theme",
+      "gravityview-inline-edit/remove-gf-update-hooks",
+      "gravityview-inline-edit/supported-fields",
+      "gravityview-inline-edit/toggle-labels",
+      "gravityview-inline-edit/user-can-edit-entry",
+      "gravityview-inline-edit/wrapper-attributes"
+    ]
+  },
+  "hooks": [
+    {
+      "id": "gkgravityeditrestore_display_name",
+      "name": "gk/gravityedit/restore_display_name",
+      "type": "filter",
+      "product": "gravityedit",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "restore_display_name",
+          "type": "bool",
+          "description": "Restore Display Name? Default: true"
+        }
+      ],
+      "since": "1.7.3",
+      "source": {
+        "file": "includes/class-gravityview-inline-edit-user-registration.php",
+        "line": 245
+      },
+      "url": "/docs/gravityedit/filters/gkgravityeditrestore_display_name/"
+    },
+    {
+      "id": "gkgravityedituser_registrationconfig",
+      "name": "gk/gravityedit/user_registration/config",
+      "type": "filter",
+      "product": "gravityedit",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "config",
+          "type": "array",
+          "description": "Gravity Forms User Registration feed configuration for the form"
+        },
+        {
+          "name": "form",
+          "type": "array",
+          "description": "Gravity Forms form array"
+        },
+        {
+          "name": "entry",
+          "type": "array",
+          "description": "Gravity Forms entry being edited"
+        }
+      ],
+      "since": "1.14",
+      "source": {
+        "file": "includes/class-gravityview-inline-edit-user-registration.php",
+        "line": 153
+      },
+      "url": "/docs/gravityedit/filters/gkgravityedituser_registrationconfig/"
+    },
+    {
+      "id": "gkgravityedituser_registrationentry",
+      "name": "gk/gravityedit/user_registration/entry",
+      "type": "filter",
+      "product": "gravityedit",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "entry",
+          "type": "array",
+          "description": "Gravity Forms entry"
+        },
+        {
+          "name": "form",
+          "type": "array",
+          "description": "Gravity Forms form"
+        }
+      ],
+      "since": "1.7.3",
+      "source": {
+        "file": "includes/class-gravityview-inline-edit-user-registration.php",
+        "line": 69
+      },
+      "url": "/docs/gravityedit/filters/gkgravityedituser_registrationentry/"
+    },
+    {
+      "id": "gkgravityedituser_registrationpreserve_role",
+      "name": "gk/gravityedit/user_registration/preserve_role",
+      "type": "filter",
+      "product": "gravityedit",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "preserve_role",
+          "type": "bool",
+          "description": "Preserve current user role Default: true"
+        },
+        {
+          "name": "config",
+          "type": "array",
+          "description": "Gravity Forms User Registration feed configuration for the form"
+        },
+        {
+          "name": "form",
+          "type": "array",
+          "description": "Gravity Forms form array"
+        },
+        {
+          "name": "entry",
+          "type": "array",
+          "description": "Gravity Forms entry being edited"
+        }
+      ],
+      "since": "1.7.3",
+      "source": {
+        "file": "includes/class-gravityview-inline-edit-user-registration.php",
+        "line": 131
+      },
+      "url": "/docs/gravityedit/filters/gkgravityedituser_registrationpreserve_role/"
+    },
+    {
+      "id": "gkgravityedituser_registrationrestored_user",
+      "name": "gk/gravityedit/user_registration/restored_user",
+      "type": "filter",
+      "product": "gravityedit",
+      "description": "Modify the user data after updated by Gravity Forms User Registration but before restored by GravityView",
+      "parameters": [
+        {
+          "name": "restored_user",
+          "type": "\\WP_User",
+          "description": "The user with restored details about to be updated by wp_update_user()"
+        },
+        {
+          "name": "user_before_update",
+          "type": "\\WP_User",
+          "description": "The user before being updated by Gravity Forms User Registration"
+        },
+        {
+          "name": "user_after_update",
+          "type": "\\WP_User",
+          "description": "The user after being updated by Gravity Forms User Registration"
+        },
+        {
+          "name": "entry",
+          "type": "array",
+          "description": "The Gravity Forms entry that was just updated"
+        }
+      ],
+      "since": "1.7.3",
+      "source": {
+        "file": "includes/class-gravityview-inline-edit-user-registration.php",
+        "line": 288
+      },
+      "url": "/docs/gravityedit/filters/gkgravityedituser_registrationrestored_user/"
+    },
+    {
+      "id": "gkgravityedituser_registrationtrigger_update",
+      "name": "gk/gravityedit/user_registration/trigger_update",
+      "type": "filter",
+      "product": "gravityedit",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "boolean",
+          "type": "bool",
+          "description": "Whether to trigger update on user registration (default: true)"
+        }
+      ],
+      "since": "1.7.3",
+      "source": {
+        "file": "includes/class-gravityview-inline-edit-user-registration.php",
+        "line": 31
+      },
+      "url": "/docs/gravityedit/filters/gkgravityedituser_registrationtrigger_update/"
+    },
+    {
+      "id": "gravityview-inline-editedit-mode",
+      "name": "gravityview-inline-edit/edit-mode",
+      "type": "filter",
+      "product": "gravityedit",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "edit_mode",
+          "type": "string",
+          "description": "Editing mode. Options: \"popup\" or \"inline\" [Default: \"popup\"]"
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "class-gravityview-inline-edit.php",
+        "line": 125
+      },
+      "url": "/docs/gravityedit/filters/gravityview-inline-editedit-mode/"
+    },
+    {
+      "id": "gravityview-inline-editedit-style",
+      "name": "gravityview-inline-edit/edit-style",
+      "type": "filter",
+      "product": "gravityedit",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "edit_style",
+          "type": "string",
+          "description": "Editing style. Options: \"jquery-editable\", \"jqueryui-editable\" or \"bootstrap3-editable\" [Default: \"bootstrap3-editable\"]"
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "class-gravityview-inline-edit.php",
+        "line": 102
+      },
+      "url": "/docs/gravityedit/filters/gravityview-inline-editedit-style/"
+    },
+    {
+      "id": "gravityview-inline-editentry-updated",
+      "name": "gravityview-inline-edit/entry-updated",
+      "type": "filter",
+      "product": "gravityedit",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "update_result",
+          "type": "bool\\",
+          "description": "\\WP_Error`"
+        },
+        {
+          "name": "entry",
+          "type": "array",
+          "description": "The Entry Object that's been updated"
+        },
+        {
+          "name": "form_id",
+          "type": "int",
+          "description": "The Form ID"
+        },
+        {
+          "name": "gf_field",
+          "type": "\\GF_Field\\",
+          "description": "null`"
+        },
+        {
+          "name": "original_entry",
+          "type": "array",
+          "description": "Original entry, before being updated"
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "includes/class-gravityview-inline-edit-ajax.php",
+        "line": 634
+      },
+      "url": "/docs/gravityedit/filters/gravityview-inline-editentry-updated/"
+    },
+    {
+      "id": "gravityview-inline-editentry-updated.type",
+      "name": "gravityview-inline-edit/entry-updated/ . $type",
+      "type": "filter",
+      "product": "gravityedit",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "update_result",
+          "type": "bool\\",
+          "description": "\\WP_Error`"
+        },
+        {
+          "name": "entry",
+          "type": "array",
+          "description": "The Entry Object that's been updated"
+        },
+        {
+          "name": "form_id",
+          "type": "int",
+          "description": "The Form ID"
+        },
+        {
+          "name": "gf_field",
+          "type": "\\GF_Field\\",
+          "description": "null`"
+        },
+        {
+          "name": "original_entry",
+          "type": "array",
+          "description": "Original entry, before being updated"
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "includes/class-gravityview-inline-edit-ajax.php",
+        "line": 650
+      },
+      "url": "/docs/gravityedit/filters/gravityview-inline-editentry-updated.type/"
+    },
+    {
+      "id": "gravityview-inline-editform-buttons",
+      "name": "gravityview-inline-edit/form-buttons",
+      "type": "filter",
+      "product": "gravityedit",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "buttons",
+          "type": "array",
+          "description": "The default button configuration"
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "class-gravityview-inline-edit.php",
+        "line": 263
+      },
+      "url": "/docs/gravityedit/filters/gravityview-inline-editform-buttons/"
+    },
+    {
+      "id": "gravityview-inline-editignored-fields",
+      "name": "gravityview-inline-edit/ignored-fields",
+      "type": "filter",
+      "product": "gravityedit",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "ignored_fields",
+          "type": "array",
+          "description": "The ignored fields"
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "class-gravityview-inline-edit.php",
+        "line": 186
+      },
+      "url": "/docs/gravityedit/filters/gravityview-inline-editignored-fields/"
+    },
+    {
+      "id": "gravityview-inline-editinline-edit-caps",
+      "name": "gravityview-inline-edit/inline-edit-caps",
+      "type": "filter",
+      "product": "gravityedit",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "caps",
+          "type": "array",
+          "description": "Array of user capabilities needed to allow inline editing of entries"
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "class-gravityview-inline-edit.php",
+        "line": 306
+      },
+      "url": "/docs/gravityedit/filters/gravityview-inline-editinline-edit-caps/"
+    },
+    {
+      "id": "gravityview-inline-editinput_type-wrapper-attributes",
+      "name": "gravityview-inline-edit/\\{$input_type\\}-wrapper-attributes",
+      "type": "filter",
+      "product": "gravityedit",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "wrapper_attributes",
+          "type": "array",
+          "description": "The attributes of the container <div> or <span>.</span></div>"
+        },
+        {
+          "name": "field_input_type",
+          "type": "string",
+          "description": "The field input type."
+        },
+        {
+          "name": "field_id",
+          "type": "int",
+          "description": "The field ID."
+        },
+        {
+          "name": "entry",
+          "type": "array",
+          "description": "The entry."
+        },
+        {
+          "name": "form",
+          "type": "array",
+          "description": "The current Form."
+        },
+        {
+          "name": "gf_field",
+          "type": "\\GF_Field",
+          "description": "Gravity Forms field object. Is an instance of GF_Field."
+        },
+        {
+          "name": "output",
+          "type": "string",
+          "description": "The original field value HTML."
+        },
+        {
+          "name": "field_settings",
+          "type": "array",
+          "description": "GravityView field settings array."
+        },
+        {
+          "name": "context",
+          "type": "null\\",
+          "description": "\\GV\\Template_Context`"
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "includes/class-gravityview-inline-edit-render-abstract.php",
+        "line": 218
+      },
+      "url": "/docs/gravityedit/filters/gravityview-inline-editinput_type-wrapper-attributes/"
+    },
+    {
+      "id": "gravityview-inline-editjquery-ui-theme",
+      "name": "gravityview-inline-edit/jquery-ui-theme",
+      "type": "filter",
+      "product": "gravityedit",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "jquery_ui_theme",
+          "type": "string",
+          "description": "Name of jQuery UI theme to use. Default: \"base\""
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "includes/class-gravityview-inline-edit-scripts.php",
+        "line": 443
+      },
+      "url": "/docs/gravityedit/filters/gravityview-inline-editjquery-ui-theme/"
+    },
+    {
+      "id": "gravityview-inline-editjs-settings",
+      "name": "gravityview-inline-edit/js-settings",
+      "type": "filter",
+      "product": "gravityedit",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "mode",
+          "type": "string",
+          "description": "Editing mode. Options: \"popup\" or \"inline\" [Default: \"popup\"]"
+        },
+        {
+          "name": "buttons",
+          "type": "string",
+          "description": "HTML of the Update/Cancel buttons \\{"
+        },
+        {
+          "name": "container",
+          "type": "string",
+          "description": "When using <code>popup</code> $mode, jQuery selector used to attach the popup container [Default: \"body\"]"
+        },
+        {
+          "name": "showbuttons",
+          "type": "string\\",
+          "description": "bool`"
+        },
+        {
+          "name": "onblur",
+          "type": "string",
+          "description": "Action when user clicks outside the inline edit form container. Options are \"cancel\", \"submit\", \"ignore\". Setting ignore allows to have several containers open. [Default: \"cancel\"]"
+        },
+        {
+          "name": "showinputs",
+          "type": "bool\\",
+          "description": "string`"
+        },
+        {
+          "name": "item_id",
+          "type": "array",
+          "description": "Array with [form_id] key set for Form ID, or [view_id] key set for View ID currently being displayed"
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "includes/class-gravityview-inline-edit-scripts.php",
+        "line": 182
+      },
+      "url": "/docs/gravityedit/filters/gravityview-inline-editjs-settings/"
+    },
+    {
+      "id": "gravityview-inline-editposhytip-theme",
+      "name": "gravityview-inline-edit/poshytip-theme",
+      "type": "filter",
+      "product": "gravityedit",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "poshytip_theme",
+          "type": "string",
+          "description": "Name of jQuery popup tooltip theme to use. Default: \"yellowsimple\""
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "includes/class-gravityview-inline-edit-scripts.php",
+        "line": 491
+      },
+      "url": "/docs/gravityedit/filters/gravityview-inline-editposhytip-theme/"
+    },
+    {
+      "id": "gravityview-inline-editremove-gf-update-hooks",
+      "name": "gravityview-inline-edit/remove-gf-update-hooks",
+      "type": "filter",
+      "product": "gravityedit",
+      "description": "```php",
+      "parameters": [],
+      "since": "1.2.7",
+      "source": {
+        "file": "includes/class-gravityview-inline-edit-ajax.php",
+        "line": 605
+      },
+      "url": "/docs/gravityedit/filters/gravityview-inline-editremove-gf-update-hooks/"
+    },
+    {
+      "id": "gravityview-inline-editsupported-fields",
+      "name": "gravityview-inline-edit/supported-fields",
+      "type": "filter",
+      "product": "gravityedit",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "supported_fields",
+          "type": "array",
+          "description": "The supported fields"
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "class-gravityview-inline-edit.php",
+        "line": 231
+      },
+      "url": "/docs/gravityedit/filters/gravityview-inline-editsupported-fields/"
+    },
+    {
+      "id": "gravityview-inline-edittoggle-labels",
+      "name": "gravityview-inline-edit/toggle-labels",
+      "type": "filter",
+      "product": "gravityedit",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "labels",
+          "type": "array",
+          "description": "The default labels (using <code>toggle</code>, <code>disabled</code>, <code>enabled</code> keys)"
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "includes/class-gravityview-inline-edit-render-abstract.php",
+        "line": 276
+      },
+      "url": "/docs/gravityedit/filters/gravityview-inline-edittoggle-labels/"
+    },
+    {
+      "id": "gravityview-inline-edituser-can-edit-entry",
+      "name": "gravityview-inline-edit/user-can-edit-entry",
+      "type": "filter",
+      "product": "gravityedit",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "can_edit_entry",
+          "type": "bool",
+          "description": "True: User can edit the entry at $entry_id; False; they just can't"
+        },
+        {
+          "name": "entry_id",
+          "type": "int",
+          "description": "Entry ID to check"
+        },
+        {
+          "name": "form_id",
+          "type": "int",
+          "description": "Form connected to $entry_id"
+        },
+        {
+          "name": "view_id",
+          "type": "int\\",
+          "description": "null`"
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "class-gravityview-inline-edit.php",
+        "line": 323
+      },
+      "url": "/docs/gravityedit/filters/gravityview-inline-edituser-can-edit-entry/"
+    },
+    {
+      "id": "gravityview-inline-editwrapper-attributes",
+      "name": "gravityview-inline-edit/wrapper-attributes",
+      "type": "filter",
+      "product": "gravityedit",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "wrapper_attributes",
+          "type": "array",
+          "description": "The attributes of the container <div> or <span>.</span></div>"
+        },
+        {
+          "name": "field_input_type",
+          "type": "string",
+          "description": "The field input type."
+        },
+        {
+          "name": "field_id",
+          "type": "int",
+          "description": "The field ID."
+        },
+        {
+          "name": "entry",
+          "type": "array",
+          "description": "The entry."
+        },
+        {
+          "name": "form",
+          "type": "array",
+          "description": "The current Form."
+        },
+        {
+          "name": "gf_field",
+          "type": "\\GF_Field",
+          "description": "Gravity Forms field object."
+        },
+        {
+          "name": "output",
+          "type": "string",
+          "description": "The original field value HTML."
+        },
+        {
+          "name": "field_settings",
+          "type": "array",
+          "description": "GravityView field settings array."
+        },
+        {
+          "name": "context",
+          "type": "null\\",
+          "description": "\\GV\\Template_Context`"
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "includes/class-gravityview-inline-edit-render-abstract.php",
+        "line": 199
+      },
+      "url": "/docs/gravityedit/filters/gravityview-inline-editwrapper-attributes/"
+    }
+  ],
+  "stats": {
+    "total": 22,
+    "actions": 0,
+    "filters": 22
+  }
+}

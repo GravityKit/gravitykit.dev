@@ -1,0 +1,334 @@
+{
+  "generated": "2025-12-15T23:45:33.844Z",
+  "product": {
+    "id": "gravityrevisions",
+    "label": "GravityRevisions",
+    "repo": "GravityKit/GravityRevisions",
+    "actions": [],
+    "filters": [
+      "gravityview/entry-revisions/add-revision",
+      "gravityview/entry-revisions/diff-ignored-keys",
+      "gravityview/entry-revisions/diff-row-args",
+      "gravityview/entry-revisions/embed-css",
+      "gravityview/entry-revisions/list-html/output",
+      "gravityview/entry-revisions/restore/add-new",
+      "gravityview/entry-revisions/restore/delete-after",
+      "gravityview/entry-revisions/restore/remove-gf-hooks",
+      "gravityview/entry-revisions/revision-title",
+      "gravityview/entry-revisions/send-notifications",
+      "gravityview/entry-revisions/show-filter-links"
+    ]
+  },
+  "hooks": [
+    {
+      "id": "gravityviewentry-revisionsadd-revision",
+      "name": "gravityview/entry-revisions/add-revision",
+      "type": "filter",
+      "product": "gravityrevisions",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "add_revision",
+          "type": "bool",
+          "description": "Should a revision be added?"
+        },
+        {
+          "name": "form",
+          "type": "array",
+          "description": "The form object for the entry."
+        },
+        {
+          "name": "entry_id",
+          "type": "int",
+          "description": "The entry ID that was updated"
+        },
+        {
+          "name": "original_entry",
+          "type": "array",
+          "description": "The entry object before being updated"
+        }
+      ],
+      "since": "1.0.3",
+      "source": {
+        "file": "class-gv-entry-revisions.php",
+        "line": 312
+      },
+      "url": "/docs/gravityrevisions/filters/gravityviewentry-revisionsadd-revision/"
+    },
+    {
+      "id": "gravityviewentry-revisionsdiff-ignored-keys",
+      "name": "gravityview/entry-revisions/diff-ignored-keys",
+      "type": "filter",
+      "product": "gravityrevisions",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "ignored_keys",
+          "type": "array",
+          "description": "Array of field and meta keys, like [ 'id', 'date_updated', '1.2' ]"
+        },
+        {
+          "name": "form",
+          "type": "array",
+          "description": "The form connected to the entry/revision diff being displayed"
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "class-gv-entry-revisions.php",
+        "line": 177
+      },
+      "url": "/docs/gravityrevisions/filters/gravityviewentry-revisionsdiff-ignored-keys/"
+    },
+    {
+      "id": "gravityviewentry-revisionsdiff-row-args",
+      "name": "gravityview/entry-revisions/diff-row-args",
+      "type": "filter",
+      "product": "gravityrevisions",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "diff_row_args",
+          "type": "array",
+          "description": "Args passed to GV_Entry_Revisions::text_diff_row(). \\{"
+        },
+        {
+          "name": "context",
+          "type": "array",
+          "description": "Additional information about the current row being rendered. \\{"
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "class-gv-entry-revisions.php",
+        "line": 967
+      },
+      "url": "/docs/gravityrevisions/filters/gravityviewentry-revisionsdiff-row-args/"
+    },
+    {
+      "id": "gravityviewentry-revisionsembed-css",
+      "name": "gravityview/entry-revisions/embed-css",
+      "type": "filter",
+      "product": "gravityrevisions",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "embed_css",
+          "type": "bool",
+          "description": "The default is determined by whether a notification is currently being sent"
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "includes/merge-tags.php",
+        "line": 155
+      },
+      "url": "/docs/gravityrevisions/filters/gravityviewentry-revisionsembed-css/"
+    },
+    {
+      "id": "gravityviewentry-revisionslist-htmloutput",
+      "name": "gravityview/entry-revisions/list-html/output",
+      "type": "filter",
+      "product": "gravityrevisions",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "output",
+          "type": "string",
+          "description": "HTML output"
+        },
+        {
+          "name": "entry",
+          "type": "array",
+          "description": "Entry displaying the revisions for"
+        },
+        {
+          "name": "revisions",
+          "type": "array",
+          "description": "Array of revisions"
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "class-gv-entry-revisions.php",
+        "line": 1232
+      },
+      "url": "/docs/gravityrevisions/filters/gravityviewentry-revisionslist-htmloutput/"
+    },
+    {
+      "id": "gravityviewentry-revisionsrestoreadd-new",
+      "name": "gravityview/entry-revisions/restore/add-new",
+      "type": "filter",
+      "product": "gravityrevisions",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "add_new",
+          "type": "bool",
+          "description": "Should a new revision be created based on the entry before the restoration? [Default: True]"
+        },
+        {
+          "name": "prior_entry",
+          "type": "array",
+          "description": "Entry before restoring values"
+        },
+        {
+          "name": "new_entry",
+          "type": "array",
+          "description": "Current entry, after restoring values"
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "class-gv-entry-revisions.php",
+        "line": 765
+      },
+      "url": "/docs/gravityrevisions/filters/gravityviewentry-revisionsrestoreadd-new/"
+    },
+    {
+      "id": "gravityviewentry-revisionsrestoredelete-after",
+      "name": "gravityview/entry-revisions/restore/delete-after",
+      "type": "filter",
+      "product": "gravityrevisions",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "remove_after_restore",
+          "type": "bool",
+          "description": "[Default: false]"
+        },
+        {
+          "name": "revision_id",
+          "type": "int",
+          "description": "ID of revision being restored"
+        },
+        {
+          "name": "entry_id",
+          "type": "int",
+          "description": "ID of connected entry"
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "class-gv-entry-revisions.php",
+        "line": 777
+      },
+      "url": "/docs/gravityrevisions/filters/gravityviewentry-revisionsrestoredelete-after/"
+    },
+    {
+      "id": "gravityviewentry-revisionsrestoreremove-gf-hooks",
+      "name": "gravityview/entry-revisions/restore/remove-gf-hooks",
+      "type": "filter",
+      "product": "gravityrevisions",
+      "description": "Remove all Gravity Forms hooks when restoring a revision",
+      "parameters": [
+        {
+          "name": "remove_hooks",
+          "type": "bool",
+          "description": "[Default: true]"
+        },
+        {
+          "name": "entry_id",
+          "type": "int",
+          "description": "ID of entry being restored to"
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "class-gv-entry-revisions.php",
+        "line": 737
+      },
+      "url": "/docs/gravityrevisions/filters/gravityviewentry-revisionsrestoreremove-gf-hooks/"
+    },
+    {
+      "id": "gravityviewentry-revisionsrevision-title",
+      "name": "gravityview/entry-revisions/revision-title",
+      "type": "filter",
+      "product": "gravityrevisions",
+      "description": "Filters the revision title, used in rendering the revision list as well as",
+      "parameters": [
+        {
+          "name": "revision_title",
+          "type": "string",
+          "description": "Existing revision title"
+        },
+        {
+          "name": "revision_details",
+          "type": "array",
+          "description": "Additional information used in the title"
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "class-gv-entry-revisions.php",
+        "line": 1150
+      },
+      "url": "/docs/gravityrevisions/filters/gravityviewentry-revisionsrevision-title/"
+    },
+    {
+      "id": "gravityviewentry-revisionssend-notifications",
+      "name": "gravityview/entry-revisions/send-notifications",
+      "type": "filter",
+      "product": "gravityrevisions",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "",
+          "type": "bool",
+          "description": "Send or not. Default: true (send notifications)"
+        },
+        {
+          "name": "revision_to_add",
+          "type": "array",
+          "description": "The new revision added."
+        },
+        {
+          "name": "current_entry",
+          "type": "array",
+          "description": "The replaced entry."
+        },
+        {
+          "name": "changed_fields",
+          "type": "array",
+          "description": "The new entry, with only the changed fields"
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "class-gv-entry-revisions.php",
+        "line": 419
+      },
+      "url": "/docs/gravityrevisions/filters/gravityviewentry-revisionssend-notifications/"
+    },
+    {
+      "id": "gravityviewentry-revisionsshow-filter-links",
+      "name": "gravityview/entry-revisions/show-filter-links",
+      "type": "filter",
+      "product": "gravityrevisions",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "show_filter_links",
+          "type": "bool",
+          "description": "True: show the \"approved\"/\"disapproved\" filter links. False: hide them."
+        },
+        {
+          "name": "form",
+          "type": "array",
+          "description": "GF Form object of current form"
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "includes/entry_list.php",
+        "line": 47
+      },
+      "url": "/docs/gravityrevisions/filters/gravityviewentry-revisionsshow-filter-links/"
+    }
+  ],
+  "stats": {
+    "total": 11,
+    "actions": 0,
+    "filters": 11
+  }
+}

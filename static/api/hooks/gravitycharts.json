@@ -1,0 +1,391 @@
+{
+  "generated": "2025-12-15T23:45:33.844Z",
+  "product": {
+    "id": "gravitycharts",
+    "label": "GravityCharts",
+    "repo": "GravityKit/GravityCharts",
+    "actions": [
+      "gk/gravitycharts/image-charts/quickchart/instance"
+    ],
+    "filters": [
+      "gk/gravitycharts/api/chart/data",
+      "gk/gravitycharts/api/chart/description",
+      "gk/gravitycharts/api/chart/options",
+      "gk/gravitycharts/api/field/options",
+      "gk/gravitycharts/api/js/json",
+      "gk/gravitycharts/api/js/response",
+      "gk/gravitycharts/api/query",
+      "gk/gravitycharts/capabilities/access",
+      "gk/gravitycharts/chart-library-options",
+      "gk/gravitycharts/color-palettes",
+      "gk/gravitycharts/feed/settings-fields",
+      "gk/gravitycharts/feed/settings-to-chart-library-options-map",
+      "gk/gravitycharts/locale",
+      "gk/gravitycharts/timeline/label-formats"
+    ]
+  },
+  "hooks": [
+    {
+      "id": "gkgravitychartsimage-chartsquickchartinstance",
+      "name": "gk/gravitycharts/image-charts/quickchart/instance",
+      "type": "action",
+      "product": "gravitycharts",
+      "description": "Override QuickChart settings for the chart.",
+      "parameters": [
+        {
+          "name": "atts",
+          "type": "array",
+          "description": "The attributes."
+        },
+        {
+          "name": "feed_id",
+          "type": "int",
+          "description": "The Feed ID."
+        }
+      ],
+      "since": "1.121.2",
+      "source": {
+        "file": "src/API.php",
+        "line": 1542
+      },
+      "url": "/docs/gravitycharts/actions/gkgravitychartsimage-chartsquickchartinstance/"
+    },
+    {
+      "id": "gkgravitychartsapichartdata",
+      "name": "gk/gravitycharts/api/chart/data",
+      "type": "filter",
+      "product": "gravitycharts",
+      "description": "Modifies the Chart data.",
+      "parameters": [
+        {
+          "name": "chart_data",
+          "type": "array",
+          "description": "The Chart data."
+        },
+        {
+          "name": "feed",
+          "type": "array",
+          "description": "The Feed object."
+        },
+        {
+          "name": "context",
+          "type": "string",
+          "description": "The chart context (<code>default</code> or <code>timeline</code>)."
+        }
+      ],
+      "since": "1.11",
+      "source": {
+        "file": "src/API.php",
+        "line": 1302
+      },
+      "url": "/docs/gravitycharts/filters/gkgravitychartsapichartdata/"
+    },
+    {
+      "id": "gkgravitychartsapichartdescription",
+      "name": "gk/gravitycharts/api/chart/description",
+      "type": "filter",
+      "product": "gravitycharts",
+      "description": "Modifies the description template.",
+      "parameters": [
+        {
+          "name": "description_template",
+          "type": "string",
+          "description": "The current description template."
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "description": "The chart type."
+        }
+      ],
+      "since": "1.11",
+      "source": {
+        "file": "src/API.php",
+        "line": 622
+      },
+      "url": "/docs/gravitycharts/filters/gkgravitychartsapichartdescription/"
+    },
+    {
+      "id": "gkgravitychartsapichartoptions",
+      "name": "gk/gravitycharts/api/chart/options",
+      "type": "filter",
+      "product": "gravitycharts",
+      "description": "Modifies the Chart options.",
+      "parameters": [
+        {
+          "name": "response",
+          "type": "array",
+          "description": "The options."
+        },
+        {
+          "name": "feed_id",
+          "type": "int",
+          "description": "The feed ID."
+        }
+      ],
+      "since": "1.11",
+      "source": {
+        "file": "src/API.php",
+        "line": 765
+      },
+      "url": "/docs/gravitycharts/filters/gkgravitychartsapichartoptions/"
+    },
+    {
+      "id": "gkgravitychartsapifieldoptions",
+      "name": "gk/gravitycharts/api/field/options",
+      "type": "filter",
+      "product": "gravitycharts",
+      "description": "Modifies the options for a specific field.",
+      "parameters": [
+        {
+          "name": "options",
+          "type": "array\\{labels: string[], values: string[]\\}",
+          "description": "The options."
+        },
+        {
+          "name": "field",
+          "type": "\\GF_Field",
+          "description": "The Field object."
+        }
+      ],
+      "since": "1.14",
+      "source": {
+        "file": "src/API.php",
+        "line": 1648
+      },
+      "url": "/docs/gravitycharts/filters/gkgravitychartsapifieldoptions/"
+    },
+    {
+      "id": "gkgravitychartsapijsjson",
+      "name": "gk/gravitycharts/api/js/json",
+      "type": "filter",
+      "product": "gravitycharts",
+      "description": "Modifies the JSON string before it is returned.",
+      "parameters": [
+        {
+          "name": "json",
+          "type": "string",
+          "description": "The JSON string."
+        },
+        {
+          "name": "response",
+          "type": "array",
+          "description": "The response object."
+        },
+        {
+          "name": "feed_id",
+          "type": "int",
+          "description": "The Chart feed ID."
+        },
+        {
+          "name": "entry",
+          "type": "int",
+          "description": "The Entry ID."
+        }
+      ],
+      "since": "1.11",
+      "source": {
+        "file": "src/API.php",
+        "line": 552
+      },
+      "url": "/docs/gravitycharts/filters/gkgravitychartsapijsjson/"
+    },
+    {
+      "id": "gkgravitychartsapijsresponse",
+      "name": "gk/gravitycharts/api/js/response",
+      "type": "filter",
+      "product": "gravitycharts",
+      "description": "Modifies the response object before it is transformed into a JSON string.",
+      "parameters": [
+        {
+          "name": "response",
+          "type": "array",
+          "description": "The response object."
+        },
+        {
+          "name": "feed_id",
+          "type": "int",
+          "description": "The Chart feed ID."
+        },
+        {
+          "name": "entry",
+          "type": "int",
+          "description": "The Entry ID."
+        }
+      ],
+      "since": "1.11",
+      "source": {
+        "file": "src/API.php",
+        "line": 518
+      },
+      "url": "/docs/gravitycharts/filters/gkgravitychartsapijsresponse/"
+    },
+    {
+      "id": "gkgravitychartsapiquery",
+      "name": "gk/gravitycharts/api/query",
+      "type": "filter",
+      "product": "gravitycharts",
+      "description": "Modifies the `GF_Query` object used for a feed.",
+      "parameters": [
+        {
+          "name": "gf_query",
+          "type": "\\GF_Query",
+          "description": "The Query object."
+        },
+        {
+          "name": "form",
+          "type": "array",
+          "description": "The Form object."
+        },
+        {
+          "name": "feed",
+          "type": "array",
+          "description": "The Feed object."
+        }
+      ],
+      "since": "1.14",
+      "source": {
+        "file": "src/API.php",
+        "line": 978
+      },
+      "url": "/docs/gravitycharts/filters/gkgravitychartsapiquery/"
+    },
+    {
+      "id": "gkgravitychartscapabilitiesaccess",
+      "name": "gk/gravitycharts/capabilities/access",
+      "type": "filter",
+      "product": "gravitycharts",
+      "description": "Modifies the default capability required to access the plugin.",
+      "parameters": [],
+      "since": "1.0.2",
+      "source": {
+        "file": "src/Chart_Feed.php",
+        "line": 127
+      },
+      "url": "/docs/gravitycharts/filters/gkgravitychartscapabilitiesaccess/"
+    },
+    {
+      "id": "gkgravitychartschart-library-options",
+      "name": "gk/gravitycharts/chart-library-options",
+      "type": "filter",
+      "product": "gravitycharts",
+      "description": "Modifies default Chart.js options.",
+      "parameters": [
+        {
+          "name": "fields",
+          "type": "array",
+          "description": "Array of default chart settings."
+        },
+        {
+          "name": "library",
+          "type": "string",
+          "description": "Name of the library being used."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/Chart_Feed.php",
+        "line": 1787
+      },
+      "url": "/docs/gravitycharts/filters/gkgravitychartschart-library-options/"
+    },
+    {
+      "id": "gkgravitychartscolor-palettes",
+      "name": "gk/gravitycharts/color-palettes",
+      "type": "filter",
+      "product": "gravitycharts",
+      "description": "Modifies the default colors used when creating a chart.",
+      "parameters": [
+        {
+          "name": "color_palettes",
+          "type": "array",
+          "description": "Chart.js settings presets."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/Color_Pallets.php",
+        "line": 619
+      },
+      "url": "/docs/gravitycharts/filters/gkgravitychartscolor-palettes/"
+    },
+    {
+      "id": "gkgravitychartsfeedsettings-fields",
+      "name": "gk/gravitycharts/feed/settings-fields",
+      "type": "filter",
+      "product": "gravitycharts",
+      "description": "Modifies feed field configuration.",
+      "parameters": [],
+      "since": "1.0",
+      "source": {
+        "file": "src/Chart_Feed.php",
+        "line": 1698
+      },
+      "url": "/docs/gravitycharts/filters/gkgravitychartsfeedsettings-fields/"
+    },
+    {
+      "id": "gkgravitychartsfeedsettings-to-chart-library-options-map",
+      "name": "gk/gravitycharts/feed/settings-to-chart-library-options-map",
+      "type": "filter",
+      "product": "gravitycharts",
+      "description": "Modifies a map of feed settings fields to Chart.js options.",
+      "parameters": [],
+      "since": "1.0",
+      "source": {
+        "file": "src/Chart_Feed.php",
+        "line": 1718
+      },
+      "url": "/docs/gravitycharts/filters/gkgravitychartsfeedsettings-to-chart-library-options-map/"
+    },
+    {
+      "id": "gkgravitychartslocale",
+      "name": "gk/gravitycharts/locale",
+      "type": "filter",
+      "product": "gravitycharts",
+      "description": "Filters the locale for a feed.",
+      "parameters": [
+        {
+          "name": "locale",
+          "type": "string",
+          "description": "The locale. Default: Site language returned by \\{@see \\get_bloginfo()\\}."
+        },
+        {
+          "name": "feed",
+          "type": "\\Chart_Feed",
+          "description": "Instance of Chart_Feed."
+        }
+      ],
+      "since": "1.6",
+      "source": {
+        "file": "src/Chart_Feed.php",
+        "line": 2328
+      },
+      "url": "/docs/gravitycharts/filters/gkgravitychartslocale/"
+    },
+    {
+      "id": "gkgravitychartstimelinelabel-formats",
+      "name": "gk/gravitycharts/timeline/label-formats",
+      "type": "filter",
+      "product": "gravitycharts",
+      "description": "Filters the label formats for the timeline scales.",
+      "parameters": [
+        {
+          "name": "formats",
+          "type": "array&lt;string,string&gt;",
+          "description": "The formats in an associative array, with the scale as key."
+        }
+      ],
+      "since": "1.6",
+      "source": {
+        "file": "src/API.php",
+        "line": 1573
+      },
+      "url": "/docs/gravitycharts/filters/gkgravitychartstimelinelabel-formats/"
+    }
+  ],
+  "stats": {
+    "total": 15,
+    "actions": 1,
+    "filters": 14
+  }
+}

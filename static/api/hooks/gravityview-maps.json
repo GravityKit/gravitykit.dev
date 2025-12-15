@@ -1,0 +1,1044 @@
+{
+  "generated": "2025-12-15T23:45:33.844Z",
+  "product": {
+    "id": "gravityview-maps",
+    "label": "GravityView - Maps",
+    "repo": "GravityKit/Maps",
+    "actions": [
+      "gk/gravitymaps/loaded",
+      "gk/gravitymaps/render/map-canvas",
+      "gravityview/template/map/body/after",
+      "gravityview/template/map/body/before",
+      "sprintf(gravityview/template/map/entry%safter, $zone)",
+      "sprintf(gravityview/template/map/entry%sbefore, $zone)"
+    ],
+    "filters": [
+      "gk/gravitymaps/current_location_instant_search",
+      "gk/gravitymaps/geolocation_fields",
+      "gk/gravitymaps/geolocation_radius_options",
+      "gk/gravitymaps/map-services/google-maps/api_key",
+      "gk/gravitymaps/map/control-pagination",
+      "gk/gravitymaps/maps/service-factory/get-map-service-class-for-view",
+      "gk/gravitymaps/maps/service-factory/get-map-service-instance-for-view",
+      "gk/gravitymaps/marker/auto-geocode",
+      "gk/gravitymaps/markers/coordinates/fields-ids",
+      "gk/gravitymaps/search/reserved-args",
+      "gravityview_maps_google_script_handle",
+      "gravityview_render_after_label",
+      "gravityview/maps/available_icons/icons",
+      "gravityview/maps/available_icons/sections",
+      "gravityview/maps/choice_marker_icon_settings",
+      "gravityview/maps/field/icon_picker/button_text",
+      "gravityview/maps/geocoding/mapquest/licensed_data",
+      "gravityview/maps/geocoding/providers/ . $setting . /api_key",
+      "gravityview/maps/geocoding/providers/locale",
+      "gravityview/maps/geocoding/providers/region",
+      "gravityview/maps/infowindow/content/vars",
+      "gravityview/maps/infowindow/html",
+      "gravityview/maps/infowindow/link_target",
+      "gravityview/maps/infowindow/pre_html",
+      "gravityview/maps/infowindow/pre_html/value/ . $tag",
+      "gravityview/maps/marker/add",
+      "gravityview/maps/marker/address",
+      "gravityview/maps/marker/field-value",
+      "gravityview/maps/markers/address/field_id",
+      "gravityview/maps/markers/icon/field_id",
+      "gravityview/maps/marker/url",
+      "gravityview/maps/marker/use-address-default-values",
+      "gravityview/maps/render/options",
+      "gravityview/maps/request_settings",
+      "gravityview/render/hide-empty-zone",
+      "gravityview/template/field/label",
+      "gravityview/template/map/entry/class"
+    ]
+  },
+  "hooks": [
+    {
+      "id": "gkgravitymapsloaded",
+      "name": "gk/gravitymaps/loaded",
+      "type": "action",
+      "product": "gravityview-maps",
+      "description": "Fires when the plugin is loaded.",
+      "parameters": [],
+      "since": "3.0",
+      "source": {
+        "file": "src/Loader.php",
+        "line": 234
+      },
+      "url": "/docs/gravityview-maps/actions/gkgravitymapsloaded/"
+    },
+    {
+      "id": "gkgravitymapsrendermap-canvas",
+      "name": "gk/gravitymaps/render/map-canvas",
+      "type": "action",
+      "product": "gravityview-maps",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "entry",
+          "type": "null\\",
+          "description": "\\Entry`"
+        },
+        {
+          "name": "context",
+          "type": "null\\",
+          "description": "\\Template_Context`"
+        }
+      ],
+      "since": "3.0",
+      "source": {
+        "file": "src/Views/Map.php",
+        "line": 356
+      },
+      "url": "/docs/gravityview-maps/actions/gkgravitymapsrendermap-canvas/"
+    },
+    {
+      "id": "gravityviewtemplatemapbodyafter",
+      "name": "gravityview/template/map/body/after",
+      "type": "action",
+      "product": "gravityview-maps",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "context",
+          "type": "\\Template_Context",
+          "description": "The template context."
+        }
+      ],
+      "since": "2.0",
+      "source": {
+        "file": "src/Views/Map.php",
+        "line": 242
+      },
+      "url": "/docs/gravityview-maps/actions/gravityviewtemplatemapbodyafter/"
+    },
+    {
+      "id": "gravityviewtemplatemapbodybefore",
+      "name": "gravityview/template/map/body/before",
+      "type": "action",
+      "product": "gravityview-maps",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "context",
+          "type": "\\Template_Context",
+          "description": "The template context."
+        }
+      ],
+      "since": "2.0",
+      "source": {
+        "file": "src/Views/Map.php",
+        "line": 209
+      },
+      "url": "/docs/gravityview-maps/actions/gravityviewtemplatemapbodybefore/"
+    },
+    {
+      "id": "sprintfgravityviewtemplatemapentrysafterzone",
+      "name": "sprintf(gravityview/template/map/entry%safter, $zone)",
+      "type": "action",
+      "product": "gravityview-maps",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "context",
+          "type": "\\Template_Context",
+          "description": "The template context."
+        }
+      ],
+      "since": "2.0",
+      "source": {
+        "file": "src/Views/Map.php",
+        "line": 318
+      },
+      "url": "/docs/gravityview-maps/actions/sprintfgravityviewtemplatemapentrysafterzone/"
+    },
+    {
+      "id": "sprintfgravityviewtemplatemapentrysbeforezone",
+      "name": "sprintf(gravityview/template/map/entry%sbefore, $zone)",
+      "type": "action",
+      "product": "gravityview-maps",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "context",
+          "type": "\\Template_Context",
+          "description": "The template context."
+        }
+      ],
+      "since": "2.0",
+      "source": {
+        "file": "src/Views/Map.php",
+        "line": 279
+      },
+      "url": "/docs/gravityview-maps/actions/sprintfgravityviewtemplatemapentrysbeforezone/"
+    },
+    {
+      "id": "gkgravitymapscurrent_location_instant_search",
+      "name": "gk/gravitymaps/current_location_instant_search",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "Allows changing of the default setting for the Current Location behavior.",
+      "parameters": [],
+      "since": "2.0",
+      "source": {
+        "file": "templates/search-field-geo_radius.php",
+        "line": 27
+      },
+      "url": "/docs/gravityview-maps/filters/gkgravitymapscurrent_location_instant_search/"
+    },
+    {
+      "id": "gkgravitymapsgeolocation_fields",
+      "name": "gk/gravitymaps/geolocation_fields",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "Allows filtering of which fields are considered geolocation fields.",
+      "parameters": [
+        {
+          "name": "fields",
+          "type": "array",
+          "description": "Which fields are geolocation."
+        },
+        {
+          "name": "form",
+          "type": "array",
+          "description": "Which Gravity Forms meta we are using."
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "src/Form_Fields.php",
+        "line": 358
+      },
+      "url": "/docs/gravityview-maps/filters/gkgravitymapsgeolocation_fields/"
+    },
+    {
+      "id": "gkgravitymapsgeolocation_radius_options",
+      "name": "gk/gravitymaps/geolocation_radius_options",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "Allow modifications to the geolocation radius options.",
+      "parameters": [
+        {
+          "name": "options",
+          "type": "array",
+          "description": "Which options we are passing forward."
+        },
+        {
+          "name": "default_options",
+          "type": "array",
+          "description": "Which are the default options that will be applied afterwords."
+        },
+        {
+          "name": "selected",
+          "type": "string\\",
+          "description": "int\\"
+        }
+      ],
+      "since": "2.0",
+      "source": {
+        "file": "src/Search_Filter.php",
+        "line": 536
+      },
+      "url": "/docs/gravityview-maps/filters/gkgravitymapsgeolocation_radius_options/"
+    },
+    {
+      "id": "gkgravitymapsmap-servicesgoogle-mapsapi_key",
+      "name": "gk/gravitymaps/map-services/google-maps/api_key",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "key",
+          "type": "string",
+          "description": "If the Google API key setting is set in GravityView Settings, use it. Otherwise: ''."
+        }
+      ],
+      "since": "3.2.0",
+      "source": {
+        "file": "src/Map_Services/Google_Maps.php",
+        "line": 225
+      },
+      "url": "/docs/gravityview-maps/filters/gkgravitymapsmap-servicesgoogle-mapsapi_key/"
+    },
+    {
+      "id": "gkgravitymapsmapcontrol-pagination",
+      "name": "gk/gravitymaps/map/control-pagination",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "Filter the pagination control setting for the map.",
+      "parameters": [
+        {
+          "name": "pagination_override",
+          "type": "bool",
+          "description": "Whether to override the View's native pagination behavior."
+        },
+        {
+          "name": "map",
+          "type": "\\Map",
+          "description": "The map object."
+        }
+      ],
+      "since": "3.1.4",
+      "source": {
+        "file": "src/Template/Map.php",
+        "line": 404
+      },
+      "url": "/docs/gravityview-maps/filters/gkgravitymapsmapcontrol-pagination/"
+    },
+    {
+      "id": "gkgravitymapsmapsservice-factoryget-map-service-class-for-view",
+      "name": "gk/gravitymaps/maps/service-factory/get-map-service-class-for-view",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "default_map_instance",
+          "type": "string",
+          "description": "The default map service class."
+        },
+        {
+          "name": "view",
+          "type": "\\View",
+          "description": "The view object."
+        }
+      ],
+      "since": "3.1.0",
+      "source": {
+        "file": "src/Map_Services/Factory.php",
+        "line": 67
+      },
+      "url": "/docs/gravityview-maps/filters/gkgravitymapsmapsservice-factoryget-map-service-class-for-view/"
+    },
+    {
+      "id": "gkgravitymapsmapsservice-factoryget-map-service-instance-for-view",
+      "name": "gk/gravitymaps/maps/service-factory/get-map-service-instance-for-view",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "map",
+          "type": "\\Map_Service_Abstract",
+          "description": "The map service instance."
+        },
+        {
+          "name": "view",
+          "type": "\\View",
+          "description": "The view object."
+        }
+      ],
+      "since": "3.1.0",
+      "source": {
+        "file": "src/Map_Services/Factory.php",
+        "line": 101
+      },
+      "url": "/docs/gravityview-maps/filters/gkgravitymapsmapsservice-factoryget-map-service-instance-for-view/"
+    },
+    {
+      "id": "gkgravitymapsmarkerauto-geocode",
+      "name": "gk/gravitymaps/marker/auto-geocode",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "Controls whether the marker is automatically geocoded if no coordinates are found.",
+      "parameters": [
+        {
+          "name": "auto_geocode",
+          "type": "bool",
+          "description": "Whether the marker should be automatically geocoded if no coordinates are found."
+        },
+        {
+          "name": "this",
+          "type": "\\Marker",
+          "description": "The marker object."
+        }
+      ],
+      "since": "3.1.4",
+      "source": {
+        "file": "src/Marker.php",
+        "line": 868
+      },
+      "url": "/docs/gravityview-maps/filters/gkgravitymapsmarkerauto-geocode/"
+    },
+    {
+      "id": "gkgravitymapsmarkerscoordinatesfields-ids",
+      "name": "gk/gravitymaps/markers/coordinates/fields-ids",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "lat_long_fields",
+          "type": "array",
+          "description": "Array of latitude/longitude of Gravity Forms field IDs"
+        },
+        {
+          "name": "view",
+          "type": "\\View",
+          "description": "Current View object"
+        }
+      ],
+      "since": "3.1.0",
+      "source": {
+        "file": "src/Search_Filter.php",
+        "line": 655
+      },
+      "url": "/docs/gravityview-maps/filters/gkgravitymapsmarkerscoordinatesfields-ids/"
+    },
+    {
+      "id": "gkgravitymapssearchreserved-args",
+      "name": "gk/gravitymaps/search/reserved-args",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "Modifies the reserved arguments for the Search Bar widget.",
+      "parameters": [
+        {
+          "name": "reserved_args",
+          "type": "array",
+          "description": "Array of reserved arguments."
+        }
+      ],
+      "since": "3.3.0",
+      "source": {
+        "file": "src/Search_Filter.php",
+        "line": 188
+      },
+      "url": "/docs/gravityview-maps/filters/gkgravitymapssearchreserved-args/"
+    },
+    {
+      "id": "gravityview_maps_google_script_handle",
+      "name": "gravityview_maps_google_script_handle",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "script_slug",
+          "type": "string",
+          "description": "Default: <code>gv-google-maps</code>"
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "src/Map_Services/Google_Maps.php",
+        "line": 339
+      },
+      "url": "/docs/gravityview-maps/filters/gravityview_maps_google_script_handle/"
+    },
+    {
+      "id": "gravityview_render_after_label",
+      "name": "gravityview_render_after_label",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "Defined in `src/Views/Map.php` at line 97",
+      "parameters": [],
+      "since": null,
+      "source": {
+        "file": "src/Views/Map.php",
+        "line": 97
+      },
+      "url": "/docs/gravityview-maps/filters/gravityview_render_after_label/"
+    },
+    {
+      "id": "gravityviewmapsavailable_iconsicons",
+      "name": "gravityview/maps/available_icons/icons",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "field_id",
+          "type": "int",
+          "description": "If set, the key value of the $entry array that holds the icon"
+        },
+        {
+          "name": "icons",
+          "type": "array",
+          "description": "Array of icons, with keys of <code>default</code>, <code>theme</code>, and <code>plugin</code>. The keys must match the array keys used by $sections."
+        }
+      ],
+      "since": "TODO: TODO",
+      "source": {
+        "file": "src/Available_Icons.php",
+        "line": 127
+      },
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsavailable_iconsicons/"
+    },
+    {
+      "id": "gravityviewmapsavailable_iconssections",
+      "name": "gravityview/maps/available_icons/sections",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "field_id",
+          "type": "int",
+          "description": "If set, the key value of the $entry array that holds the icon"
+        },
+        {
+          "name": "icons",
+          "type": "array",
+          "description": "Array of icons, with keys of <code>default</code>, <code>theme</code>, and <code>plugin</code>."
+        }
+      ],
+      "since": "TODO: TODO",
+      "source": {
+        "file": "src/Available_Icons.php",
+        "line": 118
+      },
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsavailable_iconssections/"
+    },
+    {
+      "id": "gravityviewmapschoice_marker_icon_settings",
+      "name": "gravityview/maps/choice_marker_icon_settings",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "Filter the icon settings for a given entry.",
+      "parameters": [
+        {
+          "name": "field",
+          "type": "\\GF_Field",
+          "description": "Field used to get the choices."
+        },
+        {
+          "name": "entry",
+          "type": "array",
+          "description": "Gravity Forms entry."
+        }
+      ],
+      "since": "1.9",
+      "source": {
+        "file": "src/Custom_Map_Icons.php",
+        "line": 259
+      },
+      "url": "/docs/gravityview-maps/filters/gravityviewmapschoice_marker_icon_settings/"
+    },
+    {
+      "id": "gravityviewmapsfieldicon_pickerbutton_text",
+      "name": "gravityview/maps/field/icon_picker/button_text",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "button_text",
+          "type": "string",
+          "description": "Default: \"Select Icon\""
+        }
+      ],
+      "since": "1.4",
+      "source": {
+        "file": "src/parts/gf-field-icon-picker-form-public.php",
+        "line": 30
+      },
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsfieldicon_pickerbutton_text/"
+    },
+    {
+      "id": "gravityviewmapsgeocodingmapquestlicensed_data",
+      "name": "gravityview/maps/geocoding/mapquest/licensed_data",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "licensed_data",
+          "type": "bool",
+          "description": "True to use MapQuest's licensed endpoints, default is false to use the open endpoints (optional)."
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "src/Geocoding.php",
+        "line": 132
+      },
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsgeocodingmapquestlicensed_data/"
+    },
+    {
+      "id": "gravityviewmapsgeocodingproviders.setting.api_key",
+      "name": "gravityview/maps/geocoding/providers/ . $setting . /api_key",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "key",
+          "type": "string",
+          "description": "API key pulled from GravityView Maps settings or a constant"
+        }
+      ],
+      "since": "1.7",
+      "source": {
+        "file": "src/Settings.php",
+        "line": 126
+      },
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsgeocodingproviders.setting.api_key/"
+    },
+    {
+      "id": "gravityviewmapsgeocodingproviderslocale",
+      "name": "gravityview/maps/geocoding/providers/locale",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "locale",
+          "type": "null\\",
+          "description": "string`"
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/Geocoding.php",
+        "line": 71
+      },
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsgeocodingproviderslocale/"
+    },
+    {
+      "id": "gravityviewmapsgeocodingprovidersregion",
+      "name": "gravityview/maps/geocoding/providers/region",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "region",
+          "type": "null\\",
+          "description": "string`"
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/Geocoding.php",
+        "line": 79
+      },
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsgeocodingprovidersregion/"
+    },
+    {
+      "id": "gravityviewmapsinfowindowcontentvars",
+      "name": "gravityview/maps/infowindow/content/vars",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "content",
+          "type": "array",
+          "description": "The array containing the template tags as keys and the template values as array values"
+        }
+      ],
+      "since": "1.4",
+      "source": {
+        "file": "src/InfoWindow.php",
+        "line": 87
+      },
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsinfowindowcontentvars/"
+    },
+    {
+      "id": "gravityviewmapsinfowindowhtml",
+      "name": "gravityview/maps/infowindow/html",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "markup",
+          "type": "string",
+          "description": "The HTML for the info window markup"
+        }
+      ],
+      "since": "1.4",
+      "source": {
+        "file": "src/InfoWindow.php",
+        "line": 155
+      },
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsinfowindowhtml/"
+    },
+    {
+      "id": "gravityviewmapsinfowindowlink_target",
+      "name": "gravityview/maps/infowindow/link_target",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "target",
+          "type": "string",
+          "description": "Define the entry link target '_top', '_blank', .."
+        }
+      ],
+      "since": "1.4",
+      "source": {
+        "file": "src/InfoWindow.php",
+        "line": 66
+      },
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsinfowindowlink_target/"
+    },
+    {
+      "id": "gravityviewmapsinfowindowpre_html",
+      "name": "gravityview/maps/infowindow/pre_html",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "markup",
+          "type": "string",
+          "description": "The HTML for the markup"
+        }
+      ],
+      "since": "1.4",
+      "source": {
+        "file": "src/InfoWindow.php",
+        "line": 117
+      },
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsinfowindowpre_html/"
+    },
+    {
+      "id": "gravityviewmapsinfowindowpre_htmlvalue.tag",
+      "name": "gravityview/maps/infowindow/pre_html/value/ . $tag",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "`gravityview/maps/infowindow/pre_html/value/\\{$tag\\}` Allow users to filter value before replacing it on the pre template html",
+      "parameters": [
+        {
+          "name": "value",
+          "type": "string",
+          "description": "The content to be shown instead of the [[tag]] placeholder"
+        }
+      ],
+      "since": "1.4",
+      "source": {
+        "file": "src/InfoWindow.php",
+        "line": 143
+      },
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsinfowindowpre_htmlvalue.tag/"
+    },
+    {
+      "id": "gravityviewmapsmarkeradd",
+      "name": "gravityview/maps/marker/add",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "marker",
+          "type": "\\Marker",
+          "description": "The marker about to be added."
+        },
+        {
+          "name": "view",
+          "type": "\\View",
+          "description": "The View."
+        }
+      ],
+      "since": "1.7.2",
+      "source": {
+        "file": "src/Data.php",
+        "line": 453
+      },
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsmarkeradd/"
+    },
+    {
+      "id": "gravityviewmapsmarkeraddress",
+      "name": "gravityview/maps/marker/address",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "address",
+          "type": "string",
+          "description": "Address value."
+        },
+        {
+          "name": "entry",
+          "type": "array",
+          "description": "Gravity Forms entry object."
+        },
+        {
+          "name": "field",
+          "type": "\\GF_Field_Address",
+          "description": "GF Field array."
+        },
+        {
+          "name": "marker",
+          "type": "\\Marker",
+          "description": "Marker object."
+        }
+      ],
+      "since": "1.0.4",
+      "source": {
+        "file": "src/Marker.php",
+        "line": 537
+      },
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsmarkeraddress/"
+    },
+    {
+      "id": "gravityviewmapsmarkerfield-value",
+      "name": "gravityview/maps/marker/field-value",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "field_value",
+          "type": "mixed",
+          "description": "The address field value."
+        },
+        {
+          "name": "entry",
+          "type": "array",
+          "description": "Gravity Forms entry used for the marker"
+        },
+        {
+          "name": "field",
+          "type": "\\GF_Field_Address",
+          "description": "Gravity Forms Address field object used for the marker"
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "src/Marker.php",
+        "line": 742
+      },
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsmarkerfield-value/"
+    },
+    {
+      "id": "gravityviewmapsmarkersaddressfield_id",
+      "name": "gravityview/maps/markers/address/field_id",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "address_field_id",
+          "type": "mixed",
+          "description": "Gravity Forms field ID"
+        },
+        {
+          "name": "view",
+          "type": "\\View",
+          "description": "Current View object"
+        }
+      ],
+      "since": "1.2",
+      "source": {
+        "file": "src/Geolocation/Fields.php",
+        "line": 474
+      },
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsmarkersaddressfield_id/"
+    },
+    {
+      "id": "gravityviewmapsmarkersiconfield_id",
+      "name": "gravityview/maps/markers/icon/field_id",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "value",
+          "type": "mixed",
+          "description": "string Field ID used to retrieve the map entry icon"
+        },
+        {
+          "name": "view_id",
+          "type": "mixed",
+          "description": "string View ID"
+        },
+        {
+          "name": "form_id",
+          "type": "mixed",
+          "description": "string Form ID"
+        }
+      ],
+      "since": "1.2",
+      "source": {
+        "file": "src/Data.php",
+        "line": 224
+      },
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsmarkersiconfield_id/"
+    },
+    {
+      "id": "gravityviewmapsmarkerurl",
+      "name": "gravityview/maps/marker/url",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "url",
+          "type": "string",
+          "description": "Single entry view url."
+        },
+        {
+          "name": "entry",
+          "type": "array",
+          "description": "Gravity Forms entry object."
+        },
+        {
+          "name": "marker",
+          "type": "\\Marker",
+          "description": "Marker class instance."
+        }
+      ],
+      "since": "1.4",
+      "source": {
+        "file": "src/Marker.php",
+        "line": 613
+      },
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsmarkerurl/"
+    },
+    {
+      "id": "gravityviewmapsmarkeruse-address-default-values",
+      "name": "gravityview/maps/marker/use-address-default-values",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "use_default_values",
+          "type": "bool",
+          "description": "Whether to use default values when generating a marker address"
+        },
+        {
+          "name": "field",
+          "type": "\\GF_Field_Address",
+          "description": "The current Address field"
+        }
+      ],
+      "since": "1.7",
+      "source": {
+        "file": "src/Marker.php",
+        "line": 728
+      },
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsmarkeruse-address-default-values/"
+    },
+    {
+      "id": "gravityviewmapsrenderoptions",
+      "name": "gravityview/maps/render/options",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "map_options",
+          "type": "array",
+          "description": "Map Options"
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "src/Template/Map.php",
+        "line": 471
+      },
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsrenderoptions/"
+    },
+    {
+      "id": "gravityviewmapsrequest_settings",
+      "name": "gravityview/maps/request_settings",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "request_settings",
+          "type": "array",
+          "description": "Args passed to wp_remote_request()"
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "description": "URL to fetch"
+        }
+      ],
+      "since": "1.2",
+      "source": {
+        "file": "src/HTTP_Adapter.php",
+        "line": 37
+      },
+      "url": "/docs/gravityview-maps/filters/gravityviewmapsrequest_settings/"
+    },
+    {
+      "id": "gravityviewrenderhide-empty-zone",
+      "name": "gravityview/render/hide-empty-zone",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "hide_empty",
+          "type": "bool",
+          "description": "Should the row be hidden if the value is empty? Default: don't hide."
+        },
+        {
+          "name": "context",
+          "type": "\\Template_Context",
+          "description": "The template context."
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "src/Views/Map.php",
+        "line": 115
+      },
+      "url": "/docs/gravityview-maps/filters/gravityviewrenderhide-empty-zone/"
+    },
+    {
+      "id": "gravityviewtemplatefieldlabel",
+      "name": "gravityview/template/field/label",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "label",
+          "type": "string",
+          "description": "The label to override."
+        },
+        {
+          "name": "context",
+          "type": "\\Template_Context",
+          "description": "The context."
+        }
+      ],
+      "since": "2.0",
+      "source": {
+        "file": "src/Views/Map.php",
+        "line": 107
+      },
+      "url": "/docs/gravityview-maps/filters/gravityviewtemplatefieldlabel/"
+    },
+    {
+      "id": "gravityviewtemplatemapentryclass",
+      "name": "gravityview/template/map/entry/class",
+      "type": "filter",
+      "product": "gravityview-maps",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "class",
+          "type": "string",
+          "description": "The existing class."
+        },
+        {
+          "name": "",
+          "type": "\\Template_Context",
+          "description": "The template context."
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "src/Views/Map.php",
+        "line": 190
+      },
+      "url": "/docs/gravityview-maps/filters/gravityviewtemplatemapentryclass/"
+    }
+  ],
+  "stats": {
+    "total": 43,
+    "actions": 6,
+    "filters": 37
+  }
+}

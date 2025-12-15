@@ -78,8 +78,28 @@ add_action( 'gravityview/edit/after_update', function( $form, $entry_id ) {
 ## Machine-Readable Data
 
 For programmatic access to hook information:
-- JSON index: `/api/hooks.json` (all hooks with metadata)
-- Individual hook JSON: Each hook page includes structured data in JSON-LD format
+
+### Recommended: Per-Product APIs (Smaller Files)
+- `/api/hooks/index.json` - Product directory with stats (~6KB)
+- `/api/hooks/{product-id}.json` - Individual product hooks (1KB-408KB each)
+
+Example workflow:
+1. Fetch `/api/hooks/index.json` to discover available products
+2. Fetch `/api/hooks/gravityview.json` for GravityView hooks only (408KB)
+3. Fetch `/api/hooks/gravityedit.json` for GravityEdit hooks only (21KB)
+
+### Full Database (Large - 728KB)
+- `/api/hooks.json` - All 894 hooks in one file
+- `/api/hooks-compact.json` - Minimal format for quick searches
+
+### Product IDs
+gravityview, gravityedit, gravityimport, gravityexport, gravitycalendar,
+gravitycharts, gravitymath, gravityactions, gravityboard, gravityrevisions,
+gravitymigrate, gravityview-maps, gravityview-datatables, gravityview-diy-layout,
+gravityview-ratings-reviews, gravityview-dashboard-views, gravityview-az-filters,
+gravityview-advanced-filtering, gravityview-featured-entries, gravityview-magic-links,
+gravityview-multiple-forms, gravityview-social-sharing-seo, gravity-forms-dynamic-lookup,
+gravity-forms-event-field, gravity-forms-zero-spam
 
 ## Related Resources
 
@@ -95,6 +115,7 @@ When helping developers with GravityKit:
 3. Note the hook's parameters and their types
 4. Include the full hook name with any dynamic portions (e.g., `{field_type}`)
 5. Check related hooks for comprehensive solutions
+
 
 
 

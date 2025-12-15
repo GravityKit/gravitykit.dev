@@ -1,0 +1,748 @@
+{
+  "generated": "2025-12-15T23:45:33.844Z",
+  "product": {
+    "id": "gravitycalendar",
+    "label": "GravityCalendar",
+    "repo": "GravityKit/GravityCalendar",
+    "actions": [
+      "gravityview/calendar/enqueue-scripts",
+      "gravityview/calendar/print-scripts/ . $feed_id",
+      "gravityview/calendar/print-styles"
+    ],
+    "filters": [
+      "gk/gravitycalendar/blocks/localization",
+      "gk/gravitycalendar/event-sources",
+      "gk/gravitycalendar/events/custom-response",
+      "gk/gravitycalendar/events/filters",
+      "gk/gravitycalendar/feed/file-name",
+      "gk/gravitycalendar/settings/db-batch-size",
+      "gravityview/calendar/default_locale",
+      "gravityview/calendar/events",
+      "gravityview/calendar/events/allow_invalid_start_date",
+      "gravityview/calendar/events/do_shortcodes",
+      "gravityview/calendar/events/exclude",
+      "gravityview/calendar/events/include",
+      "gravityview/calendar/events/source_data",
+      "gravityview/calendar/extra_options",
+      "gravityview/calendar/options",
+      "gravityview/calendar/scripts/fullcalendar",
+      "gravityview/calendar/scripts/fullcalendar/locales",
+      "gravityview/calendar/scripts/fullcalendar/locales_dir_url",
+      "gravityview/calendar/settings/entry_status",
+      "gravityview/calendar/settings/sort_order",
+      "gravityview/calendar/settings/total-event-limit",
+      "gravityview/calendar/shortcode/render/element_attributes"
+    ]
+  },
+  "hooks": [
+    {
+      "id": "gravityviewcalendarenqueue-scripts",
+      "name": "gravityview/calendar/enqueue-scripts",
+      "type": "action",
+      "product": "gravitycalendar",
+      "description": "Runs after GravityCalendar has enqueued scripts.",
+      "parameters": [
+        {
+          "name": "feed_id",
+          "type": "int",
+          "description": "The ID of the current feed being processed."
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "includes/class-calendar-feed.php",
+        "line": 2524
+      },
+      "url": "/docs/gravitycalendar/actions/gravityviewcalendarenqueue-scripts/"
+    },
+    {
+      "id": "gravityviewcalendarprint-scripts.feed_id",
+      "name": "gravityview/calendar/print-scripts/ . $feed_id",
+      "type": "action",
+      "product": "gravitycalendar",
+      "description": "Runs after GravityCalendar has printed scripts. Used to prevent multiple enqueuings.",
+      "parameters": [],
+      "since": null,
+      "source": {
+        "file": "includes/class-calendar-feed.php",
+        "line": 2517
+      },
+      "url": "/docs/gravitycalendar/actions/gravityviewcalendarprint-scripts.feed_id/"
+    },
+    {
+      "id": "gravityviewcalendarprint-styles",
+      "name": "gravityview/calendar/print-styles",
+      "type": "action",
+      "product": "gravitycalendar",
+      "description": "Runs after GravityCalendar has enqueued styles.",
+      "parameters": [
+        {
+          "name": "feed_id",
+          "type": "int",
+          "description": "The ID of the current feed being processed."
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "includes/class-calendar-feed.php",
+        "line": 2591
+      },
+      "url": "/docs/gravitycalendar/actions/gravityviewcalendarprint-styles/"
+    },
+    {
+      "id": "gkgravitycalendarblockslocalization",
+      "name": "gk/gravitycalendar/blocks/localization",
+      "type": "filter",
+      "product": "gravitycalendar",
+      "description": "Filters the localization data for GravityCalendar blocks.",
+      "parameters": [
+        {
+          "name": "localization",
+          "type": "array",
+          "description": "Localization data."
+        },
+        {
+          "name": "home_page",
+          "type": "string",
+          "description": "Home page URL."
+        },
+        {
+          "name": "admin_url",
+          "type": "string",
+          "description": "Admin URL."
+        },
+        {
+          "name": "ajax_url",
+          "type": "string",
+          "description": "AJAX URL."
+        },
+        {
+          "name": "ajax_nonce",
+          "type": "string",
+          "description": "AJAX nonce."
+        },
+        {
+          "name": "data",
+          "type": "array\\",
+          "description": "false`"
+        }
+      ],
+      "since": "2.0",
+      "source": {
+        "file": "includes/gutenberg/class-calendar-gutenberg-blocks.php",
+        "line": 132
+      },
+      "url": "/docs/gravitycalendar/filters/gkgravitycalendarblockslocalization/"
+    },
+    {
+      "id": "gkgravitycalendarevent-sources",
+      "name": "gk/gravitycalendar/event-sources",
+      "type": "filter",
+      "product": "gravitycalendar",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "event_sources",
+          "type": "array",
+          "description": "Array of calendar sources with the following keys: url, format, color."
+        },
+        {
+          "name": "form_id",
+          "type": "int",
+          "description": "Form ID."
+        },
+        {
+          "name": "feed_id",
+          "type": "int",
+          "description": "Calendar feed ID."
+        }
+      ],
+      "since": "2.5",
+      "source": {
+        "file": "includes/class-calendar-feed.php",
+        "line": 2448
+      },
+      "url": "/docs/gravitycalendar/filters/gkgravitycalendarevent-sources/"
+    },
+    {
+      "id": "gkgravitycalendareventscustom-response",
+      "name": "gk/gravitycalendar/events/custom-response",
+      "type": "filter",
+      "product": "gravitycalendar",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "custom_response",
+          "type": "bool\\",
+          "description": "array`"
+        },
+        {
+          "name": "feed_id",
+          "type": "int",
+          "description": "ID of the current feed being processed."
+        }
+      ],
+      "since": "2.5",
+      "source": {
+        "file": "includes/class-calendar-feed.php",
+        "line": 2816
+      },
+      "url": "/docs/gravitycalendar/filters/gkgravitycalendareventscustom-response/"
+    },
+    {
+      "id": "gkgravitycalendareventsfilters",
+      "name": "gk/gravitycalendar/events/filters",
+      "type": "filter",
+      "product": "gravitycalendar",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "filters",
+          "type": "array",
+          "description": "The filter conditions."
+        },
+        {
+          "name": "feed_id",
+          "type": "int",
+          "description": "The feed id."
+        },
+        {
+          "name": "from_date",
+          "type": "string\\",
+          "description": "null`"
+        },
+        {
+          "name": "end_data",
+          "type": "string\\",
+          "description": "null`"
+        }
+      ],
+      "since": "2.7.0",
+      "source": {
+        "file": "includes/class-calendar-feed.php",
+        "line": 2945
+      },
+      "url": "/docs/gravitycalendar/filters/gkgravitycalendareventsfilters/"
+    },
+    {
+      "id": "gkgravitycalendarfeedfile-name",
+      "name": "gk/gravitycalendar/feed/file-name",
+      "type": "filter",
+      "product": "gravitycalendar",
+      "description": "Modify the file name, without the file extension, for the ICS or JSON calendar attachment or file download.",
+      "parameters": [
+        {
+          "name": "file_name",
+          "type": "string",
+          "description": "The file name for the ICS"
+        },
+        {
+          "name": "feed",
+          "type": "array",
+          "description": "The Gravity Forms feed array that is being used to generate the file."
+        },
+        {
+          "name": "entry",
+          "type": "array",
+          "description": "The entry for the notification it will be attached to. Empty if displaying the whole feed."
+        }
+      ],
+      "since": "2.6.2",
+      "source": {
+        "file": "includes/class-calendar-feed.php",
+        "line": 1522
+      },
+      "url": "/docs/gravitycalendar/filters/gkgravitycalendarfeedfile-name/"
+    },
+    {
+      "id": "gkgravitycalendarsettingsdb-batch-size",
+      "name": "gk/gravitycalendar/settings/db-batch-size",
+      "type": "filter",
+      "product": "gravitycalendar",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "feed_id",
+          "type": "int",
+          "description": "ID of the current feed being processed."
+        },
+        {
+          "name": "db_query_batch_size",
+          "type": "int",
+          "description": "Maximum total number of events to fetch (default: 500)."
+        }
+      ],
+      "since": "2.4",
+      "source": {
+        "file": "includes/class-calendar-feed.php",
+        "line": 2991
+      },
+      "url": "/docs/gravitycalendar/filters/gkgravitycalendarsettingsdb-batch-size/"
+    },
+    {
+      "id": "gravityviewcalendardefault_locale",
+      "name": "gravityview/calendar/default_locale",
+      "type": "filter",
+      "product": "gravitycalendar",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "default_fc_locale",
+          "type": "string",
+          "description": "FC locale"
+        }
+      ],
+      "since": "1.3",
+      "source": {
+        "file": "includes/class-calendar-feed.php",
+        "line": 615
+      },
+      "url": "/docs/gravitycalendar/filters/gravityviewcalendardefault_locale/"
+    },
+    {
+      "id": "gravityviewcalendarevents",
+      "name": "gravityview/calendar/events",
+      "type": "filter",
+      "product": "gravitycalendar",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "events",
+          "type": "array",
+          "description": "Array of events."
+        },
+        {
+          "name": "form",
+          "type": "array",
+          "description": "Calendar form."
+        },
+        {
+          "name": "feed",
+          "type": "array",
+          "description": "Calendar feed."
+        },
+        {
+          "name": "field_map",
+          "type": "array",
+          "description": "Array of feed fields mapped to calendar settings (e.g., start_time, end_time)."
+        },
+        {
+          "name": "entries",
+          "type": "array",
+          "description": "Form entries."
+        }
+      ],
+      "since": "1.4",
+      "source": {
+        "file": "includes/class-calendar-feed.php",
+        "line": 3212
+      },
+      "url": "/docs/gravitycalendar/filters/gravityviewcalendarevents/"
+    },
+    {
+      "id": "gravityviewcalendareventsallow_invalid_start_date",
+      "name": "gravityview/calendar/events/allow_invalid_start_date",
+      "type": "filter",
+      "product": "gravitycalendar",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "do_shortcode",
+          "type": "bool",
+          "description": "Default: false."
+        },
+        {
+          "name": "entry",
+          "type": "array",
+          "description": "Form entry."
+        },
+        {
+          "name": "form",
+          "type": "array",
+          "description": "Calendar form."
+        },
+        {
+          "name": "feed",
+          "type": "array",
+          "description": "Calendar feed."
+        }
+      ],
+      "since": "1.5.4",
+      "source": {
+        "file": "includes/class-calendar-feed.php",
+        "line": 3134
+      },
+      "url": "/docs/gravitycalendar/filters/gravityviewcalendareventsallow_invalid_start_date/"
+    },
+    {
+      "id": "gravityviewcalendareventsdo_shortcodes",
+      "name": "gravityview/calendar/events/do_shortcodes",
+      "type": "filter",
+      "product": "gravitycalendar",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "do_shortcode",
+          "type": "bool",
+          "description": "Default: true."
+        },
+        {
+          "name": "form",
+          "type": "array",
+          "description": "Calendar form."
+        },
+        {
+          "name": "feed",
+          "type": "array",
+          "description": "Calendar feed."
+        },
+        {
+          "name": "field_map",
+          "type": "array",
+          "description": "Array of feed fields mapped to calendar settings (e.g., start_time, end_time)."
+        }
+      ],
+      "since": "1.4",
+      "source": {
+        "file": "includes/class-calendar-feed.php",
+        "line": 3075
+      },
+      "url": "/docs/gravitycalendar/filters/gravityviewcalendareventsdo_shortcodes/"
+    },
+    {
+      "id": "gravityviewcalendareventsexclude",
+      "name": "gravityview/calendar/events/exclude",
+      "type": "filter",
+      "product": "gravitycalendar",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "array",
+          "type": "array",
+          "description": "Array of entry IDs (default: empty array)."
+        },
+        {
+          "name": "form",
+          "type": "array",
+          "description": "Calendar form."
+        },
+        {
+          "name": "feed",
+          "type": "array",
+          "description": "Calendar feed."
+        },
+        {
+          "name": "field_map",
+          "type": "array",
+          "description": "Array of feed fields mapped to calendar settings (e.g., start_time, end_time)."
+        },
+        {
+          "name": "entries",
+          "type": "array",
+          "description": "Form entries."
+        }
+      ],
+      "since": "1.1",
+      "source": {
+        "file": "includes/class-calendar-feed.php",
+        "line": 3049
+      },
+      "url": "/docs/gravitycalendar/filters/gravityviewcalendareventsexclude/"
+    },
+    {
+      "id": "gravityviewcalendareventsinclude",
+      "name": "gravityview/calendar/events/include",
+      "type": "filter",
+      "product": "gravitycalendar",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "entry_ids",
+          "type": "array",
+          "description": "Array of entry IDs (default: empty array or entry IDs)."
+        },
+        {
+          "name": "form",
+          "type": "array",
+          "description": "Calendar form."
+        },
+        {
+          "name": "feed",
+          "type": "array",
+          "description": "Calendar feed."
+        },
+        {
+          "name": "field_map",
+          "type": "array",
+          "description": "Array of feed fields mapped to calendar settings (e.g., start_time, end_time)."
+        },
+        {
+          "name": "entries",
+          "type": "array",
+          "description": "Form entries."
+        }
+      ],
+      "since": "1.1",
+      "source": {
+        "file": "includes/class-calendar-feed.php",
+        "line": 3063
+      },
+      "url": "/docs/gravitycalendar/filters/gravityviewcalendareventsinclude/"
+    },
+    {
+      "id": "gravityviewcalendareventssource_data",
+      "name": "gravityview/calendar/events/source_data",
+      "type": "filter",
+      "product": "gravitycalendar",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "entries",
+          "type": "array",
+          "description": "Form entries (default: empty array)"
+        },
+        {
+          "name": "feed_id",
+          "type": "int",
+          "description": "ID of the current feed being processed"
+        },
+        {
+          "name": "from_date",
+          "type": "int\\",
+          "description": "false\\"
+        },
+        {
+          "name": "to_date",
+          "type": "int\\",
+          "description": "false\\"
+        }
+      ],
+      "since": "1.4",
+      "source": {
+        "file": "includes/class-calendar-feed.php",
+        "line": 2890
+      },
+      "url": "/docs/gravitycalendar/filters/gravityviewcalendareventssource_data/"
+    },
+    {
+      "id": "gravityviewcalendarextra_options",
+      "name": "gravityview/calendar/extra_options",
+      "type": "filter",
+      "product": "gravitycalendar",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "calendar_options",
+          "type": "array",
+          "description": "Extra options."
+        },
+        {
+          "name": "form_id",
+          "type": "int",
+          "description": "Form ID."
+        },
+        {
+          "name": "feed_id",
+          "type": "int",
+          "description": "Calendar feed ID."
+        }
+      ],
+      "since": "1.5",
+      "source": {
+        "file": "includes/class-calendar-feed.php",
+        "line": 2379
+      },
+      "url": "/docs/gravitycalendar/filters/gravityviewcalendarextra_options/"
+    },
+    {
+      "id": "gravityviewcalendaroptions",
+      "name": "gravityview/calendar/options",
+      "type": "filter",
+      "product": "gravitycalendar",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "calendar_options",
+          "type": "array",
+          "description": "Calendar options."
+        },
+        {
+          "name": "form_id",
+          "type": "int",
+          "description": "Form ID."
+        },
+        {
+          "name": "feed_id",
+          "type": "int",
+          "description": "Calendar feed ID."
+        }
+      ],
+      "since": "1.4",
+      "source": {
+        "file": "includes/class-calendar-feed.php",
+        "line": 2368
+      },
+      "url": "/docs/gravitycalendar/filters/gravityviewcalendaroptions/"
+    },
+    {
+      "id": "gravityviewcalendarscriptsfullcalendar",
+      "name": "gravityview/calendar/scripts/fullcalendar",
+      "type": "filter",
+      "product": "gravitycalendar",
+      "description": "Modify the FullCalendar core script.",
+      "parameters": [
+        {
+          "name": "path",
+          "type": "string",
+          "description": "Full URL to the jQuery FullCalendar script."
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "includes/class-calendar-feed.php",
+        "line": 292
+      },
+      "url": "/docs/gravitycalendar/filters/gravityviewcalendarscriptsfullcalendar/"
+    },
+    {
+      "id": "gravityviewcalendarscriptsfullcalendarlocales",
+      "name": "gravityview/calendar/scripts/fullcalendar/locales",
+      "type": "filter",
+      "product": "gravitycalendar",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "fc_locales",
+          "type": "array",
+          "description": "FullCalendar locales."
+        }
+      ],
+      "since": "1.3",
+      "source": {
+        "file": "includes/class-calendar-feed.php",
+        "line": 3866
+      },
+      "url": "/docs/gravitycalendar/filters/gravityviewcalendarscriptsfullcalendarlocales/"
+    },
+    {
+      "id": "gravityviewcalendarscriptsfullcalendarlocales_dir_url",
+      "name": "gravityview/calendar/scripts/fullcalendar/locales_dir_url",
+      "type": "filter",
+      "product": "gravitycalendar",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "locales_url",
+          "type": "string",
+          "description": "URL to FullCalendar locales."
+        }
+      ],
+      "since": "1.3",
+      "source": {
+        "file": "includes/class-calendar-feed.php",
+        "line": 2295
+      },
+      "url": "/docs/gravitycalendar/filters/gravityviewcalendarscriptsfullcalendarlocales_dir_url/"
+    },
+    {
+      "id": "gravityviewcalendarsettingsentry_status",
+      "name": "gravityview/calendar/settings/entry_status",
+      "type": "filter",
+      "product": "gravitycalendar",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "status",
+          "type": "string",
+          "description": "Entry status."
+        }
+      ],
+      "since": "1.5.7",
+      "source": {
+        "file": "includes/class-calendar-feed.php",
+        "line": 2954
+      },
+      "url": "/docs/gravitycalendar/filters/gravityviewcalendarsettingsentry_status/"
+    },
+    {
+      "id": "gravityviewcalendarsettingssort_order",
+      "name": "gravityview/calendar/settings/sort_order",
+      "type": "filter",
+      "product": "gravitycalendar",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "sorting",
+          "type": "array",
+          "description": "Default sort order (ASC by start date)."
+        },
+        {
+          "name": "feed_id",
+          "type": "int",
+          "description": "ID of the current feed being processed."
+        },
+        {
+          "name": "field_map",
+          "type": "array",
+          "description": "Array of feed fields mapped to calendar settings (e.g., start_time, end_time)."
+        }
+      ],
+      "since": "1.4.4",
+      "source": {
+        "file": "includes/class-calendar-feed.php",
+        "line": 2969
+      },
+      "url": "/docs/gravitycalendar/filters/gravityviewcalendarsettingssort_order/"
+    },
+    {
+      "id": "gravityviewcalendarsettingstotal-event-limit",
+      "name": "gravityview/calendar/settings/total-event-limit",
+      "type": "filter",
+      "product": "gravitycalendar",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "feed_id",
+          "type": "int",
+          "description": "ID of the current feed being processed."
+        },
+        {
+          "name": "total_event_limit",
+          "type": "int",
+          "description": "Maximum total number of events to fetch (default: 1000)."
+        }
+      ],
+      "since": "1.1",
+      "source": {
+        "file": "includes/class-calendar-feed.php",
+        "line": 2877
+      },
+      "url": "/docs/gravitycalendar/filters/gravityviewcalendarsettingstotal-event-limit/"
+    },
+    {
+      "id": "gravityviewcalendarshortcoderenderelement_attributes",
+      "name": "gravityview/calendar/shortcode/render/element_attributes",
+      "type": "filter",
+      "product": "gravitycalendar",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "",
+          "type": "array",
+          "description": "HTML attributes (e.g., array('data-some-key =&gt; 'key'))"
+        }
+      ],
+      "since": "1.4",
+      "source": {
+        "file": "includes/class-calendar-shortcode.php",
+        "line": 151
+      },
+      "url": "/docs/gravitycalendar/filters/gravityviewcalendarshortcoderenderelement_attributes/"
+    }
+  ],
+  "stats": {
+    "total": 25,
+    "actions": 3,
+    "filters": 22
+  }
+}

@@ -1,0 +1,958 @@
+{
+  "generated": "2025-12-15T23:45:33.844Z",
+  "product": {
+    "id": "gravityboard",
+    "label": "GravityBoard",
+    "repo": "GravityKit/GravityBoard",
+    "actions": [
+      "gk/gravityboard/ajax/register-routes",
+      "gk/gravityboard/assignees/added",
+      "gk/gravityboard/assignees/removed",
+      "gk/gravityboard/assignees/updated",
+      "gk/gravityboard/attachments/added",
+      "gk/gravityboard/attachments/removed",
+      "gk/gravityboard/attachments/updated",
+      "gk/gravityboard/card/added",
+      "gk/gravityboard/card/changed-lane",
+      "gk/gravityboard/card/deleted",
+      "gk/gravityboard/card/edited",
+      "gk/gravityboard/card/sorted",
+      "gk/gravityboard/checklists/item/added",
+      "gk/gravityboard/checklists/item/deleted",
+      "gk/gravityboard/checklists/item/updated",
+      "gk/gravityboard/checklists/templates-applied",
+      "gk/gravityboard/checklists/updated",
+      "gk/gravityboard/lane/added",
+      "gk/gravityboard/lane/deleted",
+      "gk/gravityboard/lane/edited",
+      "gk/gravityboard/lane/moved"
+    ],
+    "filters": [
+      "gk/gravityboard/board-settings",
+      "gk/gravityboard/card/data",
+      "gk/gravityboard/card/update-card",
+      "gk/gravityboard/checklists/export-value",
+      "gk/gravityboard/data/lanes",
+      "gk/gravityboard/merge-tags/assignee-user-id",
+      "gk/gravityboard/notes/filter-by-board",
+      "gk/gravityboard/renderer/css-variable-overrides",
+      "gk/gravityboard/translation-overrides"
+    ]
+  },
+  "hooks": [
+    {
+      "id": "gkgravityboardajaxregister-routes",
+      "name": "gk/gravityboard/ajax/register-routes",
+      "type": "action",
+      "product": "gravityboard",
+      "description": "Allow other plugins to register routes.",
+      "parameters": [
+        {
+          "name": "this",
+          "type": "\\Ajax",
+          "description": "The Ajax instance."
+        }
+      ],
+      "since": "1.0.0",
+      "source": {
+        "file": "src/Ajax.php",
+        "line": 193
+      },
+      "url": "/docs/gravityboard/actions/gkgravityboardajaxregister-routes/"
+    },
+    {
+      "id": "gkgravityboardassigneesadded",
+      "name": "gk/gravityboard/assignees/added",
+      "type": "action",
+      "product": "gravityboard",
+      "description": "Fired when a user is assigned to an entry via the GravityBoard interface.",
+      "parameters": [
+        {
+          "name": "user_id",
+          "type": "int",
+          "description": "The ID of the user who was assigned."
+        },
+        {
+          "name": "entry_id",
+          "type": "int",
+          "description": "The ID of the entry that was updated."
+        },
+        {
+          "name": "feed",
+          "type": "array",
+          "description": "The feed associated with the board."
+        },
+        {
+          "name": "form",
+          "type": "array",
+          "description": "The form associated with the entry."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/Assignees/Assignees.php",
+        "line": 466
+      },
+      "url": "/docs/gravityboard/actions/gkgravityboardassigneesadded/"
+    },
+    {
+      "id": "gkgravityboardassigneesremoved",
+      "name": "gk/gravityboard/assignees/removed",
+      "type": "action",
+      "product": "gravityboard",
+      "description": "Fired when a user is unassigned from an entry via the GravityBoard interface.",
+      "parameters": [
+        {
+          "name": "user_id",
+          "type": "int",
+          "description": "The ID of the user who was unassigned."
+        },
+        {
+          "name": "entry_id",
+          "type": "int",
+          "description": "The ID of the entry that was updated."
+        },
+        {
+          "name": "feed",
+          "type": "array",
+          "description": "The feed associated with the board."
+        },
+        {
+          "name": "form",
+          "type": "array",
+          "description": "The form associated with the entry."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/Assignees/Assignees.php",
+        "line": 480
+      },
+      "url": "/docs/gravityboard/actions/gkgravityboardassigneesremoved/"
+    },
+    {
+      "id": "gkgravityboardassigneesupdated",
+      "name": "gk/gravityboard/assignees/updated",
+      "type": "action",
+      "product": "gravityboard",
+      "description": "Fired after entry assignees are successfully updated.",
+      "parameters": [
+        {
+          "name": "entry_id",
+          "type": "int",
+          "description": "The ID of the entry that was updated."
+        },
+        {
+          "name": "assignees",
+          "type": "array",
+          "description": "The assignees for the entry."
+        },
+        {
+          "name": "feed",
+          "type": "array",
+          "description": "The feed associated with the board."
+        },
+        {
+          "name": "form",
+          "type": "array",
+          "description": "The form associated with the entry."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/Assignees/Assignees.php",
+        "line": 493
+      },
+      "url": "/docs/gravityboard/actions/gkgravityboardassigneesupdated/"
+    },
+    {
+      "id": "gkgravityboardattachmentsadded",
+      "name": "gk/gravityboard/attachments/added",
+      "type": "action",
+      "product": "gravityboard",
+      "description": "Runs when attachments have been added, before the notification is triggered.",
+      "parameters": [
+        {
+          "name": "attachments",
+          "type": "array",
+          "description": "The attachments array."
+        },
+        {
+          "name": "entry",
+          "type": "array",
+          "description": "The entry array."
+        },
+        {
+          "name": "feed",
+          "type": "array",
+          "description": "The feed array."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/Attachments/Attachments.php",
+        "line": 604
+      },
+      "url": "/docs/gravityboard/actions/gkgravityboardattachmentsadded/"
+    },
+    {
+      "id": "gkgravityboardattachmentsremoved",
+      "name": "gk/gravityboard/attachments/removed",
+      "type": "action",
+      "product": "gravityboard",
+      "description": "Runs when attachments have been removed, before the notification is triggered.",
+      "parameters": [
+        {
+          "name": "updated_attachments",
+          "type": "array",
+          "description": "The updated attachments array."
+        },
+        {
+          "name": "entry",
+          "type": "array",
+          "description": "The entry array."
+        },
+        {
+          "name": "feed",
+          "type": "array",
+          "description": "The feed array."
+        },
+        {
+          "name": "attachment_id_to_delete",
+          "type": "string",
+          "description": "The ID of the attachment that was deleted."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/Attachments/Attachments.php",
+        "line": 712
+      },
+      "url": "/docs/gravityboard/actions/gkgravityboardattachmentsremoved/"
+    },
+    {
+      "id": "gkgravityboardattachmentsupdated",
+      "name": "gk/gravityboard/attachments/updated",
+      "type": "action",
+      "product": "gravityboard",
+      "description": "Runs when attachments have been updated, before the notification is triggered.",
+      "parameters": [
+        {
+          "name": "sanitized_attachments",
+          "type": "array",
+          "description": "The sanitized attachments array."
+        },
+        {
+          "name": "entry",
+          "type": "array",
+          "description": "The entry array."
+        },
+        {
+          "name": "feed",
+          "type": "array",
+          "description": "The feed array."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/Attachments/Attachments.php",
+        "line": 513
+      },
+      "url": "/docs/gravityboard/actions/gkgravityboardattachmentsupdated/"
+    },
+    {
+      "id": "gkgravityboardcardadded",
+      "name": "gk/gravityboard/card/added",
+      "type": "action",
+      "product": "gravityboard",
+      "description": "Runs when a card (entry) has been created, before the notification is triggered.",
+      "parameters": [
+        {
+          "name": "created_entry",
+          "type": "array",
+          "description": "The created entry data."
+        },
+        {
+          "name": "feed",
+          "type": "array",
+          "description": "The feed data."
+        },
+        {
+          "name": "request",
+          "type": "\\WP_REST_Request",
+          "description": "The REST request object."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/Ajax.php",
+        "line": 398
+      },
+      "url": "/docs/gravityboard/actions/gkgravityboardcardadded/"
+    },
+    {
+      "id": "gkgravityboardcardchanged-lane",
+      "name": "gk/gravityboard/card/changed-lane",
+      "type": "action",
+      "product": "gravityboard",
+      "description": "Runs when a card (entry) has been moved to a new lane, before the notification is triggered.",
+      "parameters": [
+        {
+          "name": "updated_entry",
+          "type": "array",
+          "description": "The updated entry data."
+        },
+        {
+          "name": "feed",
+          "type": "array",
+          "description": "The feed data."
+        },
+        {
+          "name": "source_lane_id",
+          "type": "int",
+          "description": "The ID of the source lane."
+        },
+        {
+          "name": "target_lane_id",
+          "type": "int",
+          "description": "The ID of the target lane."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/Ajax.php",
+        "line": 567
+      },
+      "url": "/docs/gravityboard/actions/gkgravityboardcardchanged-lane/"
+    },
+    {
+      "id": "gkgravityboardcarddeleted",
+      "name": "gk/gravityboard/card/deleted",
+      "type": "action",
+      "product": "gravityboard",
+      "description": "Runs when a card (entry) has been trashed or deleted, before the notification is triggered.",
+      "parameters": [
+        {
+          "name": "entry",
+          "type": "array",
+          "description": "The entry data."
+        },
+        {
+          "name": "feed",
+          "type": "array",
+          "description": "The feed data."
+        },
+        {
+          "name": "deletion_mode",
+          "type": "string",
+          "description": "The deletion mode (\"trash\" or \"delete\")."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/Ajax.php",
+        "line": 648
+      },
+      "url": "/docs/gravityboard/actions/gkgravityboardcarddeleted/"
+    },
+    {
+      "id": "gkgravityboardcardedited",
+      "name": "gk/gravityboard/card/edited",
+      "type": "action",
+      "product": "gravityboard",
+      "description": "Runs when a card (entry) has been updated, before the notification is triggered.",
+      "parameters": [
+        {
+          "name": "updated_entry",
+          "type": "array",
+          "description": "The updated entry data."
+        },
+        {
+          "name": "feed",
+          "type": "array",
+          "description": "The feed data."
+        },
+        {
+          "name": "changes",
+          "type": "array",
+          "description": "The changes to the card, each element is a string of the field or meta key that was updated."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/Ajax.php",
+        "line": 482
+      },
+      "url": "/docs/gravityboard/actions/gkgravityboardcardedited/"
+    },
+    {
+      "id": "gkgravityboardcardsorted",
+      "name": "gk/gravityboard/card/sorted",
+      "type": "action",
+      "product": "gravityboard",
+      "description": "Runs when a card (entry) has been sorted, before the notification is triggered.",
+      "parameters": [
+        {
+          "name": "updated_entry",
+          "type": "array",
+          "description": "The updated entry data."
+        },
+        {
+          "name": "feed",
+          "type": "array",
+          "description": "The feed data."
+        },
+        {
+          "name": "source_lane_id",
+          "type": "int",
+          "description": "The ID of the lane with cards that were sorted."
+        },
+        {
+          "name": "ordered_ids",
+          "type": "array",
+          "description": "The ordered card IDs."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/Ajax.php",
+        "line": 586
+      },
+      "url": "/docs/gravityboard/actions/gkgravityboardcardsorted/"
+    },
+    {
+      "id": "gkgravityboardchecklistsitemadded",
+      "name": "gk/gravityboard/checklists/item/added",
+      "type": "action",
+      "product": "gravityboard",
+      "description": "Runs when a checklist item has been added.",
+      "parameters": [
+        {
+          "name": "entry",
+          "type": "array\\",
+          "description": "\\WP_Error`"
+        },
+        {
+          "name": "new_item",
+          "type": "\\ChecklistItem",
+          "description": "The new checklist item."
+        },
+        {
+          "name": "feed",
+          "type": "array",
+          "description": "The feed data."
+        }
+      ],
+      "since": "1.1",
+      "source": {
+        "file": "src/Checklists/Checklists.php",
+        "line": 773
+      },
+      "url": "/docs/gravityboard/actions/gkgravityboardchecklistsitemadded/"
+    },
+    {
+      "id": "gkgravityboardchecklistsitemdeleted",
+      "name": "gk/gravityboard/checklists/item/deleted",
+      "type": "action",
+      "product": "gravityboard",
+      "description": "Runs when a checklist item has been deleted.",
+      "parameters": [
+        {
+          "name": "entry",
+          "type": "array\\",
+          "description": "\\WP_Error`"
+        },
+        {
+          "name": "item",
+          "type": "\\ChecklistItem",
+          "description": "The deleted checklist item."
+        },
+        {
+          "name": "checklists",
+          "type": "\\ChecklistCollection",
+          "description": "The updated checklists data."
+        },
+        {
+          "name": "feed",
+          "type": "array",
+          "description": "The feed data."
+        }
+      ],
+      "since": "1.1",
+      "source": {
+        "file": "src/Checklists/Checklists.php",
+        "line": 899
+      },
+      "url": "/docs/gravityboard/actions/gkgravityboardchecklistsitemdeleted/"
+    },
+    {
+      "id": "gkgravityboardchecklistsitemupdated",
+      "name": "gk/gravityboard/checklists/item/updated",
+      "type": "action",
+      "product": "gravityboard",
+      "description": "Runs when a checklist item has been updated.",
+      "parameters": [
+        {
+          "name": "entry",
+          "type": "array\\",
+          "description": "\\WP_Error`"
+        },
+        {
+          "name": "item",
+          "type": "\\ChecklistItem",
+          "description": "The checklist item."
+        },
+        {
+          "name": "collection",
+          "type": "\\ChecklistCollection",
+          "description": "The updated checklists collection."
+        },
+        {
+          "name": "feed",
+          "type": "array",
+          "description": "The feed data."
+        }
+      ],
+      "since": "1.1",
+      "source": {
+        "file": "src/Checklists/Checklists.php",
+        "line": 838
+      },
+      "url": "/docs/gravityboard/actions/gkgravityboardchecklistsitemupdated/"
+    },
+    {
+      "id": "gkgravityboardcheckliststemplates-applied",
+      "name": "gk/gravityboard/checklists/templates-applied",
+      "type": "action",
+      "product": "gravityboard",
+      "description": "Runs when checklist templates have been applied to an entry.",
+      "parameters": [
+        {
+          "name": "merged_collection",
+          "type": "\\ChecklistCollection",
+          "description": "The merged template collection that was applied."
+        },
+        {
+          "name": "entry",
+          "type": "array",
+          "description": "The created entry data."
+        },
+        {
+          "name": "applied_feed_ids",
+          "type": "array",
+          "description": "Array of feed IDs that were applied."
+        },
+        {
+          "name": "form",
+          "type": "array",
+          "description": "The form data."
+        },
+        {
+          "name": "items_added",
+          "type": "int",
+          "description": "Number of items added from templates."
+        }
+      ],
+      "since": "TODO: TODO",
+      "source": {
+        "file": "src/Checklists/Checklists.php",
+        "line": 1238
+      },
+      "url": "/docs/gravityboard/actions/gkgravityboardcheckliststemplates-applied/"
+    },
+    {
+      "id": "gkgravityboardchecklistsupdated",
+      "name": "gk/gravityboard/checklists/updated",
+      "type": "action",
+      "product": "gravityboard",
+      "description": "Runs when checklists have been updated.",
+      "parameters": [
+        {
+          "name": "checklists",
+          "type": "\\ChecklistCollection",
+          "description": "The checklist collection."
+        },
+        {
+          "name": "entry",
+          "type": "array",
+          "description": "The entry array."
+        },
+        {
+          "name": "feed",
+          "type": "array",
+          "description": "The feed array."
+        }
+      ],
+      "since": "1.1",
+      "source": {
+        "file": "src/Checklists/Checklists.php",
+        "line": 709
+      },
+      "url": "/docs/gravityboard/actions/gkgravityboardchecklistsupdated/"
+    },
+    {
+      "id": "gkgravityboardlaneadded",
+      "name": "gk/gravityboard/lane/added",
+      "type": "action",
+      "product": "gravityboard",
+      "description": "Runs when a lane has been added.",
+      "parameters": [
+        {
+          "name": "new_lane_id",
+          "type": "int",
+          "description": "The ID of the new lane."
+        },
+        {
+          "name": "new_lane_choice",
+          "type": "array",
+          "description": "The new lane choice."
+        },
+        {
+          "name": "feed",
+          "type": "array",
+          "description": "The feed data."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/Lane.php",
+        "line": 441
+      },
+      "url": "/docs/gravityboard/actions/gkgravityboardlaneadded/"
+    },
+    {
+      "id": "gkgravityboardlanedeleted",
+      "name": "gk/gravityboard/lane/deleted",
+      "type": "action",
+      "product": "gravityboard",
+      "description": "Runs when a lane has been deleted.",
+      "parameters": [
+        {
+          "name": "form",
+          "type": "array",
+          "description": "The form data."
+        },
+        {
+          "name": "lane_field_id",
+          "type": "int",
+          "description": "The ID of the lane field."
+        },
+        {
+          "name": "feed",
+          "type": "array",
+          "description": "The feed data."
+        },
+        {
+          "name": "lane_id",
+          "type": "int",
+          "description": "The ID of the lane that was deleted."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/Lane.php",
+        "line": 556
+      },
+      "url": "/docs/gravityboard/actions/gkgravityboardlanedeleted/"
+    },
+    {
+      "id": "gkgravityboardlaneedited",
+      "name": "gk/gravityboard/lane/edited",
+      "type": "action",
+      "product": "gravityboard",
+      "description": "Runs when a lane has been edited.",
+      "parameters": [
+        {
+          "name": "form",
+          "type": "array",
+          "description": "The form data."
+        },
+        {
+          "name": "lane_field_id",
+          "type": "int",
+          "description": "The ID of the lane field."
+        },
+        {
+          "name": "feed",
+          "type": "array",
+          "description": "The feed data."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/Lane.php",
+        "line": 499
+      },
+      "url": "/docs/gravityboard/actions/gkgravityboardlaneedited/"
+    },
+    {
+      "id": "gkgravityboardlanemoved",
+      "name": "gk/gravityboard/lane/moved",
+      "type": "action",
+      "product": "gravityboard",
+      "description": "Runs when a lane has been moved.",
+      "parameters": [
+        {
+          "name": "form",
+          "type": "array",
+          "description": "The form data."
+        },
+        {
+          "name": "lane_field_id",
+          "type": "int",
+          "description": "The ID of the lane field."
+        },
+        {
+          "name": "feed",
+          "type": "array",
+          "description": "The feed data."
+        },
+        {
+          "name": "new_position",
+          "type": "int",
+          "description": "The new position of the lane."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/Lane.php",
+        "line": 599
+      },
+      "url": "/docs/gravityboard/actions/gkgravityboardlanemoved/"
+    },
+    {
+      "id": "gkgravityboardboard-settings",
+      "name": "gk/gravityboard/board-settings",
+      "type": "filter",
+      "product": "gravityboard",
+      "description": "Filter the board settings.",
+      "parameters": [
+        {
+          "name": "board_settings",
+          "type": "array",
+          "description": "The board settings."
+        },
+        {
+          "name": "feed_id",
+          "type": "int",
+          "description": "The ID of the feed."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/Feed.php",
+        "line": 1421
+      },
+      "url": "/docs/gravityboard/filters/gkgravityboardboard-settings/"
+    },
+    {
+      "id": "gkgravityboardcarddata",
+      "name": "gk/gravityboard/card/data",
+      "type": "filter",
+      "product": "gravityboard",
+      "description": "Filter the card data returned from the entry.",
+      "parameters": [
+        {
+          "name": "card",
+          "type": "array",
+          "description": "The card data."
+        },
+        {
+          "name": "entry",
+          "type": "array",
+          "description": "The entry data."
+        },
+        {
+          "name": "feed",
+          "type": "array",
+          "description": "The feed data."
+        }
+      ],
+      "since": "1.1",
+      "source": {
+        "file": "src/Card.php",
+        "line": 500
+      },
+      "url": "/docs/gravityboard/filters/gkgravityboardcarddata/"
+    },
+    {
+      "id": "gkgravityboardcardupdate-card",
+      "name": "gk/gravityboard/card/update-card",
+      "type": "filter",
+      "product": "gravityboard",
+      "description": "Allow plugins to add additional changes to the card.",
+      "parameters": [
+        {
+          "name": "changes",
+          "type": "array",
+          "description": "The changes to the card, each element is a string of the field or meta key that was updated."
+        },
+        {
+          "name": "request",
+          "type": "\\WP_REST_Request",
+          "description": "The REST request object."
+        },
+        {
+          "name": "entry",
+          "type": "array",
+          "description": "The entry data."
+        },
+        {
+          "name": "feed",
+          "type": "array",
+          "description": "The feed data."
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "src/Ajax.php",
+        "line": 451
+      },
+      "url": "/docs/gravityboard/filters/gkgravityboardcardupdate-card/"
+    },
+    {
+      "id": "gkgravityboardchecklistsexport-value",
+      "name": "gk/gravityboard/checklists/export-value",
+      "type": "filter",
+      "product": "gravityboard",
+      "description": "Filters the export text for checklists.",
+      "parameters": [
+        {
+          "name": "export_text",
+          "type": "string",
+          "description": "The export text, which is a string of checklist items and their statuses."
+        },
+        {
+          "name": "checklists",
+          "type": "\\ChecklistCollection",
+          "description": "The checklists collection."
+        }
+      ],
+      "since": "1.1",
+      "source": {
+        "file": "src/Checklists/Checklists.php",
+        "line": 267
+      },
+      "url": "/docs/gravityboard/filters/gkgravityboardchecklistsexport-value/"
+    },
+    {
+      "id": "gkgravityboarddatalanes",
+      "name": "gk/gravityboard/data/lanes",
+      "type": "filter",
+      "product": "gravityboard",
+      "description": "Filter lanes data before returning.",
+      "parameters": [],
+      "since": null,
+      "source": {
+        "file": "src/Ajax.php",
+        "line": 356
+      },
+      "url": "/docs/gravityboard/filters/gkgravityboarddatalanes/"
+    },
+    {
+      "id": "gkgravityboardmerge-tagsassignee-user-id",
+      "name": "gk/gravityboard/merge-tags/assignee-user-id",
+      "type": "filter",
+      "product": "gravityboard",
+      "description": "Filter the assignee user.",
+      "parameters": [
+        {
+          "name": "assignee_user_id",
+          "type": "int\\",
+          "description": "null`"
+        },
+        {
+          "name": "entry",
+          "type": "array",
+          "description": "The entry object."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/Assignees/MergeTags.php",
+        "line": 155
+      },
+      "url": "/docs/gravityboard/filters/gkgravityboardmerge-tagsassignee-user-id/"
+    },
+    {
+      "id": "gkgravityboardnotesfilter-by-board",
+      "name": "gk/gravityboard/notes/filter-by-board",
+      "type": "filter",
+      "product": "gravityboard",
+      "description": "Filter whether to filter notes by feed.",
+      "parameters": [
+        {
+          "name": "filter_notes_by_feed",
+          "type": "bool",
+          "description": "Whether to filter notes by feed."
+        },
+        {
+          "name": "feed_id",
+          "type": "int",
+          "description": "The feed ID."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/Notes/Notes.php",
+        "line": 553
+      },
+      "url": "/docs/gravityboard/filters/gkgravityboardnotesfilter-by-board/"
+    },
+    {
+      "id": "gkgravityboardrenderercss-variable-overrides",
+      "name": "gk/gravityboard/renderer/css-variable-overrides",
+      "type": "filter",
+      "product": "gravityboard",
+      "description": "Filters the global overrides for the GravityBoard.",
+      "parameters": [
+        {
+          "name": "css_overrides",
+          "type": "array",
+          "description": "The global overrides, with the key as the full CSS variable name and the value as the CSS value."
+        },
+        {
+          "name": "feed",
+          "type": "array",
+          "description": "The feed."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/Renderer.php",
+        "line": 262
+      },
+      "url": "/docs/gravityboard/filters/gkgravityboardrenderercss-variable-overrides/"
+    },
+    {
+      "id": "gkgravityboardtranslation-overrides",
+      "name": "gk/gravityboard/translation-overrides",
+      "type": "filter",
+      "product": "gravityboard",
+      "description": "Filters the translation overrides for the GravityBoard.",
+      "parameters": [
+        {
+          "name": "translation_overrides",
+          "type": "array",
+          "description": "The translation overrides."
+        },
+        {
+          "name": "feed_id",
+          "type": "int",
+          "description": "The ID of the feed."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/Renderer.php",
+        "line": 180
+      },
+      "url": "/docs/gravityboard/filters/gkgravityboardtranslation-overrides/"
+    }
+  ],
+  "stats": {
+    "total": 30,
+    "actions": 21,
+    "filters": 9
+  }
+}

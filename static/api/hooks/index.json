@@ -1,0 +1,238 @@
+{
+  "generated": "2025-12-15T23:45:33.844Z",
+  "version": "1.0",
+  "baseUrl": "/api/hooks/",
+  "stats": {
+    "totalHooks": 894,
+    "totalActions": 195,
+    "totalFilters": 699,
+    "productCount": 25
+  },
+  "products": [
+    {
+      "id": "gravityactions",
+      "label": "GravityActions",
+      "repo": "GravityKit/GravityActions",
+      "actions": 11,
+      "filters": 31,
+      "total": 42,
+      "url": "/api/hooks/gravityactions.json"
+    },
+    {
+      "id": "gravityview-advanced-filtering",
+      "label": "GravityView - Advanced Filtering",
+      "repo": "GravityKit/Advanced-Filter",
+      "actions": 0,
+      "filters": 2,
+      "total": 2,
+      "url": "/api/hooks/gravityview-advanced-filtering.json"
+    },
+    {
+      "id": "gravityview-az-filters",
+      "label": "GravityView - A-Z Filters",
+      "repo": "GravityKit/AZ-Filters",
+      "actions": 0,
+      "filters": 5,
+      "total": 5,
+      "url": "/api/hooks/gravityview-az-filters.json"
+    },
+    {
+      "id": "gravityboard",
+      "label": "GravityBoard",
+      "repo": "GravityKit/GravityBoard",
+      "actions": 21,
+      "filters": 9,
+      "total": 30,
+      "url": "/api/hooks/gravityboard.json"
+    },
+    {
+      "id": "gravitycalendar",
+      "label": "GravityCalendar",
+      "repo": "GravityKit/GravityCalendar",
+      "actions": 3,
+      "filters": 22,
+      "total": 25,
+      "url": "/api/hooks/gravitycalendar.json"
+    },
+    {
+      "id": "gravitycharts",
+      "label": "GravityCharts",
+      "repo": "GravityKit/GravityCharts",
+      "actions": 1,
+      "filters": 14,
+      "total": 15,
+      "url": "/api/hooks/gravitycharts.json"
+    },
+    {
+      "id": "gravityview-dashboard-views",
+      "label": "GravityView - Dashboard Views",
+      "repo": "GravityKit/Dashboard-Views",
+      "actions": 1,
+      "filters": 9,
+      "total": 10,
+      "url": "/api/hooks/gravityview-dashboard-views.json"
+    },
+    {
+      "id": "gravityview-datatables",
+      "label": "GravityView - DataTables",
+      "repo": "GravityKit/DataTables",
+      "actions": 3,
+      "filters": 21,
+      "total": 24,
+      "url": "/api/hooks/gravityview-datatables.json"
+    },
+    {
+      "id": "gravityview-diy-layout",
+      "label": "GravityView - DIY Layout",
+      "repo": "GravityKit/DIY",
+      "actions": 12,
+      "filters": 9,
+      "total": 21,
+      "url": "/api/hooks/gravityview-diy-layout.json"
+    },
+    {
+      "id": "gravity-forms-dynamic-lookup",
+      "label": "Gravity Forms Dynamic Lookup Field",
+      "repo": "GravityKit/gravity-forms-dynamic-lookup",
+      "actions": 0,
+      "filters": 1,
+      "total": 1,
+      "url": "/api/hooks/gravity-forms-dynamic-lookup.json"
+    },
+    {
+      "id": "gravityedit",
+      "label": "GravityEdit",
+      "repo": "GravityKit/GravityEdit",
+      "actions": 0,
+      "filters": 22,
+      "total": 22,
+      "url": "/api/hooks/gravityedit.json"
+    },
+    {
+      "id": "gravity-forms-event-field",
+      "label": "Gravity Forms Event Field",
+      "repo": "GravityKit/Event-Field",
+      "actions": 0,
+      "filters": 3,
+      "total": 3,
+      "url": "/api/hooks/gravity-forms-event-field.json"
+    },
+    {
+      "id": "gravityexport",
+      "label": "GravityExport",
+      "repo": "GravityKit/GravityExport",
+      "actions": 2,
+      "filters": 7,
+      "total": 9,
+      "url": "/api/hooks/gravityexport.json"
+    },
+    {
+      "id": "gravityview-featured-entries",
+      "label": "GravityView - Featured Entries",
+      "repo": "GravityKit/Featured-Entries",
+      "actions": 2,
+      "filters": 3,
+      "total": 5,
+      "url": "/api/hooks/gravityview-featured-entries.json"
+    },
+    {
+      "id": "gravityimport",
+      "label": "GravityImport",
+      "repo": "GravityKit/GravityImport",
+      "actions": 16,
+      "filters": 39,
+      "total": 55,
+      "url": "/api/hooks/gravityimport.json"
+    },
+    {
+      "id": "gravityview-magic-links",
+      "label": "GravityView - Magic Links",
+      "repo": "GravityKit/gravityview-magic-links",
+      "actions": 2,
+      "filters": 3,
+      "total": 5,
+      "url": "/api/hooks/gravityview-magic-links.json"
+    },
+    {
+      "id": "gravityview-maps",
+      "label": "GravityView - Maps",
+      "repo": "GravityKit/Maps",
+      "actions": 6,
+      "filters": 37,
+      "total": 43,
+      "url": "/api/hooks/gravityview-maps.json"
+    },
+    {
+      "id": "gravitymath",
+      "label": "GravityMath",
+      "repo": "gravityview/gravityview-math",
+      "actions": 1,
+      "filters": 24,
+      "total": 25,
+      "url": "/api/hooks/gravitymath.json"
+    },
+    {
+      "id": "gravitymigrate",
+      "label": "GravityMigrate",
+      "repo": "GravityKit/GravityMigrate",
+      "actions": 1,
+      "filters": 5,
+      "total": 6,
+      "url": "/api/hooks/gravitymigrate.json"
+    },
+    {
+      "id": "gravityview-multiple-forms",
+      "label": "GravityView - Multiple Forms",
+      "repo": "GravityKit/Multiple-Forms",
+      "actions": 1,
+      "filters": 3,
+      "total": 4,
+      "url": "/api/hooks/gravityview-multiple-forms.json"
+    },
+    {
+      "id": "gravityview-ratings-reviews",
+      "label": "GravityView - Ratings & Reviews",
+      "repo": "GravityKit/Ratings-Reviews",
+      "actions": 12,
+      "filters": 25,
+      "total": 37,
+      "url": "/api/hooks/gravityview-ratings-reviews.json"
+    },
+    {
+      "id": "gravityrevisions",
+      "label": "GravityRevisions",
+      "repo": "GravityKit/GravityRevisions",
+      "actions": 0,
+      "filters": 11,
+      "total": 11,
+      "url": "/api/hooks/gravityrevisions.json"
+    },
+    {
+      "id": "gravityview-social-sharing-seo",
+      "label": "GravityView - SEO & Social Sharing",
+      "repo": "GravityKit/Social-Sharing",
+      "actions": 0,
+      "filters": 3,
+      "total": 3,
+      "url": "/api/hooks/gravityview-social-sharing-seo.json"
+    },
+    {
+      "id": "gravityview",
+      "label": "GravityView",
+      "repo": "GravityKit/GravityView",
+      "actions": 100,
+      "filters": 390,
+      "total": 490,
+      "url": "/api/hooks/gravityview.json"
+    },
+    {
+      "id": "gravity-forms-zero-spam",
+      "label": "Gravity Forms Zero Spam",
+      "repo": "GravityKit/gravity-forms-zero-spam",
+      "actions": 0,
+      "filters": 1,
+      "total": 1,
+      "url": "/api/hooks/gravity-forms-zero-spam.json"
+    }
+  ]
+}

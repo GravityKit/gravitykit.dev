@@ -1,0 +1,155 @@
+{
+  "generated": "2025-12-15T23:45:33.844Z",
+  "product": {
+    "id": "gravitymigrate",
+    "label": "GravityMigrate",
+    "repo": "GravityKit/GravityMigrate",
+    "actions": [
+      "gk/gravitymigrate/upload/after-upload"
+    ],
+    "filters": [
+      "gk/gravitymigrate/cron/clear-export-interval",
+      "gk/gravitymigrate/cron/clear-import-interval",
+      "gk/gravitymigrate/export/batch-size",
+      "gk/gravitymigrate/import/data_chunk_sizes",
+      "gk/gravitymigrate/remote-request-args"
+    ]
+  },
+  "hooks": [
+    {
+      "id": "gkgravitymigrateuploadafter-upload",
+      "name": "gk/gravitymigrate/upload/after-upload",
+      "type": "action",
+      "product": "gravitymigrate",
+      "description": "Fires after a file is uploaded.",
+      "parameters": [
+        {
+          "name": "new_file_path",
+          "type": "string",
+          "description": "The path to the uploaded file."
+        },
+        {
+          "name": "password",
+          "type": "string",
+          "description": "The password for the uploaded file."
+        }
+      ],
+      "since": "1.0.0",
+      "source": {
+        "file": "src/Uploader.php",
+        "line": 148
+      },
+      "url": "/docs/gravitymigrate/actions/gkgravitymigrateuploadafter-upload/"
+    },
+    {
+      "id": "gkgravitymigratecronclear-export-interval",
+      "name": "gk/gravitymigrate/cron/clear-export-interval",
+      "type": "filter",
+      "product": "gravitymigrate",
+      "description": "Filters the amount of time to wait before removing exported files from the server.",
+      "parameters": [
+        {
+          "name": "export_interval",
+          "type": "int",
+          "description": "The number of seconds to wait after an export before deleting generated files. Default 3 hours (in seconds)."
+        }
+      ],
+      "since": "1.0.0",
+      "source": {
+        "file": "src/Export.php",
+        "line": 901
+      },
+      "url": "/docs/gravitymigrate/filters/gkgravitymigratecronclear-export-interval/"
+    },
+    {
+      "id": "gkgravitymigratecronclear-import-interval",
+      "name": "gk/gravitymigrate/cron/clear-import-interval",
+      "type": "filter",
+      "product": "gravitymigrate",
+      "description": "Filters the amount of time to wait before removing imported files from the server.",
+      "parameters": [
+        {
+          "name": "import_interval",
+          "type": "int",
+          "description": "The number of seconds to wait after an import before deleting uploaded files. Default 1 hour (in seconds)."
+        }
+      ],
+      "since": "1.0.0",
+      "source": {
+        "file": "src/Uploader.php",
+        "line": 169
+      },
+      "url": "/docs/gravitymigrate/filters/gkgravitymigratecronclear-import-interval/"
+    },
+    {
+      "id": "gkgravitymigrateexportbatch-size",
+      "name": "gk/gravitymigrate/export/batch-size",
+      "type": "filter",
+      "product": "gravitymigrate",
+      "description": "Filters the batch size of the export.",
+      "parameters": [
+        {
+          "name": "batch_size",
+          "type": "int",
+          "description": "The batch size of the export. Default 10000."
+        }
+      ],
+      "since": "1.0.0",
+      "source": {
+        "file": "src/Export.php",
+        "line": 819
+      },
+      "url": "/docs/gravitymigrate/filters/gkgravitymigrateexportbatch-size/"
+    },
+    {
+      "id": "gkgravitymigrateimportdata_chunk_sizes",
+      "name": "gk/gravitymigrate/import/data_chunk_sizes",
+      "type": "filter",
+      "product": "gravitymigrate",
+      "description": "Filter the chunk sizes for migrating data types.",
+      "parameters": [
+        {
+          "name": "data_chunk_sizes",
+          "type": "array",
+          "description": "Array of data types and their chunk sizes."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/Import.php",
+        "line": 137
+      },
+      "url": "/docs/gravitymigrate/filters/gkgravitymigrateimportdata_chunk_sizes/"
+    },
+    {
+      "id": "gkgravitymigrateremote-request-args",
+      "name": "gk/gravitymigrate/remote-request-args",
+      "type": "filter",
+      "product": "gravitymigrate",
+      "description": "Filters the arguments used for remote HEAD/GET requests to check source URL accessibility.",
+      "parameters": [
+        {
+          "name": "args",
+          "type": "array",
+          "description": "The arguments for wp_remote_head/wp_remote_get."
+        },
+        {
+          "name": "src_url",
+          "type": "string",
+          "description": "The source URL being checked."
+        }
+      ],
+      "since": "1.1.4",
+      "source": {
+        "file": "src/Settings.php",
+        "line": 152
+      },
+      "url": "/docs/gravitymigrate/filters/gkgravitymigrateremote-request-args/"
+    }
+  ],
+  "stats": {
+    "total": 6,
+    "actions": 1,
+    "filters": 5
+  }
+}

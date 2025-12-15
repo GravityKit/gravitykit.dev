@@ -229,8 +229,8 @@ This documentation is optimized for consumption by Large Language Models (LLMs) 
 ### Features
 
 - **`/llms.txt`** - Context file following the emerging llms.txt standard
-- **`/api/hooks.json`** - Complete hooks database in JSON format
-- **`/api/hooks-compact.json`** - Lightweight version for quick lookups
+- **`/api/hooks/index.json`** - Product directory with stats (6KB)
+- **`/api/hooks/{product}.json`** - Per-product hooks (25 files, 1KB-408KB each)
 - **Usage examples** - Every hook includes copy-paste-ready code examples
 - **Structured data** - Consistent frontmatter and parameter tables
 
@@ -239,11 +239,15 @@ This documentation is optimized for consumption by Large Language Models (LLMs) 
 The hooks API provides programmatic access to all hook information:
 
 ```bash
-# Full hooks database
-curl https://gravitykit.dev/api/hooks.json
+# Discover available products (lightweight - 6KB)
+curl https://gravitykit.dev/api/hooks/index.json
 
-# Compact version (smaller payload)
-curl https://gravitykit.dev/api/hooks-compact.json
+# Get hooks for a specific product (recommended)
+curl https://gravitykit.dev/api/hooks/gravityview.json
+curl https://gravitykit.dev/api/hooks/gravityedit.json
+
+# Full database (large - 728KB, use per-product instead)
+curl https://gravitykit.dev/api/hooks.json
 ```
 
 ### Regenerating LLM Enhancements

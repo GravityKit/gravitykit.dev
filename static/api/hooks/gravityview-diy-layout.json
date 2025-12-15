@@ -1,0 +1,484 @@
+{
+  "generated": "2025-12-15T23:45:33.844Z",
+  "product": {
+    "id": "gravityview-diy-layout",
+    "label": "GravityView - DIY Layout",
+    "repo": "GravityKit/DIY",
+    "actions": [
+      "gravityview_diy_body_after",
+      "gravityview_diy_body_before",
+      "gravityview_diy_single_after",
+      "gravityview_diy_single_before",
+      "gravityview_entry_after",
+      "gravityview_entry_before",
+      "gravityview/template/diy/body/after",
+      "gravityview/template/diy/body/before",
+      "gravityview/template/diy/entry/after",
+      "gravityview/template/diy/entry/before",
+      "gravityview/template/diy/single/after",
+      "gravityview/template/diy/single/before"
+    ],
+    "filters": [
+      "gravityview-diy/container-tags",
+      "gravityview-diy/field-value/show-settings-content-if-empty",
+      "gravityview-diy/wrap/multiple",
+      "gravityview-diy/wrap/single",
+      "gravityview_entry_class",
+      "gravityview_render_after_label",
+      "gravityview/render/hide-empty-zone",
+      "gravityview/template/diy/entry/class",
+      "gravityview/template/field/label"
+    ]
+  },
+  "hooks": [
+    {
+      "id": "gravityview_diy_body_after",
+      "name": "gravityview_diy_body_after",
+      "type": "action",
+      "product": "gravityview-diy-layout",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "gravityview_view",
+          "type": "\\GravityView_View",
+          "description": "Current GravityView_View object."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "class-gv-template-view-diy.php",
+        "line": 167
+      },
+      "url": "/docs/gravityview-diy-layout/actions/gravityview_diy_body_after/"
+    },
+    {
+      "id": "gravityview_diy_body_before",
+      "name": "gravityview_diy_body_before",
+      "type": "action",
+      "product": "gravityview-diy-layout",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "gravityview_view",
+          "type": "\\GravityView_View",
+          "description": "Current GravityView_View object."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "class-gv-template-view-diy.php",
+        "line": 141
+      },
+      "url": "/docs/gravityview-diy-layout/actions/gravityview_diy_body_before/"
+    },
+    {
+      "id": "gravityview_diy_single_after",
+      "name": "gravityview_diy_single_after",
+      "type": "action",
+      "product": "gravityview-diy-layout",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "gravityview_view",
+          "type": "\\GravityView_View",
+          "description": "Current GravityView_View object."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "class-gv-template-entry-diy.php",
+        "line": 184
+      },
+      "url": "/docs/gravityview-diy-layout/actions/gravityview_diy_single_after/"
+    },
+    {
+      "id": "gravityview_diy_single_before",
+      "name": "gravityview_diy_single_before",
+      "type": "action",
+      "product": "gravityview-diy-layout",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "gravityview_view",
+          "type": "\\GravityView_View",
+          "description": "Current GravityView_View object."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "class-gv-template-entry-diy.php",
+        "line": 158
+      },
+      "url": "/docs/gravityview-diy-layout/actions/gravityview_diy_single_before/"
+    },
+    {
+      "id": "gravityview_entry_after",
+      "name": "gravityview_entry_after",
+      "type": "action",
+      "product": "gravityview-diy-layout",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "gravityview_view",
+          "type": "\\GravityView_View",
+          "description": "Current GravityView_View object."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "class-gv-template-view-diy.php",
+        "line": 221
+      },
+      "url": "/docs/gravityview-diy-layout/actions/gravityview_entry_after/"
+    },
+    {
+      "id": "gravityview_entry_before",
+      "name": "gravityview_entry_before",
+      "type": "action",
+      "product": "gravityview-diy-layout",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "gravityview_view",
+          "type": "\\GravityView_View",
+          "description": "Current GravityView_View object."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "class-gv-template-view-diy.php",
+        "line": 194
+      },
+      "url": "/docs/gravityview-diy-layout/actions/gravityview_entry_before/"
+    },
+    {
+      "id": "gravityviewtemplatediybodyafter",
+      "name": "gravityview/template/diy/body/after",
+      "type": "action",
+      "product": "gravityview-diy-layout",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "context",
+          "type": "\\GV\\Template_Context",
+          "description": "The template context."
+        }
+      ],
+      "since": "2.0",
+      "source": {
+        "file": "class-gv-template-view-diy.php",
+        "line": 158
+      },
+      "url": "/docs/gravityview-diy-layout/actions/gravityviewtemplatediybodyafter/"
+    },
+    {
+      "id": "gravityviewtemplatediybodybefore",
+      "name": "gravityview/template/diy/body/before",
+      "type": "action",
+      "product": "gravityview-diy-layout",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "context",
+          "type": "\\GV\\Template_Context",
+          "description": "The template context."
+        }
+      ],
+      "since": "2.0",
+      "source": {
+        "file": "class-gv-template-view-diy.php",
+        "line": 132
+      },
+      "url": "/docs/gravityview-diy-layout/actions/gravityviewtemplatediybodybefore/"
+    },
+    {
+      "id": "gravityviewtemplatediyentryafter",
+      "name": "gravityview/template/diy/entry/after",
+      "type": "action",
+      "product": "gravityview-diy-layout",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "context",
+          "type": "\\GV\\Template_Context",
+          "description": "The template context."
+        }
+      ],
+      "since": "2.0",
+      "source": {
+        "file": "class-gv-template-view-diy.php",
+        "line": 212
+      },
+      "url": "/docs/gravityview-diy-layout/actions/gravityviewtemplatediyentryafter/"
+    },
+    {
+      "id": "gravityviewtemplatediyentrybefore",
+      "name": "gravityview/template/diy/entry/before",
+      "type": "action",
+      "product": "gravityview-diy-layout",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "context",
+          "type": "\\GV\\Template_Context",
+          "description": "The template context."
+        }
+      ],
+      "since": "2.0",
+      "source": {
+        "file": "class-gv-template-view-diy.php",
+        "line": 185
+      },
+      "url": "/docs/gravityview-diy-layout/actions/gravityviewtemplatediyentrybefore/"
+    },
+    {
+      "id": "gravityviewtemplatediysingleafter",
+      "name": "gravityview/template/diy/single/after",
+      "type": "action",
+      "product": "gravityview-diy-layout",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "context",
+          "type": "\\GV\\Template_Context",
+          "description": "The template context."
+        }
+      ],
+      "since": "2.0",
+      "source": {
+        "file": "class-gv-template-entry-diy.php",
+        "line": 175
+      },
+      "url": "/docs/gravityview-diy-layout/actions/gravityviewtemplatediysingleafter/"
+    },
+    {
+      "id": "gravityviewtemplatediysinglebefore",
+      "name": "gravityview/template/diy/single/before",
+      "type": "action",
+      "product": "gravityview-diy-layout",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "context",
+          "type": "\\GV\\Template_Context",
+          "description": "The template context."
+        }
+      ],
+      "since": "2.0",
+      "source": {
+        "file": "class-gv-template-entry-diy.php",
+        "line": 149
+      },
+      "url": "/docs/gravityview-diy-layout/actions/gravityviewtemplatediysinglebefore/"
+    },
+    {
+      "id": "gravityview-diycontainer-tags",
+      "name": "gravityview-diy/container-tags",
+      "type": "filter",
+      "product": "gravityview-diy-layout",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "container_tags",
+          "type": "array",
+          "description": "HTML tags in \"tag name\" =&gt; \"tag label\" array"
+        },
+        {
+          "name": "input_type",
+          "type": "string",
+          "description": "Type of input being displayed (\"address\", \"text\", \"list\", \"custom\")"
+        },
+        {
+          "name": "context",
+          "type": "string",
+          "description": "<code>directory</code>, <code>single</code>, <code>edit</code>"
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "class-gravityview-diy-template.php",
+        "line": 178
+      },
+      "url": "/docs/gravityview-diy-layout/filters/gravityview-diycontainer-tags/"
+    },
+    {
+      "id": "gravityview-diyfield-valueshow-settings-content-if-empty",
+      "name": "gravityview-diy/field-value/show-settings-content-if-empty",
+      "type": "filter",
+      "product": "gravityview-diy-layout",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "show_if_output_is_empty",
+          "type": "bool",
+          "description": "Default: false"
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "class-gravityview-diy-template.php",
+        "line": 194
+      },
+      "url": "/docs/gravityview-diy-layout/filters/gravityview-diyfield-valueshow-settings-content-if-empty/"
+    },
+    {
+      "id": "gravityview-diywrapmultiple",
+      "name": "gravityview-diy/wrap/multiple",
+      "type": "filter",
+      "product": "gravityview-diy-layout",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "wrap",
+          "type": "bool",
+          "description": "Default: true"
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "templates/views/diy.php",
+        "line": 26
+      },
+      "url": "/docs/gravityview-diy-layout/filters/gravityview-diywrapmultiple/"
+    },
+    {
+      "id": "gravityview-diywrapsingle",
+      "name": "gravityview-diy/wrap/single",
+      "type": "filter",
+      "product": "gravityview-diy-layout",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "wrap",
+          "type": "bool",
+          "description": "Default: true"
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "templates/entries/diy.php",
+        "line": 18
+      },
+      "url": "/docs/gravityview-diy-layout/filters/gravityview-diywrapsingle/"
+    },
+    {
+      "id": "gravityview_entry_class",
+      "name": "gravityview_entry_class",
+      "type": "filter",
+      "product": "gravityview-diy-layout",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "entry",
+          "type": "array",
+          "description": "Current entry being displayed"
+        },
+        {
+          "name": "this",
+          "type": "\\GravityView_View",
+          "description": "Current GravityView_View object"
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "description": "Existing class."
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "class-gv-template-view-diy.php",
+        "line": 105
+      },
+      "url": "/docs/gravityview-diy-layout/filters/gravityview_entry_class/"
+    },
+    {
+      "id": "gravityview_render_after_label",
+      "name": "gravityview_render_after_label",
+      "type": "filter",
+      "product": "gravityview-diy-layout",
+      "description": "- Defined in `class-gv-template-view-diy.php` at line 49",
+      "parameters": [],
+      "since": null,
+      "source": {
+        "file": "class-gv-template-view-diy.php",
+        "line": 49
+      },
+      "url": "/docs/gravityview-diy-layout/filters/gravityview_render_after_label/"
+    },
+    {
+      "id": "gravityviewrenderhide-empty-zone",
+      "name": "gravityview/render/hide-empty-zone",
+      "type": "filter",
+      "product": "gravityview-diy-layout",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "",
+          "type": "bool",
+          "description": "Should the row be hidden if the value is empty? Default: don't hide."
+        },
+        {
+          "name": "context",
+          "type": "\\GV\\Template_Context",
+          "description": "The context ;) Love it, cherish it. And don't you dare modify it!"
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "class-gv-template-view-diy.php",
+        "line": 67
+      },
+      "url": "/docs/gravityview-diy-layout/filters/gravityviewrenderhide-empty-zone/"
+    },
+    {
+      "id": "gravityviewtemplatediyentryclass",
+      "name": "gravityview/template/diy/entry/class",
+      "type": "filter",
+      "product": "gravityview-diy-layout",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "class",
+          "type": "string",
+          "description": "The existing class."
+        },
+        {
+          "name": "",
+          "type": "\\GV\\Template_Context",
+          "description": "The context."
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "class-gv-template-view-diy.php",
+        "line": 115
+      },
+      "url": "/docs/gravityview-diy-layout/filters/gravityviewtemplatediyentryclass/"
+    },
+    {
+      "id": "gravityviewtemplatefieldlabel",
+      "name": "gravityview/template/field/label",
+      "type": "filter",
+      "product": "gravityview-diy-layout",
+      "description": "| Name | Type | Description |",
+      "parameters": [
+        {
+          "name": "context",
+          "type": "\\GV\\Template_Context",
+          "description": "The context."
+        }
+      ],
+      "since": "2.0",
+      "source": {
+        "file": "class-gv-template-view-diy.php",
+        "line": 59
+      },
+      "url": "/docs/gravityview-diy-layout/filters/gravityviewtemplatefieldlabel/"
+    }
+  ],
+  "stats": {
+    "total": 21,
+    "actions": 12,
+    "filters": 9
+  }
+}

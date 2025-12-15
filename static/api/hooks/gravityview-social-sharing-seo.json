@@ -1,0 +1,75 @@
+{
+  "generated": "2025-12-15T23:45:33.844Z",
+  "product": {
+    "id": "gravityview-social-sharing-seo",
+    "label": "GravityView - SEO & Social Sharing",
+    "repo": "GravityKit/Social-Sharing",
+    "actions": [],
+    "filters": [
+      "gravityview_sharing_services",
+      "gravityview_social/sharing_field_options",
+      "gravityview_social/wordpress_social_services"
+    ]
+  },
+  "hooks": [
+    {
+      "id": "gravityview_sharing_services",
+      "name": "gravityview_sharing_services",
+      "type": "filter",
+      "product": "gravityview-social-sharing-seo",
+      "description": "Register your own sharing service.",
+      "parameters": [],
+      "since": null,
+      "source": {
+        "file": "gravityview-sharing-seo.php",
+        "line": 106
+      },
+      "url": "/docs/gravityview-social-sharing-seo/filters/gravityview_sharing_services/"
+    },
+    {
+      "id": "gravityview_socialsharing_field_options",
+      "name": "gravityview_social/sharing_field_options",
+      "type": "filter",
+      "product": "gravityview-social-sharing-seo",
+      "description": "Customize sharing field settings",
+      "parameters": [
+        {
+          "name": "new_options",
+          "type": "array",
+          "description": "Field options that will be displayed in the settings modal"
+        }
+      ],
+      "since": "2.0.3",
+      "source": {
+        "file": "includes/class-gravityview-social-register-field.php",
+        "line": 125
+      },
+      "url": "/docs/gravityview-social-sharing-seo/filters/gravityview_socialsharing_field_options/"
+    },
+    {
+      "id": "gravityview_socialwordpress_social_services",
+      "name": "gravityview_social/wordpress_social_services",
+      "type": "filter",
+      "product": "gravityview-social-sharing-seo",
+      "description": "Customize available WP social services",
+      "parameters": [
+        {
+          "name": "services",
+          "type": "array",
+          "description": "WP social services"
+        }
+      ],
+      "since": null,
+      "source": {
+        "file": "includes/services/wordpress.php",
+        "line": 244
+      },
+      "url": "/docs/gravityview-social-sharing-seo/filters/gravityview_socialwordpress_social_services/"
+    }
+  ],
+  "stats": {
+    "total": 3,
+    "actions": 0,
+    "filters": 3
+  }
+}

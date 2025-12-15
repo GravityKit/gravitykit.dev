@@ -1,0 +1,1170 @@
+{
+  "generated": "2025-12-15T23:45:33.844Z",
+  "product": {
+    "id": "gravityactions",
+    "label": "GravityActions",
+    "repo": "GravityKit/GravityActions",
+    "actions": [
+      "gk/gravityactions/after_modal_render",
+      "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+      "gk/gravityactions/after_modal_render:\\{$view\\}",
+      "gk/gravityactions/before_modal_render",
+      "gk/gravityactions/before_modal_render:\\{$action_key\\}",
+      "gk/gravityactions/before_modal_render:\\{$view\\}",
+      "gk/gravityactions/loaded",
+      "gk/gravityactions/template_after_include",
+      "gk/gravityactions/template_after_include:\\{$hook_name\\}",
+      "gk/gravityactions/template_before_include",
+      "gk/gravityactions/template_before_include:\\{$hook_name\\}"
+    ],
+    "filters": [
+      "gk/gravityactions/bulk_actions_map",
+      "gk/gravityactions/edit_action/supported_form_meta",
+      "gk/gravityactions/email_action/get_field",
+      "gk/gravityactions/email_action/get_field:\\{$field->id\\}",
+      "gk/gravityactions/email_action/get_fields",
+      "gk/gravityactions/hide_hidden_inputs",
+      "gk/gravityactions/is_truthy_strings",
+      "gk/gravityactions/modal/verify-nonce",
+      "gk/gravityactions/pre_modal_render",
+      "gk/gravityactions/pre_modal_render:\\{$action_key\\}",
+      "gk/gravityactions/pre_modal_render:\\{$view\\}",
+      "gk/gravityactions/template_after_include_html",
+      "gk/gravityactions/template_after_include_html:\\{$hook_name\\}",
+      "gk/gravityactions/template_before_include_html",
+      "gk/gravityactions/template_before_include_html:\\{$hook_name\\}",
+      "gk/gravityactions/template_done",
+      "gk/gravityactions/template_file",
+      "gk/gravityactions/template_html",
+      "gk/gravityactions/template_html:\\{$hook_name\\}",
+      "gk/gravityactions/template_include_html",
+      "gk/gravityactions/template_include_html:\\{$hook_name\\}",
+      "gk/gravityactions/template_origin_base_folder",
+      "gk/gravityactions/template_path_list",
+      "gk/gravityactions/template_plugin_path",
+      "gk/gravityactions/template_pre_html",
+      "gk/gravityactions/template_pre_html:\\{$hook_name\\}",
+      "gk/gravityactions/template_public_namespace",
+      "gk/gravityactions/template_public_path",
+      "gk/gravityactions/template_theme_path_list",
+      "gk/gravityactions/template_vars",
+      "gk/gravityactions/template_vars_get"
+    ]
+  },
+  "hooks": [
+    {
+      "id": "gkgravityactionsafter_modal_render",
+      "name": "gk/gravityactions/after_modal_render",
+      "type": "action",
+      "product": "gravityactions",
+      "description": "Action to allow processing of any actions after rendering the content of the modal.",
+      "parameters": [
+        {
+          "name": "template_vars",
+          "type": "array",
+          "description": "What variables are being passed down to the modal."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/GravityActions/Admin.php",
+        "line": 230
+      },
+      "url": "/docs/gravityactions/actions/gkgravityactionsafter_modal_render/"
+    },
+    {
+      "id": "gkgravityactionsafter_modal_renderaction_key",
+      "name": "gk/gravityactions/after_modal_render:\\{$action_key\\}",
+      "type": "action",
+      "product": "gravityactions",
+      "description": "Action to allow processing of any actions after rendering the content of the modal.",
+      "parameters": [
+        {
+          "name": "template_vars",
+          "type": "array",
+          "description": "What variables are being passed down to the modal."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/GravityActions/Admin.php",
+        "line": 248
+      },
+      "url": "/docs/gravityactions/actions/gkgravityactionsafter_modal_renderaction_key/"
+    },
+    {
+      "id": "gkgravityactionsafter_modal_renderview",
+      "name": "gk/gravityactions/after_modal_render:\\{$view\\}",
+      "type": "action",
+      "product": "gravityactions",
+      "description": "Action to allow processing of any actions after rendering the content of the modal.",
+      "parameters": [
+        {
+          "name": "template_vars",
+          "type": "array",
+          "description": "What variables are being passed down to the modal."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/GravityActions/Admin.php",
+        "line": 239
+      },
+      "url": "/docs/gravityactions/actions/gkgravityactionsafter_modal_renderview/"
+    },
+    {
+      "id": "gkgravityactionsbefore_modal_render",
+      "name": "gk/gravityactions/before_modal_render",
+      "type": "action",
+      "product": "gravityactions",
+      "description": "Action to allow processing of any actions before rendering the content of the modal.",
+      "parameters": [
+        {
+          "name": "template_vars",
+          "type": "array",
+          "description": "What variables are being passed down to the modal."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/GravityActions/Admin.php",
+        "line": 201
+      },
+      "url": "/docs/gravityactions/actions/gkgravityactionsbefore_modal_render/"
+    },
+    {
+      "id": "gkgravityactionsbefore_modal_renderaction_key",
+      "name": "gk/gravityactions/before_modal_render:\\{$action_key\\}",
+      "type": "action",
+      "product": "gravityactions",
+      "description": "Action to allow processing of any actions before rendering the content of the modal.",
+      "parameters": [
+        {
+          "name": "template_vars",
+          "type": "array",
+          "description": "What variables are being passed down to the modal."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/GravityActions/Admin.php",
+        "line": 219
+      },
+      "url": "/docs/gravityactions/actions/gkgravityactionsbefore_modal_renderaction_key/"
+    },
+    {
+      "id": "gkgravityactionsbefore_modal_renderview",
+      "name": "gk/gravityactions/before_modal_render:\\{$view\\}",
+      "type": "action",
+      "product": "gravityactions",
+      "description": "Action to allow processing of any actions before rendering the content of the modal.",
+      "parameters": [
+        {
+          "name": "template_vars",
+          "type": "array",
+          "description": "What variables are being passed down to the modal."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/GravityActions/Admin.php",
+        "line": 210
+      },
+      "url": "/docs/gravityactions/actions/gkgravityactionsbefore_modal_renderview/"
+    },
+    {
+      "id": "gkgravityactionsloaded",
+      "name": "gk/gravityactions/loaded",
+      "type": "action",
+      "product": "gravityactions",
+      "description": "Triggers an action when the plugin is fully loaded.",
+      "parameters": [],
+      "since": "1.0",
+      "source": {
+        "file": "src/GravityActions/Plugin.php",
+        "line": 93
+      },
+      "url": "/docs/gravityactions/actions/gkgravityactionsloaded/"
+    },
+    {
+      "id": "gkgravityactionstemplate_after_include",
+      "name": "gk/gravityactions/template_after_include",
+      "type": "action",
+      "product": "gravityactions",
+      "description": "Fires an Action after including the template file.",
+      "parameters": [
+        {
+          "name": "file",
+          "type": "string",
+          "description": "Complete path to include the PHP File."
+        },
+        {
+          "name": "name",
+          "type": "array",
+          "description": "Template name."
+        },
+        {
+          "name": "template",
+          "type": "self",
+          "description": "Current instance of the Template."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/GravityActions/Template.php",
+        "line": 1098
+      },
+      "url": "/docs/gravityactions/actions/gkgravityactionstemplate_after_include/"
+    },
+    {
+      "id": "gkgravityactionstemplate_after_includehook_name",
+      "name": "gk/gravityactions/template_after_include:\\{$hook_name\\}",
+      "type": "action",
+      "product": "gravityactions",
+      "description": "Fires an Action for a given template name after including the template file.",
+      "parameters": [
+        {
+          "name": "file",
+          "type": "string",
+          "description": "Complete path to include the PHP File."
+        },
+        {
+          "name": "name",
+          "type": "array",
+          "description": "Template name."
+        },
+        {
+          "name": "template",
+          "type": "self",
+          "description": "Current instance of the Template."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/GravityActions/Template.php",
+        "line": 1113
+      },
+      "url": "/docs/gravityactions/actions/gkgravityactionstemplate_after_includehook_name/"
+    },
+    {
+      "id": "gkgravityactionstemplate_before_include",
+      "name": "gk/gravityactions/template_before_include",
+      "type": "action",
+      "product": "gravityactions",
+      "description": "Fires an Action before including the template file",
+      "parameters": [
+        {
+          "name": "file",
+          "type": "string",
+          "description": "Complete path to include the PHP File"
+        },
+        {
+          "name": "name",
+          "type": "array",
+          "description": "Template name"
+        },
+        {
+          "name": "template",
+          "type": "self",
+          "description": "Current instance of the Template"
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/GravityActions/Template.php",
+        "line": 1056
+      },
+      "url": "/docs/gravityactions/actions/gkgravityactionstemplate_before_include/"
+    },
+    {
+      "id": "gkgravityactionstemplate_before_includehook_name",
+      "name": "gk/gravityactions/template_before_include:\\{$hook_name\\}",
+      "type": "action",
+      "product": "gravityactions",
+      "description": "Fires an Action for a given template name before including the template file,",
+      "parameters": [
+        {
+          "name": "file",
+          "type": "string",
+          "description": "Complete path to include the PHP File."
+        },
+        {
+          "name": "name",
+          "type": "array",
+          "description": "Template name."
+        },
+        {
+          "name": "template",
+          "type": "self",
+          "description": "Current instance of the Template."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/GravityActions/Template.php",
+        "line": 1071
+      },
+      "url": "/docs/gravityactions/actions/gkgravityactionstemplate_before_includehook_name/"
+    },
+    {
+      "id": "gkgravityactionsbulk_actions_map",
+      "name": "gk/gravityactions/bulk_actions_map",
+      "type": "filter",
+      "product": "gravityactions",
+      "description": "Filters the bulk actions map included in the GV group.",
+      "parameters": [
+        {
+          "name": "map",
+          "type": "\\ActionInterface[]",
+          "description": "List of objects for the edit actions."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/GravityActions/Actions/Mapper.php",
+        "line": 117
+      },
+      "url": "/docs/gravityactions/filters/gkgravityactionsbulk_actions_map/"
+    },
+    {
+      "id": "gkgravityactionsedit_actionsupported_form_meta",
+      "name": "gk/gravityactions/edit_action/supported_form_meta",
+      "type": "filter",
+      "product": "gravityactions",
+      "description": "Filter to allow short-circuiting the modal rendering.",
+      "parameters": [],
+      "since": "1.3",
+      "source": {
+        "file": "src/GravityActions/Actions/EditAction.php",
+        "line": 203
+      },
+      "url": "/docs/gravityactions/filters/gkgravityactionsedit_actionsupported_form_meta/"
+    },
+    {
+      "id": "gkgravityactionsemail_actionget_field",
+      "name": "gk/gravityactions/email_action/get_field",
+      "type": "filter",
+      "product": "gravityactions",
+      "description": "Filter any field before returning it's values.",
+      "parameters": [],
+      "since": "1.3",
+      "source": {
+        "file": "src/GravityActions/Actions/EmailAction.php",
+        "line": 474
+      },
+      "url": "/docs/gravityactions/filters/gkgravityactionsemail_actionget_field/"
+    },
+    {
+      "id": "gkgravityactionsemail_actionget_fieldfield-id",
+      "name": "gk/gravityactions/email_action/get_field:\\{$field->id\\}",
+      "type": "filter",
+      "product": "gravityactions",
+      "description": "Filter of a specific field before returning it.",
+      "parameters": [],
+      "since": "1.3",
+      "source": {
+        "file": "src/GravityActions/Actions/EmailAction.php",
+        "line": 484
+      },
+      "url": "/docs/gravityactions/filters/gkgravityactionsemail_actionget_fieldfield-id/"
+    },
+    {
+      "id": "gkgravityactionsemail_actionget_fields",
+      "name": "gk/gravityactions/email_action/get_fields",
+      "type": "filter",
+      "product": "gravityactions",
+      "description": "Filter to allow short-circuiting the modal rendering.",
+      "parameters": [],
+      "since": "1.3",
+      "source": {
+        "file": "src/GravityActions/Actions/EmailAction.php",
+        "line": 419
+      },
+      "url": "/docs/gravityactions/filters/gkgravityactionsemail_actionget_fields/"
+    },
+    {
+      "id": "gkgravityactionshide_hidden_inputs",
+      "name": "gk/gravityactions/hide_hidden_inputs",
+      "type": "filter",
+      "product": "gravityactions",
+      "description": "Allows showing inputs that aren't currently displayed in the form.",
+      "parameters": [
+        {
+          "name": "hide_hidden_inputs",
+          "type": "bool",
+          "description": "True: hide inputs hidden by the form. False: show inputs hidden by the form."
+        }
+      ],
+      "since": "1.2",
+      "source": {
+        "file": "src/admin-views/components/fields/complex/time.php",
+        "line": 15
+      },
+      "url": "/docs/gravityactions/filters/gkgravityactionshide_hidden_inputs/"
+    },
+    {
+      "id": "gkgravityactionsis_truthy_strings",
+      "name": "gk/gravityactions/is_truthy_strings",
+      "type": "filter",
+      "product": "gravityactions",
+      "description": "Provides an opportunity to modify strings that will be deemed to evaluate to true.",
+      "parameters": [],
+      "since": "1.0",
+      "source": {
+        "file": "src/functions/variables.php",
+        "line": 26
+      },
+      "url": "/docs/gravityactions/filters/gkgravityactionsis_truthy_strings/"
+    },
+    {
+      "id": "gkgravityactionsmodalverify-nonce",
+      "name": "gk/gravityactions/modal/verify-nonce",
+      "type": "filter",
+      "product": "gravityactions",
+      "description": "Filter whether to verify the nonce passed to the modal loading.",
+      "parameters": [
+        {
+          "name": "should_verify_nonce",
+          "type": "bool",
+          "description": "Whether to verify the nonce passed to the modal loading."
+        },
+        {
+          "name": "nonce",
+          "type": "string",
+          "description": "The nonce passed to the modal loading."
+        }
+      ],
+      "since": "1.4",
+      "source": {
+        "file": "src/GravityActions/Admin.php",
+        "line": 118
+      },
+      "url": "/docs/gravityactions/filters/gkgravityactionsmodalverify-nonce/"
+    },
+    {
+      "id": "gkgravityactionspre_modal_render",
+      "name": "gk/gravityactions/pre_modal_render",
+      "type": "filter",
+      "product": "gravityactions",
+      "description": "Filter to allow short-circuiting the modal rendering.",
+      "parameters": [
+        {
+          "name": "pre_render",
+          "type": "mixed",
+          "description": "Variable that determines if we will short circuit the modal rendering."
+        },
+        {
+          "name": "template_vars",
+          "type": "array",
+          "description": "What variables are being passed down to the modal."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/GravityActions/Admin.php",
+        "line": 169
+      },
+      "url": "/docs/gravityactions/filters/gkgravityactionspre_modal_render/"
+    },
+    {
+      "id": "gkgravityactionspre_modal_renderaction_key",
+      "name": "gk/gravityactions/pre_modal_render:\\{$action_key\\}",
+      "type": "filter",
+      "product": "gravityactions",
+      "description": "Filter to allow short-circuiting the modal rendering.",
+      "parameters": [
+        {
+          "name": "pre_render",
+          "type": "mixed",
+          "description": "Variable that determines if we will short circuit the modal rendering."
+        },
+        {
+          "name": "template_vars",
+          "type": "array",
+          "description": "What variables are being passed down to the modal."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/GravityActions/Admin.php",
+        "line": 189
+      },
+      "url": "/docs/gravityactions/filters/gkgravityactionspre_modal_renderaction_key/"
+    },
+    {
+      "id": "gkgravityactionspre_modal_renderview",
+      "name": "gk/gravityactions/pre_modal_render:\\{$view\\}",
+      "type": "filter",
+      "product": "gravityactions",
+      "description": "Filter to allow short-circuiting the modal rendering.",
+      "parameters": [
+        {
+          "name": "pre_render",
+          "type": "mixed",
+          "description": "Variable that determines if we will short circuit the modal rendering."
+        },
+        {
+          "name": "template_vars",
+          "type": "array",
+          "description": "What variables are being passed down to the modal."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/GravityActions/Admin.php",
+        "line": 179
+      },
+      "url": "/docs/gravityactions/filters/gkgravityactionspre_modal_renderview/"
+    },
+    {
+      "id": "gkgravityactionstemplate_after_include_html",
+      "name": "gk/gravityactions/template_after_include_html",
+      "type": "filter",
+      "product": "gravityactions",
+      "description": "Allow users to filter the after include actions.",
+      "parameters": [
+        {
+          "name": "html",
+          "type": "string",
+          "description": "The final HTML."
+        },
+        {
+          "name": "file",
+          "type": "string",
+          "description": "Complete path to include the PHP File."
+        },
+        {
+          "name": "name",
+          "type": "array",
+          "description": "Template name."
+        },
+        {
+          "name": "template",
+          "type": "self",
+          "description": "Current instance of the Template."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/GravityActions/Template.php",
+        "line": 1012
+      },
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_after_include_html/"
+    },
+    {
+      "id": "gkgravityactionstemplate_after_include_htmlhook_name",
+      "name": "gk/gravityactions/template_after_include_html:\\{$hook_name\\}",
+      "type": "filter",
+      "product": "gravityactions",
+      "description": "Allow users to filter the after include actions by name.",
+      "parameters": [
+        {
+          "name": "html",
+          "type": "string",
+          "description": "The final HTML."
+        },
+        {
+          "name": "file",
+          "type": "string",
+          "description": "Complete path to include the PHP File."
+        },
+        {
+          "name": "name",
+          "type": "array",
+          "description": "Template name."
+        },
+        {
+          "name": "template",
+          "type": "self",
+          "description": "Current instance of the Template."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/GravityActions/Template.php",
+        "line": 1028
+      },
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_after_include_htmlhook_name/"
+    },
+    {
+      "id": "gkgravityactionstemplate_before_include_html",
+      "name": "gk/gravityactions/template_before_include_html",
+      "type": "filter",
+      "product": "gravityactions",
+      "description": "Allow users to filter the Before include actions.",
+      "parameters": [
+        {
+          "name": "html",
+          "type": "string",
+          "description": "The final HTML."
+        },
+        {
+          "name": "file",
+          "type": "string",
+          "description": "Complete path to include the PHP File."
+        },
+        {
+          "name": "name",
+          "type": "array",
+          "description": "Template name."
+        },
+        {
+          "name": "template",
+          "type": "self",
+          "description": "Current instance of the Template."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/GravityActions/Template.php",
+        "line": 924
+      },
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_before_include_html/"
+    },
+    {
+      "id": "gkgravityactionstemplate_before_include_htmlhook_name",
+      "name": "gk/gravityactions/template_before_include_html:\\{$hook_name\\}",
+      "type": "filter",
+      "product": "gravityactions",
+      "description": "Allow users to filter the Before include actions by name.",
+      "parameters": [
+        {
+          "name": "html",
+          "type": "string",
+          "description": "The final HTML."
+        },
+        {
+          "name": "file",
+          "type": "string",
+          "description": "Complete path to include the PHP File."
+        },
+        {
+          "name": "name",
+          "type": "array",
+          "description": "Template name."
+        },
+        {
+          "name": "template",
+          "type": "self",
+          "description": "Current instance of the Template."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/GravityActions/Template.php",
+        "line": 940
+      },
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_before_include_htmlhook_name/"
+    },
+    {
+      "id": "gkgravityactionstemplate_done",
+      "name": "gk/gravityactions/template_done",
+      "type": "filter",
+      "product": "gravityactions",
+      "description": "Allow users to disable templates before rendering it by returning empty string.",
+      "parameters": [
+        {
+          "name": "",
+          "type": "string",
+          "description": "null     Whether to continue displaying the template or not."
+        },
+        {
+          "name": "name",
+          "type": "array",
+          "description": "Template name."
+        },
+        {
+          "name": "template_vars",
+          "type": "array",
+          "description": "Any template vars data you need to expose to this file."
+        },
+        {
+          "name": "echo",
+          "type": "bool",
+          "description": "If we should also print the Template."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/GravityActions/Template.php",
+        "line": 653
+      },
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_done/"
+    },
+    {
+      "id": "gkgravityactionstemplate_file",
+      "name": "gk/gravityactions/template_file",
+      "type": "filter",
+      "product": "gravityactions",
+      "description": "A more Specific Filter that will include the template name",
+      "parameters": [
+        {
+          "name": "file",
+          "type": "string",
+          "description": "Complete path to include the PHP File"
+        },
+        {
+          "name": "name",
+          "type": "array",
+          "description": "Template name"
+        },
+        {
+          "name": "template",
+          "type": "self",
+          "description": "Current instance of the Template"
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/GravityActions/Template.php",
+        "line": 619
+      },
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_file/"
+    },
+    {
+      "id": "gkgravityactionstemplate_html",
+      "name": "gk/gravityactions/template_html",
+      "type": "filter",
+      "product": "gravityactions",
+      "description": "Allow users to filter the final HTML.",
+      "parameters": [
+        {
+          "name": "html",
+          "type": "string",
+          "description": "The final HTML."
+        },
+        {
+          "name": "file",
+          "type": "string",
+          "description": "Complete path to include the PHP File."
+        },
+        {
+          "name": "name",
+          "type": "array",
+          "description": "Template name."
+        },
+        {
+          "name": "template",
+          "type": "self",
+          "description": "Current instance of the Template."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/GravityActions/Template.php",
+        "line": 880
+      },
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_html/"
+    },
+    {
+      "id": "gkgravityactionstemplate_htmlhook_name",
+      "name": "gk/gravityactions/template_html:\\{$hook_name\\}",
+      "type": "filter",
+      "product": "gravityactions",
+      "description": "Allow users to filter the final HTML by the name.",
+      "parameters": [
+        {
+          "name": "html",
+          "type": "string",
+          "description": "The final HTML."
+        },
+        {
+          "name": "file",
+          "type": "string",
+          "description": "Complete path to include the PHP File."
+        },
+        {
+          "name": "name",
+          "type": "array",
+          "description": "Template name."
+        },
+        {
+          "name": "template",
+          "type": "self",
+          "description": "Current instance of the Template."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/GravityActions/Template.php",
+        "line": 896
+      },
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_htmlhook_name/"
+    },
+    {
+      "id": "gkgravityactionstemplate_include_html",
+      "name": "gk/gravityactions/template_include_html",
+      "type": "filter",
+      "product": "gravityactions",
+      "description": "Allow users to filter the PHP template include actions.",
+      "parameters": [
+        {
+          "name": "html",
+          "type": "string",
+          "description": "The final HTML."
+        },
+        {
+          "name": "file",
+          "type": "string",
+          "description": "Complete path to include the PHP File."
+        },
+        {
+          "name": "name",
+          "type": "array",
+          "description": "Template name."
+        },
+        {
+          "name": "template",
+          "type": "self",
+          "description": "Current instance of the Template."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/GravityActions/Template.php",
+        "line": 968
+      },
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_include_html/"
+    },
+    {
+      "id": "gkgravityactionstemplate_include_htmlhook_name",
+      "name": "gk/gravityactions/template_include_html:\\{$hook_name\\}",
+      "type": "filter",
+      "product": "gravityactions",
+      "description": "Allow users to filter the PHP template include actions by name.",
+      "parameters": [
+        {
+          "name": "html",
+          "type": "string",
+          "description": "The final HTML."
+        },
+        {
+          "name": "file",
+          "type": "string",
+          "description": "Complete path to include the PHP File."
+        },
+        {
+          "name": "name",
+          "type": "array",
+          "description": "Template name."
+        },
+        {
+          "name": "template",
+          "type": "self",
+          "description": "Current instance of the Template."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/GravityActions/Template.php",
+        "line": 984
+      },
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_include_htmlhook_name/"
+    },
+    {
+      "id": "gkgravityactionstemplate_origin_base_folder",
+      "name": "gk/gravityactions/template_origin_base_folder",
+      "type": "filter",
+      "product": "gravityactions",
+      "description": "Allows filtering of the base path for templates.",
+      "parameters": [
+        {
+          "name": "namespace",
+          "type": "array",
+          "description": "Which is the base folder we will look for files in the plugin."
+        },
+        {
+          "name": "template",
+          "type": "self",
+          "description": "Current instance of the Template."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/GravityActions/Template.php",
+        "line": 438
+      },
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_origin_base_folder/"
+    },
+    {
+      "id": "gkgravityactionstemplate_path_list",
+      "name": "gk/gravityactions/template_path_list",
+      "type": "filter",
+      "product": "gravityactions",
+      "description": "Allows filtering of the list of folders in which we will look for the template given.",
+      "parameters": [
+        {
+          "name": "folders",
+          "type": "array",
+          "description": "Complete path to include the base public folder"
+        },
+        {
+          "name": "template",
+          "type": "self",
+          "description": "Current instance of the Template"
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/GravityActions/Template.php",
+        "line": 502
+      },
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_path_list/"
+    },
+    {
+      "id": "gkgravityactionstemplate_plugin_path",
+      "name": "gk/gravityactions/template_plugin_path",
+      "type": "filter",
+      "product": "gravityactions",
+      "description": "Allows filtering of the base path for templates.",
+      "parameters": [
+        {
+          "name": "path",
+          "type": "string",
+          "description": "Complete path to include the base plugin folder."
+        },
+        {
+          "name": "template",
+          "type": "self",
+          "description": "Current instance of the Template."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/GravityActions/Template.php",
+        "line": 389
+      },
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_plugin_path/"
+    },
+    {
+      "id": "gkgravityactionstemplate_pre_html",
+      "name": "gk/gravityactions/template_pre_html",
+      "type": "filter",
+      "product": "gravityactions",
+      "description": "Allow users to filter the HTML before rendering.",
+      "parameters": [
+        {
+          "name": "html",
+          "type": "string",
+          "description": "The initial HTML"
+        },
+        {
+          "name": "file",
+          "type": "string",
+          "description": "Complete path to include the PHP File"
+        },
+        {
+          "name": "name",
+          "type": "array",
+          "description": "Template name"
+        },
+        {
+          "name": "template",
+          "type": "self",
+          "description": "Current instance of the Template"
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/GravityActions/Template.php",
+        "line": 724
+      },
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_pre_html/"
+    },
+    {
+      "id": "gkgravityactionstemplate_pre_htmlhook_name",
+      "name": "gk/gravityactions/template_pre_html:\\{$hook_name\\}",
+      "type": "filter",
+      "product": "gravityactions",
+      "description": "Allow users to filter the HTML by the name before rendering.",
+      "parameters": [
+        {
+          "name": "html",
+          "type": "string",
+          "description": "The initial HTML"
+        },
+        {
+          "name": "file",
+          "type": "string",
+          "description": "Complete path to include the PHP File"
+        },
+        {
+          "name": "name",
+          "type": "array",
+          "description": "Template name"
+        },
+        {
+          "name": "template",
+          "type": "self",
+          "description": "Current instance of the Template"
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/GravityActions/Template.php",
+        "line": 740
+      },
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_pre_htmlhook_name/"
+    },
+    {
+      "id": "gkgravityactionstemplate_public_namespace",
+      "name": "gk/gravityactions/template_public_namespace",
+      "type": "filter",
+      "product": "gravityactions",
+      "description": "Allows filtering of the base path for templates",
+      "parameters": [
+        {
+          "name": "namespace",
+          "type": "array",
+          "description": "Which is the namespace we will look for files in the theme"
+        },
+        {
+          "name": "template",
+          "type": "self",
+          "description": "Current instance of the Template"
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/GravityActions/Template.php",
+        "line": 419
+      },
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_public_namespace/"
+    },
+    {
+      "id": "gkgravityactionstemplate_public_path",
+      "name": "gk/gravityactions/template_public_path",
+      "type": "filter",
+      "product": "gravityactions",
+      "description": "Allows filtering of the base path for templates.",
+      "parameters": [
+        {
+          "name": "path",
+          "type": "string",
+          "description": "Complete path to include the base public folder."
+        },
+        {
+          "name": "template",
+          "type": "self",
+          "description": "Current instance of the Template."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/GravityActions/Template.php",
+        "line": 474
+      },
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_public_path/"
+    },
+    {
+      "id": "gkgravityactionstemplate_theme_path_list",
+      "name": "gk/gravityactions/template_theme_path_list",
+      "type": "filter",
+      "product": "gravityactions",
+      "description": "Allows filtering of the list of theme folders in which we will look for the template.",
+      "parameters": [
+        {
+          "name": "folders",
+          "type": "array",
+          "description": "Complete path to include the base public folder."
+        },
+        {
+          "name": "namespace",
+          "type": "string",
+          "description": "Loads the files from a specified folder from the themes."
+        },
+        {
+          "name": "template",
+          "type": "self",
+          "description": "Current instance of the Template."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/GravityActions/Template.php",
+        "line": 541
+      },
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_theme_path_list/"
+    },
+    {
+      "id": "gkgravityactionstemplate_vars",
+      "name": "gk/gravityactions/template_vars",
+      "type": "filter",
+      "product": "gravityactions",
+      "description": "Allows filtering the Local template vars",
+      "parameters": [
+        {
+          "name": "template_vars",
+          "type": "array",
+          "description": "Local template vars array of data"
+        },
+        {
+          "name": "file",
+          "type": "string",
+          "description": "Complete path to include the PHP File"
+        },
+        {
+          "name": "name",
+          "type": "array",
+          "description": "Template name"
+        },
+        {
+          "name": "template",
+          "type": "self",
+          "description": "Current instance of the Template"
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/GravityActions/Template.php",
+        "line": 362
+      },
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_vars/"
+    },
+    {
+      "id": "gkgravityactionstemplate_vars_get",
+      "name": "gk/gravityactions/template_vars_get",
+      "type": "filter",
+      "product": "gravityactions",
+      "description": "Allows filtering the the getting of template vars variables, also short circuiting.",
+      "parameters": [
+        {
+          "name": "value",
+          "type": "mixed",
+          "description": "The value that will be filtered."
+        },
+        {
+          "name": "index",
+          "type": "array\\",
+          "description": "string`"
+        },
+        {
+          "name": "default",
+          "type": "mixed",
+          "description": "Default value if the search finds nothing."
+        },
+        {
+          "name": "is_local",
+          "type": "bool",
+          "description": "Use the Local or Global template vars."
+        },
+        {
+          "name": "template",
+          "type": "self",
+          "description": "Current instance of the Template."
+        }
+      ],
+      "since": "1.0",
+      "source": {
+        "file": "src/GravityActions/Template.php",
+        "line": 295
+      },
+      "url": "/docs/gravityactions/filters/gkgravityactionstemplate_vars_get/"
+    }
+  ],
+  "stats": {
+    "total": 42,
+    "actions": 11,
+    "filters": 31
+  }
+}
