@@ -176,52 +176,50 @@ npm run regen:hooks -- --product new-product
 
 ## Deployment
 
-### CI/CD Pipeline (Recommended)
+### GitHub Pages (Automated)
 
-Since the documentation is generated from GitHub repos, you can set up automated builds:
+This repo includes a GitHub Actions workflow (`.github/workflows/deploy.yml`) that automatically builds and deploys to GitHub Pages on every push to `main`.
 
-```yaml
-# Example GitHub Actions workflow
-name: Build Docs
-on:
-  schedule:
-    - cron: '0 0 * * *'  # Daily at midnight
-  workflow_dispatch:
+**Setup:**
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-      - run: npm ci
-      - run: npm install -g @10up/wp-hooks-documentor
-      - run: npm run repos:clone
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-      - run: npm run regen:hooks
-      - run: npm run build
-      - name: Deploy
-        # Deploy to Vercel, Netlify, or GitHub Pages
-```
+1. Create a GitHub Personal Access Token with `repo` scope (to access private GravityKit repos)
+2. Add it as a repository secret named `GK_REPOS_TOKEN`:
+   - Go to repo Settings → Secrets and variables → Actions
+   - Click "New repository secret"
+   - Name: `GK_REPOS_TOKEN`
+   - Value: Your personal access token
 
-### Manual Deployment
+3. Enable GitHub Pages:
+   - Go to repo Settings → Pages
+   - Source: "GitHub Actions"
 
-**Vercel**
+4. Push to `main` branch - the workflow will automatically build and deploy
+
+**Custom Domain:**
+The site is configured for `gravitykit.dev`. To use a different domain:
+1. Update `static/CNAME` with your domain
+2. Update `url` in `docusaurus.config.js`
+3. Configure DNS to point to GitHub Pages
+
+### Vercel
+
 1. Connect your GitHub repository to Vercel
 2. Configure build command: `npm run docs:full`
 3. Output directory: `build`
+4. Add environment variable: `GH_TOKEN` with your GitHub token
 
-**Netlify**
+### Netlify
+
 1. Connect your GitHub repository to Netlify
 2. Configure build command: `npm run docs:full`
 3. Publish directory: `build`
+4. Add environment variable: `GH_TOKEN` with your GitHub token
 
-**GitHub Pages**
+### Manual Deployment
+
 ```bash
-GIT_USER=<username> npm run deploy
+npm run docs:full  # Clone repos, generate docs, build
+# Then deploy the 'build' directory to your host
 ```
 
 ## Search Configuration

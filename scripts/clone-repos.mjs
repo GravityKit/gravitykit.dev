@@ -88,6 +88,13 @@ function checkGitAvailable() {
 }
 
 /**
+ * Check if GH_TOKEN environment variable is set (for CI/CD)
+ */
+function checkGhTokenAvailable() {
+  return !!process.env.GH_TOKEN;
+}
+
+/**
  * Check if GitHub CLI is available and authenticated
  */
 function checkGhAvailable() {
@@ -101,8 +108,13 @@ function checkGhAvailable() {
 /**
  * Determine the best clone URL based on available authentication
  */
-function getCloneUrl(repo, useGhCli) {
-  if (useGhCli) {
+function getCloneUrl(repo, authMethod) {
+  if (authMethod === 'token') {
+    // Use HTTPS with token authentication (for CI/CD)
+    const token = process.env.GH_TOKEN;
+    return `https://x-access-token:${token}@github.com/${repo}.git`;
+  }
+  if (authMethod === 'gh') {
     // Use HTTPS with gh CLI handling authentication
     return `https://github.com/${repo}.git`;
   }
@@ -113,9 +125,9 @@ function getCloneUrl(repo, useGhCli) {
 /**
  * Clone a repository
  */
-function cloneRepo(repo, targetDir, branch, useGhCli) {
+function cloneRepo(repo, targetDir, branch, authMethod) {
   return new Promise((resolve) => {
-    const url = getCloneUrl(repo, useGhCli);
+    const url = getCloneUrl(repo, authMethod);
     const args = ['clone', '--depth', '1', '--branch', branch, url, targetDir];
 
     logInfo(`Cloning ${repo} (${branch}) → ${path.basename(targetDir)}`);
@@ -225,7 +237,7 @@ async function processProduct(product, config, options) {
   }
 
   if (!repoExists || options.force) {
-    return cloneRepo(product.repo, targetDir, branch, options.useGhCli);
+    return cloneRepo(product.repo, targetDir, branch, options.authMethod);
   } else {
     return updateRepo(targetDir, product.repo, branch);
   }
@@ -363,11 +375,16 @@ async function main() {
     return 1;
   }
 
-  options.useGhCli = checkGhAvailable();
-  if (options.useGhCli) {
+  // Determine authentication method: token (CI) > gh CLI > SSH
+  if (checkGhTokenAvailable()) {
+    options.authMethod = 'token';
+    logSuccess('GH_TOKEN detected (using HTTPS with token auth)');
+  } else if (checkGhAvailable()) {
+    options.authMethod = 'gh';
     logSuccess('GitHub CLI is authenticated (using HTTPS)');
   } else {
-    logWarning('GitHub CLI not available, using SSH authentication');
+    options.authMethod = 'ssh';
+    logWarning('No token or GitHub CLI, using SSH authentication');
   }
 
   // Ensure repos directory exists
