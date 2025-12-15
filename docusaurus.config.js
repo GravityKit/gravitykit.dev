@@ -192,13 +192,6 @@ const config = {
       // },
     }),
 
-  // Local search temporarily disabled - @easyops-cn/docusaurus-search-local
-  // requires a default docs plugin instance but we use multi-instance architecture.
-  // Options for future implementation:
-  // 1. Algolia DocSearch (free for open source) - designed for multi-instance
-  // 2. Typesense DocSearch - self-hosted alternative
-  // 3. flexsearch plugin - may have better multi-instance support
-  themes: [],
 
   plugins: product_docs_plugins.filter((pluginEntry) => {
     if (!Array.isArray(pluginEntry) || pluginEntry[0] !== '@docusaurus/plugin-content-docs') {
