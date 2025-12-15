@@ -164,7 +164,7 @@ function run_wp_hooks_documentor(extra_args, overrides) {
     return {
       ok: false,
       reason:
-        'wp-hooks-documentor is not on PATH. Install it globally (npm i -g @10up/wp-hooks-documentor) or run this script from the same shell where it is available.',
+        'wp-hooks-documentor is not on PATH. Install it globally (npm i -g github:GravityKit/wp-hooks-documentor) or run this script from the same shell where it is available.',
     };
   }
 

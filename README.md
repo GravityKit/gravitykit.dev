@@ -49,8 +49,8 @@ npm run docs:full
 3. **wp-hooks-documentor** - Tool for extracting WordPress hooks
 
 ```bash
-# Install wp-hooks-documentor globally
-npm install -g @10up/wp-hooks-documentor
+# Install wp-hooks-documentor globally (GravityKit fork)
+npm install -g github:GravityKit/wp-hooks-documentor
 ```
 
 ### GitHub Authentication
@@ -252,8 +252,8 @@ ssh -T git@github.com
 ### wp-hooks-documentor not found
 
 ```bash
-# Install globally
-npm install -g @10up/wp-hooks-documentor
+# Install globally (GravityKit fork)
+npm install -g github:GravityKit/wp-hooks-documentor
 
 # Verify installation
 wp-hooks-documentor --version

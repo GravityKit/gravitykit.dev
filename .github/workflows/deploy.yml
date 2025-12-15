@@ -37,7 +37,7 @@ jobs:
         run: npm ci
 
       - name: Install wp-hooks-documentor
-        run: npm install -g @10up/wp-hooks-documentor
+        run: npm install -g github:GravityKit/wp-hooks-documentor
 
       - name: Clone GravityKit repositories
         run: npm run repos:clone
