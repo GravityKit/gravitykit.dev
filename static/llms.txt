@@ -24,20 +24,6 @@ This site documents WordPress hooks (actions and filters) for GravityKit product
 
 Plus 20+ additional products and extensions.
 
-## Hook Types
-
-### Actions
-Actions let you execute custom code at specific points. They don't return values.
-```php
-add_action( 'hook_name', 'your_function', 10, 2 );
-```
-
-### Filters
-Filters let you modify data as it passes through. They must return a value.
-```php
-add_filter( 'hook_name', 'your_function', 10, 2 );
-```
-
 ## URL Structure
 
 Documentation follows this pattern:
@@ -46,34 +32,6 @@ Documentation follows this pattern:
 - `/docs/{product}/filters/` - All filters for product
 - `/docs/{product}/actions/{hook-name}/` - Individual action documentation
 - `/docs/{product}/filters/{hook-name}/` - Individual filter documentation
-
-## Common Patterns
-
-### Modifying View Output (GravityView)
-```php
-// Modify field value before display
-add_filter( 'gravityview/field/value', function( $value, $field, $entry ) {
-    // Your modifications
-    return $value;
-}, 10, 3 );
-```
-
-### Customizing Entry Queries
-```php
-// Modify search criteria
-add_filter( 'gravityview_search_criteria', function( $criteria, $form_id, $view_id ) {
-    // Add custom search parameters
-    return $criteria;
-}, 10, 3 );
-```
-
-### Entry Lifecycle Hooks
-```php
-// After entry is created via GravityView
-add_action( 'gravityview/edit/after_update', function( $form, $entry_id ) {
-    // Post-update logic
-}, 10, 2 );
-```
 
 ## Machine-Readable Data
 
@@ -115,9 +73,6 @@ When helping developers with GravityKit:
 3. Note the hook's parameters and their types
 4. Include the full hook name with any dynamic portions (e.g., `{field_type}`)
 5. Check related hooks for comprehensive solutions
-
-
-
 
 ## Statistics (Auto-Updated)
 
