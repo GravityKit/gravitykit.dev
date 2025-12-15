@@ -1,5 +1,5 @@
 {
-  "generated": "2025-12-15T23:52:08.144Z",
+  "generated": "2025-12-15T23:55:35.811Z",
   "product": {
     "id": "gravityimport",
     "label": "GravityImport",
@@ -77,7 +77,7 @@
         "import",
         "after"
       ],
-      "example": "/**\n * Hook into gravityview-importafter-import\n *\n * @return void\n */\nadd_action( 'gravityview-importafter-import', 'my_custom_gravityview_importafter_import_handler' );\n\nfunction my_custom_gravityview_importafter_import_handler() {\n    // Your custom code here\n}",
+      "example": "add_action( 'gravityview-import/after-import', function() {\n    // Your code here\n} );",
       "since": null,
       "source": {
         "file": "src/UI.php",
@@ -102,7 +102,7 @@
         "import",
         "before"
       ],
-      "example": "/**\n * Hook into gravityview-importbefore-import\n *\n * @return void\n */\nadd_action( 'gravityview-importbefore-import', 'my_custom_gravityview_importbefore_import_handler' );\n\nfunction my_custom_gravityview_importbefore_import_handler() {\n    // Your custom code here\n}",
+      "example": "add_action( 'gravityview-import/before-import', function() {\n    // Your code here\n} );",
       "since": null,
       "source": {
         "file": "src/UI.php",
@@ -127,7 +127,7 @@
         "import",
         "after"
       ],
-      "example": "/**\n * Hook into gravityview-importerafter-add\n *\n * @return void\n */\nadd_action( 'gravityview-importerafter-add', 'my_custom_gravityview_importerafter_add_handler' );\n\nfunction my_custom_gravityview_importerafter_add_handler() {\n    // Your custom code here\n}",
+      "example": "add_action( 'gravityview-importer/after-add', function() {\n    // Your code here\n} );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -154,7 +154,7 @@
         "import",
         "after"
       ],
-      "example": "/**\n * Hook into gravityview-importerafter-update\n *\n * @return void\n */\nadd_action( 'gravityview-importerafter-update', 'my_custom_gravityview_importerafter_update_handler' );\n\nfunction my_custom_gravityview_importerafter_update_handler() {\n    // Your custom code here\n}",
+      "example": "add_action( 'gravityview-importer/after-update', function() {\n    // Your code here\n} );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -180,7 +180,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Hook into gravityview-importerconfig\n *\n * @return void\n */\nadd_action( 'gravityview-importerconfig', 'my_custom_gravityview_importerconfig_handler' );\n\nfunction my_custom_gravityview_importerconfig_handler() {\n    // Your custom code here\n}",
+      "example": "add_action( 'gravityview-importer/config', function() {\n    // Your code here\n} );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -206,7 +206,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Hook into gravityview-importerend-of-file\n *\n * @return void\n */\nadd_action( 'gravityview-importerend-of-file', 'my_custom_gravityview_importerend_of_file_handler' );\n\nfunction my_custom_gravityview_importerend_of_file_handler() {\n    // Your custom code here\n}",
+      "example": "add_action( 'gravityview-importer/end-of-file', function() {\n    // Your code here\n} );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -232,7 +232,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Hook into gravityview-importerprocess-row\n *\n * @return void\n */\nadd_action( 'gravityview-importerprocess-row', 'my_custom_gravityview_importerprocess_row_handler' );\n\nfunction my_custom_gravityview_importerprocess_row_handler() {\n    // Your custom code here\n}",
+      "example": "add_action( 'gravityview-importer/process-row', function() {\n    // Your code here\n} );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -264,7 +264,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Hook into gravityviewimportbatchcreated\n *\n * @param array $batch The batch.\n */\nadd_action( 'gravityviewimportbatchcreated', 'my_custom_gravityviewimportbatchcreated_handler', 10, 1 );\n\nfunction my_custom_gravityviewimportbatchcreated_handler($batch) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gravityview/import/batch/created', function($batch) {\n    // Your code here\n}, 10, 1 );",
       "since": null,
       "source": {
         "file": "src/Batch.php",
@@ -297,7 +297,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Hook into gravityviewimportconfig\n *\n * @param \\Goodby\\CSV\\Import\\Standard\\Lexer\\Config $config The config object.\n * @param array $batch The batch.\n */\nadd_action( 'gravityviewimportconfig', 'my_custom_gravityviewimportconfig_handler', 10, 2 );\n\nfunction my_custom_gravityviewimportconfig_handler($config, $batch) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gravityview/import/config', function($config, $batch) {\n    // Your code here\n}, 10, 2 );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -335,7 +335,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Hook into gravityviewimportentrycreated\n *\n * @param array $entry The entry.\n * @param array $batch The batch.\n */\nadd_action( 'gravityviewimportentrycreated', 'my_custom_gravityviewimportentrycreated_handler', 10, 2 );\n\nfunction my_custom_gravityviewimportentrycreated_handler($entry, $batch) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gravityview/import/entry/created', function($entry, $batch) {\n    // Your code here\n}, 10, 2 );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -375,7 +375,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Hook into gravityviewimportentryupdated\n *\n * @param array $entry The entry.\n * @param array $old_entry The entry.\n * @param array $batch The batch.\n */\nadd_action( 'gravityviewimportentryupdated', 'my_custom_gravityviewimportentryupdated_handler', 10, 3 );\n\nfunction my_custom_gravityviewimportentryupdated_handler($entry, $old_entry, $batch) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gravityview/import/entry/updated', function($entry, $old_entry, $batch) {\n    // Your code here\n}, 10, 3 );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -404,7 +404,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Hook into gravityviewimportprocessbatchstatus\n *\n * @param array $batch The batch.\n */\nadd_action( 'gravityviewimportprocessbatchstatus', 'my_custom_gravityviewimportprocessbatchstatus_handler', 10, 1 );\n\nfunction my_custom_gravityviewimportprocessbatchstatus_handler($batch) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gravityview/import/process/\\{$batch[status]\\}', function($batch) {\n    // Your code here\n}, 10, 1 );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -437,7 +437,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Hook into gravityviewimportprocessorinit\n *\n * @param \\GravityKit\\GravityImport\\Processor $processor The processor.\n * @param array $args The args.\n */\nadd_action( 'gravityviewimportprocessorinit', 'my_custom_gravityviewimportprocessorinit_handler', 10, 2 );\n\nfunction my_custom_gravityviewimportprocessorinit_handler($processor, $args) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gravityview/import/processor/init', function($processor, $args) {\n    // Your code here\n}, 10, 2 );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -475,7 +475,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Hook into gravityviewimportprocessrow\n *\n * @param array $row The row.\n * @param int $number The row number (starts from 1, the headers).\n * @param array $batch The batch.\n */\nadd_action( 'gravityviewimportprocessrow', 'my_custom_gravityviewimportprocessrow_handler', 10, 3 );\n\nfunction my_custom_gravityviewimportprocessrow_handler($row, $number, $batch) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gravityview/import/process/row', function($row, $number, $batch) {\n    // Your code here\n}, 10, 3 );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -513,7 +513,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Hook into gravityviewimportprocessrowerror\n *\n * @param object $row The row object in the database.\n * @param string $error The error.\n * @param array $batch The batch.\n */\nadd_action( 'gravityviewimportprocessrowerror', 'my_custom_gravityviewimportprocessrowerror_handler', 10, 3 );\n\nfunction my_custom_gravityviewimportprocessrowerror_handler($row, $error, $batch) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gravityview/import/process/row/error', function($row, $error, $batch) {\n    // Your code here\n}, 10, 3 );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -546,7 +546,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Hook into gravityviewimportprocessrowskipped\n *\n * @param object $row The row.\n * @param array $batch The batch.\n */\nadd_action( 'gravityviewimportprocessrowskipped', 'my_custom_gravityviewimportprocessrowskipped_handler', 10, 2 );\n\nfunction my_custom_gravityviewimportprocessrowskipped_handler($row, $batch) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gravityview/import/process/row/skipped', function($row, $batch) {\n    // Your code here\n}, 10, 2 );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -574,7 +574,7 @@
         "import",
         "api"
       ],
-      "example": "/**\n * Filter gkgravityimportrestrequest-validation-skip-params\n *\n * @param array $rest_params_to_ignore REST request parameters that are safe to ignore.\n * @return array Modified rest_params_to_ignore\n */\nadd_filter( 'gkgravityimportrestrequest-validation-skip-params', 'my_custom_gkgravityimportrestrequest_validation_skip_params_filter', 10, 1 );\n\nfunction my_custom_gkgravityimportrestrequest_validation_skip_params_filter($rest_params_to_ignore) {\n    // Modify $rest_params_to_ignore as needed\n\n    return $rest_params_to_ignore;\n}",
+      "example": "add_filter( 'gk/gravityimport/rest/request-validation-skip-params', function($rest_params_to_ignore) {\n    // Modify $rest_params_to_ignore as needed\n    return $rest_params_to_ignore;\n}, 10, 1 );",
       "since": "TBD: TBD",
       "source": {
         "file": "src/REST_Batch_Controller.php",
@@ -600,7 +600,7 @@
         "forms",
         "import"
       ],
-      "example": "/**\n * Filter gkgravityimportuiform-data\n *\n * @param array $form_data From data with available fields and feeds.\n * @return array Modified form_data\n */\nadd_filter( 'gkgravityimportuiform-data', 'my_custom_gkgravityimportuiform_data_filter', 10, 1 );\n\nfunction my_custom_gkgravityimportuiform_data_filter($form_data) {\n    // Modify $form_data as needed\n\n    return $form_data;\n}",
+      "example": "add_filter( 'gk/gravityimport/ui/form-data', function($form_data) {\n    // Modify $form_data as needed\n    return $form_data;\n}, 10, 1 );",
       "since": "2.4.10",
       "source": {
         "file": "src/UI.php",
@@ -620,7 +620,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Filter gravityview-importerstrict-mode\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gravityview-importerstrict-mode', 'my_custom_gravityview_importerstrict_mode_filter' );\n\nfunction my_custom_gravityview_importerstrict_mode_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
+      "example": "add_filter( 'gravityview-importer/strict-mode', function() {\n    // Modify $value as needed\n    return $value;\n} );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -646,7 +646,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Filter gravityview-importerstrict-moderadio-choices\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gravityview-importerstrict-moderadio-choices', 'my_custom_gravityview_importerstrict_moderadio_choices_filter' );\n\nfunction my_custom_gravityview_importerstrict_moderadio_choices_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
+      "example": "add_filter( 'gravityview-importer/strict-mode/radio-choices', function() {\n    // Modify $value as needed\n    return $value;\n} );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -666,7 +666,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Filter gravityview-importerunstrict\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gravityview-importerunstrict', 'my_custom_gravityview_importerunstrict_filter' );\n\nfunction my_custom_gravityview_importerunstrict_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
+      "example": "add_filter( 'gravityview-importer/unstrict', function() {\n    // Modify $value as needed\n    return $value;\n} );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -692,7 +692,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Filter gravityview-importeruse-default-value\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gravityview-importeruse-default-value', 'my_custom_gravityview_importeruse_default_value_filter' );\n\nfunction my_custom_gravityview_importeruse_default_value_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
+      "example": "add_filter( 'gravityview-importer/use-default-value', function() {\n    // Modify $value as needed\n    return $value;\n} );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -718,7 +718,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Filter gravityview-importimport-cap\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gravityview-importimport-cap', 'my_custom_gravityview_importimport_cap_filter' );\n\nfunction my_custom_gravityview_importimport_cap_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
+      "example": "add_filter( 'gravityview-import/import-cap', function() {\n    // Modify $value as needed\n    return $value;\n} );",
       "since": null,
       "source": {
         "file": "src/REST_Batch_Controller.php",
@@ -742,7 +742,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Filter gravityview-importuser-agent\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gravityview-importuser-agent', 'my_custom_gravityview_importuser_agent_filter' );\n\nfunction my_custom_gravityview_importuser_agent_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
+      "example": "add_filter( 'gravityview-import/user-agent', function() {\n    // Modify $value as needed\n    return $value;\n} );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -772,7 +772,7 @@
         "views",
         "export"
       ],
-      "example": "/**\n * Filter gravityviewexportnote_typesblacklist\n *\n * @param array $note_types_blacklist Default: [ gravityview ]\n * @return array Modified note_types_blacklist\n */\nadd_filter( 'gravityviewexportnote_typesblacklist', 'my_custom_gravityviewexportnote_typesblacklist_filter', 10, 1 );\n\nfunction my_custom_gravityviewexportnote_typesblacklist_filter($note_types_blacklist) {\n    // Modify $note_types_blacklist as needed\n\n    return $note_types_blacklist;\n}",
+      "example": "add_filter( 'gravityview/export/note_types/blacklist', function($note_types_blacklist) {\n    // Modify $note_types_blacklist as needed\n    return $note_types_blacklist;\n}, 10, 1 );",
       "since": "2.0",
       "source": {
         "file": "src/GF_Export_Screen.php",
@@ -798,7 +798,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Filter gravityviewimportbatchcreate\n *\n * @param array $batch The batch.\n * @return array Modified batch\n */\nadd_filter( 'gravityviewimportbatchcreate', 'my_custom_gravityviewimportbatchcreate_filter', 10, 1 );\n\nfunction my_custom_gravityviewimportbatchcreate_filter($batch) {\n    // Modify $batch as needed\n\n    return $batch;\n}",
+      "example": "add_filter( 'gravityview/import/batch/create', function($batch) {\n    // Modify $batch as needed\n    return $batch;\n}, 10, 1 );",
       "since": null,
       "source": {
         "file": "src/Batch.php",
@@ -820,7 +820,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Filter gravityviewimportcapabilities\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gravityviewimportcapabilities', 'my_custom_gravityviewimportcapabilities_filter' );\n\nfunction my_custom_gravityviewimportcapabilities_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
+      "example": "add_filter( 'gravityview/import/capabilities', function() {\n    // Modify $value as needed\n    return $value;\n} );",
       "since": null,
       "source": {
         "file": "src/UI.php",
@@ -862,7 +862,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Filter gravityviewimportcolumncheckboxunchecked\n *\n * @param \\GF_Field $field The checkbox field.\n * @param array $column The column that is being processed.\n * @param array $batch The batch.\n * @return \\GF_Field Modified field\n */\nadd_filter( 'gravityviewimportcolumncheckboxunchecked', 'my_custom_gravityviewimportcolumncheckboxunchecked_filter', 10, 3 );\n\nfunction my_custom_gravityviewimportcolumncheckboxunchecked_filter($field, $column, $batch) {\n    // Modify $field as needed\n\n    return $field;\n}",
+      "example": "add_filter( 'gravityview/import/column/checkbox/unchecked', function($field, $column, $batch) {\n    // Modify $field as needed\n    return $field;\n}, 10, 3 );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -898,7 +898,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Filter gravityviewimportcolumnconsentchecked\n *\n * @param \\GF_Field $field The consent field.\n * @param array $column The column that is being processed.\n * @param array $batch The batch.\n * @return \\GF_Field Modified field\n */\nadd_filter( 'gravityviewimportcolumnconsentchecked', 'my_custom_gravityviewimportcolumnconsentchecked_filter', 10, 3 );\n\nfunction my_custom_gravityviewimportcolumnconsentchecked_filter($field, $column, $batch) {\n    // Modify $field as needed\n\n    return $field;\n}",
+      "example": "add_filter( 'gravityview/import/column/consent/checked', function($field, $column, $batch) {\n    // Modify $field as needed\n    return $field;\n}, 10, 3 );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -929,7 +929,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Filter gravityviewimportcolumndata\n *\n * @param array $column The column schema definition.\n * @param array $batch The batch.\n * @return array Modified column\n */\nadd_filter( 'gravityviewimportcolumndata', 'my_custom_gravityviewimportcolumndata_filter', 10, 2 );\n\nfunction my_custom_gravityviewimportcolumndata_filter($column, $batch) {\n    // Modify $column as needed\n\n    return $column;\n}",
+      "example": "add_filter( 'gravityview/import/column/data', function($column, $batch) {\n    // Modify $column as needed\n    return $column;\n}, 10, 2 );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -962,7 +962,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Filter gravityviewimportcolumndefault\n *\n * @param array $column The column.\n * @param array $batch The batch.\n * @return array Modified column\n */\nadd_filter( 'gravityviewimportcolumndefault', 'my_custom_gravityviewimportcolumndefault_filter', 10, 2 );\n\nfunction my_custom_gravityviewimportcolumndefault_filter($column, $batch) {\n    // Modify $column as needed\n\n    return $column;\n}",
+      "example": "add_filter( 'gravityview/import/column/default', function($column, $batch) {\n    // Modify $column as needed\n    return $column;\n}, 10, 2 );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -1005,7 +1005,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Filter gravityviewimportcolumnfilename\n *\n * @param string $url The current cell value.\n * @param \\GF_Field $field The upload field.\n * @param array $column The column that is being processed.\n * @param array $batch The batch.\n * @return string Modified url\n */\nadd_filter( 'gravityviewimportcolumnfilename', 'my_custom_gravityviewimportcolumnfilename_filter', 10, 4 );\n\nfunction my_custom_gravityviewimportcolumnfilename_filter($url, $field, $column, $batch) {\n    // Modify $url as needed\n\n    return $url;\n}",
+      "example": "add_filter( 'gravityview/import/column/file/name', function($url, $field, $column, $batch) {\n    // Modify $url as needed\n    return $url;\n}, 10, 4 );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -1048,7 +1048,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Filter gravityviewimportcolumnfilesource\n *\n * @param string $url The current cell value.\n * @param \\GF_Field $field The upload field.\n * @param array $column The column that is being processed.\n * @param array $batch The batch.\n * @return string Modified url\n */\nadd_filter( 'gravityviewimportcolumnfilesource', 'my_custom_gravityviewimportcolumnfilesource_filter', 10, 4 );\n\nfunction my_custom_gravityviewimportcolumnfilesource_filter($url, $field, $column, $batch) {\n    // Modify $url as needed\n\n    return $url;\n}",
+      "example": "add_filter( 'gravityview/import/column/file/source', function($url, $field, $column, $batch) {\n    // Modify $url as needed\n    return $url;\n}, 10, 4 );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -1086,7 +1086,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Filter gravityviewimportcolumnmultiselectdelimiter\n *\n * @param \\GF_Field $field The multiselect field.\n * @param array $column The column that is being processed.\n * @param array $batch The batch.\n * @return \\GF_Field Modified field\n */\nadd_filter( 'gravityviewimportcolumnmultiselectdelimiter', 'my_custom_gravityviewimportcolumnmultiselectdelimiter_filter', 10, 3 );\n\nfunction my_custom_gravityviewimportcolumnmultiselectdelimiter_filter($field, $column, $batch) {\n    // Modify $field as needed\n\n    return $field;\n}",
+      "example": "add_filter( 'gravityview/import/column/multiselect/delimiter', function($field, $column, $batch) {\n    // Modify $field as needed\n    return $field;\n}, 10, 3 );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -1119,7 +1119,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Filter gravityviewimportcolumnmultiselectstrict\n *\n * @param \\GF_Field $field The multiselect field.\n * @param array $batch The batch.\n * @return \\GF_Field Modified field\n */\nadd_filter( 'gravityviewimportcolumnmultiselectstrict', 'my_custom_gravityviewimportcolumnmultiselectstrict_filter', 10, 2 );\n\nfunction my_custom_gravityviewimportcolumnmultiselectstrict_filter($field, $batch) {\n    // Modify $field as needed\n\n    return $field;\n}",
+      "example": "add_filter( 'gravityview/import/column/multiselect/strict', function($field, $batch) {\n    // Modify $field as needed\n    return $field;\n}, 10, 2 );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -1157,7 +1157,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Filter gravityviewimportcolumnnotesuser\n *\n * @param object $note The note.\n * @param array $entry The entry.\n * @param array $batch The batch.\n * @return object Modified note\n */\nadd_filter( 'gravityviewimportcolumnnotesuser', 'my_custom_gravityviewimportcolumnnotesuser_filter', 10, 3 );\n\nfunction my_custom_gravityviewimportcolumnnotesuser_filter($note, $entry, $batch) {\n    // Modify $note as needed\n\n    return $note;\n}",
+      "example": "add_filter( 'gravityview/import/column/notes/user', function($note, $entry, $batch) {\n    // Modify $note as needed\n    return $note;\n}, 10, 3 );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -1188,7 +1188,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Filter gravityviewimportcolumnradiostrict\n *\n * @param \\GF_Field $field The radio field.\n * @param array $batch The batch.\n * @return \\GF_Field Modified field\n */\nadd_filter( 'gravityviewimportcolumnradiostrict', 'my_custom_gravityviewimportcolumnradiostrict_filter', 10, 2 );\n\nfunction my_custom_gravityviewimportcolumnradiostrict_filter($field, $batch) {\n    // Modify $field as needed\n\n    return $field;\n}",
+      "example": "add_filter( 'gravityview/import/column/radio/strict', function($field, $batch) {\n    // Modify $field as needed\n    return $field;\n}, 10, 2 );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -1219,7 +1219,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Filter gravityviewimportcolumnselectstrict\n *\n * @param \\GF_Field $field The select field.\n * @param array $batch The batch.\n * @return \\GF_Field Modified field\n */\nadd_filter( 'gravityviewimportcolumnselectstrict', 'my_custom_gravityviewimportcolumnselectstrict_filter', 10, 2 );\n\nfunction my_custom_gravityviewimportcolumnselectstrict_filter($field, $batch) {\n    // Modify $field as needed\n\n    return $field;\n}",
+      "example": "add_filter( 'gravityview/import/column/select/strict', function($field, $batch) {\n    // Modify $field as needed\n    return $field;\n}, 10, 2 );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -1260,7 +1260,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Filter gravityviewimportcolumnsignaturename\n *\n * @param string $url The current cell value.\n * @param \\GF_Field $field The signature field.\n * @param array $column The column that is being processed.\n * @param array $batch The batch.\n * @return string Modified url\n */\nadd_filter( 'gravityviewimportcolumnsignaturename', 'my_custom_gravityviewimportcolumnsignaturename_filter', 10, 4 );\n\nfunction my_custom_gravityviewimportcolumnsignaturename_filter($url, $field, $column, $batch) {\n    // Modify $url as needed\n\n    return $url;\n}",
+      "example": "add_filter( 'gravityview/import/column/signature/name', function($url, $field, $column, $batch) {\n    // Modify $url as needed\n    return $url;\n}, 10, 4 );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -1303,7 +1303,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Filter gravityviewimportcolumnsignaturesource\n *\n * @param string $url The current cell value.\n * @param \\GF_Field $field The signature field.\n * @param array $column The column that is being processed.\n * @param array $batch The batch.\n * @return string Modified url\n */\nadd_filter( 'gravityviewimportcolumnsignaturesource', 'my_custom_gravityviewimportcolumnsignaturesource_filter', 10, 4 );\n\nfunction my_custom_gravityviewimportcolumnsignaturesource_filter($url, $field, $column, $batch) {\n    // Modify $url as needed\n\n    return $url;\n}",
+      "example": "add_filter( 'gravityview/import/column/signature/source', function($url, $field, $column, $batch) {\n    // Modify $url as needed\n    return $url;\n}, 10, 4 );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -1342,7 +1342,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Filter gravityviewimportentryvalidate\n *\n * @param array $validation_result The current validation result.\n * @param object $row The row.\n * @param array $batch The batch.\n * @return array Modified validation_result\n */\nadd_filter( 'gravityviewimportentryvalidate', 'my_custom_gravityviewimportentryvalidate_filter', 10, 3 );\n\nfunction my_custom_gravityviewimportentryvalidate_filter($validation_result, $row, $batch) {\n    // Modify $validation_result as needed\n\n    return $validation_result;\n}",
+      "example": "add_filter( 'gravityview/import/entry/validate', function($validation_result, $row, $batch) {\n    // Modify $validation_result as needed\n    return $validation_result;\n}, 10, 3 );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -1372,7 +1372,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Filter gravityviewimportfieldsmulti-input\n *\n * @param array $ The batch.\n * @return array Modified \n */\nadd_filter( 'gravityviewimportfieldsmulti-input', 'my_custom_gravityviewimportfieldsmulti_input_filter', 10, 1 );\n\nfunction my_custom_gravityviewimportfieldsmulti_input_filter($) {\n    // Modify $ as needed\n\n    return $;\n}",
+      "example": "add_filter( 'gravityview/import/fields/multi-input', function($) {\n    // Modify $value as needed\n    return $value;\n}, 10, 1 );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -1404,7 +1404,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Filter gravityviewimportfieldunrequire\n *\n * @param \\GF_Field $field The field.\n * @param array $batch The batch.\n * @return \\GF_Field Modified field\n */\nadd_filter( 'gravityviewimportfieldunrequire', 'my_custom_gravityviewimportfieldunrequire_filter', 10, 2 );\n\nfunction my_custom_gravityviewimportfieldunrequire_filter($field, $batch) {\n    // Modify $field as needed\n\n    return $field;\n}",
+      "example": "add_filter( 'gravityview/import/field/unrequire', function($field, $batch) {\n    // Modify $field as needed\n    return $field;\n}, 10, 2 );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -1443,7 +1443,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Filter gravityviewimportfieldvalidate\n *\n * @param array $validation_result The current validation result.\n * @param object $row The row.\n * @param array $batch The batch.\n * @return array Modified validation_result\n */\nadd_filter( 'gravityviewimportfieldvalidate', 'my_custom_gravityviewimportfieldvalidate_filter', 10, 3 );\n\nfunction my_custom_gravityviewimportfieldvalidate_filter($validation_result, $row, $batch) {\n    // Modify $validation_result as needed\n\n    return $validation_result;\n}",
+      "example": "add_filter( 'gravityview/import/field/validate', function($validation_result, $row, $batch) {\n    // Modify $validation_result as needed\n    return $validation_result;\n}, 10, 3 );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -1471,7 +1471,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Filter gravityviewimporthaltsleep\n *\n * @param array $batch The batch.\n * @return array Modified batch\n */\nadd_filter( 'gravityviewimporthaltsleep', 'my_custom_gravityviewimporthaltsleep_filter', 10, 1 );\n\nfunction my_custom_gravityviewimporthaltsleep_filter($batch) {\n    // Modify $batch as needed\n\n    return $batch;\n}",
+      "example": "add_filter( 'gravityview/import/halt/sleep', function($batch) {\n    // Modify $batch as needed\n    return $batch;\n}, 10, 1 );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -1499,7 +1499,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Filter gravityviewimporthalttimeout\n *\n * @param array $batch The batch.\n * @return array Modified batch\n */\nadd_filter( 'gravityviewimporthalttimeout', 'my_custom_gravityviewimporthalttimeout_filter', 10, 1 );\n\nfunction my_custom_gravityviewimporthalttimeout_filter($batch) {\n    // Modify $batch as needed\n\n    return $batch;\n}",
+      "example": "add_filter( 'gravityview/import/halt/timeout', function($batch) {\n    // Modify $batch as needed\n    return $batch;\n}, 10, 1 );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -1527,7 +1527,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Filter gravityviewimporthas_resources\n *\n * @param \\GravityKit\\GravityImport\\Processor $ The processor.\n * @return \\GravityKit\\GravityImport\\Processor Modified \n */\nadd_filter( 'gravityviewimporthas_resources', 'my_custom_gravityviewimporthas_resources_filter', 10, 1 );\n\nfunction my_custom_gravityviewimporthas_resources_filter($) {\n    // Modify $ as needed\n\n    return $;\n}",
+      "example": "add_filter( 'gravityview/import/has_resources', function($) {\n    // Modify $value as needed\n    return $value;\n}, 10, 1 );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -1560,7 +1560,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Filter gravityviewimportmeta_fields\n *\n * @param array $ Key-value array of known meta fields\n * @return array Modified \n */\nadd_filter( 'gravityviewimportmeta_fields', 'my_custom_gravityviewimportmeta_fields_filter', 10, 1 );\n\nfunction my_custom_gravityviewimportmeta_fields_filter($) {\n    // Modify $ as needed\n\n    return $;\n}",
+      "example": "add_filter( 'gravityview/import/meta_fields', function($) {\n    // Modify $value as needed\n    return $value;\n}, 10, 1 );",
       "since": null,
       "source": {
         "file": "src/Core.php",
@@ -1592,7 +1592,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Filter gravityviewimportparseexcerpt\n *\n * @param array $batch The batch.\n * @return array Modified batch\n */\nadd_filter( 'gravityviewimportparseexcerpt', 'my_custom_gravityviewimportparseexcerpt_filter', 10, 1 );\n\nfunction my_custom_gravityviewimportparseexcerpt_filter($batch) {\n    // Modify $batch as needed\n\n    return $batch;\n}",
+      "example": "add_filter( 'gravityview/import/parse/excerpt', function($batch) {\n    // Modify $batch as needed\n    return $batch;\n}, 10, 1 );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -1626,7 +1626,7 @@
         "import",
         "maps"
       ],
-      "example": "/**\n * Filter gravityviewimportparsetypemap\n *\n * @param string $column The column header.\n * @param array $batch The batch.\n * @return string Modified column\n */\nadd_filter( 'gravityviewimportparsetypemap', 'my_custom_gravityviewimportparsetypemap_filter', 10, 2 );\n\nfunction my_custom_gravityviewimportparsetypemap_filter($column, $batch) {\n    // Modify $column as needed\n\n    return $column;\n}",
+      "example": "add_filter( 'gravityview/import/parse/typemap', function($column, $batch) {\n    // Modify $column as needed\n    return $column;\n}, 10, 2 );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -1648,7 +1648,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Filter gravityviewimportprocessorargs\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gravityviewimportprocessorargs', 'my_custom_gravityviewimportprocessorargs_filter' );\n\nfunction my_custom_gravityviewimportprocessorargs_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
+      "example": "add_filter( 'gravityview/import/processor/args', function() {\n    // Modify $value as needed\n    return $value;\n} );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -1687,7 +1687,7 @@
         "import",
         "api"
       ],
-      "example": "/**\n * Filter gravityviewimportrestcap\n *\n * @param string $cap The required capability.\n * @param string $permission The accessed permission. Set to the permission check callback method name.\n * @param \\WP_REST_Request $request The REST request.\n * @return string Modified cap\n */\nadd_filter( 'gravityviewimportrestcap', 'my_custom_gravityviewimportrestcap_filter', 10, 3 );\n\nfunction my_custom_gravityviewimportrestcap_filter($cap, $permission, $request) {\n    // Modify $cap as needed\n\n    return $cap;\n}",
+      "example": "add_filter( 'gravityview/import/rest/cap', function($cap, $permission, $request) {\n    // Modify $cap as needed\n    return $cap;\n}, 10, 3 );",
       "since": null,
       "source": {
         "file": "src/REST_Batch_Controller.php",
@@ -1713,7 +1713,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Filter gravityviewimportrunbatch\n *\n * @param \\GravityKit\\GravityImport\\Processor $ The processor.\n * @return \\GravityKit\\GravityImport\\Processor Modified \n */\nadd_filter( 'gravityviewimportrunbatch', 'my_custom_gravityviewimportrunbatch_filter', 10, 1 );\n\nfunction my_custom_gravityviewimportrunbatch_filter($) {\n    // Modify $ as needed\n\n    return $;\n}",
+      "example": "add_filter( 'gravityview/import/run/batch', function($) {\n    // Modify $value as needed\n    return $value;\n}, 10, 1 );",
       "since": null,
       "source": {
         "file": "src/Processor.php",
@@ -1744,7 +1744,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Filter gravityviewimportunstrict\n *\n * @param bool $allow_mismatched_rows Default: true\n * @param array $batch The batch\n * @return bool Modified allow_mismatched_rows\n */\nadd_filter( 'gravityviewimportunstrict', 'my_custom_gravityviewimportunstrict_filter', 10, 2 );\n\nfunction my_custom_gravityviewimportunstrict_filter($allow_mismatched_rows, $batch) {\n    // Modify $allow_mismatched_rows as needed\n\n    return $allow_mismatched_rows;\n}",
+      "example": "add_filter( 'gravityview/import/unstrict', function($allow_mismatched_rows, $batch) {\n    // Modify $allow_mismatched_rows as needed\n    return $allow_mismatched_rows;\n}, 10, 2 );",
       "since": "2.0: Changed default to true",
       "source": {
         "file": "src/Processor.php",
@@ -1786,7 +1786,7 @@
         "views",
         "import"
       ],
-      "example": "/**\n * Filter gravityviewimportuser-agent\n *\n * @param array $entry The entry.\n * @param array $batch The batch.\n * @param array $data The row data.\n * @return array Modified entry\n */\nadd_filter( 'gravityviewimportuser-agent', 'my_custom_gravityviewimportuser_agent_filter', 10, 3 );\n\nfunction my_custom_gravityviewimportuser_agent_filter($entry, $batch, $data) {\n    // Modify $entry as needed\n\n    return $entry;\n}",
+      "example": "add_filter( 'gravityview/import/user-agent', function($entry, $batch, $data) {\n    // Modify $entry as needed\n    return $entry;\n}, 10, 3 );",
       "since": null,
       "source": {
         "file": "src/Processor.php",

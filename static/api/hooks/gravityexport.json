@@ -1,5 +1,5 @@
 {
-  "generated": "2025-12-15T23:52:08.144Z",
+  "generated": "2025-12-15T23:55:35.811Z",
   "product": {
     "id": "gravityexport",
     "label": "GravityExport",
@@ -30,7 +30,7 @@
         "entries",
         "export"
       ],
-      "example": "/**\n * Hook into gkgravityexportsaveexportedentry\n *\n * @return void\n */\nadd_action( 'gkgravityexportsaveexportedentry', 'my_custom_gkgravityexportsaveexportedentry_handler' );\n\nfunction my_custom_gkgravityexportsaveexportedentry_handler() {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityexport/save/exported/entry', function() {\n    // Your code here\n} );",
       "since": "$ver$: $ver$",
       "source": {
         "file": "add-ons/save/src/Addon/SaveAddon.php",
@@ -51,7 +51,7 @@
       "categories": [
         "export"
       ],
-      "example": "/**\n * Hook into gkgravityexportsaveexportedmanual\n *\n * @return void\n */\nadd_action( 'gkgravityexportsaveexportedmanual', 'my_custom_gkgravityexportsaveexportedmanual_handler' );\n\nfunction my_custom_gkgravityexportsaveexportedmanual_handler() {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityexport/save/exported/manual', function() {\n    // Your code here\n} );",
       "since": "1.6.0",
       "source": {
         "file": "add-ons/save/src/Addon/SaveAddon.php",
@@ -78,7 +78,7 @@
       "categories": [
         "export"
       ],
-      "example": "/**\n * Filter gkgravityexportpdfsettingsdefaults\n *\n * @param array $defaults The defaults settings.\n * @return array Modified defaults\n */\nadd_filter( 'gkgravityexportpdfsettingsdefaults', 'my_custom_gkgravityexportpdfsettingsdefaults_filter', 10, 1 );\n\nfunction my_custom_gkgravityexportpdfsettingsdefaults_filter($defaults) {\n    // Modify $defaults as needed\n\n    return $defaults;\n}",
+      "example": "add_filter( 'gk/gravityexport/pdf/settings/defaults', function($defaults) {\n    // Modify $defaults as needed\n    return $defaults;\n}, 10, 1 );",
       "since": null,
       "source": {
         "file": "add-ons/pdf-renderer/src/Plugin.php",
@@ -108,7 +108,7 @@
       "categories": [
         "export"
       ],
-      "example": "/**\n * Filter gkgravityexportpermalinksreserved-terms\n *\n * @param string[] $extra_reserved_terms List of extra reserved terms.\n * @param string[] $reserved_terms The list of reserved WordPress terms.\n * @return string[] Modified extra_reserved_terms\n */\nadd_filter( 'gkgravityexportpermalinksreserved-terms', 'my_custom_gkgravityexportpermalinksreserved_terms_filter', 10, 2 );\n\nfunction my_custom_gkgravityexportpermalinksreserved_terms_filter($extra_reserved_terms, $reserved_terms) {\n    // Modify $extra_reserved_terms as needed\n\n    return $extra_reserved_terms;\n}",
+      "example": "add_filter( 'gk/gravityexport/permalinks/reserved-terms', function($extra_reserved_terms, $reserved_terms) {\n    // Modify $extra_reserved_terms as needed\n    return $extra_reserved_terms;\n}, 10, 2 );",
       "since": "1.5.0",
       "source": {
         "file": "src/Exporting/CustomExportEndpoint.php",
@@ -127,7 +127,7 @@
       "categories": [
         "export"
       ],
-      "example": "/**\n * Filter gkgravityexportrouterdefault_endpoint\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gkgravityexportrouterdefault_endpoint', 'my_custom_gkgravityexportrouterdefault_endpoint_filter' );\n\nfunction my_custom_gkgravityexportrouterdefault_endpoint_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
+      "example": "add_filter( 'gk/gravityexport/router/default_endpoint', function() {\n    // Modify $value as needed\n    return $value;\n} );",
       "since": "1.5.0",
       "source": {
         "file": "src/Routing/GravityExportRouter.php",
@@ -154,7 +154,7 @@
       "categories": [
         "export"
       ],
-      "example": "/**\n * Filter gkgravityexportrouterendpoints\n *\n * @param array $endpoints The list of endpoints.\n * @return array Modified endpoints\n */\nadd_filter( 'gkgravityexportrouterendpoints', 'my_custom_gkgravityexportrouterendpoints_filter', 10, 1 );\n\nfunction my_custom_gkgravityexportrouterendpoints_filter($endpoints) {\n    // Modify $endpoints as needed\n\n    return $endpoints;\n}",
+      "example": "add_filter( 'gk/gravityexport/router/endpoints', function($endpoints) {\n    // Modify $endpoints as needed\n    return $endpoints;\n}, 10, 1 );",
       "since": "1.5.0",
       "source": {
         "file": "src/Routing/GravityExportRouter.php",
@@ -182,7 +182,7 @@
         "forms",
         "export"
       ],
-      "example": "/**\n * Filter gkgravityexportsavesettingsfilename-formats\n *\n * @param array[] $formats Associative array with <code>value</code>, <code>label</code>, and <code>format</code> keys.\n * @return array[] Modified formats\n */\nadd_filter( 'gkgravityexportsavesettingsfilename-formats', 'my_custom_gkgravityexportsavesettingsfilename_formats_filter', 10, 1 );\n\nfunction my_custom_gkgravityexportsavesettingsfilename_formats_filter($formats) {\n    // Modify $formats as needed\n\n    return $formats;\n}",
+      "example": "add_filter( 'gk/gravityexport/save/settings/filename-formats', function($formats) {\n    // Modify $formats as needed\n    return $formats;\n}, 10, 1 );",
       "since": "1.0",
       "source": {
         "file": "add-ons/save/src/Addon/SaveAddon.php",
@@ -203,7 +203,7 @@
       "categories": [
         "export"
       ],
-      "example": "/**\n * Filter gkgravityexportsavesettingsftp\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gkgravityexportsavesettingsftp', 'my_custom_gkgravityexportsavesettingsftp_filter' );\n\nfunction my_custom_gkgravityexportsavesettingsftp_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
+      "example": "add_filter( 'gk/gravityexport/save/settings/ftp', function() {\n    // Modify $value as needed\n    return $value;\n} );",
       "since": "1.0.8",
       "source": {
         "file": "add-ons/save/src/Service/ConnectionManagerService.php",
@@ -230,7 +230,7 @@
       "categories": [
         "general"
       ],
-      "example": "/**\n * Filter gkmultiple_rowssettingsdefaults\n *\n * @param array $defaults The defaults settings.\n * @return array Modified defaults\n */\nadd_filter( 'gkmultiple_rowssettingsdefaults', 'my_custom_gkmultiple_rowssettingsdefaults_filter', 10, 1 );\n\nfunction my_custom_gkmultiple_rowssettingsdefaults_filter($defaults) {\n    // Modify $defaults as needed\n\n    return $defaults;\n}",
+      "example": "add_filter( 'gk/multiple_rows/settings/defaults', function($defaults) {\n    // Modify $defaults as needed\n    return $defaults;\n}, 10, 1 );",
       "since": null,
       "source": {
         "file": "add-ons/multi-row/src/Plugin.php",

@@ -1,5 +1,5 @@
 {
-  "generated": "2025-12-15T23:52:08.144Z",
+  "generated": "2025-12-15T23:55:35.811Z",
   "product": {
     "id": "gravityview-multiple-forms",
     "label": "GravityView - Multiple Forms",
@@ -24,7 +24,7 @@
       "categories": [
         "forms"
       ],
-      "example": "/**\n * Hook into gkmultiple-formsloaded\n *\n * @return void\n */\nadd_action( 'gkmultiple-formsloaded', 'my_custom_gkmultiple_formsloaded_handler' );\n\nfunction my_custom_gkmultiple_formsloaded_handler() {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/multiple-forms/loaded', function() {\n    // Your code here\n} );",
       "since": "0.3",
       "source": {
         "file": "src/MultipleForms/Plugin.php",
@@ -49,7 +49,7 @@
       "categories": [
         "forms"
       ],
-      "example": "/**\n * Filter gform_gf_query_sql\n *\n * @param array $sql An array with all the SQL fragments: select, from, join, where, order, paginate.\n * @return array Modified sql\n */\nadd_filter( 'gform_gf_query_sql', 'my_custom_gform_gf_query_sql_filter', 10, 1 );\n\nfunction my_custom_gform_gf_query_sql_filter($sql) {\n    // Modify $sql as needed\n\n    return $sql;\n}",
+      "example": "add_filter( 'gform_gf_query_sql', function($sql) {\n    // Modify $sql as needed\n    return $sql;\n}, 10, 1 );",
       "since": "2.4.3",
       "source": {
         "file": "src/MultipleForms/Query.php",
@@ -84,7 +84,7 @@
       "categories": [
         "forms"
       ],
-      "example": "/**\n * Filter gkmultiple-formsqueryhandlerjoinconditions\n *\n * @param \\GF_Query_Condition[] $conditions The current conditions\n * @param \\GV_View $view The View object.\n * @param array $context An array with additional context.\n * @return \\GF_Query_Condition[] Modified conditions\n */\nadd_filter( 'gkmultiple-formsqueryhandlerjoinconditions', 'my_custom_gkmultiple_formsqueryhandlerjoinconditions_filter', 10, 3 );\n\nfunction my_custom_gkmultiple_formsqueryhandlerjoinconditions_filter($conditions, $view, $context) {\n    // Modify $conditions as needed\n\n    return $conditions;\n}",
+      "example": "add_filter( 'gk/multiple-forms/query/handler/join/conditions', function($conditions, $view, $context) {\n    // Modify $conditions as needed\n    return $conditions;\n}, 10, 3 );",
       "since": "0.5.0",
       "source": {
         "file": "src/MultipleForms/Query/Handler.php",
@@ -110,7 +110,7 @@
         "views",
         "forms"
       ],
-      "example": "/**\n * Filter gravityview_multiple_formsallow_join_on\n *\n * @param array $allowed_non_field_join_data Meta keys and entry property names. <code>entry_id</code> is an alias for <code>id</code>\n * @return array Modified allowed_non_field_join_data\n */\nadd_filter( 'gravityview_multiple_formsallow_join_on', 'my_custom_gravityview_multiple_formsallow_join_on_filter', 10, 1 );\n\nfunction my_custom_gravityview_multiple_formsallow_join_on_filter($allowed_non_field_join_data) {\n    // Modify $allowed_non_field_join_data as needed\n\n    return $allowed_non_field_join_data;\n}",
+      "example": "add_filter( 'gravityview_multiple_forms/allow_join_on', function($allowed_non_field_join_data) {\n    // Modify $allowed_non_field_join_data as needed\n    return $allowed_non_field_join_data;\n}, 10, 1 );",
       "since": "0.2: beta 1",
       "source": {
         "file": "src/MultipleForms/Assets.php",

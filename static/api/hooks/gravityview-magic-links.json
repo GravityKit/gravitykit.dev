@@ -1,5 +1,5 @@
 {
-  "generated": "2025-12-15T23:52:08.144Z",
+  "generated": "2025-12-15T23:55:35.811Z",
   "product": {
     "id": "gravityview-magic-links",
     "label": "GravityView - Magic Links",
@@ -26,7 +26,7 @@
         "views",
         "after"
       ],
-      "example": "/**\n * Hook into gkgravityviewmetaboxesmagic-linksafter\n *\n * @return void\n */\nadd_action( 'gkgravityviewmetaboxesmagic-linksafter', 'my_custom_gkgravityviewmetaboxesmagic_linksafter_handler' );\n\nfunction my_custom_gkgravityviewmetaboxesmagic_linksafter_handler() {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityview/metaboxes/magic-links/after', function() {\n    // Your code here\n} );",
       "since": "1.0",
       "source": {
         "file": "templates/settings-metabox.php",
@@ -48,7 +48,7 @@
         "views",
         "before"
       ],
-      "example": "/**\n * Hook into gkgravityviewmetaboxesmagic-linksbefore\n *\n * @return void\n */\nadd_action( 'gkgravityviewmetaboxesmagic-linksbefore', 'my_custom_gkgravityviewmetaboxesmagic_linksbefore_handler' );\n\nfunction my_custom_gkgravityviewmetaboxesmagic_linksbefore_handler() {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityview/metaboxes/magic-links/before', function() {\n    // Your code here\n} );",
       "since": "1.0",
       "source": {
         "file": "templates/settings-metabox.php",
@@ -87,7 +87,7 @@
         "views",
         "notifications"
       ],
-      "example": "/**\n * Filter gkgravityviewmagic-linksemail-field-types\n *\n * @param array $field_types The field types to get.\n * @param \\GF_Form $form The form object.\n * @param int $view_id The View ID.\n * @return array Modified field_types\n */\nadd_filter( 'gkgravityviewmagic-linksemail-field-types', 'my_custom_gkgravityviewmagic_linksemail_field_types_filter', 10, 3 );\n\nfunction my_custom_gkgravityviewmagic_linksemail_field_types_filter($field_types, $form, $view_id) {\n    // Modify $field_types as needed\n\n    return $field_types;\n}",
+      "example": "add_filter( 'gk/gravityview/magic-links/email-field-types', function($field_types, $form, $view_id) {\n    // Modify $field_types as needed\n    return $field_types;\n}, 10, 3 );",
       "since": "1.0.0",
       "source": {
         "file": "includes/admin/class-view-settings.php",
@@ -123,7 +123,7 @@
         "views",
         "notifications"
       ],
-      "example": "/**\n * Filter gkgravityviewmagic-linksemailmessage\n *\n * @param string $message The email message.\n * @param string $magic_link The magic link URL.\n * @param int $expiration The expiration time in seconds.\n * @return string Modified message\n */\nadd_filter( 'gkgravityviewmagic-linksemailmessage', 'my_custom_gkgravityviewmagic_linksemailmessage_filter', 10, 3 );\n\nfunction my_custom_gkgravityviewmagic_linksemailmessage_filter($message, $magic_link, $expiration) {\n    // Modify $message as needed\n\n    return $message;\n}",
+      "example": "add_filter( 'gk/gravityview/magic-links/email/message', function($message, $magic_link, $expiration) {\n    // Modify $message as needed\n    return $message;\n}, 10, 3 );",
       "since": "1.0.0",
       "source": {
         "file": "includes/class-magic-link-handler.php",
@@ -151,7 +151,7 @@
         "views",
         "notifications"
       ],
-      "example": "/**\n * Filter gkgravityviewmagic-linksemailsubject\n *\n * @param string $subject The email subject.\n * @return string Modified subject\n */\nadd_filter( 'gkgravityviewmagic-linksemailsubject', 'my_custom_gkgravityviewmagic_linksemailsubject_filter', 10, 1 );\n\nfunction my_custom_gkgravityviewmagic_linksemailsubject_filter($subject) {\n    // Modify $subject as needed\n\n    return $subject;\n}",
+      "example": "add_filter( 'gk/gravityview/magic-links/email/subject', function($subject) {\n    // Modify $subject as needed\n    return $subject;\n}, 10, 1 );",
       "since": "1.0.0",
       "source": {
         "file": "includes/class-magic-link-handler.php",

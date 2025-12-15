@@ -1,5 +1,5 @@
 {
-  "generated": "2025-12-15T23:52:08.144Z",
+  "generated": "2025-12-15T23:55:35.811Z",
   "product": {
     "id": "gravity-forms-zero-spam",
     "label": "Gravity Forms Zero Spam",
@@ -26,7 +26,7 @@
       "categories": [
         "fields"
       ],
-      "example": "/**\n * Filter gf_zero_spam_add_key_field\n *\n * @param bool $add_key_field Whether to add the key field to the form. Default true.\n * @return bool Modified add_key_field\n */\nadd_filter( 'gf_zero_spam_add_key_field', 'my_custom_gf_zero_spam_add_key_field_filter', 10, 1 );\n\nfunction my_custom_gf_zero_spam_add_key_field_filter($add_key_field) {\n    // Modify $add_key_field as needed\n\n    return $add_key_field;\n}",
+      "example": "add_filter( 'gf_zero_spam_add_key_field', function($add_key_field) {\n    // Modify $add_key_field as needed\n    return $add_key_field;\n}, 10, 1 );",
       "since": "1.4",
       "source": {
         "file": "gravityforms-zero-spam.php",

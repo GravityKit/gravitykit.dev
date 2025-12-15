@@ -1,5 +1,5 @@
 {
-  "generated": "2025-12-15T23:52:08.144Z",
+  "generated": "2025-12-15T23:55:35.811Z",
   "product": {
     "id": "gravityview-featured-entries",
     "label": "GravityView - Featured Entries",
@@ -27,7 +27,7 @@
         "forms",
         "caching"
       ],
-      "example": "/**\n * Hook into gravityview_clear_form_cache\n *\n * @return void\n */\nadd_action( 'gravityview_clear_form_cache', 'my_custom_gravityview_clear_form_cache_handler' );\n\nfunction my_custom_gravityview_clear_form_cache_handler() {\n    // Your custom code here\n}",
+      "example": "add_action( 'gravityview_clear_form_cache', function() {\n    // Your code here\n} );",
       "since": "1.5.1",
       "source": {
         "file": "class-gravityview-featured-entries.php",
@@ -52,7 +52,7 @@
       "categories": [
         "after"
       ],
-      "example": "/**\n * Hook into post_edd_sl_plugin_updater_setup\n *\n * @param array $edd_plugin_data Array of EDD SL plugin data.\n */\nadd_action( 'post_edd_sl_plugin_updater_setup', 'my_custom_post_edd_sl_plugin_updater_setup_handler', 10, 1 );\n\nfunction my_custom_post_edd_sl_plugin_updater_setup_handler($edd_plugin_data) {\n    // Your custom code here\n}",
+      "example": "add_action( 'post_edd_sl_plugin_updater_setup', function($edd_plugin_data) {\n    // Your code here\n}, 10, 1 );",
       "since": "x.x.x: x.x.x",
       "source": {
         "file": "lib/EDD_SL_Plugin_Updater.php",
@@ -87,7 +87,7 @@
       "categories": [
         "api"
       ],
-      "example": "/**\n * Filter edd_sl_plugin_updater_api_params\n *\n * @param array $api_params The array of data sent in the request.\n * @param array $this-&gt;api_data The array of data set up in the class constructor.\n * @param string $this-&gt;plugin_file The full path and filename of the file.\n * @return array Modified api_params\n */\nadd_filter( 'edd_sl_plugin_updater_api_params', 'my_custom_edd_sl_plugin_updater_api_params_filter', 10, 3 );\n\nfunction my_custom_edd_sl_plugin_updater_api_params_filter($api_params, $this-&gt;api_data, $this-&gt;plugin_file) {\n    // Modify $api_params as needed\n\n    return $api_params;\n}",
+      "example": "add_filter( 'edd_sl_plugin_updater_api_params', function($api_params, $this-&gt;api_data, $this-&gt;plugin_file) {\n    // Modify $api_params as needed\n    return $api_params;\n}, 10, 3 );",
       "since": null,
       "source": {
         "file": "lib/EDD_SL_Plugin_Updater.php",
@@ -113,7 +113,7 @@
         "entries",
         "views"
       ],
-      "example": "/**\n * Filter gravityview_featured_entries_always_show\n *\n * @param bool $always_show_featured_entry If returned true, featured entries will be shown even if the search doesn't match the entry\n * @return bool Modified always_show_featured_entry\n */\nadd_filter( 'gravityview_featured_entries_always_show', 'my_custom_gravityview_featured_entries_always_show_filter', 10, 1 );\n\nfunction my_custom_gravityview_featured_entries_always_show_filter($always_show_featured_entry) {\n    // Modify $always_show_featured_entry as needed\n\n    return $always_show_featured_entry;\n}",
+      "example": "add_filter( 'gravityview_featured_entries_always_show', function($always_show_featured_entry) {\n    // Modify $always_show_featured_entry as needed\n    return $always_show_featured_entry;\n}, 10, 1 );",
       "since": null,
       "source": {
         "file": "class-gravityview-featured-entries.php",
@@ -144,7 +144,7 @@
         "entries",
         "views"
       ],
-      "example": "/**\n * Filter gravityview_featured_entries_enable\n *\n * @param \\GravityView_View $view The current GravityView_View instance\n * @param array $entry Gravity Forms entry array\n * @return \\GravityView_View Modified view\n */\nadd_filter( 'gravityview_featured_entries_enable', 'my_custom_gravityview_featured_entries_enable_filter', 10, 2 );\n\nfunction my_custom_gravityview_featured_entries_enable_filter($view, $entry) {\n    // Modify $view as needed\n\n    return $view;\n}",
+      "example": "add_filter( 'gravityview_featured_entries_enable', function($view, $entry) {\n    // Modify $view as needed\n    return $view;\n}, 10, 2 );",
       "since": null,
       "source": {
         "file": "class-gravityview-featured-entries.php",

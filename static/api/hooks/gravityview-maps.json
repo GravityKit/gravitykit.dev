@@ -1,5 +1,5 @@
 {
-  "generated": "2025-12-15T23:52:08.144Z",
+  "generated": "2025-12-15T23:55:35.811Z",
   "product": {
     "id": "gravityview-maps",
     "label": "GravityView - Maps",
@@ -63,7 +63,7 @@
       "categories": [
         "maps"
       ],
-      "example": "/**\n * Hook into gkgravitymapsloaded\n *\n * @return void\n */\nadd_action( 'gkgravitymapsloaded', 'my_custom_gkgravitymapsloaded_handler' );\n\nfunction my_custom_gkgravitymapsloaded_handler() {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravitymaps/loaded', function() {\n    // Your code here\n} );",
       "since": "3.0",
       "source": {
         "file": "src/Loader.php",
@@ -98,7 +98,7 @@
         "rendering",
         "maps"
       ],
-      "example": "/**\n * Hook into gkgravitymapsrendermap-canvas\n *\n * @param null\\ $entry \\Entry`\n * @param null\\ $context \\Template_Context`\n */\nadd_action( 'gkgravitymapsrendermap-canvas', 'my_custom_gkgravitymapsrendermap_canvas_handler', 10, 2 );\n\nfunction my_custom_gkgravitymapsrendermap_canvas_handler($entry, $context) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravitymaps/render/map-canvas', function($entry, $context) {\n    // Your code here\n}, 10, 2 );",
       "since": "3.0",
       "source": {
         "file": "src/Views/Map.php",
@@ -126,7 +126,7 @@
         "maps",
         "after"
       ],
-      "example": "/**\n * Hook into gravityviewtemplatemapbodyafter\n *\n * @param \\Template_Context $context The template context.\n */\nadd_action( 'gravityviewtemplatemapbodyafter', 'my_custom_gravityviewtemplatemapbodyafter_handler', 10, 1 );\n\nfunction my_custom_gravityviewtemplatemapbodyafter_handler($context) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gravityview/template/map/body/after', function($context) {\n    // Your code here\n}, 10, 1 );",
       "since": "2.0",
       "source": {
         "file": "src/Views/Map.php",
@@ -156,7 +156,7 @@
         "maps",
         "before"
       ],
-      "example": "/**\n * Hook into gravityviewtemplatemapbodybefore\n *\n * @param \\Template_Context $context The template context.\n */\nadd_action( 'gravityviewtemplatemapbodybefore', 'my_custom_gravityviewtemplatemapbodybefore_handler', 10, 1 );\n\nfunction my_custom_gravityviewtemplatemapbodybefore_handler($context) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gravityview/template/map/body/before', function($context) {\n    // Your code here\n}, 10, 1 );",
       "since": "2.0",
       "source": {
         "file": "src/Views/Map.php",
@@ -187,7 +187,7 @@
         "maps",
         "after"
       ],
-      "example": "/**\n * Hook into sprintfgravityviewtemplatemapentrysafterzone\n *\n * @param \\Template_Context $context The template context.\n */\nadd_action( 'sprintfgravityviewtemplatemapentrysafterzone', 'my_custom_sprintfgravityviewtemplatemapentrysafterzone_handler', 10, 1 );\n\nfunction my_custom_sprintfgravityviewtemplatemapentrysafterzone_handler($context) {\n    // Your custom code here\n}",
+      "example": "add_action( 'sprintf(gravityview/template/map/entry%safter, $zone)', function($context) {\n    // Your code here\n}, 10, 1 );",
       "since": "2.0",
       "source": {
         "file": "src/Views/Map.php",
@@ -218,7 +218,7 @@
         "maps",
         "before"
       ],
-      "example": "/**\n * Hook into sprintfgravityviewtemplatemapentrysbeforezone\n *\n * @param \\Template_Context $context The template context.\n */\nadd_action( 'sprintfgravityviewtemplatemapentrysbeforezone', 'my_custom_sprintfgravityviewtemplatemapentrysbeforezone_handler', 10, 1 );\n\nfunction my_custom_sprintfgravityviewtemplatemapentrysbeforezone_handler($context) {\n    // Your custom code here\n}",
+      "example": "add_action( 'sprintf(gravityview/template/map/entry%sbefore, $zone)', function($context) {\n    // Your code here\n}, 10, 1 );",
       "since": "2.0",
       "source": {
         "file": "src/Views/Map.php",
@@ -240,7 +240,7 @@
         "search",
         "maps"
       ],
-      "example": "/**\n * Filter gkgravitymapscurrent_location_instant_search\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gkgravitymapscurrent_location_instant_search', 'my_custom_gkgravitymapscurrent_location_instant_search_filter' );\n\nfunction my_custom_gkgravitymapscurrent_location_instant_search_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
+      "example": "add_filter( 'gk/gravitymaps/current_location_instant_search', function() {\n    // Modify $value as needed\n    return $value;\n} );",
       "since": "2.0",
       "source": {
         "file": "templates/search-field-geo_radius.php",
@@ -275,7 +275,7 @@
         "fields",
         "maps"
       ],
-      "example": "/**\n * Filter gkgravitymapsgeolocation_fields\n *\n * @param array $fields Which fields are geolocation.\n * @param array $form Which Gravity Forms meta we are using.\n * @return array Modified fields\n */\nadd_filter( 'gkgravitymapsgeolocation_fields', 'my_custom_gkgravitymapsgeolocation_fields_filter', 10, 2 );\n\nfunction my_custom_gkgravitymapsgeolocation_fields_filter($fields, $form) {\n    // Modify $fields as needed\n\n    return $fields;\n}",
+      "example": "add_filter( 'gk/gravitymaps/geolocation_fields', function($fields, $form) {\n    // Modify $fields as needed\n    return $fields;\n}, 10, 2 );",
       "since": null,
       "source": {
         "file": "src/Form_Fields.php",
@@ -314,7 +314,7 @@
       "categories": [
         "maps"
       ],
-      "example": "/**\n * Filter gkgravitymapsgeolocation_radius_options\n *\n * @param array $options Which options we are passing forward.\n * @param array $default_options Which are the default options that will be applied afterwords.\n * @param string\\ $selected int\\\n * @return array Modified options\n */\nadd_filter( 'gkgravitymapsgeolocation_radius_options', 'my_custom_gkgravitymapsgeolocation_radius_options_filter', 10, 3 );\n\nfunction my_custom_gkgravitymapsgeolocation_radius_options_filter($options, $default_options, $selected) {\n    // Modify $options as needed\n\n    return $options;\n}",
+      "example": "add_filter( 'gk/gravitymaps/geolocation_radius_options', function($options, $default_options, $selected) {\n    // Modify $options as needed\n    return $options;\n}, 10, 3 );",
       "since": "2.0",
       "source": {
         "file": "src/Search_Filter.php",
@@ -344,7 +344,7 @@
         "maps",
         "api"
       ],
-      "example": "/**\n * Filter gkgravitymapsmap-servicesgoogle-mapsapi_key\n *\n * @param string $key If the Google API key setting is set in GravityView Settings, use it. Otherwise: ''.\n * @return string Modified key\n */\nadd_filter( 'gkgravitymapsmap-servicesgoogle-mapsapi_key', 'my_custom_gkgravitymapsmap_servicesgoogle_mapsapi_key_filter', 10, 1 );\n\nfunction my_custom_gkgravitymapsmap_servicesgoogle_mapsapi_key_filter($key) {\n    // Modify $key as needed\n\n    return $key;\n}",
+      "example": "add_filter( 'gk/gravitymaps/map-services/google-maps/api_key', function($key) {\n    // Modify $key as needed\n    return $key;\n}, 10, 1 );",
       "since": "3.2.0",
       "source": {
         "file": "src/Map_Services/Google_Maps.php",
@@ -374,7 +374,7 @@
       "categories": [
         "maps"
       ],
-      "example": "/**\n * Filter gkgravitymapsmapcontrol-pagination\n *\n * @param bool $pagination_override Whether to override the View's native pagination behavior.\n * @param \\Map $map The map object.\n * @return bool Modified pagination_override\n */\nadd_filter( 'gkgravitymapsmapcontrol-pagination', 'my_custom_gkgravitymapsmapcontrol_pagination_filter', 10, 2 );\n\nfunction my_custom_gkgravitymapsmapcontrol_pagination_filter($pagination_override, $map) {\n    // Modify $pagination_override as needed\n\n    return $pagination_override;\n}",
+      "example": "add_filter( 'gk/gravitymaps/map/control-pagination', function($pagination_override, $map) {\n    // Modify $pagination_override as needed\n    return $pagination_override;\n}, 10, 2 );",
       "since": "3.1.4",
       "source": {
         "file": "src/Template/Map.php",
@@ -405,7 +405,7 @@
         "views",
         "maps"
       ],
-      "example": "/**\n * Filter gkgravitymapsmapsservice-factoryget-map-service-class-for-view\n *\n * @param string $default_map_instance The default map service class.\n * @param \\View $view The view object.\n * @return string Modified default_map_instance\n */\nadd_filter( 'gkgravitymapsmapsservice-factoryget-map-service-class-for-view', 'my_custom_gkgravitymapsmapsservice_factoryget_map_service_class_for_view_filter', 10, 2 );\n\nfunction my_custom_gkgravitymapsmapsservice_factoryget_map_service_class_for_view_filter($default_map_instance, $view) {\n    // Modify $default_map_instance as needed\n\n    return $default_map_instance;\n}",
+      "example": "add_filter( 'gk/gravitymaps/maps/service-factory/get-map-service-class-for-view', function($default_map_instance, $view) {\n    // Modify $default_map_instance as needed\n    return $default_map_instance;\n}, 10, 2 );",
       "since": "3.1.0",
       "source": {
         "file": "src/Map_Services/Factory.php",
@@ -438,7 +438,7 @@
         "views",
         "maps"
       ],
-      "example": "/**\n * Filter gkgravitymapsmapsservice-factoryget-map-service-instance-for-view\n *\n * @param \\Map_Service_Abstract $map The map service instance.\n * @param \\View $view The view object.\n * @return \\Map_Service_Abstract Modified map\n */\nadd_filter( 'gkgravitymapsmapsservice-factoryget-map-service-instance-for-view', 'my_custom_gkgravitymapsmapsservice_factoryget_map_service_instance_for_view_filter', 10, 2 );\n\nfunction my_custom_gkgravitymapsmapsservice_factoryget_map_service_instance_for_view_filter($map, $view) {\n    // Modify $map as needed\n\n    return $map;\n}",
+      "example": "add_filter( 'gk/gravitymaps/maps/service-factory/get-map-service-instance-for-view', function($map, $view) {\n    // Modify $map as needed\n    return $map;\n}, 10, 2 );",
       "since": "3.1.0",
       "source": {
         "file": "src/Map_Services/Factory.php",
@@ -470,7 +470,7 @@
       "categories": [
         "maps"
       ],
-      "example": "/**\n * Filter gkgravitymapsmarkerauto-geocode\n *\n * @param bool $auto_geocode Whether the marker should be automatically geocoded if no coordinates are found.\n * @param \\Marker $this The marker object.\n * @return bool Modified auto_geocode\n */\nadd_filter( 'gkgravitymapsmarkerauto-geocode', 'my_custom_gkgravitymapsmarkerauto_geocode_filter', 10, 2 );\n\nfunction my_custom_gkgravitymapsmarkerauto_geocode_filter($auto_geocode, $this) {\n    // Modify $auto_geocode as needed\n\n    return $auto_geocode;\n}",
+      "example": "add_filter( 'gk/gravitymaps/marker/auto-geocode', function($auto_geocode, $this) {\n    // Modify $auto_geocode as needed\n    return $auto_geocode;\n}, 10, 2 );",
       "since": "3.1.4",
       "source": {
         "file": "src/Marker.php",
@@ -501,7 +501,7 @@
         "fields",
         "maps"
       ],
-      "example": "/**\n * Filter gkgravitymapsmarkerscoordinatesfields-ids\n *\n * @param array $lat_long_fields Array of latitude/longitude of Gravity Forms field IDs\n * @param \\View $view Current View object\n * @return array Modified lat_long_fields\n */\nadd_filter( 'gkgravitymapsmarkerscoordinatesfields-ids', 'my_custom_gkgravitymapsmarkerscoordinatesfields_ids_filter', 10, 2 );\n\nfunction my_custom_gkgravitymapsmarkerscoordinatesfields_ids_filter($lat_long_fields, $view) {\n    // Modify $lat_long_fields as needed\n\n    return $lat_long_fields;\n}",
+      "example": "add_filter( 'gk/gravitymaps/markers/coordinates/fields-ids', function($lat_long_fields, $view) {\n    // Modify $lat_long_fields as needed\n    return $lat_long_fields;\n}, 10, 2 );",
       "since": "3.1.0",
       "source": {
         "file": "src/Search_Filter.php",
@@ -527,7 +527,7 @@
         "search",
         "maps"
       ],
-      "example": "/**\n * Filter gkgravitymapssearchreserved-args\n *\n * @param array $reserved_args Array of reserved arguments.\n * @return array Modified reserved_args\n */\nadd_filter( 'gkgravitymapssearchreserved-args', 'my_custom_gkgravitymapssearchreserved_args_filter', 10, 1 );\n\nfunction my_custom_gkgravitymapssearchreserved_args_filter($reserved_args) {\n    // Modify $reserved_args as needed\n\n    return $reserved_args;\n}",
+      "example": "add_filter( 'gk/gravitymaps/search/reserved-args', function($reserved_args) {\n    // Modify $reserved_args as needed\n    return $reserved_args;\n}, 10, 1 );",
       "since": "3.3.0",
       "source": {
         "file": "src/Search_Filter.php",
@@ -554,7 +554,7 @@
         "maps",
         "assets"
       ],
-      "example": "/**\n * Filter gravityview_maps_google_script_handle\n *\n * @param string $script_slug Default: <code>gv-google-maps</code>\n * @return string Modified script_slug\n */\nadd_filter( 'gravityview_maps_google_script_handle', 'my_custom_gravityview_maps_google_script_handle_filter', 10, 1 );\n\nfunction my_custom_gravityview_maps_google_script_handle_filter($script_slug) {\n    // Modify $script_slug as needed\n\n    return $script_slug;\n}",
+      "example": "add_filter( 'gravityview_maps_google_script_handle', function($script_slug) {\n    // Modify $script_slug as needed\n    return $script_slug;\n}, 10, 1 );",
       "since": null,
       "source": {
         "file": "src/Map_Services/Google_Maps.php",
@@ -575,7 +575,7 @@
         "views",
         "after"
       ],
-      "example": "/**\n * Filter gravityview_render_after_label\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gravityview_render_after_label', 'my_custom_gravityview_render_after_label_filter' );\n\nfunction my_custom_gravityview_render_after_label_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
+      "example": "add_filter( 'gravityview_render_after_label', function() {\n    // Modify $value as needed\n    return $value;\n} );",
       "since": null,
       "source": {
         "file": "src/Views/Map.php",
@@ -606,7 +606,7 @@
         "views",
         "maps"
       ],
-      "example": "/**\n * Filter gravityviewmapsavailable_iconsicons\n *\n * @param int $field_id If set, the key value of the $entry array that holds the icon\n * @param array $icons Array of icons, with keys of <code>default</code>, <code>theme</code>, and <code>plugin</code>. The keys must match the array keys used by $sections.\n * @return int Modified field_id\n */\nadd_filter( 'gravityviewmapsavailable_iconsicons', 'my_custom_gravityviewmapsavailable_iconsicons_filter', 10, 2 );\n\nfunction my_custom_gravityviewmapsavailable_iconsicons_filter($field_id, $icons) {\n    // Modify $field_id as needed\n\n    return $field_id;\n}",
+      "example": "add_filter( 'gravityview/maps/available_icons/icons', function($field_id, $icons) {\n    // Modify $field_id as needed\n    return $field_id;\n}, 10, 2 );",
       "since": "TODO: TODO",
       "source": {
         "file": "src/Available_Icons.php",
@@ -639,7 +639,7 @@
         "views",
         "maps"
       ],
-      "example": "/**\n * Filter gravityviewmapsavailable_iconssections\n *\n * @param int $field_id If set, the key value of the $entry array that holds the icon\n * @param array $icons Array of icons, with keys of <code>default</code>, <code>theme</code>, and <code>plugin</code>.\n * @return int Modified field_id\n */\nadd_filter( 'gravityviewmapsavailable_iconssections', 'my_custom_gravityviewmapsavailable_iconssections_filter', 10, 2 );\n\nfunction my_custom_gravityviewmapsavailable_iconssections_filter($field_id, $icons) {\n    // Modify $field_id as needed\n\n    return $field_id;\n}",
+      "example": "add_filter( 'gravityview/maps/available_icons/sections', function($field_id, $icons) {\n    // Modify $field_id as needed\n    return $field_id;\n}, 10, 2 );",
       "since": "TODO: TODO",
       "source": {
         "file": "src/Available_Icons.php",
@@ -672,7 +672,7 @@
         "views",
         "maps"
       ],
-      "example": "/**\n * Filter gravityviewmapschoice_marker_icon_settings\n *\n * @param \\GF_Field $field Field used to get the choices.\n * @param array $entry Gravity Forms entry.\n * @return \\GF_Field Modified field\n */\nadd_filter( 'gravityviewmapschoice_marker_icon_settings', 'my_custom_gravityviewmapschoice_marker_icon_settings_filter', 10, 2 );\n\nfunction my_custom_gravityviewmapschoice_marker_icon_settings_filter($field, $entry) {\n    // Modify $field as needed\n\n    return $field;\n}",
+      "example": "add_filter( 'gravityview/maps/choice_marker_icon_settings', function($field, $entry) {\n    // Modify $field as needed\n    return $field;\n}, 10, 2 );",
       "since": "1.9",
       "source": {
         "file": "src/Custom_Map_Icons.php",
@@ -701,7 +701,7 @@
         "views",
         "maps"
       ],
-      "example": "/**\n * Filter gravityviewmapsfieldicon_pickerbutton_text\n *\n * @param string $button_text Default: \"Select Icon\"\n * @return string Modified button_text\n */\nadd_filter( 'gravityviewmapsfieldicon_pickerbutton_text', 'my_custom_gravityviewmapsfieldicon_pickerbutton_text_filter', 10, 1 );\n\nfunction my_custom_gravityviewmapsfieldicon_pickerbutton_text_filter($button_text) {\n    // Modify $button_text as needed\n\n    return $button_text;\n}",
+      "example": "add_filter( 'gravityview/maps/field/icon_picker/button_text', function($button_text) {\n    // Modify $button_text as needed\n    return $button_text;\n}, 10, 1 );",
       "since": "1.4",
       "source": {
         "file": "src/parts/gf-field-icon-picker-form-public.php",
@@ -727,7 +727,7 @@
         "views",
         "maps"
       ],
-      "example": "/**\n * Filter gravityviewmapsgeocodingmapquestlicensed_data\n *\n * @param bool $licensed_data True to use MapQuest's licensed endpoints, default is false to use the open endpoints (optional).\n * @return bool Modified licensed_data\n */\nadd_filter( 'gravityviewmapsgeocodingmapquestlicensed_data', 'my_custom_gravityviewmapsgeocodingmapquestlicensed_data_filter', 10, 1 );\n\nfunction my_custom_gravityviewmapsgeocodingmapquestlicensed_data_filter($licensed_data) {\n    // Modify $licensed_data as needed\n\n    return $licensed_data;\n}",
+      "example": "add_filter( 'gravityview/maps/geocoding/mapquest/licensed_data', function($licensed_data) {\n    // Modify $licensed_data as needed\n    return $licensed_data;\n}, 10, 1 );",
       "since": null,
       "source": {
         "file": "src/Geocoding.php",
@@ -754,7 +754,7 @@
         "maps",
         "api"
       ],
-      "example": "/**\n * Filter gravityviewmapsgeocodingproviders.setting.api_key\n *\n * @param string $key API key pulled from GravityView Maps settings or a constant\n * @return string Modified key\n */\nadd_filter( 'gravityviewmapsgeocodingproviders.setting.api_key', 'my_custom_gravityviewmapsgeocodingproviders_setting_api_key_filter', 10, 1 );\n\nfunction my_custom_gravityviewmapsgeocodingproviders_setting_api_key_filter($key) {\n    // Modify $key as needed\n\n    return $key;\n}",
+      "example": "add_filter( 'gravityview/maps/geocoding/providers/ . $setting . /api_key', function($key) {\n    // Modify $key as needed\n    return $key;\n}, 10, 1 );",
       "since": "1.7",
       "source": {
         "file": "src/Settings.php",
@@ -780,7 +780,7 @@
         "views",
         "maps"
       ],
-      "example": "/**\n * Filter gravityviewmapsgeocodingproviderslocale\n *\n * @param null\\ $locale string`\n * @return null\\ Modified locale\n */\nadd_filter( 'gravityviewmapsgeocodingproviderslocale', 'my_custom_gravityviewmapsgeocodingproviderslocale_filter', 10, 1 );\n\nfunction my_custom_gravityviewmapsgeocodingproviderslocale_filter($locale) {\n    // Modify $locale as needed\n\n    return $locale;\n}",
+      "example": "add_filter( 'gravityview/maps/geocoding/providers/locale', function($locale) {\n    // Modify $locale as needed\n    return $locale;\n}, 10, 1 );",
       "since": "1.0",
       "source": {
         "file": "src/Geocoding.php",
@@ -808,7 +808,7 @@
         "views",
         "maps"
       ],
-      "example": "/**\n * Filter gravityviewmapsgeocodingprovidersregion\n *\n * @param null\\ $region string`\n * @return null\\ Modified region\n */\nadd_filter( 'gravityviewmapsgeocodingprovidersregion', 'my_custom_gravityviewmapsgeocodingprovidersregion_filter', 10, 1 );\n\nfunction my_custom_gravityviewmapsgeocodingprovidersregion_filter($region) {\n    // Modify $region as needed\n\n    return $region;\n}",
+      "example": "add_filter( 'gravityview/maps/geocoding/providers/region', function($region) {\n    // Modify $region as needed\n    return $region;\n}, 10, 1 );",
       "since": "1.0",
       "source": {
         "file": "src/Geocoding.php",
@@ -836,7 +836,7 @@
         "views",
         "maps"
       ],
-      "example": "/**\n * Filter gravityviewmapsinfowindowcontentvars\n *\n * @param array $content The array containing the template tags as keys and the template values as array values\n * @return array Modified content\n */\nadd_filter( 'gravityviewmapsinfowindowcontentvars', 'my_custom_gravityviewmapsinfowindowcontentvars_filter', 10, 1 );\n\nfunction my_custom_gravityviewmapsinfowindowcontentvars_filter($content) {\n    // Modify $content as needed\n\n    return $content;\n}",
+      "example": "add_filter( 'gravityview/maps/infowindow/content/vars', function($content) {\n    // Modify $content as needed\n    return $content;\n}, 10, 1 );",
       "since": "1.4",
       "source": {
         "file": "src/InfoWindow.php",
@@ -862,7 +862,7 @@
         "views",
         "maps"
       ],
-      "example": "/**\n * Filter gravityviewmapsinfowindowhtml\n *\n * @param string $markup The HTML for the info window markup\n * @return string Modified markup\n */\nadd_filter( 'gravityviewmapsinfowindowhtml', 'my_custom_gravityviewmapsinfowindowhtml_filter', 10, 1 );\n\nfunction my_custom_gravityviewmapsinfowindowhtml_filter($markup) {\n    // Modify $markup as needed\n\n    return $markup;\n}",
+      "example": "add_filter( 'gravityview/maps/infowindow/html', function($markup) {\n    // Modify $markup as needed\n    return $markup;\n}, 10, 1 );",
       "since": "1.4",
       "source": {
         "file": "src/InfoWindow.php",
@@ -891,7 +891,7 @@
         "views",
         "maps"
       ],
-      "example": "/**\n * Filter gravityviewmapsinfowindowlink_target\n *\n * @param string $target Define the entry link target '_top', '_blank', ..\n * @return string Modified target\n */\nadd_filter( 'gravityviewmapsinfowindowlink_target', 'my_custom_gravityviewmapsinfowindowlink_target_filter', 10, 1 );\n\nfunction my_custom_gravityviewmapsinfowindowlink_target_filter($target) {\n    // Modify $target as needed\n\n    return $target;\n}",
+      "example": "add_filter( 'gravityview/maps/infowindow/link_target', function($target) {\n    // Modify $target as needed\n    return $target;\n}, 10, 1 );",
       "since": "1.4",
       "source": {
         "file": "src/InfoWindow.php",
@@ -921,7 +921,7 @@
         "maps",
         "before"
       ],
-      "example": "/**\n * Filter gravityviewmapsinfowindowpre_html\n *\n * @param string $markup The HTML for the markup\n * @return string Modified markup\n */\nadd_filter( 'gravityviewmapsinfowindowpre_html', 'my_custom_gravityviewmapsinfowindowpre_html_filter', 10, 1 );\n\nfunction my_custom_gravityviewmapsinfowindowpre_html_filter($markup) {\n    // Modify $markup as needed\n\n    return $markup;\n}",
+      "example": "add_filter( 'gravityview/maps/infowindow/pre_html', function($markup) {\n    // Modify $markup as needed\n    return $markup;\n}, 10, 1 );",
       "since": "1.4",
       "source": {
         "file": "src/InfoWindow.php",
@@ -951,7 +951,7 @@
         "maps",
         "before"
       ],
-      "example": "/**\n * Filter gravityviewmapsinfowindowpre_htmlvalue.tag\n *\n * @param string $value The content to be shown instead of the [[tag]] placeholder\n * @return string Modified value\n */\nadd_filter( 'gravityviewmapsinfowindowpre_htmlvalue.tag', 'my_custom_gravityviewmapsinfowindowpre_htmlvalue_tag_filter', 10, 1 );\n\nfunction my_custom_gravityviewmapsinfowindowpre_htmlvalue_tag_filter($value) {\n    // Modify $value as needed\n\n    return $value;\n}",
+      "example": "add_filter( 'gravityview/maps/infowindow/pre_html/value/ . $tag', function($value) {\n    // Modify $value as needed\n    return $value;\n}, 10, 1 );",
       "since": "1.4",
       "source": {
         "file": "src/InfoWindow.php",
@@ -982,7 +982,7 @@
         "views",
         "maps"
       ],
-      "example": "/**\n * Filter gravityviewmapsmarkeradd\n *\n * @param \\Marker $marker The marker about to be added.\n * @param \\View $view The View.\n * @return \\Marker Modified marker\n */\nadd_filter( 'gravityviewmapsmarkeradd', 'my_custom_gravityviewmapsmarkeradd_filter', 10, 2 );\n\nfunction my_custom_gravityviewmapsmarkeradd_filter($marker, $view) {\n    // Modify $marker as needed\n\n    return $marker;\n}",
+      "example": "add_filter( 'gravityview/maps/marker/add', function($marker, $view) {\n    // Modify $marker as needed\n    return $marker;\n}, 10, 2 );",
       "since": "1.7.2",
       "source": {
         "file": "src/Data.php",
@@ -1028,7 +1028,7 @@
         "views",
         "maps"
       ],
-      "example": "/**\n * Filter gravityviewmapsmarkeraddress\n *\n * @param string $address Address value.\n * @param array $entry Gravity Forms entry object.\n * @param \\GF_Field_Address $field GF Field array.\n * @param \\Marker $marker Marker object.\n * @return string Modified address\n */\nadd_filter( 'gravityviewmapsmarkeraddress', 'my_custom_gravityviewmapsmarkeraddress_filter', 10, 4 );\n\nfunction my_custom_gravityviewmapsmarkeraddress_filter($address, $entry, $field, $marker) {\n    // Modify $address as needed\n\n    return $address;\n}",
+      "example": "add_filter( 'gravityview/maps/marker/address', function($address, $entry, $field, $marker) {\n    // Modify $address as needed\n    return $address;\n}, 10, 4 );",
       "since": "1.0.4",
       "source": {
         "file": "src/Marker.php",
@@ -1070,7 +1070,7 @@
         "views",
         "maps"
       ],
-      "example": "/**\n * Filter gravityviewmapsmarkerfield-value\n *\n * @param mixed $field_value The address field value.\n * @param array $entry Gravity Forms entry used for the marker\n * @param \\GF_Field_Address $field Gravity Forms Address field object used for the marker\n * @return mixed Modified field_value\n */\nadd_filter( 'gravityviewmapsmarkerfield-value', 'my_custom_gravityviewmapsmarkerfield_value_filter', 10, 3 );\n\nfunction my_custom_gravityviewmapsmarkerfield_value_filter($field_value, $entry, $field) {\n    // Modify $field_value as needed\n\n    return $field_value;\n}",
+      "example": "add_filter( 'gravityview/maps/marker/field-value', function($field_value, $entry, $field) {\n    // Modify $field_value as needed\n    return $field_value;\n}, 10, 3 );",
       "since": null,
       "source": {
         "file": "src/Marker.php",
@@ -1107,7 +1107,7 @@
         "views",
         "maps"
       ],
-      "example": "/**\n * Filter gravityviewmapsmarkersaddressfield_id\n *\n * @param mixed $address_field_id Gravity Forms field ID\n * @param \\View $view Current View object\n * @return mixed Modified address_field_id\n */\nadd_filter( 'gravityviewmapsmarkersaddressfield_id', 'my_custom_gravityviewmapsmarkersaddressfield_id_filter', 10, 2 );\n\nfunction my_custom_gravityviewmapsmarkersaddressfield_id_filter($address_field_id, $view) {\n    // Modify $address_field_id as needed\n\n    return $address_field_id;\n}",
+      "example": "add_filter( 'gravityview/maps/markers/address/field_id', function($address_field_id, $view) {\n    // Modify $address_field_id as needed\n    return $address_field_id;\n}, 10, 2 );",
       "since": "1.2",
       "source": {
         "file": "src/Geolocation/Fields.php",
@@ -1144,7 +1144,7 @@
         "views",
         "maps"
       ],
-      "example": "/**\n * Filter gravityviewmapsmarkersiconfield_id\n *\n * @param mixed $value string Field ID used to retrieve the map entry icon\n * @param mixed $view_id string View ID\n * @param mixed $form_id string Form ID\n * @return mixed Modified value\n */\nadd_filter( 'gravityviewmapsmarkersiconfield_id', 'my_custom_gravityviewmapsmarkersiconfield_id_filter', 10, 3 );\n\nfunction my_custom_gravityviewmapsmarkersiconfield_id_filter($value, $view_id, $form_id) {\n    // Modify $value as needed\n\n    return $value;\n}",
+      "example": "add_filter( 'gravityview/maps/markers/icon/field_id', function($value, $view_id, $form_id) {\n    // Modify $value as needed\n    return $value;\n}, 10, 3 );",
       "since": "1.2",
       "source": {
         "file": "src/Data.php",
@@ -1180,7 +1180,7 @@
         "views",
         "maps"
       ],
-      "example": "/**\n * Filter gravityviewmapsmarkerurl\n *\n * @param string $url Single entry view url.\n * @param array $entry Gravity Forms entry object.\n * @param \\Marker $marker Marker class instance.\n * @return string Modified url\n */\nadd_filter( 'gravityviewmapsmarkerurl', 'my_custom_gravityviewmapsmarkerurl_filter', 10, 3 );\n\nfunction my_custom_gravityviewmapsmarkerurl_filter($url, $entry, $marker) {\n    // Modify $url as needed\n\n    return $url;\n}",
+      "example": "add_filter( 'gravityview/maps/marker/url', function($url, $entry, $marker) {\n    // Modify $url as needed\n    return $url;\n}, 10, 3 );",
       "since": "1.4",
       "source": {
         "file": "src/Marker.php",
@@ -1216,7 +1216,7 @@
         "views",
         "maps"
       ],
-      "example": "/**\n * Filter gravityviewmapsmarkeruse-address-default-values\n *\n * @param bool $use_default_values Whether to use default values when generating a marker address\n * @param \\GF_Field_Address $field The current Address field\n * @return bool Modified use_default_values\n */\nadd_filter( 'gravityviewmapsmarkeruse-address-default-values', 'my_custom_gravityviewmapsmarkeruse_address_default_values_filter', 10, 2 );\n\nfunction my_custom_gravityviewmapsmarkeruse_address_default_values_filter($use_default_values, $field) {\n    // Modify $use_default_values as needed\n\n    return $use_default_values;\n}",
+      "example": "add_filter( 'gravityview/maps/marker/use-address-default-values', function($use_default_values, $field) {\n    // Modify $use_default_values as needed\n    return $use_default_values;\n}, 10, 2 );",
       "since": "1.7",
       "source": {
         "file": "src/Marker.php",
@@ -1248,7 +1248,7 @@
         "views",
         "maps"
       ],
-      "example": "/**\n * Filter gravityviewmapsrenderoptions\n *\n * @param array $map_options Map Options\n * @return array Modified map_options\n */\nadd_filter( 'gravityviewmapsrenderoptions', 'my_custom_gravityviewmapsrenderoptions_filter', 10, 1 );\n\nfunction my_custom_gravityviewmapsrenderoptions_filter($map_options) {\n    // Modify $map_options as needed\n\n    return $map_options;\n}",
+      "example": "add_filter( 'gravityview/maps/render/options', function($map_options) {\n    // Modify $map_options as needed\n    return $map_options;\n}, 10, 1 );",
       "since": null,
       "source": {
         "file": "src/Template/Map.php",
@@ -1279,7 +1279,7 @@
         "views",
         "maps"
       ],
-      "example": "/**\n * Filter gravityviewmapsrequest_settings\n *\n * @param array $request_settings Args passed to wp_remote_request()\n * @param string $url URL to fetch\n * @return array Modified request_settings\n */\nadd_filter( 'gravityviewmapsrequest_settings', 'my_custom_gravityviewmapsrequest_settings_filter', 10, 2 );\n\nfunction my_custom_gravityviewmapsrequest_settings_filter($request_settings, $url) {\n    // Modify $request_settings as needed\n\n    return $request_settings;\n}",
+      "example": "add_filter( 'gravityview/maps/request_settings', function($request_settings, $url) {\n    // Modify $request_settings as needed\n    return $request_settings;\n}, 10, 2 );",
       "since": "1.2",
       "source": {
         "file": "src/HTTP_Adapter.php",
@@ -1312,7 +1312,7 @@
         "rendering",
         "views"
       ],
-      "example": "/**\n * Filter gravityviewrenderhide-empty-zone\n *\n * @param bool $hide_empty Should the row be hidden if the value is empty? Default: don't hide.\n * @param \\Template_Context $context The template context.\n * @return bool Modified hide_empty\n */\nadd_filter( 'gravityviewrenderhide-empty-zone', 'my_custom_gravityviewrenderhide_empty_zone_filter', 10, 2 );\n\nfunction my_custom_gravityviewrenderhide_empty_zone_filter($hide_empty, $context) {\n    // Modify $hide_empty as needed\n\n    return $hide_empty;\n}",
+      "example": "add_filter( 'gravityview/render/hide-empty-zone', function($hide_empty, $context) {\n    // Modify $hide_empty as needed\n    return $hide_empty;\n}, 10, 2 );",
       "since": null,
       "source": {
         "file": "src/Views/Map.php",
@@ -1344,7 +1344,7 @@
         "rendering",
         "views"
       ],
-      "example": "/**\n * Filter gravityviewtemplatefieldlabel\n *\n * @param string $label The label to override.\n * @param \\Template_Context $context The context.\n * @return string Modified label\n */\nadd_filter( 'gravityviewtemplatefieldlabel', 'my_custom_gravityviewtemplatefieldlabel_filter', 10, 2 );\n\nfunction my_custom_gravityviewtemplatefieldlabel_filter($label, $context) {\n    // Modify $label as needed\n\n    return $label;\n}",
+      "example": "add_filter( 'gravityview/template/field/label', function($label, $context) {\n    // Modify $label as needed\n    return $label;\n}, 10, 2 );",
       "since": "2.0",
       "source": {
         "file": "src/Views/Map.php",
@@ -1382,7 +1382,7 @@
         "views",
         "maps"
       ],
-      "example": "/**\n * Filter gravityviewtemplatemapentryclass\n *\n * @param string $class The existing class.\n * @param \\Template_Context $ The template context.\n * @return string Modified class\n */\nadd_filter( 'gravityviewtemplatemapentryclass', 'my_custom_gravityviewtemplatemapentryclass_filter', 10, 2 );\n\nfunction my_custom_gravityviewtemplatemapentryclass_filter($class, $) {\n    // Modify $class as needed\n\n    return $class;\n}",
+      "example": "add_filter( 'gravityview/template/map/entry/class', function($class, $) {\n    // Modify $class as needed\n    return $class;\n}, 10, 2 );",
       "since": null,
       "source": {
         "file": "src/Views/Map.php",

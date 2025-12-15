@@ -1,5 +1,5 @@
 {
-  "generated": "2025-12-15T23:52:08.144Z",
+  "generated": "2025-12-15T23:55:35.811Z",
   "product": {
     "id": "gravityedit",
     "label": "GravityEdit",
@@ -48,7 +48,7 @@
         "editing",
         "api"
       ],
-      "example": "/**\n * Filter gkgravityeditrestore_display_name\n *\n * @param bool $restore_display_name Restore Display Name? Default: true\n * @return bool Modified restore_display_name\n */\nadd_filter( 'gkgravityeditrestore_display_name', 'my_custom_gkgravityeditrestore_display_name_filter', 10, 1 );\n\nfunction my_custom_gkgravityeditrestore_display_name_filter($restore_display_name) {\n    // Modify $restore_display_name as needed\n\n    return $restore_display_name;\n}",
+      "example": "add_filter( 'gk/gravityedit/restore_display_name', function($restore_display_name) {\n    // Modify $restore_display_name as needed\n    return $restore_display_name;\n}, 10, 1 );",
       "since": "1.7.3",
       "source": {
         "file": "includes/class-gravityview-inline-edit-user-registration.php",
@@ -83,7 +83,7 @@
       "categories": [
         "editing"
       ],
-      "example": "/**\n * Filter gkgravityedituser_registrationconfig\n *\n * @param array $config Gravity Forms User Registration feed configuration for the form\n * @param array $form Gravity Forms form array\n * @param array $entry Gravity Forms entry being edited\n * @return array Modified config\n */\nadd_filter( 'gkgravityedituser_registrationconfig', 'my_custom_gkgravityedituser_registrationconfig_filter', 10, 3 );\n\nfunction my_custom_gkgravityedituser_registrationconfig_filter($config, $form, $entry) {\n    // Modify $config as needed\n\n    return $config;\n}",
+      "example": "add_filter( 'gk/gravityedit/user_registration/config', function($config, $form, $entry) {\n    // Modify $config as needed\n    return $config;\n}, 10, 3 );",
       "since": "1.14",
       "source": {
         "file": "includes/class-gravityview-inline-edit-user-registration.php",
@@ -119,7 +119,7 @@
         "entries",
         "editing"
       ],
-      "example": "/**\n * Filter gkgravityedituser_registrationentry\n *\n * @param array $entry Gravity Forms entry\n * @param array $form Gravity Forms form\n * @return array Modified entry\n */\nadd_filter( 'gkgravityedituser_registrationentry', 'my_custom_gkgravityedituser_registrationentry_filter', 10, 2 );\n\nfunction my_custom_gkgravityedituser_registrationentry_filter($entry, $form) {\n    // Modify $entry as needed\n\n    return $entry;\n}",
+      "example": "add_filter( 'gk/gravityedit/user_registration/entry', function($entry, $form) {\n    // Modify $entry as needed\n    return $entry;\n}, 10, 2 );",
       "since": "1.7.3",
       "source": {
         "file": "includes/class-gravityview-inline-edit-user-registration.php",
@@ -164,7 +164,7 @@
       "categories": [
         "editing"
       ],
-      "example": "/**\n * Filter gkgravityedituser_registrationpreserve_role\n *\n * @param bool $preserve_role Preserve current user role Default: true\n * @param array $config Gravity Forms User Registration feed configuration for the form\n * @param array $form Gravity Forms form array\n * @param array $entry Gravity Forms entry being edited\n * @return bool Modified preserve_role\n */\nadd_filter( 'gkgravityedituser_registrationpreserve_role', 'my_custom_gkgravityedituser_registrationpreserve_role_filter', 10, 4 );\n\nfunction my_custom_gkgravityedituser_registrationpreserve_role_filter($preserve_role, $config, $form, $entry) {\n    // Modify $preserve_role as needed\n\n    return $preserve_role;\n}",
+      "example": "add_filter( 'gk/gravityedit/user_registration/preserve_role', function($preserve_role, $config, $form, $entry) {\n    // Modify $preserve_role as needed\n    return $preserve_role;\n}, 10, 4 );",
       "since": "1.7.3",
       "source": {
         "file": "includes/class-gravityview-inline-edit-user-registration.php",
@@ -210,7 +210,7 @@
         "editing",
         "api"
       ],
-      "example": "/**\n * Filter gkgravityedituser_registrationrestored_user\n *\n * @param \\WP_User $restored_user The user with restored details about to be updated by wp_update_user()\n * @param \\WP_User $user_before_update The user before being updated by Gravity Forms User Registration\n * @param \\WP_User $user_after_update The user after being updated by Gravity Forms User Registration\n * @param array $entry The Gravity Forms entry that was just updated\n * @return \\WP_User Modified restored_user\n */\nadd_filter( 'gkgravityedituser_registrationrestored_user', 'my_custom_gkgravityedituser_registrationrestored_user_filter', 10, 4 );\n\nfunction my_custom_gkgravityedituser_registrationrestored_user_filter($restored_user, $user_before_update, $user_after_update, $entry) {\n    // Modify $restored_user as needed\n\n    return $restored_user;\n}",
+      "example": "add_filter( 'gk/gravityedit/user_registration/restored_user', function($restored_user, $user_before_update, $user_after_update, $entry) {\n    // Modify $restored_user as needed\n    return $restored_user;\n}, 10, 4 );",
       "since": "1.7.3",
       "source": {
         "file": "includes/class-gravityview-inline-edit-user-registration.php",
@@ -240,7 +240,7 @@
       "categories": [
         "editing"
       ],
-      "example": "/**\n * Filter gkgravityedituser_registrationtrigger_update\n *\n * @param bool $boolean Whether to trigger update on user registration (default: true)\n * @return bool Modified boolean\n */\nadd_filter( 'gkgravityedituser_registrationtrigger_update', 'my_custom_gkgravityedituser_registrationtrigger_update_filter', 10, 1 );\n\nfunction my_custom_gkgravityedituser_registrationtrigger_update_filter($boolean) {\n    // Modify $boolean as needed\n\n    return $boolean;\n}",
+      "example": "add_filter( 'gk/gravityedit/user_registration/trigger_update', function($boolean) {\n    // Modify $boolean as needed\n    return $boolean;\n}, 10, 1 );",
       "since": "1.7.3",
       "source": {
         "file": "includes/class-gravityview-inline-edit-user-registration.php",
@@ -271,7 +271,7 @@
         "editing",
         "views"
       ],
-      "example": "/**\n * Filter gravityview-inline-editedit-mode\n *\n * @param string $edit_mode Editing mode. Options: \"popup\" or \"inline\" [Default: \"popup\"]\n * @return string Modified edit_mode\n */\nadd_filter( 'gravityview-inline-editedit-mode', 'my_custom_gravityview_inline_editedit_mode_filter', 10, 1 );\n\nfunction my_custom_gravityview_inline_editedit_mode_filter($edit_mode) {\n    // Modify $edit_mode as needed\n\n    return $edit_mode;\n}",
+      "example": "add_filter( 'gravityview-inline-edit/edit-mode', function($edit_mode) {\n    // Modify $edit_mode as needed\n    return $edit_mode;\n}, 10, 1 );",
       "since": "1.0",
       "source": {
         "file": "class-gravityview-inline-edit.php",
@@ -304,7 +304,7 @@
         "views",
         "assets"
       ],
-      "example": "/**\n * Filter gravityview-inline-editedit-style\n *\n * @param string $edit_style Editing style. Options: \"jquery-editable\", \"jqueryui-editable\" or \"bootstrap3-editable\" [Default: \"bootstrap3-editable\"]\n * @return string Modified edit_style\n */\nadd_filter( 'gravityview-inline-editedit-style', 'my_custom_gravityview_inline_editedit_style_filter', 10, 1 );\n\nfunction my_custom_gravityview_inline_editedit_style_filter($edit_style) {\n    // Modify $edit_style as needed\n\n    return $edit_style;\n}",
+      "example": "add_filter( 'gravityview-inline-edit/edit-style', function($edit_style) {\n    // Modify $edit_style as needed\n    return $edit_style;\n}, 10, 1 );",
       "since": "1.0",
       "source": {
         "file": "class-gravityview-inline-edit.php",
@@ -357,7 +357,7 @@
         "editing",
         "views"
       ],
-      "example": "/**\n * Filter gravityview-inline-editentry-updated\n *\n * @param bool\\ $update_result \\WP_Error`\n * @param array $entry The Entry Object that's been updated\n * @param int $form_id The Form ID\n * @param \\GF_Field\\ $gf_field null`\n * @param array $original_entry Original entry, before being updated\n * @return bool\\ Modified update_result\n */\nadd_filter( 'gravityview-inline-editentry-updated', 'my_custom_gravityview_inline_editentry_updated_filter', 10, 5 );\n\nfunction my_custom_gravityview_inline_editentry_updated_filter($update_result, $entry, $form_id, $gf_field, $original_entry) {\n    // Modify $update_result as needed\n\n    return $update_result;\n}",
+      "example": "add_filter( 'gravityview-inline-edit/entry-updated', function($update_result, $entry, $form_id, $gf_field, $original_entry) {\n    // Modify $update_result as needed\n    return $update_result;\n}, 10, 5 );",
       "since": "1.0",
       "source": {
         "file": "includes/class-gravityview-inline-edit-ajax.php",
@@ -410,7 +410,7 @@
         "editing",
         "views"
       ],
-      "example": "/**\n * Filter gravityview-inline-editentry-updated.type\n *\n * @param bool\\ $update_result \\WP_Error`\n * @param array $entry The Entry Object that's been updated\n * @param int $form_id The Form ID\n * @param \\GF_Field\\ $gf_field null`\n * @param array $original_entry Original entry, before being updated\n * @return bool\\ Modified update_result\n */\nadd_filter( 'gravityview-inline-editentry-updated.type', 'my_custom_gravityview_inline_editentry_updated_type_filter', 10, 5 );\n\nfunction my_custom_gravityview_inline_editentry_updated_type_filter($update_result, $entry, $form_id, $gf_field, $original_entry) {\n    // Modify $update_result as needed\n\n    return $update_result;\n}",
+      "example": "add_filter( 'gravityview-inline-edit/entry-updated/ . $type', function($update_result, $entry, $form_id, $gf_field, $original_entry) {\n    // Modify $update_result as needed\n    return $update_result;\n}, 10, 5 );",
       "since": "1.0",
       "source": {
         "file": "includes/class-gravityview-inline-edit-ajax.php",
@@ -437,7 +437,7 @@
         "views",
         "forms"
       ],
-      "example": "/**\n * Filter gravityview-inline-editform-buttons\n *\n * @param array $buttons The default button configuration\n * @return array Modified buttons\n */\nadd_filter( 'gravityview-inline-editform-buttons', 'my_custom_gravityview_inline_editform_buttons_filter', 10, 1 );\n\nfunction my_custom_gravityview_inline_editform_buttons_filter($buttons) {\n    // Modify $buttons as needed\n\n    return $buttons;\n}",
+      "example": "add_filter( 'gravityview-inline-edit/form-buttons', function($buttons) {\n    // Modify $buttons as needed\n    return $buttons;\n}, 10, 1 );",
       "since": "1.0",
       "source": {
         "file": "class-gravityview-inline-edit.php",
@@ -470,7 +470,7 @@
         "editing",
         "views"
       ],
-      "example": "/**\n * Filter gravityview-inline-editignored-fields\n *\n * @param array $ignored_fields The ignored fields\n * @return array Modified ignored_fields\n */\nadd_filter( 'gravityview-inline-editignored-fields', 'my_custom_gravityview_inline_editignored_fields_filter', 10, 1 );\n\nfunction my_custom_gravityview_inline_editignored_fields_filter($ignored_fields) {\n    // Modify $ignored_fields as needed\n\n    return $ignored_fields;\n}",
+      "example": "add_filter( 'gravityview-inline-edit/ignored-fields', function($ignored_fields) {\n    // Modify $ignored_fields as needed\n    return $ignored_fields;\n}, 10, 1 );",
       "since": "1.0",
       "source": {
         "file": "class-gravityview-inline-edit.php",
@@ -502,7 +502,7 @@
         "editing",
         "views"
       ],
-      "example": "/**\n * Filter gravityview-inline-editinline-edit-caps\n *\n * @param array $caps Array of user capabilities needed to allow inline editing of entries\n * @return array Modified caps\n */\nadd_filter( 'gravityview-inline-editinline-edit-caps', 'my_custom_gravityview_inline_editinline_edit_caps_filter', 10, 1 );\n\nfunction my_custom_gravityview_inline_editinline_edit_caps_filter($caps) {\n    // Modify $caps as needed\n\n    return $caps;\n}",
+      "example": "add_filter( 'gravityview-inline-edit/inline-edit-caps', function($caps) {\n    // Modify $caps as needed\n    return $caps;\n}, 10, 1 );",
       "since": "1.0",
       "source": {
         "file": "class-gravityview-inline-edit.php",
@@ -574,7 +574,7 @@
         "editing",
         "views"
       ],
-      "example": "/**\n * Filter gravityview-inline-editinput_type-wrapper-attributes\n *\n * @param array $wrapper_attributes The attributes of the container <div> or <span>.</span></div>\n * @param string $field_input_type The field input type.\n * @param int $field_id The field ID.\n * @param array $entry The entry.\n * @param array $form The current Form.\n * @param \\GF_Field $gf_field Gravity Forms field object. Is an instance of GF_Field.\n * @param string $output The original field value HTML.\n * @param array $field_settings GravityView field settings array.\n * @param null\\ $context \\GV\\Template_Context`\n * @return array Modified wrapper_attributes\n */\nadd_filter( 'gravityview-inline-editinput_type-wrapper-attributes', 'my_custom_gravityview_inline_editinput_type_wrapper_attributes_filter', 10, 9 );\n\nfunction my_custom_gravityview_inline_editinput_type_wrapper_attributes_filter($wrapper_attributes, $field_input_type, $field_id, $entry, $form, $gf_field, $output, $field_settings, $context) {\n    // Modify $wrapper_attributes as needed\n\n    return $wrapper_attributes;\n}",
+      "example": "add_filter( 'gravityview-inline-edit/\\{$input_type\\}-wrapper-attributes', function($wrapper_attributes, $field_input_type, $field_id, $entry, $form, $gf_field, $output, $field_settings, $context) {\n    // Modify $wrapper_attributes as needed\n    return $wrapper_attributes;\n}, 10, 9 );",
       "since": "1.0",
       "source": {
         "file": "includes/class-gravityview-inline-edit-render-abstract.php",
@@ -606,7 +606,7 @@
         "editing",
         "views"
       ],
-      "example": "/**\n * Filter gravityview-inline-editjquery-ui-theme\n *\n * @param string $jquery_ui_theme Name of jQuery UI theme to use. Default: \"base\"\n * @return string Modified jquery_ui_theme\n */\nadd_filter( 'gravityview-inline-editjquery-ui-theme', 'my_custom_gravityview_inline_editjquery_ui_theme_filter', 10, 1 );\n\nfunction my_custom_gravityview_inline_editjquery_ui_theme_filter($jquery_ui_theme) {\n    // Modify $jquery_ui_theme as needed\n\n    return $jquery_ui_theme;\n}",
+      "example": "add_filter( 'gravityview-inline-edit/jquery-ui-theme', function($jquery_ui_theme) {\n    // Modify $jquery_ui_theme as needed\n    return $jquery_ui_theme;\n}, 10, 1 );",
       "since": "1.0",
       "source": {
         "file": "includes/class-gravityview-inline-edit-scripts.php",
@@ -668,7 +668,7 @@
         "editing",
         "views"
       ],
-      "example": "/**\n * Filter gravityview-inline-editjs-settings\n *\n * @param string $↳ $mode Editing mode. Options: \"popup\" or \"inline\" [Default: \"popup\"]\n * @param string $↳ $buttons HTML of the Update/Cancel buttons \\{\n * @param string $↳ $container When using <code>popup</code> $mode, jQuery selector used to attach the popup container [Default: \"body\"]\n * @param string\\ $↳ $showbuttons bool`\n * @param string $↳ $onblur Action when user clicks outside the inline edit form container. Options are \"cancel\", \"submit\", \"ignore\". Setting ignore allows to have several containers open. [Default: \"cancel\"]\n * @param bool\\ $↳ $showinputs string`\n * @param array $item_id Array with [form_id] key set for Form ID, or [view_id] key set for View ID currently being displayed\n * @return string Modified ↳ $mode\n */\nadd_filter( 'gravityview-inline-editjs-settings', 'my_custom_gravityview_inline_editjs_settings_filter', 10, 7 );\n\nfunction my_custom_gravityview_inline_editjs_settings_filter($↳ $mode, $↳ $buttons, $↳ $container, $↳ $showbuttons, $↳ $onblur, $↳ $showinputs, $item_id) {\n    // Modify $↳ $mode as needed\n\n    return $↳ $mode;\n}",
+      "example": "add_filter( 'gravityview-inline-edit/js-settings', function($mode, $buttons, $container, $showbuttons, $onblur, $showinputs, $item_id) {\n    // Modify $mode as needed\n    return $mode;\n}, 10, 7 );",
       "since": "1.0",
       "source": {
         "file": "includes/class-gravityview-inline-edit-scripts.php",
@@ -700,7 +700,7 @@
         "editing",
         "views"
       ],
-      "example": "/**\n * Filter gravityview-inline-editposhytip-theme\n *\n * @param string $poshytip_theme Name of jQuery popup tooltip theme to use. Default: \"yellowsimple\"\n * @return string Modified poshytip_theme\n */\nadd_filter( 'gravityview-inline-editposhytip-theme', 'my_custom_gravityview_inline_editposhytip_theme_filter', 10, 1 );\n\nfunction my_custom_gravityview_inline_editposhytip_theme_filter($poshytip_theme) {\n    // Modify $poshytip_theme as needed\n\n    return $poshytip_theme;\n}",
+      "example": "add_filter( 'gravityview-inline-edit/poshytip-theme', function($poshytip_theme) {\n    // Modify $poshytip_theme as needed\n    return $poshytip_theme;\n}, 10, 1 );",
       "since": "1.0",
       "source": {
         "file": "includes/class-gravityview-inline-edit-scripts.php",
@@ -726,7 +726,7 @@
         "editing",
         "views"
       ],
-      "example": "/**\n * Filter gravityview-inline-editremove-gf-update-hooks\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gravityview-inline-editremove-gf-update-hooks', 'my_custom_gravityview_inline_editremove_gf_update_hooks_filter' );\n\nfunction my_custom_gravityview_inline_editremove_gf_update_hooks_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
+      "example": "add_filter( 'gravityview-inline-edit/remove-gf-update-hooks', function() {\n    // Modify $value as needed\n    return $value;\n} );",
       "since": "1.2.7",
       "source": {
         "file": "includes/class-gravityview-inline-edit-ajax.php",
@@ -759,7 +759,7 @@
         "editing",
         "views"
       ],
-      "example": "/**\n * Filter gravityview-inline-editsupported-fields\n *\n * @param array $supported_fields The supported fields\n * @return array Modified supported_fields\n */\nadd_filter( 'gravityview-inline-editsupported-fields', 'my_custom_gravityview_inline_editsupported_fields_filter', 10, 1 );\n\nfunction my_custom_gravityview_inline_editsupported_fields_filter($supported_fields) {\n    // Modify $supported_fields as needed\n\n    return $supported_fields;\n}",
+      "example": "add_filter( 'gravityview-inline-edit/supported-fields', function($supported_fields) {\n    // Modify $supported_fields as needed\n    return $supported_fields;\n}, 10, 1 );",
       "since": "1.0",
       "source": {
         "file": "class-gravityview-inline-edit.php",
@@ -791,7 +791,7 @@
         "editing",
         "views"
       ],
-      "example": "/**\n * Filter gravityview-inline-edittoggle-labels\n *\n * @param array $labels The default labels (using <code>toggle</code>, <code>disabled</code>, <code>enabled</code> keys)\n * @return array Modified labels\n */\nadd_filter( 'gravityview-inline-edittoggle-labels', 'my_custom_gravityview_inline_edittoggle_labels_filter', 10, 1 );\n\nfunction my_custom_gravityview_inline_edittoggle_labels_filter($labels) {\n    // Modify $labels as needed\n\n    return $labels;\n}",
+      "example": "add_filter( 'gravityview-inline-edit/toggle-labels', function($labels) {\n    // Modify $labels as needed\n    return $labels;\n}, 10, 1 );",
       "since": "1.0",
       "source": {
         "file": "includes/class-gravityview-inline-edit-render-abstract.php",
@@ -839,7 +839,7 @@
         "editing",
         "views"
       ],
-      "example": "/**\n * Filter gravityview-inline-edituser-can-edit-entry\n *\n * @param bool $can_edit_entry True: User can edit the entry at $entry_id; False; they just can't\n * @param int $entry_id Entry ID to check\n * @param int $form_id Form connected to $entry_id\n * @param int\\ $view_id null`\n * @return bool Modified can_edit_entry\n */\nadd_filter( 'gravityview-inline-edituser-can-edit-entry', 'my_custom_gravityview_inline_edituser_can_edit_entry_filter', 10, 4 );\n\nfunction my_custom_gravityview_inline_edituser_can_edit_entry_filter($can_edit_entry, $entry_id, $form_id, $view_id) {\n    // Modify $can_edit_entry as needed\n\n    return $can_edit_entry;\n}",
+      "example": "add_filter( 'gravityview-inline-edit/user-can-edit-entry', function($can_edit_entry, $entry_id, $form_id, $view_id) {\n    // Modify $can_edit_entry as needed\n    return $can_edit_entry;\n}, 10, 4 );",
       "since": "1.0",
       "source": {
         "file": "class-gravityview-inline-edit.php",
@@ -911,7 +911,7 @@
         "editing",
         "views"
       ],
-      "example": "/**\n * Filter gravityview-inline-editwrapper-attributes\n *\n * @param array $wrapper_attributes The attributes of the container <div> or <span>.</span></div>\n * @param string $field_input_type The field input type.\n * @param int $field_id The field ID.\n * @param array $entry The entry.\n * @param array $form The current Form.\n * @param \\GF_Field $gf_field Gravity Forms field object.\n * @param string $output The original field value HTML.\n * @param array $field_settings GravityView field settings array.\n * @param null\\ $context \\GV\\Template_Context`\n * @return array Modified wrapper_attributes\n */\nadd_filter( 'gravityview-inline-editwrapper-attributes', 'my_custom_gravityview_inline_editwrapper_attributes_filter', 10, 9 );\n\nfunction my_custom_gravityview_inline_editwrapper_attributes_filter($wrapper_attributes, $field_input_type, $field_id, $entry, $form, $gf_field, $output, $field_settings, $context) {\n    // Modify $wrapper_attributes as needed\n\n    return $wrapper_attributes;\n}",
+      "example": "add_filter( 'gravityview-inline-edit/wrapper-attributes', function($wrapper_attributes, $field_input_type, $field_id, $entry, $form, $gf_field, $output, $field_settings, $context) {\n    // Modify $wrapper_attributes as needed\n    return $wrapper_attributes;\n}, 10, 9 );",
       "since": "1.0",
       "source": {
         "file": "includes/class-gravityview-inline-edit-render-abstract.php",

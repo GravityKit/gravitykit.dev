@@ -1,5 +1,5 @@
 {
-  "generated": "2025-12-15T23:52:08.144Z",
+  "generated": "2025-12-15T23:55:35.811Z",
   "product": {
     "id": "gravitycharts",
     "label": "GravityCharts",
@@ -46,7 +46,7 @@
       "categories": [
         "charts"
       ],
-      "example": "/**\n * Hook into gkgravitychartsimage-chartsquickchartinstance\n *\n * @param array $atts The attributes.\n * @param int $feed_id The Feed ID.\n */\nadd_action( 'gkgravitychartsimage-chartsquickchartinstance', 'my_custom_gkgravitychartsimage_chartsquickchartinstance_handler', 10, 2 );\n\nfunction my_custom_gkgravitychartsimage_chartsquickchartinstance_handler($atts, $feed_id) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravitycharts/image-charts/quickchart/instance', function($atts, $feed_id) {\n    // Your code here\n}, 10, 2 );",
       "since": "1.121.2",
       "source": {
         "file": "src/API.php",
@@ -82,7 +82,7 @@
         "charts",
         "api"
       ],
-      "example": "/**\n * Filter gkgravitychartsapichartdata\n *\n * @param array $chart_data The Chart data.\n * @param array $feed The Feed object.\n * @param string $context The chart context (<code>default</code> or <code>timeline</code>).\n * @return array Modified chart_data\n */\nadd_filter( 'gkgravitychartsapichartdata', 'my_custom_gkgravitychartsapichartdata_filter', 10, 3 );\n\nfunction my_custom_gkgravitychartsapichartdata_filter($chart_data, $feed, $context) {\n    // Modify $chart_data as needed\n\n    return $chart_data;\n}",
+      "example": "add_filter( 'gk/gravitycharts/api/chart/data', function($chart_data, $feed, $context) {\n    // Modify $chart_data as needed\n    return $chart_data;\n}, 10, 3 );",
       "since": "1.11",
       "source": {
         "file": "src/API.php",
@@ -117,7 +117,7 @@
         "api",
         "assets"
       ],
-      "example": "/**\n * Filter gkgravitychartsapichartdescription\n *\n * @param string $description_template The current description template.\n * @param string $type The chart type.\n * @return string Modified description_template\n */\nadd_filter( 'gkgravitychartsapichartdescription', 'my_custom_gkgravitychartsapichartdescription_filter', 10, 2 );\n\nfunction my_custom_gkgravitychartsapichartdescription_filter($description_template, $type) {\n    // Modify $description_template as needed\n\n    return $description_template;\n}",
+      "example": "add_filter( 'gk/gravitycharts/api/chart/description', function($description_template, $type) {\n    // Modify $description_template as needed\n    return $description_template;\n}, 10, 2 );",
       "since": "1.11",
       "source": {
         "file": "src/API.php",
@@ -151,7 +151,7 @@
         "charts",
         "api"
       ],
-      "example": "/**\n * Filter gkgravitychartsapichartoptions\n *\n * @param array $response The options.\n * @param int $feed_id The feed ID.\n * @return array Modified response\n */\nadd_filter( 'gkgravitychartsapichartoptions', 'my_custom_gkgravitychartsapichartoptions_filter', 10, 2 );\n\nfunction my_custom_gkgravitychartsapichartoptions_filter($response, $feed_id) {\n    // Modify $response as needed\n\n    return $response;\n}",
+      "example": "add_filter( 'gk/gravitycharts/api/chart/options', function($response, $feed_id) {\n    // Modify $response as needed\n    return $response;\n}, 10, 2 );",
       "since": "1.11",
       "source": {
         "file": "src/API.php",
@@ -186,7 +186,7 @@
         "charts",
         "api"
       ],
-      "example": "/**\n * Filter gkgravitychartsapifieldoptions\n *\n * @param array\\{labels: string[], values: string[]\\} $options The options.\n * @param \\GF_Field $field The Field object.\n * @return array\\{labels: string[], values: string[]\\} Modified options\n */\nadd_filter( 'gkgravitychartsapifieldoptions', 'my_custom_gkgravitychartsapifieldoptions_filter', 10, 2 );\n\nfunction my_custom_gkgravitychartsapifieldoptions_filter($options, $field) {\n    // Modify $options as needed\n\n    return $options;\n}",
+      "example": "add_filter( 'gk/gravitycharts/api/field/options', function($options, $field) {\n    // Modify $options as needed\n    return $options;\n}, 10, 2 );",
       "since": "1.14",
       "source": {
         "file": "src/API.php",
@@ -227,7 +227,7 @@
         "charts",
         "api"
       ],
-      "example": "/**\n * Filter gkgravitychartsapijsjson\n *\n * @param string $json The JSON string.\n * @param array $response The response object.\n * @param int $feed_id The Chart feed ID.\n * @param int $entry The Entry ID.\n * @return string Modified json\n */\nadd_filter( 'gkgravitychartsapijsjson', 'my_custom_gkgravitychartsapijsjson_filter', 10, 4 );\n\nfunction my_custom_gkgravitychartsapijsjson_filter($json, $response, $feed_id, $entry) {\n    // Modify $json as needed\n\n    return $json;\n}",
+      "example": "add_filter( 'gk/gravitycharts/api/js/json', function($json, $response, $feed_id, $entry) {\n    // Modify $json as needed\n    return $json;\n}, 10, 4 );",
       "since": "1.11",
       "source": {
         "file": "src/API.php",
@@ -265,7 +265,7 @@
         "charts",
         "api"
       ],
-      "example": "/**\n * Filter gkgravitychartsapijsresponse\n *\n * @param array $response The response object.\n * @param int $feed_id The Chart feed ID.\n * @param int $entry The Entry ID.\n * @return array Modified response\n */\nadd_filter( 'gkgravitychartsapijsresponse', 'my_custom_gkgravitychartsapijsresponse_filter', 10, 3 );\n\nfunction my_custom_gkgravitychartsapijsresponse_filter($response, $feed_id, $entry) {\n    // Modify $response as needed\n\n    return $response;\n}",
+      "example": "add_filter( 'gk/gravitycharts/api/js/response', function($response, $feed_id, $entry) {\n    // Modify $response as needed\n    return $response;\n}, 10, 3 );",
       "since": "1.11",
       "source": {
         "file": "src/API.php",
@@ -303,7 +303,7 @@
         "charts",
         "api"
       ],
-      "example": "/**\n * Filter gkgravitychartsapiquery\n *\n * @param \\GF_Query $gf_query The Query object.\n * @param array $form The Form object.\n * @param array $feed The Feed object.\n * @return \\GF_Query Modified gf_query\n */\nadd_filter( 'gkgravitychartsapiquery', 'my_custom_gkgravitychartsapiquery_filter', 10, 3 );\n\nfunction my_custom_gkgravitychartsapiquery_filter($gf_query, $form, $feed) {\n    // Modify $gf_query as needed\n\n    return $gf_query;\n}",
+      "example": "add_filter( 'gk/gravitycharts/api/query', function($gf_query, $form, $feed) {\n    // Modify $gf_query as needed\n    return $gf_query;\n}, 10, 3 );",
       "since": "1.14",
       "source": {
         "file": "src/API.php",
@@ -323,7 +323,7 @@
         "charts",
         "permissions"
       ],
-      "example": "/**\n * Filter gkgravitychartscapabilitiesaccess\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gkgravitychartscapabilitiesaccess', 'my_custom_gkgravitychartscapabilitiesaccess_filter' );\n\nfunction my_custom_gkgravitychartscapabilitiesaccess_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
+      "example": "add_filter( 'gk/gravitycharts/capabilities/access', function() {\n    // Modify $value as needed\n    return $value;\n} );",
       "since": "1.0.2",
       "source": {
         "file": "src/Chart_Feed.php",
@@ -353,7 +353,7 @@
       "categories": [
         "charts"
       ],
-      "example": "/**\n * Filter gkgravitychartschart-library-options\n *\n * @param array $fields Array of default chart settings.\n * @param string $library Name of the library being used.\n * @return array Modified fields\n */\nadd_filter( 'gkgravitychartschart-library-options', 'my_custom_gkgravitychartschart_library_options_filter', 10, 2 );\n\nfunction my_custom_gkgravitychartschart_library_options_filter($fields, $library) {\n    // Modify $fields as needed\n\n    return $fields;\n}",
+      "example": "add_filter( 'gk/gravitycharts/chart-library-options', function($fields, $library) {\n    // Modify $fields as needed\n    return $fields;\n}, 10, 2 );",
       "since": "1.0",
       "source": {
         "file": "src/Chart_Feed.php",
@@ -381,7 +381,7 @@
       "categories": [
         "charts"
       ],
-      "example": "/**\n * Filter gkgravitychartscolor-palettes\n *\n * @param array $color_palettes Chart.js settings presets.\n * @return array Modified color_palettes\n */\nadd_filter( 'gkgravitychartscolor-palettes', 'my_custom_gkgravitychartscolor_palettes_filter', 10, 1 );\n\nfunction my_custom_gkgravitychartscolor_palettes_filter($color_palettes) {\n    // Modify $color_palettes as needed\n\n    return $color_palettes;\n}",
+      "example": "add_filter( 'gk/gravitycharts/color-palettes', function($color_palettes) {\n    // Modify $color_palettes as needed\n    return $color_palettes;\n}, 10, 1 );",
       "since": "1.0",
       "source": {
         "file": "src/Color_Pallets.php",
@@ -404,7 +404,7 @@
         "fields",
         "charts"
       ],
-      "example": "/**\n * Filter gkgravitychartsfeedsettings-fields\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gkgravitychartsfeedsettings-fields', 'my_custom_gkgravitychartsfeedsettings_fields_filter' );\n\nfunction my_custom_gkgravitychartsfeedsettings_fields_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
+      "example": "add_filter( 'gk/gravitycharts/feed/settings-fields', function() {\n    // Modify $value as needed\n    return $value;\n} );",
       "since": "1.0",
       "source": {
         "file": "src/Chart_Feed.php",
@@ -426,7 +426,7 @@
         "charts",
         "maps"
       ],
-      "example": "/**\n * Filter gkgravitychartsfeedsettings-to-chart-library-options-map\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gkgravitychartsfeedsettings-to-chart-library-options-map', 'my_custom_gkgravitychartsfeedsettings_to_chart_library_options_map_filter' );\n\nfunction my_custom_gkgravitychartsfeedsettings_to_chart_library_options_map_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
+      "example": "add_filter( 'gk/gravitycharts/feed/settings-to-chart-library-options-map', function() {\n    // Modify $value as needed\n    return $value;\n} );",
       "since": "1.0",
       "source": {
         "file": "src/Chart_Feed.php",
@@ -458,7 +458,7 @@
       "categories": [
         "charts"
       ],
-      "example": "/**\n * Filter gkgravitychartslocale\n *\n * @param string $locale The locale. Default: Site language returned by \\{@see \\get_bloginfo()\\}.\n * @param \\Chart_Feed $feed Instance of Chart_Feed.\n * @return string Modified locale\n */\nadd_filter( 'gkgravitychartslocale', 'my_custom_gkgravitychartslocale_filter', 10, 2 );\n\nfunction my_custom_gkgravitychartslocale_filter($locale, $feed) {\n    // Modify $locale as needed\n\n    return $locale;\n}",
+      "example": "add_filter( 'gk/gravitycharts/locale', function($locale, $feed) {\n    // Modify $locale as needed\n    return $locale;\n}, 10, 2 );",
       "since": "1.6",
       "source": {
         "file": "src/Chart_Feed.php",
@@ -487,7 +487,7 @@
         "forms",
         "charts"
       ],
-      "example": "/**\n * Filter gkgravitychartstimelinelabel-formats\n *\n * @param array&lt;string,string&gt; $formats The formats in an associative array, with the scale as key.\n * @return array&lt;string,string&gt; Modified formats\n */\nadd_filter( 'gkgravitychartstimelinelabel-formats', 'my_custom_gkgravitychartstimelinelabel_formats_filter', 10, 1 );\n\nfunction my_custom_gkgravitychartstimelinelabel_formats_filter($formats) {\n    // Modify $formats as needed\n\n    return $formats;\n}",
+      "example": "add_filter( 'gk/gravitycharts/timeline/label-formats', function($formats) {\n    // Modify $formats as needed\n    return $formats;\n}, 10, 1 );",
       "since": "1.6",
       "source": {
         "file": "src/API.php",

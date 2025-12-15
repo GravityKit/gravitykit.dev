@@ -1,5 +1,5 @@
 {
-  "generated": "2025-12-15T23:52:08.144Z",
+  "generated": "2025-12-15T23:55:35.811Z",
   "product": {
     "id": "gravityactions",
     "label": "GravityActions",
@@ -69,7 +69,7 @@
         "rendering",
         "after"
       ],
-      "example": "/**\n * Hook into gkgravityactionsafter_modal_render\n *\n * @param array $template_vars What variables are being passed down to the modal.\n */\nadd_action( 'gkgravityactionsafter_modal_render', 'my_custom_gkgravityactionsafter_modal_render_handler', 10, 1 );\n\nfunction my_custom_gkgravityactionsafter_modal_render_handler($template_vars) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityactions/after_modal_render', function($template_vars) {\n    // Your code here\n}, 10, 1 );",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Admin.php",
@@ -101,7 +101,7 @@
         "rendering",
         "after"
       ],
-      "example": "/**\n * Hook into gkgravityactionsafter_modal_renderaction_key\n *\n * @param array $template_vars What variables are being passed down to the modal.\n */\nadd_action( 'gkgravityactionsafter_modal_renderaction_key', 'my_custom_gkgravityactionsafter_modal_renderaction_key_handler', 10, 1 );\n\nfunction my_custom_gkgravityactionsafter_modal_renderaction_key_handler($template_vars) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityactions/after_modal_render:\\{$action_key\\}', function($template_vars) {\n    // Your code here\n}, 10, 1 );",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Admin.php",
@@ -134,7 +134,7 @@
         "views",
         "after"
       ],
-      "example": "/**\n * Hook into gkgravityactionsafter_modal_renderview\n *\n * @param array $template_vars What variables are being passed down to the modal.\n */\nadd_action( 'gkgravityactionsafter_modal_renderview', 'my_custom_gkgravityactionsafter_modal_renderview_handler', 10, 1 );\n\nfunction my_custom_gkgravityactionsafter_modal_renderview_handler($template_vars) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityactions/after_modal_render:\\{$view\\}', function($template_vars) {\n    // Your code here\n}, 10, 1 );",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Admin.php",
@@ -166,7 +166,7 @@
         "rendering",
         "before"
       ],
-      "example": "/**\n * Hook into gkgravityactionsbefore_modal_render\n *\n * @param array $template_vars What variables are being passed down to the modal.\n */\nadd_action( 'gkgravityactionsbefore_modal_render', 'my_custom_gkgravityactionsbefore_modal_render_handler', 10, 1 );\n\nfunction my_custom_gkgravityactionsbefore_modal_render_handler($template_vars) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityactions/before_modal_render', function($template_vars) {\n    // Your code here\n}, 10, 1 );",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Admin.php",
@@ -198,7 +198,7 @@
         "rendering",
         "before"
       ],
-      "example": "/**\n * Hook into gkgravityactionsbefore_modal_renderaction_key\n *\n * @param array $template_vars What variables are being passed down to the modal.\n */\nadd_action( 'gkgravityactionsbefore_modal_renderaction_key', 'my_custom_gkgravityactionsbefore_modal_renderaction_key_handler', 10, 1 );\n\nfunction my_custom_gkgravityactionsbefore_modal_renderaction_key_handler($template_vars) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityactions/before_modal_render:\\{$action_key\\}', function($template_vars) {\n    // Your code here\n}, 10, 1 );",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Admin.php",
@@ -231,7 +231,7 @@
         "views",
         "before"
       ],
-      "example": "/**\n * Hook into gkgravityactionsbefore_modal_renderview\n *\n * @param array $template_vars What variables are being passed down to the modal.\n */\nadd_action( 'gkgravityactionsbefore_modal_renderview', 'my_custom_gkgravityactionsbefore_modal_renderview_handler', 10, 1 );\n\nfunction my_custom_gkgravityactionsbefore_modal_renderview_handler($template_vars) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityactions/before_modal_render:\\{$view\\}', function($template_vars) {\n    // Your code here\n}, 10, 1 );",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Admin.php",
@@ -256,7 +256,7 @@
       "categories": [
         "general"
       ],
-      "example": "/**\n * Hook into gkgravityactionsloaded\n *\n * @return void\n */\nadd_action( 'gkgravityactionsloaded', 'my_custom_gkgravityactionsloaded_handler' );\n\nfunction my_custom_gkgravityactionsloaded_handler() {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityactions/loaded', function() {\n    // Your code here\n} );",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Plugin.php",
@@ -298,7 +298,7 @@
         "rendering",
         "after"
       ],
-      "example": "/**\n * Hook into gkgravityactionstemplate_after_include\n *\n * @param string $file Complete path to include the PHP File.\n * @param array $name Template name.\n * @param self $template Current instance of the Template.\n */\nadd_action( 'gkgravityactionstemplate_after_include', 'my_custom_gkgravityactionstemplate_after_include_handler', 10, 3 );\n\nfunction my_custom_gkgravityactionstemplate_after_include_handler($file, $name, $template) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityactions/template_after_include', function($file, $name, $template) {\n    // Your code here\n}, 10, 3 );",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
@@ -340,7 +340,7 @@
         "rendering",
         "after"
       ],
-      "example": "/**\n * Hook into gkgravityactionstemplate_after_includehook_name\n *\n * @param string $file Complete path to include the PHP File.\n * @param array $name Template name.\n * @param self $template Current instance of the Template.\n */\nadd_action( 'gkgravityactionstemplate_after_includehook_name', 'my_custom_gkgravityactionstemplate_after_includehook_name_handler', 10, 3 );\n\nfunction my_custom_gkgravityactionstemplate_after_includehook_name_handler($file, $name, $template) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityactions/template_after_include:\\{$hook_name\\}', function($file, $name, $template) {\n    // Your code here\n}, 10, 3 );",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
@@ -382,7 +382,7 @@
         "rendering",
         "before"
       ],
-      "example": "/**\n * Hook into gkgravityactionstemplate_before_include\n *\n * @param string $file Complete path to include the PHP File\n * @param array $name Template name\n * @param self $template Current instance of the Template\n */\nadd_action( 'gkgravityactionstemplate_before_include', 'my_custom_gkgravityactionstemplate_before_include_handler', 10, 3 );\n\nfunction my_custom_gkgravityactionstemplate_before_include_handler($file, $name, $template) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityactions/template_before_include', function($file, $name, $template) {\n    // Your code here\n}, 10, 3 );",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
@@ -424,7 +424,7 @@
         "rendering",
         "before"
       ],
-      "example": "/**\n * Hook into gkgravityactionstemplate_before_includehook_name\n *\n * @param string $file Complete path to include the PHP File.\n * @param array $name Template name.\n * @param self $template Current instance of the Template.\n */\nadd_action( 'gkgravityactionstemplate_before_includehook_name', 'my_custom_gkgravityactionstemplate_before_includehook_name_handler', 10, 3 );\n\nfunction my_custom_gkgravityactionstemplate_before_includehook_name_handler($file, $name, $template) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityactions/template_before_include:\\{$hook_name\\}', function($file, $name, $template) {\n    // Your code here\n}, 10, 3 );",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
@@ -455,7 +455,7 @@
       "categories": [
         "maps"
       ],
-      "example": "/**\n * Filter gkgravityactionsbulk_actions_map\n *\n * @param \\ActionInterface[] $map List of objects for the edit actions.\n * @return \\ActionInterface[] Modified map\n */\nadd_filter( 'gkgravityactionsbulk_actions_map', 'my_custom_gkgravityactionsbulk_actions_map_filter', 10, 1 );\n\nfunction my_custom_gkgravityactionsbulk_actions_map_filter($map) {\n    // Modify $map as needed\n\n    return $map;\n}",
+      "example": "add_filter( 'gk/gravityactions/bulk_actions_map', function($map) {\n    // Modify $map as needed\n    return $map;\n}, 10, 1 );",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Actions/Mapper.php",
@@ -481,7 +481,7 @@
         "editing",
         "forms"
       ],
-      "example": "/**\n * Filter gkgravityactionsedit_actionsupported_form_meta\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gkgravityactionsedit_actionsupported_form_meta', 'my_custom_gkgravityactionsedit_actionsupported_form_meta_filter' );\n\nfunction my_custom_gkgravityactionsedit_actionsupported_form_meta_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
+      "example": "add_filter( 'gk/gravityactions/edit_action/supported_form_meta', function() {\n    // Modify $value as needed\n    return $value;\n} );",
       "since": "1.3",
       "source": {
         "file": "src/GravityActions/Actions/EditAction.php",
@@ -501,7 +501,7 @@
         "fields",
         "notifications"
       ],
-      "example": "/**\n * Filter gkgravityactionsemail_actionget_field\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gkgravityactionsemail_actionget_field', 'my_custom_gkgravityactionsemail_actionget_field_filter' );\n\nfunction my_custom_gkgravityactionsemail_actionget_field_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
+      "example": "add_filter( 'gk/gravityactions/email_action/get_field', function() {\n    // Modify $value as needed\n    return $value;\n} );",
       "since": "1.3",
       "source": {
         "file": "src/GravityActions/Actions/EmailAction.php",
@@ -524,7 +524,7 @@
         "fields",
         "notifications"
       ],
-      "example": "/**\n * Filter gkgravityactionsemail_actionget_fieldfield-id\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gkgravityactionsemail_actionget_fieldfield-id', 'my_custom_gkgravityactionsemail_actionget_fieldfield_id_filter' );\n\nfunction my_custom_gkgravityactionsemail_actionget_fieldfield_id_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
+      "example": "add_filter( 'gk/gravityactions/email_action/get_field:\\{$field->id\\}', function() {\n    // Modify $value as needed\n    return $value;\n} );",
       "since": "1.3",
       "source": {
         "file": "src/GravityActions/Actions/EmailAction.php",
@@ -547,7 +547,7 @@
         "fields",
         "notifications"
       ],
-      "example": "/**\n * Filter gkgravityactionsemail_actionget_fields\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gkgravityactionsemail_actionget_fields', 'my_custom_gkgravityactionsemail_actionget_fields_filter' );\n\nfunction my_custom_gkgravityactionsemail_actionget_fields_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
+      "example": "add_filter( 'gk/gravityactions/email_action/get_fields', function() {\n    // Modify $value as needed\n    return $value;\n} );",
       "since": "1.3",
       "source": {
         "file": "src/GravityActions/Actions/EmailAction.php",
@@ -575,7 +575,7 @@
       "categories": [
         "general"
       ],
-      "example": "/**\n * Filter gkgravityactionshide_hidden_inputs\n *\n * @param bool $hide_hidden_inputs True: hide inputs hidden by the form. False: show inputs hidden by the form.\n * @return bool Modified hide_hidden_inputs\n */\nadd_filter( 'gkgravityactionshide_hidden_inputs', 'my_custom_gkgravityactionshide_hidden_inputs_filter', 10, 1 );\n\nfunction my_custom_gkgravityactionshide_hidden_inputs_filter($hide_hidden_inputs) {\n    // Modify $hide_hidden_inputs as needed\n\n    return $hide_hidden_inputs;\n}",
+      "example": "add_filter( 'gk/gravityactions/hide_hidden_inputs', function($hide_hidden_inputs) {\n    // Modify $hide_hidden_inputs as needed\n    return $hide_hidden_inputs;\n}, 10, 1 );",
       "since": "1.2",
       "source": {
         "file": "src/admin-views/components/fields/complex/time.php",
@@ -600,7 +600,7 @@
       "categories": [
         "general"
       ],
-      "example": "/**\n * Filter gkgravityactionsis_truthy_strings\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gkgravityactionsis_truthy_strings', 'my_custom_gkgravityactionsis_truthy_strings_filter' );\n\nfunction my_custom_gkgravityactionsis_truthy_strings_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
+      "example": "add_filter( 'gk/gravityactions/is_truthy_strings', function() {\n    // Modify $value as needed\n    return $value;\n} );",
       "since": "1.0",
       "source": {
         "file": "src/functions/variables.php",
@@ -636,7 +636,7 @@
       "categories": [
         "general"
       ],
-      "example": "/**\n * Filter gkgravityactionsmodalverify-nonce\n *\n * @param bool $should_verify_nonce Whether to verify the nonce passed to the modal loading.\n * @param string $nonce The nonce passed to the modal loading.\n * @return bool Modified should_verify_nonce\n */\nadd_filter( 'gkgravityactionsmodalverify-nonce', 'my_custom_gkgravityactionsmodalverify_nonce_filter', 10, 2 );\n\nfunction my_custom_gkgravityactionsmodalverify_nonce_filter($should_verify_nonce, $nonce) {\n    // Modify $should_verify_nonce as needed\n\n    return $should_verify_nonce;\n}",
+      "example": "add_filter( 'gk/gravityactions/modal/verify-nonce', function($should_verify_nonce, $nonce) {\n    // Modify $should_verify_nonce as needed\n    return $should_verify_nonce;\n}, 10, 2 );",
       "since": "1.4",
       "source": {
         "file": "src/GravityActions/Admin.php",
@@ -667,7 +667,7 @@
         "rendering",
         "before"
       ],
-      "example": "/**\n * Filter gkgravityactionspre_modal_render\n *\n * @param mixed $pre_render Variable that determines if we will short circuit the modal rendering.\n * @param array $template_vars What variables are being passed down to the modal.\n * @return mixed Modified pre_render\n */\nadd_filter( 'gkgravityactionspre_modal_render', 'my_custom_gkgravityactionspre_modal_render_filter', 10, 2 );\n\nfunction my_custom_gkgravityactionspre_modal_render_filter($pre_render, $template_vars) {\n    // Modify $pre_render as needed\n\n    return $pre_render;\n}",
+      "example": "add_filter( 'gk/gravityactions/pre_modal_render', function($pre_render, $template_vars) {\n    // Modify $pre_render as needed\n    return $pre_render;\n}, 10, 2 );",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Admin.php",
@@ -704,7 +704,7 @@
         "rendering",
         "before"
       ],
-      "example": "/**\n * Filter gkgravityactionspre_modal_renderaction_key\n *\n * @param mixed $pre_render Variable that determines if we will short circuit the modal rendering.\n * @param array $template_vars What variables are being passed down to the modal.\n * @return mixed Modified pre_render\n */\nadd_filter( 'gkgravityactionspre_modal_renderaction_key', 'my_custom_gkgravityactionspre_modal_renderaction_key_filter', 10, 2 );\n\nfunction my_custom_gkgravityactionspre_modal_renderaction_key_filter($pre_render, $template_vars) {\n    // Modify $pre_render as needed\n\n    return $pre_render;\n}",
+      "example": "add_filter( 'gk/gravityactions/pre_modal_render:\\{$action_key\\}', function($pre_render, $template_vars) {\n    // Modify $pre_render as needed\n    return $pre_render;\n}, 10, 2 );",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Admin.php",
@@ -742,7 +742,7 @@
         "views",
         "before"
       ],
-      "example": "/**\n * Filter gkgravityactionspre_modal_renderview\n *\n * @param mixed $pre_render Variable that determines if we will short circuit the modal rendering.\n * @param array $template_vars What variables are being passed down to the modal.\n * @return mixed Modified pre_render\n */\nadd_filter( 'gkgravityactionspre_modal_renderview', 'my_custom_gkgravityactionspre_modal_renderview_filter', 10, 2 );\n\nfunction my_custom_gkgravityactionspre_modal_renderview_filter($pre_render, $template_vars) {\n    // Modify $pre_render as needed\n\n    return $pre_render;\n}",
+      "example": "add_filter( 'gk/gravityactions/pre_modal_render:\\{$view\\}', function($pre_render, $template_vars) {\n    // Modify $pre_render as needed\n    return $pre_render;\n}, 10, 2 );",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Admin.php",
@@ -789,7 +789,7 @@
         "rendering",
         "after"
       ],
-      "example": "/**\n * Filter gkgravityactionstemplate_after_include_html\n *\n * @param string $html The final HTML.\n * @param string $file Complete path to include the PHP File.\n * @param array $name Template name.\n * @param self $template Current instance of the Template.\n * @return string Modified html\n */\nadd_filter( 'gkgravityactionstemplate_after_include_html', 'my_custom_gkgravityactionstemplate_after_include_html_filter', 10, 4 );\n\nfunction my_custom_gkgravityactionstemplate_after_include_html_filter($html, $file, $name, $template) {\n    // Modify $html as needed\n\n    return $html;\n}",
+      "example": "add_filter( 'gk/gravityactions/template_after_include_html', function($html, $file, $name, $template) {\n    // Modify $html as needed\n    return $html;\n}, 10, 4 );",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
@@ -836,7 +836,7 @@
         "rendering",
         "after"
       ],
-      "example": "/**\n * Filter gkgravityactionstemplate_after_include_htmlhook_name\n *\n * @param string $html The final HTML.\n * @param string $file Complete path to include the PHP File.\n * @param array $name Template name.\n * @param self $template Current instance of the Template.\n * @return string Modified html\n */\nadd_filter( 'gkgravityactionstemplate_after_include_htmlhook_name', 'my_custom_gkgravityactionstemplate_after_include_htmlhook_name_filter', 10, 4 );\n\nfunction my_custom_gkgravityactionstemplate_after_include_htmlhook_name_filter($html, $file, $name, $template) {\n    // Modify $html as needed\n\n    return $html;\n}",
+      "example": "add_filter( 'gk/gravityactions/template_after_include_html:\\{$hook_name\\}', function($html, $file, $name, $template) {\n    // Modify $html as needed\n    return $html;\n}, 10, 4 );",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
@@ -883,7 +883,7 @@
         "rendering",
         "before"
       ],
-      "example": "/**\n * Filter gkgravityactionstemplate_before_include_html\n *\n * @param string $html The final HTML.\n * @param string $file Complete path to include the PHP File.\n * @param array $name Template name.\n * @param self $template Current instance of the Template.\n * @return string Modified html\n */\nadd_filter( 'gkgravityactionstemplate_before_include_html', 'my_custom_gkgravityactionstemplate_before_include_html_filter', 10, 4 );\n\nfunction my_custom_gkgravityactionstemplate_before_include_html_filter($html, $file, $name, $template) {\n    // Modify $html as needed\n\n    return $html;\n}",
+      "example": "add_filter( 'gk/gravityactions/template_before_include_html', function($html, $file, $name, $template) {\n    // Modify $html as needed\n    return $html;\n}, 10, 4 );",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
@@ -930,7 +930,7 @@
         "rendering",
         "before"
       ],
-      "example": "/**\n * Filter gkgravityactionstemplate_before_include_htmlhook_name\n *\n * @param string $html The final HTML.\n * @param string $file Complete path to include the PHP File.\n * @param array $name Template name.\n * @param self $template Current instance of the Template.\n * @return string Modified html\n */\nadd_filter( 'gkgravityactionstemplate_before_include_htmlhook_name', 'my_custom_gkgravityactionstemplate_before_include_htmlhook_name_filter', 10, 4 );\n\nfunction my_custom_gkgravityactionstemplate_before_include_htmlhook_name_filter($html, $file, $name, $template) {\n    // Modify $html as needed\n\n    return $html;\n}",
+      "example": "add_filter( 'gk/gravityactions/template_before_include_html:\\{$hook_name\\}', function($html, $file, $name, $template) {\n    // Modify $html as needed\n    return $html;\n}, 10, 4 );",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
@@ -976,7 +976,7 @@
       "categories": [
         "rendering"
       ],
-      "example": "/**\n * Filter gkgravityactionstemplate_done\n *\n * @param string $ null     Whether to continue displaying the template or not.\n * @param array $name Template name.\n * @param array $template_vars Any template vars data you need to expose to this file.\n * @param bool $echo If we should also print the Template.\n * @return string Modified \n */\nadd_filter( 'gkgravityactionstemplate_done', 'my_custom_gkgravityactionstemplate_done_filter', 10, 4 );\n\nfunction my_custom_gkgravityactionstemplate_done_filter($, $name, $template_vars, $echo) {\n    // Modify $ as needed\n\n    return $;\n}",
+      "example": "add_filter( 'gk/gravityactions/template_done', function($, $name, $template_vars, $echo) {\n    // Modify $value as needed\n    return $value;\n}, 10, 4 );",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
@@ -1017,7 +1017,7 @@
       "categories": [
         "rendering"
       ],
-      "example": "/**\n * Filter gkgravityactionstemplate_file\n *\n * @param string $file Complete path to include the PHP File\n * @param array $name Template name\n * @param self $template Current instance of the Template\n * @return string Modified file\n */\nadd_filter( 'gkgravityactionstemplate_file', 'my_custom_gkgravityactionstemplate_file_filter', 10, 3 );\n\nfunction my_custom_gkgravityactionstemplate_file_filter($file, $name, $template) {\n    // Modify $file as needed\n\n    return $file;\n}",
+      "example": "add_filter( 'gk/gravityactions/template_file', function($file, $name, $template) {\n    // Modify $file as needed\n    return $file;\n}, 10, 3 );",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
@@ -1063,7 +1063,7 @@
       "categories": [
         "rendering"
       ],
-      "example": "/**\n * Filter gkgravityactionstemplate_html\n *\n * @param string $html The final HTML.\n * @param string $file Complete path to include the PHP File.\n * @param array $name Template name.\n * @param self $template Current instance of the Template.\n * @return string Modified html\n */\nadd_filter( 'gkgravityactionstemplate_html', 'my_custom_gkgravityactionstemplate_html_filter', 10, 4 );\n\nfunction my_custom_gkgravityactionstemplate_html_filter($html, $file, $name, $template) {\n    // Modify $html as needed\n\n    return $html;\n}",
+      "example": "add_filter( 'gk/gravityactions/template_html', function($html, $file, $name, $template) {\n    // Modify $html as needed\n    return $html;\n}, 10, 4 );",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
@@ -1109,7 +1109,7 @@
       "categories": [
         "rendering"
       ],
-      "example": "/**\n * Filter gkgravityactionstemplate_htmlhook_name\n *\n * @param string $html The final HTML.\n * @param string $file Complete path to include the PHP File.\n * @param array $name Template name.\n * @param self $template Current instance of the Template.\n * @return string Modified html\n */\nadd_filter( 'gkgravityactionstemplate_htmlhook_name', 'my_custom_gkgravityactionstemplate_htmlhook_name_filter', 10, 4 );\n\nfunction my_custom_gkgravityactionstemplate_htmlhook_name_filter($html, $file, $name, $template) {\n    // Modify $html as needed\n\n    return $html;\n}",
+      "example": "add_filter( 'gk/gravityactions/template_html:\\{$hook_name\\}', function($html, $file, $name, $template) {\n    // Modify $html as needed\n    return $html;\n}, 10, 4 );",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
@@ -1155,7 +1155,7 @@
       "categories": [
         "rendering"
       ],
-      "example": "/**\n * Filter gkgravityactionstemplate_include_html\n *\n * @param string $html The final HTML.\n * @param string $file Complete path to include the PHP File.\n * @param array $name Template name.\n * @param self $template Current instance of the Template.\n * @return string Modified html\n */\nadd_filter( 'gkgravityactionstemplate_include_html', 'my_custom_gkgravityactionstemplate_include_html_filter', 10, 4 );\n\nfunction my_custom_gkgravityactionstemplate_include_html_filter($html, $file, $name, $template) {\n    // Modify $html as needed\n\n    return $html;\n}",
+      "example": "add_filter( 'gk/gravityactions/template_include_html', function($html, $file, $name, $template) {\n    // Modify $html as needed\n    return $html;\n}, 10, 4 );",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
@@ -1201,7 +1201,7 @@
       "categories": [
         "rendering"
       ],
-      "example": "/**\n * Filter gkgravityactionstemplate_include_htmlhook_name\n *\n * @param string $html The final HTML.\n * @param string $file Complete path to include the PHP File.\n * @param array $name Template name.\n * @param self $template Current instance of the Template.\n * @return string Modified html\n */\nadd_filter( 'gkgravityactionstemplate_include_htmlhook_name', 'my_custom_gkgravityactionstemplate_include_htmlhook_name_filter', 10, 4 );\n\nfunction my_custom_gkgravityactionstemplate_include_htmlhook_name_filter($html, $file, $name, $template) {\n    // Modify $html as needed\n\n    return $html;\n}",
+      "example": "add_filter( 'gk/gravityactions/template_include_html:\\{$hook_name\\}', function($html, $file, $name, $template) {\n    // Modify $html as needed\n    return $html;\n}, 10, 4 );",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
@@ -1237,7 +1237,7 @@
       "categories": [
         "rendering"
       ],
-      "example": "/**\n * Filter gkgravityactionstemplate_origin_base_folder\n *\n * @param array $namespace Which is the base folder we will look for files in the plugin.\n * @param self $template Current instance of the Template.\n * @return array Modified namespace\n */\nadd_filter( 'gkgravityactionstemplate_origin_base_folder', 'my_custom_gkgravityactionstemplate_origin_base_folder_filter', 10, 2 );\n\nfunction my_custom_gkgravityactionstemplate_origin_base_folder_filter($namespace, $template) {\n    // Modify $namespace as needed\n\n    return $namespace;\n}",
+      "example": "add_filter( 'gk/gravityactions/template_origin_base_folder', function($namespace, $template) {\n    // Modify $namespace as needed\n    return $namespace;\n}, 10, 2 );",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
@@ -1273,7 +1273,7 @@
       "categories": [
         "rendering"
       ],
-      "example": "/**\n * Filter gkgravityactionstemplate_path_list\n *\n * @param array $folders Complete path to include the base public folder\n * @param self $template Current instance of the Template\n * @return array Modified folders\n */\nadd_filter( 'gkgravityactionstemplate_path_list', 'my_custom_gkgravityactionstemplate_path_list_filter', 10, 2 );\n\nfunction my_custom_gkgravityactionstemplate_path_list_filter($folders, $template) {\n    // Modify $folders as needed\n\n    return $folders;\n}",
+      "example": "add_filter( 'gk/gravityactions/template_path_list', function($folders, $template) {\n    // Modify $folders as needed\n    return $folders;\n}, 10, 2 );",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
@@ -1309,7 +1309,7 @@
       "categories": [
         "rendering"
       ],
-      "example": "/**\n * Filter gkgravityactionstemplate_plugin_path\n *\n * @param string $path Complete path to include the base plugin folder.\n * @param self $template Current instance of the Template.\n * @return string Modified path\n */\nadd_filter( 'gkgravityactionstemplate_plugin_path', 'my_custom_gkgravityactionstemplate_plugin_path_filter', 10, 2 );\n\nfunction my_custom_gkgravityactionstemplate_plugin_path_filter($path, $template) {\n    // Modify $path as needed\n\n    return $path;\n}",
+      "example": "add_filter( 'gk/gravityactions/template_plugin_path', function($path, $template) {\n    // Modify $path as needed\n    return $path;\n}, 10, 2 );",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
@@ -1356,7 +1356,7 @@
         "rendering",
         "before"
       ],
-      "example": "/**\n * Filter gkgravityactionstemplate_pre_html\n *\n * @param string $html The initial HTML\n * @param string $file Complete path to include the PHP File\n * @param array $name Template name\n * @param self $template Current instance of the Template\n * @return string Modified html\n */\nadd_filter( 'gkgravityactionstemplate_pre_html', 'my_custom_gkgravityactionstemplate_pre_html_filter', 10, 4 );\n\nfunction my_custom_gkgravityactionstemplate_pre_html_filter($html, $file, $name, $template) {\n    // Modify $html as needed\n\n    return $html;\n}",
+      "example": "add_filter( 'gk/gravityactions/template_pre_html', function($html, $file, $name, $template) {\n    // Modify $html as needed\n    return $html;\n}, 10, 4 );",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
@@ -1403,7 +1403,7 @@
         "rendering",
         "before"
       ],
-      "example": "/**\n * Filter gkgravityactionstemplate_pre_htmlhook_name\n *\n * @param string $html The initial HTML\n * @param string $file Complete path to include the PHP File\n * @param array $name Template name\n * @param self $template Current instance of the Template\n * @return string Modified html\n */\nadd_filter( 'gkgravityactionstemplate_pre_htmlhook_name', 'my_custom_gkgravityactionstemplate_pre_htmlhook_name_filter', 10, 4 );\n\nfunction my_custom_gkgravityactionstemplate_pre_htmlhook_name_filter($html, $file, $name, $template) {\n    // Modify $html as needed\n\n    return $html;\n}",
+      "example": "add_filter( 'gk/gravityactions/template_pre_html:\\{$hook_name\\}', function($html, $file, $name, $template) {\n    // Modify $html as needed\n    return $html;\n}, 10, 4 );",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
@@ -1439,7 +1439,7 @@
       "categories": [
         "rendering"
       ],
-      "example": "/**\n * Filter gkgravityactionstemplate_public_namespace\n *\n * @param array $namespace Which is the namespace we will look for files in the theme\n * @param self $template Current instance of the Template\n * @return array Modified namespace\n */\nadd_filter( 'gkgravityactionstemplate_public_namespace', 'my_custom_gkgravityactionstemplate_public_namespace_filter', 10, 2 );\n\nfunction my_custom_gkgravityactionstemplate_public_namespace_filter($namespace, $template) {\n    // Modify $namespace as needed\n\n    return $namespace;\n}",
+      "example": "add_filter( 'gk/gravityactions/template_public_namespace', function($namespace, $template) {\n    // Modify $namespace as needed\n    return $namespace;\n}, 10, 2 );",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
@@ -1475,7 +1475,7 @@
       "categories": [
         "rendering"
       ],
-      "example": "/**\n * Filter gkgravityactionstemplate_public_path\n *\n * @param string $path Complete path to include the base public folder.\n * @param self $template Current instance of the Template.\n * @return string Modified path\n */\nadd_filter( 'gkgravityactionstemplate_public_path', 'my_custom_gkgravityactionstemplate_public_path_filter', 10, 2 );\n\nfunction my_custom_gkgravityactionstemplate_public_path_filter($path, $template) {\n    // Modify $path as needed\n\n    return $path;\n}",
+      "example": "add_filter( 'gk/gravityactions/template_public_path', function($path, $template) {\n    // Modify $path as needed\n    return $path;\n}, 10, 2 );",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
@@ -1516,7 +1516,7 @@
       "categories": [
         "rendering"
       ],
-      "example": "/**\n * Filter gkgravityactionstemplate_theme_path_list\n *\n * @param array $folders Complete path to include the base public folder.\n * @param string $namespace Loads the files from a specified folder from the themes.\n * @param self $template Current instance of the Template.\n * @return array Modified folders\n */\nadd_filter( 'gkgravityactionstemplate_theme_path_list', 'my_custom_gkgravityactionstemplate_theme_path_list_filter', 10, 3 );\n\nfunction my_custom_gkgravityactionstemplate_theme_path_list_filter($folders, $namespace, $template) {\n    // Modify $folders as needed\n\n    return $folders;\n}",
+      "example": "add_filter( 'gk/gravityactions/template_theme_path_list', function($folders, $namespace, $template) {\n    // Modify $folders as needed\n    return $folders;\n}, 10, 3 );",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
@@ -1562,7 +1562,7 @@
       "categories": [
         "rendering"
       ],
-      "example": "/**\n * Filter gkgravityactionstemplate_vars\n *\n * @param array $template_vars Local template vars array of data\n * @param string $file Complete path to include the PHP File\n * @param array $name Template name\n * @param self $template Current instance of the Template\n * @return array Modified template_vars\n */\nadd_filter( 'gkgravityactionstemplate_vars', 'my_custom_gkgravityactionstemplate_vars_filter', 10, 4 );\n\nfunction my_custom_gkgravityactionstemplate_vars_filter($template_vars, $file, $name, $template) {\n    // Modify $template_vars as needed\n\n    return $template_vars;\n}",
+      "example": "add_filter( 'gk/gravityactions/template_vars', function($template_vars, $file, $name, $template) {\n    // Modify $template_vars as needed\n    return $template_vars;\n}, 10, 4 );",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",
@@ -1613,7 +1613,7 @@
       "categories": [
         "rendering"
       ],
-      "example": "/**\n * Filter gkgravityactionstemplate_vars_get\n *\n * @param mixed $value The value that will be filtered.\n * @param array\\ $index string`\n * @param mixed $default Default value if the search finds nothing.\n * @param bool $is_local Use the Local or Global template vars.\n * @param self $template Current instance of the Template.\n * @return mixed Modified value\n */\nadd_filter( 'gkgravityactionstemplate_vars_get', 'my_custom_gkgravityactionstemplate_vars_get_filter', 10, 5 );\n\nfunction my_custom_gkgravityactionstemplate_vars_get_filter($value, $index, $default, $is_local, $template) {\n    // Modify $value as needed\n\n    return $value;\n}",
+      "example": "add_filter( 'gk/gravityactions/template_vars_get', function($value, $index, $default, $is_local, $template) {\n    // Modify $value as needed\n    return $value;\n}, 10, 5 );",
       "since": "1.0",
       "source": {
         "file": "src/GravityActions/Template.php",

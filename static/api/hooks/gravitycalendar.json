@@ -1,5 +1,5 @@
 {
-  "generated": "2025-12-15T23:52:08.144Z",
+  "generated": "2025-12-15T23:55:35.811Z",
   "product": {
     "id": "gravitycalendar",
     "label": "GravityCalendar",
@@ -53,7 +53,7 @@
         "calendar",
         "assets"
       ],
-      "example": "/**\n * Hook into gravityviewcalendarenqueue-scripts\n *\n * @param int $feed_id The ID of the current feed being processed.\n */\nadd_action( 'gravityviewcalendarenqueue-scripts', 'my_custom_gravityviewcalendarenqueue_scripts_handler', 10, 1 );\n\nfunction my_custom_gravityviewcalendarenqueue_scripts_handler($feed_id) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gravityview/calendar/enqueue-scripts', function($feed_id) {\n    // Your code here\n}, 10, 1 );",
       "since": null,
       "source": {
         "file": "includes/class-calendar-feed.php",
@@ -80,7 +80,7 @@
         "calendar",
         "assets"
       ],
-      "example": "/**\n * Hook into gravityviewcalendarprint-scripts.feed_id\n *\n * @return void\n */\nadd_action( 'gravityviewcalendarprint-scripts.feed_id', 'my_custom_gravityviewcalendarprint_scripts_feed_id_handler' );\n\nfunction my_custom_gravityviewcalendarprint_scripts_feed_id_handler() {\n    // Your custom code here\n}",
+      "example": "add_action( 'gravityview/calendar/print-scripts/ . $feed_id', function() {\n    // Your code here\n} );",
       "since": null,
       "source": {
         "file": "includes/class-calendar-feed.php",
@@ -107,7 +107,7 @@
         "calendar",
         "assets"
       ],
-      "example": "/**\n * Hook into gravityviewcalendarprint-styles\n *\n * @param int $feed_id The ID of the current feed being processed.\n */\nadd_action( 'gravityviewcalendarprint-styles', 'my_custom_gravityviewcalendarprint_styles_handler', 10, 1 );\n\nfunction my_custom_gravityviewcalendarprint_styles_handler($feed_id) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gravityview/calendar/print-styles', function($feed_id) {\n    // Your code here\n}, 10, 1 );",
       "since": null,
       "source": {
         "file": "includes/class-calendar-feed.php",
@@ -163,7 +163,7 @@
       "categories": [
         "calendar"
       ],
-      "example": "/**\n * Filter gkgravitycalendarblockslocalization\n *\n * @param array $localization Localization data.\n * @param string $↳ $home_page Home page URL.\n * @param string $↳ $admin_url Admin URL.\n * @param string $↳ $ajax_url AJAX URL.\n * @param string $↳ $ajax_nonce AJAX nonce.\n * @param array\\ $↳ $data false`\n * @return array Modified localization\n */\nadd_filter( 'gkgravitycalendarblockslocalization', 'my_custom_gkgravitycalendarblockslocalization_filter', 10, 6 );\n\nfunction my_custom_gkgravitycalendarblockslocalization_filter($localization, $↳ $home_page, $↳ $admin_url, $↳ $ajax_url, $↳ $ajax_nonce, $↳ $data) {\n    // Modify $localization as needed\n\n    return $localization;\n}",
+      "example": "add_filter( 'gk/gravitycalendar/blocks/localization', function($localization, $home_page, $admin_url, $ajax_url, $ajax_nonce, $data) {\n    // Modify $localization as needed\n    return $localization;\n}, 10, 6 );",
       "since": "2.0",
       "source": {
         "file": "includes/gutenberg/class-calendar-gutenberg-blocks.php",
@@ -198,7 +198,7 @@
       "categories": [
         "calendar"
       ],
-      "example": "/**\n * Filter gkgravitycalendarevent-sources\n *\n * @param array $event_sources Array of calendar sources with the following keys: url, format, color.\n * @param int $form_id Form ID.\n * @param int $feed_id Calendar feed ID.\n * @return array Modified event_sources\n */\nadd_filter( 'gkgravitycalendarevent-sources', 'my_custom_gkgravitycalendarevent_sources_filter', 10, 3 );\n\nfunction my_custom_gkgravitycalendarevent_sources_filter($event_sources, $form_id, $feed_id) {\n    // Modify $event_sources as needed\n\n    return $event_sources;\n}",
+      "example": "add_filter( 'gk/gravitycalendar/event-sources', function($event_sources, $form_id, $feed_id) {\n    // Modify $event_sources as needed\n    return $event_sources;\n}, 10, 3 );",
       "since": "2.5",
       "source": {
         "file": "includes/class-calendar-feed.php",
@@ -228,7 +228,7 @@
       "categories": [
         "calendar"
       ],
-      "example": "/**\n * Filter gkgravitycalendareventscustom-response\n *\n * @param bool\\ $custom_response array`\n * @param int $feed_id ID of the current feed being processed.\n * @return bool\\ Modified custom_response\n */\nadd_filter( 'gkgravitycalendareventscustom-response', 'my_custom_gkgravitycalendareventscustom_response_filter', 10, 2 );\n\nfunction my_custom_gkgravitycalendareventscustom_response_filter($custom_response, $feed_id) {\n    // Modify $custom_response as needed\n\n    return $custom_response;\n}",
+      "example": "add_filter( 'gk/gravitycalendar/events/custom-response', function($custom_response, $feed_id) {\n    // Modify $custom_response as needed\n    return $custom_response;\n}, 10, 2 );",
       "since": "2.5",
       "source": {
         "file": "includes/class-calendar-feed.php",
@@ -271,7 +271,7 @@
         "search",
         "calendar"
       ],
-      "example": "/**\n * Filter gkgravitycalendareventsfilters\n *\n * @param array $filters The filter conditions.\n * @param int $feed_id The feed id.\n * @param string\\ $from_date null`\n * @param string\\ $end_data null`\n * @return array Modified filters\n */\nadd_filter( 'gkgravitycalendareventsfilters', 'my_custom_gkgravitycalendareventsfilters_filter', 10, 4 );\n\nfunction my_custom_gkgravitycalendareventsfilters_filter($filters, $feed_id, $from_date, $end_data) {\n    // Modify $filters as needed\n\n    return $filters;\n}",
+      "example": "add_filter( 'gk/gravitycalendar/events/filters', function($filters, $feed_id, $from_date, $end_data) {\n    // Modify $filters as needed\n    return $filters;\n}, 10, 4 );",
       "since": "2.7.0",
       "source": {
         "file": "includes/class-calendar-feed.php",
@@ -308,7 +308,7 @@
       "categories": [
         "calendar"
       ],
-      "example": "/**\n * Filter gkgravitycalendarfeedfile-name\n *\n * @param string $file_name The file name for the ICS\n * @param array $feed The Gravity Forms feed array that is being used to generate the file.\n * @param array $entry The entry for the notification it will be attached to. Empty if displaying the whole feed.\n * @return string Modified file_name\n */\nadd_filter( 'gkgravitycalendarfeedfile-name', 'my_custom_gkgravitycalendarfeedfile_name_filter', 10, 3 );\n\nfunction my_custom_gkgravitycalendarfeedfile_name_filter($file_name, $feed, $entry) {\n    // Modify $file_name as needed\n\n    return $file_name;\n}",
+      "example": "add_filter( 'gk/gravitycalendar/feed/file-name', function($file_name, $feed, $entry) {\n    // Modify $file_name as needed\n    return $file_name;\n}, 10, 3 );",
       "since": "2.6.2",
       "source": {
         "file": "includes/class-calendar-feed.php",
@@ -338,7 +338,7 @@
       "categories": [
         "calendar"
       ],
-      "example": "/**\n * Filter gkgravitycalendarsettingsdb-batch-size\n *\n * @param int $feed_id ID of the current feed being processed.\n * @param int $db_query_batch_size Maximum total number of events to fetch (default: 500).\n * @return int Modified feed_id\n */\nadd_filter( 'gkgravitycalendarsettingsdb-batch-size', 'my_custom_gkgravitycalendarsettingsdb_batch_size_filter', 10, 2 );\n\nfunction my_custom_gkgravitycalendarsettingsdb_batch_size_filter($feed_id, $db_query_batch_size) {\n    // Modify $feed_id as needed\n\n    return $feed_id;\n}",
+      "example": "add_filter( 'gk/gravitycalendar/settings/db-batch-size', function($feed_id, $db_query_batch_size) {\n    // Modify $feed_id as needed\n    return $feed_id;\n}, 10, 2 );",
       "since": "2.4",
       "source": {
         "file": "includes/class-calendar-feed.php",
@@ -364,7 +364,7 @@
         "views",
         "calendar"
       ],
-      "example": "/**\n * Filter gravityviewcalendardefault_locale\n *\n * @param string $default_fc_locale FC locale\n * @return string Modified default_fc_locale\n */\nadd_filter( 'gravityviewcalendardefault_locale', 'my_custom_gravityviewcalendardefault_locale_filter', 10, 1 );\n\nfunction my_custom_gravityviewcalendardefault_locale_filter($default_fc_locale) {\n    // Modify $default_fc_locale as needed\n\n    return $default_fc_locale;\n}",
+      "example": "add_filter( 'gravityview/calendar/default_locale', function($default_fc_locale) {\n    // Modify $default_fc_locale as needed\n    return $default_fc_locale;\n}, 10, 1 );",
       "since": "1.3",
       "source": {
         "file": "includes/class-calendar-feed.php",
@@ -416,7 +416,7 @@
         "views",
         "calendar"
       ],
-      "example": "/**\n * Filter gravityviewcalendarevents\n *\n * @param array $events Array of events.\n * @param array $form Calendar form.\n * @param array $feed Calendar feed.\n * @param array $field_map Array of feed fields mapped to calendar settings (e.g., start_time, end_time).\n * @param array $entries Form entries.\n * @return array Modified events\n */\nadd_filter( 'gravityviewcalendarevents', 'my_custom_gravityviewcalendarevents_filter', 10, 5 );\n\nfunction my_custom_gravityviewcalendarevents_filter($events, $form, $feed, $field_map, $entries) {\n    // Modify $events as needed\n\n    return $events;\n}",
+      "example": "add_filter( 'gravityview/calendar/events', function($events, $form, $feed, $field_map, $entries) {\n    // Modify $events as needed\n    return $events;\n}, 10, 5 );",
       "since": "1.4",
       "source": {
         "file": "includes/class-calendar-feed.php",
@@ -463,7 +463,7 @@
         "views",
         "calendar"
       ],
-      "example": "/**\n * Filter gravityviewcalendareventsallow_invalid_start_date\n *\n * @param bool $do_shortcode Default: false.\n * @param array $entry Form entry.\n * @param array $form Calendar form.\n * @param array $feed Calendar feed.\n * @return bool Modified do_shortcode\n */\nadd_filter( 'gravityviewcalendareventsallow_invalid_start_date', 'my_custom_gravityviewcalendareventsallow_invalid_start_date_filter', 10, 4 );\n\nfunction my_custom_gravityviewcalendareventsallow_invalid_start_date_filter($do_shortcode, $entry, $form, $feed) {\n    // Modify $do_shortcode as needed\n\n    return $do_shortcode;\n}",
+      "example": "add_filter( 'gravityview/calendar/events/allow_invalid_start_date', function($do_shortcode, $entry, $form, $feed) {\n    // Modify $do_shortcode as needed\n    return $do_shortcode;\n}, 10, 4 );",
       "since": "1.5.4",
       "source": {
         "file": "includes/class-calendar-feed.php",
@@ -510,7 +510,7 @@
         "calendar",
         "shortcodes"
       ],
-      "example": "/**\n * Filter gravityviewcalendareventsdo_shortcodes\n *\n * @param bool $do_shortcode Default: true.\n * @param array $form Calendar form.\n * @param array $feed Calendar feed.\n * @param array $field_map Array of feed fields mapped to calendar settings (e.g., start_time, end_time).\n * @return bool Modified do_shortcode\n */\nadd_filter( 'gravityviewcalendareventsdo_shortcodes', 'my_custom_gravityviewcalendareventsdo_shortcodes_filter', 10, 4 );\n\nfunction my_custom_gravityviewcalendareventsdo_shortcodes_filter($do_shortcode, $form, $feed, $field_map) {\n    // Modify $do_shortcode as needed\n\n    return $do_shortcode;\n}",
+      "example": "add_filter( 'gravityview/calendar/events/do_shortcodes', function($do_shortcode, $form, $feed, $field_map) {\n    // Modify $do_shortcode as needed\n    return $do_shortcode;\n}, 10, 4 );",
       "since": "1.4",
       "source": {
         "file": "includes/class-calendar-feed.php",
@@ -561,7 +561,7 @@
         "views",
         "calendar"
       ],
-      "example": "/**\n * Filter gravityviewcalendareventsexclude\n *\n * @param array $array Array of entry IDs (default: empty array).\n * @param array $form Calendar form.\n * @param array $feed Calendar feed.\n * @param array $field_map Array of feed fields mapped to calendar settings (e.g., start_time, end_time).\n * @param array $entries Form entries.\n * @return array Modified array\n */\nadd_filter( 'gravityviewcalendareventsexclude', 'my_custom_gravityviewcalendareventsexclude_filter', 10, 5 );\n\nfunction my_custom_gravityviewcalendareventsexclude_filter($array, $form, $feed, $field_map, $entries) {\n    // Modify $array as needed\n\n    return $array;\n}",
+      "example": "add_filter( 'gravityview/calendar/events/exclude', function($array, $form, $feed, $field_map, $entries) {\n    // Modify $array as needed\n    return $array;\n}, 10, 5 );",
       "since": "1.1",
       "source": {
         "file": "includes/class-calendar-feed.php",
@@ -612,7 +612,7 @@
         "views",
         "calendar"
       ],
-      "example": "/**\n * Filter gravityviewcalendareventsinclude\n *\n * @param array $entry_ids Array of entry IDs (default: empty array or entry IDs).\n * @param array $form Calendar form.\n * @param array $feed Calendar feed.\n * @param array $field_map Array of feed fields mapped to calendar settings (e.g., start_time, end_time).\n * @param array $entries Form entries.\n * @return array Modified entry_ids\n */\nadd_filter( 'gravityviewcalendareventsinclude', 'my_custom_gravityviewcalendareventsinclude_filter', 10, 5 );\n\nfunction my_custom_gravityviewcalendareventsinclude_filter($entry_ids, $form, $feed, $field_map, $entries) {\n    // Modify $entry_ids as needed\n\n    return $entry_ids;\n}",
+      "example": "add_filter( 'gravityview/calendar/events/include', function($entry_ids, $form, $feed, $field_map, $entries) {\n    // Modify $entry_ids as needed\n    return $entry_ids;\n}, 10, 5 );",
       "since": "1.1",
       "source": {
         "file": "includes/class-calendar-feed.php",
@@ -658,7 +658,7 @@
         "views",
         "calendar"
       ],
-      "example": "/**\n * Filter gravityviewcalendareventssource_data\n *\n * @param array $entries Form entries (default: empty array)\n * @param int $feed_id ID of the current feed being processed\n * @param int\\ $from_date false\\\n * @param int\\ $to_date false\\\n * @return array Modified entries\n */\nadd_filter( 'gravityviewcalendareventssource_data', 'my_custom_gravityviewcalendareventssource_data_filter', 10, 4 );\n\nfunction my_custom_gravityviewcalendareventssource_data_filter($entries, $feed_id, $from_date, $to_date) {\n    // Modify $entries as needed\n\n    return $entries;\n}",
+      "example": "add_filter( 'gravityview/calendar/events/source_data', function($entries, $feed_id, $from_date, $to_date) {\n    // Modify $entries as needed\n    return $entries;\n}, 10, 4 );",
       "since": "1.4",
       "source": {
         "file": "includes/class-calendar-feed.php",
@@ -699,7 +699,7 @@
         "views",
         "calendar"
       ],
-      "example": "/**\n * Filter gravityviewcalendarextra_options\n *\n * @param array $calendar_options Extra options.\n * @param int $form_id Form ID.\n * @param int $feed_id Calendar feed ID.\n * @return array Modified calendar_options\n */\nadd_filter( 'gravityviewcalendarextra_options', 'my_custom_gravityviewcalendarextra_options_filter', 10, 3 );\n\nfunction my_custom_gravityviewcalendarextra_options_filter($calendar_options, $form_id, $feed_id) {\n    // Modify $calendar_options as needed\n\n    return $calendar_options;\n}",
+      "example": "add_filter( 'gravityview/calendar/extra_options', function($calendar_options, $form_id, $feed_id) {\n    // Modify $calendar_options as needed\n    return $calendar_options;\n}, 10, 3 );",
       "since": "1.5",
       "source": {
         "file": "includes/class-calendar-feed.php",
@@ -741,7 +741,7 @@
         "views",
         "calendar"
       ],
-      "example": "/**\n * Filter gravityviewcalendaroptions\n *\n * @param array $calendar_options Calendar options.\n * @param int $form_id Form ID.\n * @param int $feed_id Calendar feed ID.\n * @return array Modified calendar_options\n */\nadd_filter( 'gravityviewcalendaroptions', 'my_custom_gravityviewcalendaroptions_filter', 10, 3 );\n\nfunction my_custom_gravityviewcalendaroptions_filter($calendar_options, $form_id, $feed_id) {\n    // Modify $calendar_options as needed\n\n    return $calendar_options;\n}",
+      "example": "add_filter( 'gravityview/calendar/options', function($calendar_options, $form_id, $feed_id) {\n    // Modify $calendar_options as needed\n    return $calendar_options;\n}, 10, 3 );",
       "since": "1.4",
       "source": {
         "file": "includes/class-calendar-feed.php",
@@ -774,7 +774,7 @@
         "calendar",
         "assets"
       ],
-      "example": "/**\n * Filter gravityviewcalendarscriptsfullcalendar\n *\n * @param string $path Full URL to the jQuery FullCalendar script.\n * @return string Modified path\n */\nadd_filter( 'gravityviewcalendarscriptsfullcalendar', 'my_custom_gravityviewcalendarscriptsfullcalendar_filter', 10, 1 );\n\nfunction my_custom_gravityviewcalendarscriptsfullcalendar_filter($path) {\n    // Modify $path as needed\n\n    return $path;\n}",
+      "example": "add_filter( 'gravityview/calendar/scripts/fullcalendar', function($path) {\n    // Modify $path as needed\n    return $path;\n}, 10, 1 );",
       "since": null,
       "source": {
         "file": "includes/class-calendar-feed.php",
@@ -801,7 +801,7 @@
         "calendar",
         "assets"
       ],
-      "example": "/**\n * Filter gravityviewcalendarscriptsfullcalendarlocales\n *\n * @param array $fc_locales FullCalendar locales.\n * @return array Modified fc_locales\n */\nadd_filter( 'gravityviewcalendarscriptsfullcalendarlocales', 'my_custom_gravityviewcalendarscriptsfullcalendarlocales_filter', 10, 1 );\n\nfunction my_custom_gravityviewcalendarscriptsfullcalendarlocales_filter($fc_locales) {\n    // Modify $fc_locales as needed\n\n    return $fc_locales;\n}",
+      "example": "add_filter( 'gravityview/calendar/scripts/fullcalendar/locales', function($fc_locales) {\n    // Modify $fc_locales as needed\n    return $fc_locales;\n}, 10, 1 );",
       "since": "1.3",
       "source": {
         "file": "includes/class-calendar-feed.php",
@@ -830,7 +830,7 @@
         "calendar",
         "assets"
       ],
-      "example": "/**\n * Filter gravityviewcalendarscriptsfullcalendarlocales_dir_url\n *\n * @param string $locales_url URL to FullCalendar locales.\n * @return string Modified locales_url\n */\nadd_filter( 'gravityviewcalendarscriptsfullcalendarlocales_dir_url', 'my_custom_gravityviewcalendarscriptsfullcalendarlocales_dir_url_filter', 10, 1 );\n\nfunction my_custom_gravityviewcalendarscriptsfullcalendarlocales_dir_url_filter($locales_url) {\n    // Modify $locales_url as needed\n\n    return $locales_url;\n}",
+      "example": "add_filter( 'gravityview/calendar/scripts/fullcalendar/locales_dir_url', function($locales_url) {\n    // Modify $locales_url as needed\n    return $locales_url;\n}, 10, 1 );",
       "since": "1.3",
       "source": {
         "file": "includes/class-calendar-feed.php",
@@ -859,7 +859,7 @@
         "views",
         "calendar"
       ],
-      "example": "/**\n * Filter gravityviewcalendarsettingsentry_status\n *\n * @param string $status Entry status.\n * @return string Modified status\n */\nadd_filter( 'gravityviewcalendarsettingsentry_status', 'my_custom_gravityviewcalendarsettingsentry_status_filter', 10, 1 );\n\nfunction my_custom_gravityviewcalendarsettingsentry_status_filter($status) {\n    // Modify $status as needed\n\n    return $status;\n}",
+      "example": "add_filter( 'gravityview/calendar/settings/entry_status', function($status) {\n    // Modify $status as needed\n    return $status;\n}, 10, 1 );",
       "since": "1.5.7",
       "source": {
         "file": "includes/class-calendar-feed.php",
@@ -898,7 +898,7 @@
         "views",
         "calendar"
       ],
-      "example": "/**\n * Filter gravityviewcalendarsettingssort_order\n *\n * @param array $sorting Default sort order (ASC by start date).\n * @param int $feed_id ID of the current feed being processed.\n * @param array $field_map Array of feed fields mapped to calendar settings (e.g., start_time, end_time).\n * @return array Modified sorting\n */\nadd_filter( 'gravityviewcalendarsettingssort_order', 'my_custom_gravityviewcalendarsettingssort_order_filter', 10, 3 );\n\nfunction my_custom_gravityviewcalendarsettingssort_order_filter($sorting, $feed_id, $field_map) {\n    // Modify $sorting as needed\n\n    return $sorting;\n}",
+      "example": "add_filter( 'gravityview/calendar/settings/sort_order', function($sorting, $feed_id, $field_map) {\n    // Modify $sorting as needed\n    return $sorting;\n}, 10, 3 );",
       "since": "1.4.4",
       "source": {
         "file": "includes/class-calendar-feed.php",
@@ -932,7 +932,7 @@
         "views",
         "calendar"
       ],
-      "example": "/**\n * Filter gravityviewcalendarsettingstotal-event-limit\n *\n * @param int $feed_id ID of the current feed being processed.\n * @param int $total_event_limit Maximum total number of events to fetch (default: 1000).\n * @return int Modified feed_id\n */\nadd_filter( 'gravityviewcalendarsettingstotal-event-limit', 'my_custom_gravityviewcalendarsettingstotal_event_limit_filter', 10, 2 );\n\nfunction my_custom_gravityviewcalendarsettingstotal_event_limit_filter($feed_id, $total_event_limit) {\n    // Modify $feed_id as needed\n\n    return $feed_id;\n}",
+      "example": "add_filter( 'gravityview/calendar/settings/total-event-limit', function($feed_id, $total_event_limit) {\n    // Modify $feed_id as needed\n    return $feed_id;\n}, 10, 2 );",
       "since": "1.1",
       "source": {
         "file": "includes/class-calendar-feed.php",
@@ -963,7 +963,7 @@
         "calendar",
         "shortcodes"
       ],
-      "example": "/**\n * Filter gravityviewcalendarshortcoderenderelement_attributes\n *\n * @param array $ HTML attributes (e.g., array('data-some-key =&gt; 'key'))\n * @return array Modified \n */\nadd_filter( 'gravityviewcalendarshortcoderenderelement_attributes', 'my_custom_gravityviewcalendarshortcoderenderelement_attributes_filter', 10, 1 );\n\nfunction my_custom_gravityviewcalendarshortcoderenderelement_attributes_filter($) {\n    // Modify $ as needed\n\n    return $;\n}",
+      "example": "add_filter( 'gravityview/calendar/shortcode/render/element_attributes', function($) {\n    // Modify $value as needed\n    return $value;\n}, 10, 1 );",
       "since": "1.4",
       "source": {
         "file": "includes/class-calendar-shortcode.php",

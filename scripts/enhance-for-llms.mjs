@@ -145,11 +145,24 @@ function findRelatedHooks(hookName, allHookNames) {
 }
 
 /**
- * Extract usage example from markdown content
+ * Generate a usage example for JSON output
  */
-function extractExample(content) {
-  const exampleMatch = content.match(/## Usage Example\n\n```php\n([\s\S]*?)```/);
-  return exampleMatch ? exampleMatch[1].trim() : null;
+function generateExample(hookName, hookType, params = []) {
+  const paramList = params.map(p => `$${p.name}`).join(', ');
+  const paramCount = params.length;
+  const funcName = hookName.replace(/[^a-z0-9]/gi, '_');
+
+  if (hookType === 'action') {
+    return `add_action( '${hookName}', function(${paramList}) {
+    // Your code here
+}${paramCount > 0 ? `, 10, ${paramCount}` : ''} );`;
+  } else {
+    const returnVar = params[0]?.name || 'value';
+    return `add_filter( '${hookName}', function(${paramList}) {
+    // Modify $${returnVar} as needed
+    return $${returnVar};
+}${paramCount > 0 ? `, 10, ${paramCount}` : ''} );`;
+  }
 }
 
 /**
@@ -233,8 +246,8 @@ function parseHookFile(filePath, productId, hookType) {
     description = generateDescription(hookName, hookType, params);
   }
 
-  // Extract usage example
-  const example = extractExample(content);
+  // Generate usage example for JSON
+  const example = generateExample(hookName, hookType, params);
 
   // Extract since version
   const sinceMatch = content.match(/### Since\n\n-\s*(.+)/);
@@ -345,124 +358,6 @@ function collectAllHooks() {
 }
 
 /**
- * Enhance a hook markdown file with better LLM-friendly content
- */
-function enhanceHookFile(filePath, hookData) {
-  let content = fs.readFileSync(filePath, 'utf8');
-
-  // Check if already enhanced
-  if (content.includes('## Usage Example')) {
-    return false;
-  }
-
-  // Generate usage example based on hook type
-  const exampleCode = hookData.type === 'action'
-    ? generateActionExample(hookData)
-    : generateFilterExample(hookData);
-
-  // Find the best place to insert the example (after Parameters or at the end before Source)
-  const insertPoint = content.indexOf('### Since');
-  if (insertPoint === -1) {
-    // Append at the end
-    content = content.trimEnd() + '\n\n' + exampleCode;
-  } else {
-    // Insert before "### Since"
-    content = content.slice(0, insertPoint) + exampleCode + '\n' + content.slice(insertPoint);
-  }
-
-  fs.writeFileSync(filePath, content);
-  return true;
-}
-
-/**
- * Generate an action usage example
- */
-function generateActionExample(hook) {
-  const params = hook.parameters || [];
-  const paramList = params.map(p => `$${p.name}`).join(', ');
-  const paramCount = params.length;
-
-  const docBlock = params.length > 0
-    ? params.map(p => ` * @param ${p.type} $${p.name} ${p.description}`).join('\n')
-    : ' * @return void';
-
-  return `## Usage Example
-
-\`\`\`php
-/**
- * Hook into ${hook.name}
- *
-${docBlock}
- */
-add_action( '${hook.name}', 'my_custom_${hook.name.replace(/[^a-z0-9]/gi, '_')}_handler'${paramCount > 0 ? `, 10, ${paramCount}` : ''} );
-
-function my_custom_${hook.name.replace(/[^a-z0-9]/gi, '_')}_handler(${paramList}) {
-    // Your custom code here
-}
-\`\`\`
-
-`;
-}
-
-/**
- * Generate a filter usage example
- */
-function generateFilterExample(hook) {
-  const params = hook.parameters || [];
-  const paramList = params.map(p => `$${p.name}`).join(', ');
-  const paramCount = params.length;
-  const returnParam = params[0] || { name: 'value', type: 'mixed' };
-
-  const docBlock = params.length > 0
-    ? params.map(p => ` * @param ${p.type} $${p.name} ${p.description}`).join('\n') + '\n * @return ' + returnParam.type + ' Modified ' + returnParam.name
-    : ' * @param mixed $value The value to filter\n * @return mixed Modified value';
-
-  return `## Usage Example
-
-\`\`\`php
-/**
- * Filter ${hook.name}
- *
-${docBlock}
- */
-add_filter( '${hook.name}', 'my_custom_${hook.name.replace(/[^a-z0-9]/gi, '_')}_filter'${paramCount > 0 ? `, 10, ${paramCount}` : ''} );
-
-function my_custom_${hook.name.replace(/[^a-z0-9]/gi, '_')}_filter(${paramList}) {
-    // Modify $${returnParam.name} as needed
-
-    return $${returnParam.name};
-}
-\`\`\`
-
-`;
-}
-
-/**
- * Process all hook files and enhance them
- */
-function enhanceAllHooks(hooksData) {
-  let enhanced = 0;
-  const docsDir = path.join(PROJECT_ROOT, 'docs');
-
-  for (const hook of hooksData.hooks) {
-    const hookFile = path.join(
-      docsDir,
-      hook.product,
-      `${hook.type}s`,
-      `${hook.id}.md`
-    );
-
-    if (fs.existsSync(hookFile)) {
-      if (enhanceHookFile(hookFile, hook)) {
-        enhanced++;
-      }
-    }
-  }
-
-  return enhanced;
-}
-
-/**
  * Main function
  */
 async function main() {
@@ -541,12 +436,7 @@ async function main() {
   fs.writeFileSync(compactJsonPath, JSON.stringify(compactHooks));
   log(`  Created: static/api/hooks-compact.json`, colors.green);
 
-  // Step 4: Enhance individual hook files with examples
-  log('\n▶ Adding usage examples to hook documentation...', colors.cyan);
-  const enhanced = enhanceAllHooks(hooksData);
-  log(`  Enhanced ${enhanced} hook files with usage examples`, colors.green);
-
-  // Step 5: Update llms.txt with stats
+  // Step 4: Update llms.txt with stats
   log('\n▶ Updating llms.txt...', colors.cyan);
   const llmsPath = path.join(PROJECT_ROOT, 'static', 'llms.txt');
   if (fs.existsSync(llmsPath)) {
@@ -584,8 +474,7 @@ async function main() {
   log('  • static/api/hooks/{product}.json - Per-product hooks (25 files)');
   log('  • static/api/hooks.json - Full database (large, use per-product instead)');
   log('  • static/api/hooks-compact.json - Compact version for quick lookups');
-  log('  • static/llms.txt - LLM context file with updated stats');
-  log(`  • ${enhanced} hook files enhanced with usage examples\n`);
+  log('  • static/llms.txt - LLM context file with updated stats\n');
 
   log('Recommended usage:', colors.cyan);
   log('  1. Fetch /api/hooks/index.json to discover products');

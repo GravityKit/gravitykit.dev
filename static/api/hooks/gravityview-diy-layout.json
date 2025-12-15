@@ -1,5 +1,5 @@
 {
-  "generated": "2025-12-15T23:52:08.144Z",
+  "generated": "2025-12-15T23:55:35.811Z",
   "product": {
     "id": "gravityview-diy-layout",
     "label": "GravityView - DIY Layout",
@@ -48,7 +48,7 @@
         "views",
         "after"
       ],
-      "example": "/**\n * Hook into gravityview_diy_body_after\n *\n * @param \\GravityView_View $gravityview_view Current GravityView_View object.\n */\nadd_action( 'gravityview_diy_body_after', 'my_custom_gravityview_diy_body_after_handler', 10, 1 );\n\nfunction my_custom_gravityview_diy_body_after_handler($gravityview_view) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gravityview_diy_body_after', function($gravityview_view) {\n    // Your code here\n}, 10, 1 );",
       "since": "1.0",
       "source": {
         "file": "class-gv-template-view-diy.php",
@@ -76,7 +76,7 @@
         "views",
         "before"
       ],
-      "example": "/**\n * Hook into gravityview_diy_body_before\n *\n * @param \\GravityView_View $gravityview_view Current GravityView_View object.\n */\nadd_action( 'gravityview_diy_body_before', 'my_custom_gravityview_diy_body_before_handler', 10, 1 );\n\nfunction my_custom_gravityview_diy_body_before_handler($gravityview_view) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gravityview_diy_body_before', function($gravityview_view) {\n    // Your code here\n}, 10, 1 );",
       "since": "1.0",
       "source": {
         "file": "class-gv-template-view-diy.php",
@@ -104,7 +104,7 @@
         "views",
         "after"
       ],
-      "example": "/**\n * Hook into gravityview_diy_single_after\n *\n * @param \\GravityView_View $gravityview_view Current GravityView_View object.\n */\nadd_action( 'gravityview_diy_single_after', 'my_custom_gravityview_diy_single_after_handler', 10, 1 );\n\nfunction my_custom_gravityview_diy_single_after_handler($gravityview_view) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gravityview_diy_single_after', function($gravityview_view) {\n    // Your code here\n}, 10, 1 );",
       "since": "1.0",
       "source": {
         "file": "class-gv-template-entry-diy.php",
@@ -132,7 +132,7 @@
         "views",
         "before"
       ],
-      "example": "/**\n * Hook into gravityview_diy_single_before\n *\n * @param \\GravityView_View $gravityview_view Current GravityView_View object.\n */\nadd_action( 'gravityview_diy_single_before', 'my_custom_gravityview_diy_single_before_handler', 10, 1 );\n\nfunction my_custom_gravityview_diy_single_before_handler($gravityview_view) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gravityview_diy_single_before', function($gravityview_view) {\n    // Your code here\n}, 10, 1 );",
       "since": "1.0",
       "source": {
         "file": "class-gv-template-entry-diy.php",
@@ -161,7 +161,7 @@
         "views",
         "after"
       ],
-      "example": "/**\n * Hook into gravityview_entry_after\n *\n * @param \\GravityView_View $gravityview_view Current GravityView_View object.\n */\nadd_action( 'gravityview_entry_after', 'my_custom_gravityview_entry_after_handler', 10, 1 );\n\nfunction my_custom_gravityview_entry_after_handler($gravityview_view) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gravityview_entry_after', function($gravityview_view) {\n    // Your code here\n}, 10, 1 );",
       "since": "1.0",
       "source": {
         "file": "class-gv-template-view-diy.php",
@@ -191,7 +191,7 @@
         "views",
         "before"
       ],
-      "example": "/**\n * Hook into gravityview_entry_before\n *\n * @param \\GravityView_View $gravityview_view Current GravityView_View object.\n */\nadd_action( 'gravityview_entry_before', 'my_custom_gravityview_entry_before_handler', 10, 1 );\n\nfunction my_custom_gravityview_entry_before_handler($gravityview_view) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gravityview_entry_before', function($gravityview_view) {\n    // Your code here\n}, 10, 1 );",
       "since": "1.0",
       "source": {
         "file": "class-gv-template-view-diy.php",
@@ -221,7 +221,7 @@
         "views",
         "after"
       ],
-      "example": "/**\n * Hook into gravityviewtemplatediybodyafter\n *\n * @param \\GV\\Template_Context $context The template context.\n */\nadd_action( 'gravityviewtemplatediybodyafter', 'my_custom_gravityviewtemplatediybodyafter_handler', 10, 1 );\n\nfunction my_custom_gravityviewtemplatediybodyafter_handler($context) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gravityview/template/diy/body/after', function($context) {\n    // Your code here\n}, 10, 1 );",
       "since": "2.0",
       "source": {
         "file": "class-gv-template-view-diy.php",
@@ -250,7 +250,7 @@
         "views",
         "before"
       ],
-      "example": "/**\n * Hook into gravityviewtemplatediybodybefore\n *\n * @param \\GV\\Template_Context $context The template context.\n */\nadd_action( 'gravityviewtemplatediybodybefore', 'my_custom_gravityviewtemplatediybodybefore_handler', 10, 1 );\n\nfunction my_custom_gravityviewtemplatediybodybefore_handler($context) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gravityview/template/diy/body/before', function($context) {\n    // Your code here\n}, 10, 1 );",
       "since": "2.0",
       "source": {
         "file": "class-gv-template-view-diy.php",
@@ -280,7 +280,7 @@
         "views",
         "after"
       ],
-      "example": "/**\n * Hook into gravityviewtemplatediyentryafter\n *\n * @param \\GV\\Template_Context $context The template context.\n */\nadd_action( 'gravityviewtemplatediyentryafter', 'my_custom_gravityviewtemplatediyentryafter_handler', 10, 1 );\n\nfunction my_custom_gravityviewtemplatediyentryafter_handler($context) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gravityview/template/diy/entry/after', function($context) {\n    // Your code here\n}, 10, 1 );",
       "since": "2.0",
       "source": {
         "file": "class-gv-template-view-diy.php",
@@ -311,7 +311,7 @@
         "views",
         "before"
       ],
-      "example": "/**\n * Hook into gravityviewtemplatediyentrybefore\n *\n * @param \\GV\\Template_Context $context The template context.\n */\nadd_action( 'gravityviewtemplatediyentrybefore', 'my_custom_gravityviewtemplatediyentrybefore_handler', 10, 1 );\n\nfunction my_custom_gravityviewtemplatediyentrybefore_handler($context) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gravityview/template/diy/entry/before', function($context) {\n    // Your code here\n}, 10, 1 );",
       "since": "2.0",
       "source": {
         "file": "class-gv-template-view-diy.php",
@@ -341,7 +341,7 @@
         "views",
         "after"
       ],
-      "example": "/**\n * Hook into gravityviewtemplatediysingleafter\n *\n * @param \\GV\\Template_Context $context The template context.\n */\nadd_action( 'gravityviewtemplatediysingleafter', 'my_custom_gravityviewtemplatediysingleafter_handler', 10, 1 );\n\nfunction my_custom_gravityviewtemplatediysingleafter_handler($context) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gravityview/template/diy/single/after', function($context) {\n    // Your code here\n}, 10, 1 );",
       "since": "2.0",
       "source": {
         "file": "class-gv-template-entry-diy.php",
@@ -370,7 +370,7 @@
         "views",
         "before"
       ],
-      "example": "/**\n * Hook into gravityviewtemplatediysinglebefore\n *\n * @param \\GV\\Template_Context $context The template context.\n */\nadd_action( 'gravityviewtemplatediysinglebefore', 'my_custom_gravityviewtemplatediysinglebefore_handler', 10, 1 );\n\nfunction my_custom_gravityviewtemplatediysinglebefore_handler($context) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gravityview/template/diy/single/before', function($context) {\n    // Your code here\n}, 10, 1 );",
       "since": "2.0",
       "source": {
         "file": "class-gv-template-entry-diy.php",
@@ -407,7 +407,7 @@
       "categories": [
         "views"
       ],
-      "example": "/**\n * Filter gravityview-diycontainer-tags\n *\n * @param array $container_tags HTML tags in \"tag name\" =&gt; \"tag label\" array\n * @param string $input_type Type of input being displayed (\"address\", \"text\", \"list\", \"custom\")\n * @param string $context <code>directory</code>, <code>single</code>, <code>edit</code>\n * @return array Modified container_tags\n */\nadd_filter( 'gravityview-diycontainer-tags', 'my_custom_gravityview_diycontainer_tags_filter', 10, 3 );\n\nfunction my_custom_gravityview_diycontainer_tags_filter($container_tags, $input_type, $context) {\n    // Modify $container_tags as needed\n\n    return $container_tags;\n}",
+      "example": "add_filter( 'gravityview-diy/container-tags', function($container_tags, $input_type, $context) {\n    // Modify $container_tags as needed\n    return $container_tags;\n}, 10, 3 );",
       "since": null,
       "source": {
         "file": "class-gravityview-diy-template.php",
@@ -433,7 +433,7 @@
         "fields",
         "views"
       ],
-      "example": "/**\n * Filter gravityview-diyfield-valueshow-settings-content-if-empty\n *\n * @param bool $show_if_output_is_empty Default: false\n * @return bool Modified show_if_output_is_empty\n */\nadd_filter( 'gravityview-diyfield-valueshow-settings-content-if-empty', 'my_custom_gravityview_diyfield_valueshow_settings_content_if_empty_filter', 10, 1 );\n\nfunction my_custom_gravityview_diyfield_valueshow_settings_content_if_empty_filter($show_if_output_is_empty) {\n    // Modify $show_if_output_is_empty as needed\n\n    return $show_if_output_is_empty;\n}",
+      "example": "add_filter( 'gravityview-diy/field-value/show-settings-content-if-empty', function($show_if_output_is_empty) {\n    // Modify $show_if_output_is_empty as needed\n    return $show_if_output_is_empty;\n}, 10, 1 );",
       "since": null,
       "source": {
         "file": "class-gravityview-diy-template.php",
@@ -458,7 +458,7 @@
       "categories": [
         "views"
       ],
-      "example": "/**\n * Filter gravityview-diywrapmultiple\n *\n * @param bool $wrap Default: true\n * @return bool Modified wrap\n */\nadd_filter( 'gravityview-diywrapmultiple', 'my_custom_gravityview_diywrapmultiple_filter', 10, 1 );\n\nfunction my_custom_gravityview_diywrapmultiple_filter($wrap) {\n    // Modify $wrap as needed\n\n    return $wrap;\n}",
+      "example": "add_filter( 'gravityview-diy/wrap/multiple', function($wrap) {\n    // Modify $wrap as needed\n    return $wrap;\n}, 10, 1 );",
       "since": null,
       "source": {
         "file": "templates/views/diy.php",
@@ -485,7 +485,7 @@
       "categories": [
         "views"
       ],
-      "example": "/**\n * Filter gravityview-diywrapsingle\n *\n * @param bool $wrap Default: true\n * @return bool Modified wrap\n */\nadd_filter( 'gravityview-diywrapsingle', 'my_custom_gravityview_diywrapsingle_filter', 10, 1 );\n\nfunction my_custom_gravityview_diywrapsingle_filter($wrap) {\n    // Modify $wrap as needed\n\n    return $wrap;\n}",
+      "example": "add_filter( 'gravityview-diy/wrap/single', function($wrap) {\n    // Modify $wrap as needed\n    return $wrap;\n}, 10, 1 );",
       "since": null,
       "source": {
         "file": "templates/entries/diy.php",
@@ -523,7 +523,7 @@
         "entries",
         "views"
       ],
-      "example": "/**\n * Filter gravityview_entry_class\n *\n * @param array $entry Current entry being displayed\n * @param \\GravityView_View $this Current GravityView_View object\n * @param string $class Existing class.\n * @return array Modified entry\n */\nadd_filter( 'gravityview_entry_class', 'my_custom_gravityview_entry_class_filter', 10, 3 );\n\nfunction my_custom_gravityview_entry_class_filter($entry, $this, $class) {\n    // Modify $entry as needed\n\n    return $entry;\n}",
+      "example": "add_filter( 'gravityview_entry_class', function($entry, $this, $class) {\n    // Modify $entry as needed\n    return $entry;\n}, 10, 3 );",
       "since": null,
       "source": {
         "file": "class-gv-template-view-diy.php",
@@ -544,7 +544,7 @@
         "views",
         "after"
       ],
-      "example": "/**\n * Filter gravityview_render_after_label\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gravityview_render_after_label', 'my_custom_gravityview_render_after_label_filter' );\n\nfunction my_custom_gravityview_render_after_label_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
+      "example": "add_filter( 'gravityview_render_after_label', function() {\n    // Modify $value as needed\n    return $value;\n} );",
       "since": null,
       "source": {
         "file": "class-gv-template-view-diy.php",
@@ -575,7 +575,7 @@
         "rendering",
         "views"
       ],
-      "example": "/**\n * Filter gravityviewrenderhide-empty-zone\n *\n * @param bool $ Should the row be hidden if the value is empty? Default: don't hide.\n * @param \\GV\\Template_Context $context The context ;) Love it, cherish it. And don't you dare modify it!\n * @return bool Modified \n */\nadd_filter( 'gravityviewrenderhide-empty-zone', 'my_custom_gravityviewrenderhide_empty_zone_filter', 10, 2 );\n\nfunction my_custom_gravityviewrenderhide_empty_zone_filter($, $context) {\n    // Modify $ as needed\n\n    return $;\n}",
+      "example": "add_filter( 'gravityview/render/hide-empty-zone', function($, $context) {\n    // Modify $value as needed\n    return $value;\n}, 10, 2 );",
       "since": null,
       "source": {
         "file": "class-gv-template-view-diy.php",
@@ -607,7 +607,7 @@
         "rendering",
         "views"
       ],
-      "example": "/**\n * Filter gravityviewtemplatediyentryclass\n *\n * @param string $class The existing class.\n * @param \\GV\\Template_Context $ The context.\n * @return string Modified class\n */\nadd_filter( 'gravityviewtemplatediyentryclass', 'my_custom_gravityviewtemplatediyentryclass_filter', 10, 2 );\n\nfunction my_custom_gravityviewtemplatediyentryclass_filter($class, $) {\n    // Modify $class as needed\n\n    return $class;\n}",
+      "example": "add_filter( 'gravityview/template/diy/entry/class', function($class, $) {\n    // Modify $class as needed\n    return $class;\n}, 10, 2 );",
       "since": null,
       "source": {
         "file": "class-gv-template-view-diy.php",
@@ -637,7 +637,7 @@
         "rendering",
         "views"
       ],
-      "example": "/**\n * Filter gravityviewtemplatefieldlabel\n *\n * @param \\GV\\Template_Context $context The context.\n * @return \\GV\\Template_Context Modified context\n */\nadd_filter( 'gravityviewtemplatefieldlabel', 'my_custom_gravityviewtemplatefieldlabel_filter', 10, 1 );\n\nfunction my_custom_gravityviewtemplatefieldlabel_filter($context) {\n    // Modify $context as needed\n\n    return $context;\n}",
+      "example": "add_filter( 'gravityview/template/field/label', function($context) {\n    // Modify $context as needed\n    return $context;\n}, 10, 1 );",
       "since": "2.0",
       "source": {
         "file": "class-gv-template-view-diy.php",

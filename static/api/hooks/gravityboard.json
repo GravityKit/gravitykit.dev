@@ -1,5 +1,5 @@
 {
-  "generated": "2025-12-15T23:52:08.144Z",
+  "generated": "2025-12-15T23:55:35.811Z",
   "product": {
     "id": "gravityboard",
     "label": "GravityBoard",
@@ -56,7 +56,7 @@
       "categories": [
         "kanban"
       ],
-      "example": "/**\n * Hook into gkgravityboardajaxregister-routes\n *\n * @param \\Ajax $this The Ajax instance.\n */\nadd_action( 'gkgravityboardajaxregister-routes', 'my_custom_gkgravityboardajaxregister_routes_handler', 10, 1 );\n\nfunction my_custom_gkgravityboardajaxregister_routes_handler($this) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityboard/ajax/register-routes', function($this) {\n    // Your code here\n}, 10, 1 );",
       "since": "1.0.0",
       "source": {
         "file": "src/Ajax.php",
@@ -96,7 +96,7 @@
       "categories": [
         "kanban"
       ],
-      "example": "/**\n * Hook into gkgravityboardassigneesadded\n *\n * @param int $user_id The ID of the user who was assigned.\n * @param int $entry_id The ID of the entry that was updated.\n * @param array $feed The feed associated with the board.\n * @param array $form The form associated with the entry.\n */\nadd_action( 'gkgravityboardassigneesadded', 'my_custom_gkgravityboardassigneesadded_handler', 10, 4 );\n\nfunction my_custom_gkgravityboardassigneesadded_handler($user_id, $entry_id, $feed, $form) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityboard/assignees/added', function($user_id, $entry_id, $feed, $form) {\n    // Your code here\n}, 10, 4 );",
       "since": "1.0",
       "source": {
         "file": "src/Assignees/Assignees.php",
@@ -139,7 +139,7 @@
       "categories": [
         "kanban"
       ],
-      "example": "/**\n * Hook into gkgravityboardassigneesremoved\n *\n * @param int $user_id The ID of the user who was unassigned.\n * @param int $entry_id The ID of the entry that was updated.\n * @param array $feed The feed associated with the board.\n * @param array $form The form associated with the entry.\n */\nadd_action( 'gkgravityboardassigneesremoved', 'my_custom_gkgravityboardassigneesremoved_handler', 10, 4 );\n\nfunction my_custom_gkgravityboardassigneesremoved_handler($user_id, $entry_id, $feed, $form) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityboard/assignees/removed', function($user_id, $entry_id, $feed, $form) {\n    // Your code here\n}, 10, 4 );",
       "since": "1.0",
       "source": {
         "file": "src/Assignees/Assignees.php",
@@ -182,7 +182,7 @@
       "categories": [
         "kanban"
       ],
-      "example": "/**\n * Hook into gkgravityboardassigneesupdated\n *\n * @param int $entry_id The ID of the entry that was updated.\n * @param array $assignees The assignees for the entry.\n * @param array $feed The feed associated with the board.\n * @param array $form The form associated with the entry.\n */\nadd_action( 'gkgravityboardassigneesupdated', 'my_custom_gkgravityboardassigneesupdated_handler', 10, 4 );\n\nfunction my_custom_gkgravityboardassigneesupdated_handler($entry_id, $assignees, $feed, $form) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityboard/assignees/updated', function($entry_id, $assignees, $feed, $form) {\n    // Your code here\n}, 10, 4 );",
       "since": "1.0",
       "source": {
         "file": "src/Assignees/Assignees.php",
@@ -220,7 +220,7 @@
       "categories": [
         "kanban"
       ],
-      "example": "/**\n * Hook into gkgravityboardattachmentsadded\n *\n * @param array $attachments The attachments array.\n * @param array $entry The entry array.\n * @param array $feed The feed array.\n */\nadd_action( 'gkgravityboardattachmentsadded', 'my_custom_gkgravityboardattachmentsadded_handler', 10, 3 );\n\nfunction my_custom_gkgravityboardattachmentsadded_handler($attachments, $entry, $feed) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityboard/attachments/added', function($attachments, $entry, $feed) {\n    // Your code here\n}, 10, 3 );",
       "since": "1.0",
       "source": {
         "file": "src/Attachments/Attachments.php",
@@ -263,7 +263,7 @@
       "categories": [
         "kanban"
       ],
-      "example": "/**\n * Hook into gkgravityboardattachmentsremoved\n *\n * @param array $updated_attachments The updated attachments array.\n * @param array $entry The entry array.\n * @param array $feed The feed array.\n * @param string $attachment_id_to_delete The ID of the attachment that was deleted.\n */\nadd_action( 'gkgravityboardattachmentsremoved', 'my_custom_gkgravityboardattachmentsremoved_handler', 10, 4 );\n\nfunction my_custom_gkgravityboardattachmentsremoved_handler($updated_attachments, $entry, $feed, $attachment_id_to_delete) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityboard/attachments/removed', function($updated_attachments, $entry, $feed, $attachment_id_to_delete) {\n    // Your code here\n}, 10, 4 );",
       "since": "1.0",
       "source": {
         "file": "src/Attachments/Attachments.php",
@@ -301,7 +301,7 @@
       "categories": [
         "kanban"
       ],
-      "example": "/**\n * Hook into gkgravityboardattachmentsupdated\n *\n * @param array $sanitized_attachments The sanitized attachments array.\n * @param array $entry The entry array.\n * @param array $feed The feed array.\n */\nadd_action( 'gkgravityboardattachmentsupdated', 'my_custom_gkgravityboardattachmentsupdated_handler', 10, 3 );\n\nfunction my_custom_gkgravityboardattachmentsupdated_handler($sanitized_attachments, $entry, $feed) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityboard/attachments/updated', function($sanitized_attachments, $entry, $feed) {\n    // Your code here\n}, 10, 3 );",
       "since": "1.0",
       "source": {
         "file": "src/Attachments/Attachments.php",
@@ -339,7 +339,7 @@
       "categories": [
         "kanban"
       ],
-      "example": "/**\n * Hook into gkgravityboardcardadded\n *\n * @param array $created_entry The created entry data.\n * @param array $feed The feed data.\n * @param \\WP_REST_Request $request The REST request object.\n */\nadd_action( 'gkgravityboardcardadded', 'my_custom_gkgravityboardcardadded_handler', 10, 3 );\n\nfunction my_custom_gkgravityboardcardadded_handler($created_entry, $feed, $request) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityboard/card/added', function($created_entry, $feed, $request) {\n    // Your code here\n}, 10, 3 );",
       "since": "1.0",
       "source": {
         "file": "src/Ajax.php",
@@ -385,7 +385,7 @@
       "categories": [
         "kanban"
       ],
-      "example": "/**\n * Hook into gkgravityboardcardchanged-lane\n *\n * @param array $updated_entry The updated entry data.\n * @param array $feed The feed data.\n * @param int $source_lane_id The ID of the source lane.\n * @param int $target_lane_id The ID of the target lane.\n */\nadd_action( 'gkgravityboardcardchanged-lane', 'my_custom_gkgravityboardcardchanged_lane_handler', 10, 4 );\n\nfunction my_custom_gkgravityboardcardchanged_lane_handler($updated_entry, $feed, $source_lane_id, $target_lane_id) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityboard/card/changed-lane', function($updated_entry, $feed, $source_lane_id, $target_lane_id) {\n    // Your code here\n}, 10, 4 );",
       "since": "1.0",
       "source": {
         "file": "src/Ajax.php",
@@ -426,7 +426,7 @@
       "categories": [
         "kanban"
       ],
-      "example": "/**\n * Hook into gkgravityboardcarddeleted\n *\n * @param array $entry The entry data.\n * @param array $feed The feed data.\n * @param string $deletion_mode The deletion mode (\"trash\" or \"delete\").\n */\nadd_action( 'gkgravityboardcarddeleted', 'my_custom_gkgravityboardcarddeleted_handler', 10, 3 );\n\nfunction my_custom_gkgravityboardcarddeleted_handler($entry, $feed, $deletion_mode) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityboard/card/deleted', function($entry, $feed, $deletion_mode) {\n    // Your code here\n}, 10, 3 );",
       "since": "1.0",
       "source": {
         "file": "src/Ajax.php",
@@ -468,7 +468,7 @@
         "editing",
         "kanban"
       ],
-      "example": "/**\n * Hook into gkgravityboardcardedited\n *\n * @param array $updated_entry The updated entry data.\n * @param array $feed The feed data.\n * @param array $changes The changes to the card, each element is a string of the field or meta key that was updated.\n */\nadd_action( 'gkgravityboardcardedited', 'my_custom_gkgravityboardcardedited_handler', 10, 3 );\n\nfunction my_custom_gkgravityboardcardedited_handler($updated_entry, $feed, $changes) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityboard/card/edited', function($updated_entry, $feed, $changes) {\n    // Your code here\n}, 10, 3 );",
       "since": "1.0",
       "source": {
         "file": "src/Ajax.php",
@@ -514,7 +514,7 @@
       "categories": [
         "kanban"
       ],
-      "example": "/**\n * Hook into gkgravityboardcardsorted\n *\n * @param array $updated_entry The updated entry data.\n * @param array $feed The feed data.\n * @param int $source_lane_id The ID of the lane with cards that were sorted.\n * @param array $ordered_ids The ordered card IDs.\n */\nadd_action( 'gkgravityboardcardsorted', 'my_custom_gkgravityboardcardsorted_handler', 10, 4 );\n\nfunction my_custom_gkgravityboardcardsorted_handler($updated_entry, $feed, $source_lane_id, $ordered_ids) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityboard/card/sorted', function($updated_entry, $feed, $source_lane_id, $ordered_ids) {\n    // Your code here\n}, 10, 4 );",
       "since": "1.0",
       "source": {
         "file": "src/Ajax.php",
@@ -555,7 +555,7 @@
       "categories": [
         "kanban"
       ],
-      "example": "/**\n * Hook into gkgravityboardchecklistsitemadded\n *\n * @param array\\ $entry \\WP_Error`\n * @param \\ChecklistItem $new_item The new checklist item.\n * @param array $feed The feed data.\n */\nadd_action( 'gkgravityboardchecklistsitemadded', 'my_custom_gkgravityboardchecklistsitemadded_handler', 10, 3 );\n\nfunction my_custom_gkgravityboardchecklistsitemadded_handler($entry, $new_item, $feed) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityboard/checklists/item/added', function($entry, $new_item, $feed) {\n    // Your code here\n}, 10, 3 );",
       "since": "1.1",
       "source": {
         "file": "src/Checklists/Checklists.php",
@@ -598,7 +598,7 @@
       "categories": [
         "kanban"
       ],
-      "example": "/**\n * Hook into gkgravityboardchecklistsitemdeleted\n *\n * @param array\\ $entry \\WP_Error`\n * @param \\ChecklistItem $item The deleted checklist item.\n * @param \\ChecklistCollection $checklists The updated checklists data.\n * @param array $feed The feed data.\n */\nadd_action( 'gkgravityboardchecklistsitemdeleted', 'my_custom_gkgravityboardchecklistsitemdeleted_handler', 10, 4 );\n\nfunction my_custom_gkgravityboardchecklistsitemdeleted_handler($entry, $item, $checklists, $feed) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityboard/checklists/item/deleted', function($entry, $item, $checklists, $feed) {\n    // Your code here\n}, 10, 4 );",
       "since": "1.1",
       "source": {
         "file": "src/Checklists/Checklists.php",
@@ -641,7 +641,7 @@
       "categories": [
         "kanban"
       ],
-      "example": "/**\n * Hook into gkgravityboardchecklistsitemupdated\n *\n * @param array\\ $entry \\WP_Error`\n * @param \\ChecklistItem $item The checklist item.\n * @param \\ChecklistCollection $collection The updated checklists collection.\n * @param array $feed The feed data.\n */\nadd_action( 'gkgravityboardchecklistsitemupdated', 'my_custom_gkgravityboardchecklistsitemupdated_handler', 10, 4 );\n\nfunction my_custom_gkgravityboardchecklistsitemupdated_handler($entry, $item, $collection, $feed) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityboard/checklists/item/updated', function($entry, $item, $collection, $feed) {\n    // Your code here\n}, 10, 4 );",
       "since": "1.1",
       "source": {
         "file": "src/Checklists/Checklists.php",
@@ -690,7 +690,7 @@
         "rendering",
         "kanban"
       ],
-      "example": "/**\n * Hook into gkgravityboardcheckliststemplates-applied\n *\n * @param \\ChecklistCollection $merged_collection The merged template collection that was applied.\n * @param array $entry The created entry data.\n * @param array $applied_feed_ids Array of feed IDs that were applied.\n * @param array $form The form data.\n * @param int $items_added Number of items added from templates.\n */\nadd_action( 'gkgravityboardcheckliststemplates-applied', 'my_custom_gkgravityboardcheckliststemplates_applied_handler', 10, 5 );\n\nfunction my_custom_gkgravityboardcheckliststemplates_applied_handler($merged_collection, $entry, $applied_feed_ids, $form, $items_added) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityboard/checklists/templates-applied', function($merged_collection, $entry, $applied_feed_ids, $form, $items_added) {\n    // Your code here\n}, 10, 5 );",
       "since": "TODO: TODO",
       "source": {
         "file": "src/Checklists/Checklists.php",
@@ -728,7 +728,7 @@
       "categories": [
         "kanban"
       ],
-      "example": "/**\n * Hook into gkgravityboardchecklistsupdated\n *\n * @param \\ChecklistCollection $checklists The checklist collection.\n * @param array $entry The entry array.\n * @param array $feed The feed array.\n */\nadd_action( 'gkgravityboardchecklistsupdated', 'my_custom_gkgravityboardchecklistsupdated_handler', 10, 3 );\n\nfunction my_custom_gkgravityboardchecklistsupdated_handler($checklists, $entry, $feed) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityboard/checklists/updated', function($checklists, $entry, $feed) {\n    // Your code here\n}, 10, 3 );",
       "since": "1.1",
       "source": {
         "file": "src/Checklists/Checklists.php",
@@ -766,7 +766,7 @@
       "categories": [
         "kanban"
       ],
-      "example": "/**\n * Hook into gkgravityboardlaneadded\n *\n * @param int $new_lane_id The ID of the new lane.\n * @param array $new_lane_choice The new lane choice.\n * @param array $feed The feed data.\n */\nadd_action( 'gkgravityboardlaneadded', 'my_custom_gkgravityboardlaneadded_handler', 10, 3 );\n\nfunction my_custom_gkgravityboardlaneadded_handler($new_lane_id, $new_lane_choice, $feed) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityboard/lane/added', function($new_lane_id, $new_lane_choice, $feed) {\n    // Your code here\n}, 10, 3 );",
       "since": "1.0",
       "source": {
         "file": "src/Lane.php",
@@ -810,7 +810,7 @@
       "categories": [
         "kanban"
       ],
-      "example": "/**\n * Hook into gkgravityboardlanedeleted\n *\n * @param array $form The form data.\n * @param int $lane_field_id The ID of the lane field.\n * @param array $feed The feed data.\n * @param int $lane_id The ID of the lane that was deleted.\n */\nadd_action( 'gkgravityboardlanedeleted', 'my_custom_gkgravityboardlanedeleted_handler', 10, 4 );\n\nfunction my_custom_gkgravityboardlanedeleted_handler($form, $lane_field_id, $feed, $lane_id) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityboard/lane/deleted', function($form, $lane_field_id, $feed, $lane_id) {\n    // Your code here\n}, 10, 4 );",
       "since": "1.0",
       "source": {
         "file": "src/Lane.php",
@@ -850,7 +850,7 @@
         "editing",
         "kanban"
       ],
-      "example": "/**\n * Hook into gkgravityboardlaneedited\n *\n * @param array $form The form data.\n * @param int $lane_field_id The ID of the lane field.\n * @param array $feed The feed data.\n */\nadd_action( 'gkgravityboardlaneedited', 'my_custom_gkgravityboardlaneedited_handler', 10, 3 );\n\nfunction my_custom_gkgravityboardlaneedited_handler($form, $lane_field_id, $feed) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityboard/lane/edited', function($form, $lane_field_id, $feed) {\n    // Your code here\n}, 10, 3 );",
       "since": "1.0",
       "source": {
         "file": "src/Lane.php",
@@ -894,7 +894,7 @@
       "categories": [
         "kanban"
       ],
-      "example": "/**\n * Hook into gkgravityboardlanemoved\n *\n * @param array $form The form data.\n * @param int $lane_field_id The ID of the lane field.\n * @param array $feed The feed data.\n * @param int $new_position The new position of the lane.\n */\nadd_action( 'gkgravityboardlanemoved', 'my_custom_gkgravityboardlanemoved_handler', 10, 4 );\n\nfunction my_custom_gkgravityboardlanemoved_handler($form, $lane_field_id, $feed, $new_position) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityboard/lane/moved', function($form, $lane_field_id, $feed, $new_position) {\n    // Your code here\n}, 10, 4 );",
       "since": "1.0",
       "source": {
         "file": "src/Lane.php",
@@ -928,7 +928,7 @@
       "categories": [
         "kanban"
       ],
-      "example": "/**\n * Filter gkgravityboardboard-settings\n *\n * @param array $board_settings The board settings.\n * @param int $feed_id The ID of the feed.\n * @return array Modified board_settings\n */\nadd_filter( 'gkgravityboardboard-settings', 'my_custom_gkgravityboardboard_settings_filter', 10, 2 );\n\nfunction my_custom_gkgravityboardboard_settings_filter($board_settings, $feed_id) {\n    // Modify $board_settings as needed\n\n    return $board_settings;\n}",
+      "example": "add_filter( 'gk/gravityboard/board-settings', function($board_settings, $feed_id) {\n    // Modify $board_settings as needed\n    return $board_settings;\n}, 10, 2 );",
       "since": "1.0",
       "source": {
         "file": "src/Feed.php",
@@ -965,7 +965,7 @@
       "categories": [
         "kanban"
       ],
-      "example": "/**\n * Filter gkgravityboardcarddata\n *\n * @param array $card The card data.\n * @param array $entry The entry data.\n * @param array $feed The feed data.\n * @return array Modified card\n */\nadd_filter( 'gkgravityboardcarddata', 'my_custom_gkgravityboardcarddata_filter', 10, 3 );\n\nfunction my_custom_gkgravityboardcarddata_filter($card, $entry, $feed) {\n    // Modify $card as needed\n\n    return $card;\n}",
+      "example": "add_filter( 'gk/gravityboard/card/data', function($card, $entry, $feed) {\n    // Modify $card as needed\n    return $card;\n}, 10, 3 );",
       "since": "1.1",
       "source": {
         "file": "src/Card.php",
@@ -1011,7 +1011,7 @@
       "categories": [
         "kanban"
       ],
-      "example": "/**\n * Filter gkgravityboardcardupdate-card\n *\n * @param array $changes The changes to the card, each element is a string of the field or meta key that was updated.\n * @param \\WP_REST_Request $request The REST request object.\n * @param array $entry The entry data.\n * @param array $feed The feed data.\n * @return array Modified changes\n */\nadd_filter( 'gkgravityboardcardupdate-card', 'my_custom_gkgravityboardcardupdate_card_filter', 10, 4 );\n\nfunction my_custom_gkgravityboardcardupdate_card_filter($changes, $request, $entry, $feed) {\n    // Modify $changes as needed\n\n    return $changes;\n}",
+      "example": "add_filter( 'gk/gravityboard/card/update-card', function($changes, $request, $entry, $feed) {\n    // Modify $changes as needed\n    return $changes;\n}, 10, 4 );",
       "since": null,
       "source": {
         "file": "src/Ajax.php",
@@ -1048,7 +1048,7 @@
         "export",
         "kanban"
       ],
-      "example": "/**\n * Filter gkgravityboardchecklistsexport-value\n *\n * @param string $export_text The export text, which is a string of checklist items and their statuses.\n * @param \\ChecklistCollection $checklists The checklists collection.\n * @return string Modified export_text\n */\nadd_filter( 'gkgravityboardchecklistsexport-value', 'my_custom_gkgravityboardchecklistsexport_value_filter', 10, 2 );\n\nfunction my_custom_gkgravityboardchecklistsexport_value_filter($export_text, $checklists) {\n    // Modify $export_text as needed\n\n    return $export_text;\n}",
+      "example": "add_filter( 'gk/gravityboard/checklists/export-value', function($export_text, $checklists) {\n    // Modify $export_text as needed\n    return $export_text;\n}, 10, 2 );",
       "since": "1.1",
       "source": {
         "file": "src/Checklists/Checklists.php",
@@ -1070,7 +1070,7 @@
       "categories": [
         "kanban"
       ],
-      "example": "/**\n * Filter gkgravityboarddatalanes\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gkgravityboarddatalanes', 'my_custom_gkgravityboarddatalanes_filter' );\n\nfunction my_custom_gkgravityboarddatalanes_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
+      "example": "add_filter( 'gk/gravityboard/data/lanes', function() {\n    // Modify $value as needed\n    return $value;\n} );",
       "since": null,
       "source": {
         "file": "src/Ajax.php",
@@ -1100,7 +1100,7 @@
       "categories": [
         "kanban"
       ],
-      "example": "/**\n * Filter gkgravityboardmerge-tagsassignee-user-id\n *\n * @param int\\ $assignee_user_id null`\n * @param array $entry The entry object.\n * @return int\\ Modified assignee_user_id\n */\nadd_filter( 'gkgravityboardmerge-tagsassignee-user-id', 'my_custom_gkgravityboardmerge_tagsassignee_user_id_filter', 10, 2 );\n\nfunction my_custom_gkgravityboardmerge_tagsassignee_user_id_filter($assignee_user_id, $entry) {\n    // Modify $assignee_user_id as needed\n\n    return $assignee_user_id;\n}",
+      "example": "add_filter( 'gk/gravityboard/merge-tags/assignee-user-id', function($assignee_user_id, $entry) {\n    // Modify $assignee_user_id as needed\n    return $assignee_user_id;\n}, 10, 2 );",
       "since": "1.0",
       "source": {
         "file": "src/Assignees/MergeTags.php",
@@ -1131,7 +1131,7 @@
         "search",
         "kanban"
       ],
-      "example": "/**\n * Filter gkgravityboardnotesfilter-by-board\n *\n * @param bool $filter_notes_by_feed Whether to filter notes by feed.\n * @param int $feed_id The feed ID.\n * @return bool Modified filter_notes_by_feed\n */\nadd_filter( 'gkgravityboardnotesfilter-by-board', 'my_custom_gkgravityboardnotesfilter_by_board_filter', 10, 2 );\n\nfunction my_custom_gkgravityboardnotesfilter_by_board_filter($filter_notes_by_feed, $feed_id) {\n    // Modify $filter_notes_by_feed as needed\n\n    return $filter_notes_by_feed;\n}",
+      "example": "add_filter( 'gk/gravityboard/notes/filter-by-board', function($filter_notes_by_feed, $feed_id) {\n    // Modify $filter_notes_by_feed as needed\n    return $filter_notes_by_feed;\n}, 10, 2 );",
       "since": "1.0",
       "source": {
         "file": "src/Notes/Notes.php",
@@ -1163,7 +1163,7 @@
         "kanban",
         "assets"
       ],
-      "example": "/**\n * Filter gkgravityboardrenderercss-variable-overrides\n *\n * @param array $css_overrides The global overrides, with the key as the full CSS variable name and the value as the CSS value.\n * @param array $feed The feed.\n * @return array Modified css_overrides\n */\nadd_filter( 'gkgravityboardrenderercss-variable-overrides', 'my_custom_gkgravityboardrenderercss_variable_overrides_filter', 10, 2 );\n\nfunction my_custom_gkgravityboardrenderercss_variable_overrides_filter($css_overrides, $feed) {\n    // Modify $css_overrides as needed\n\n    return $css_overrides;\n}",
+      "example": "add_filter( 'gk/gravityboard/renderer/css-variable-overrides', function($css_overrides, $feed) {\n    // Modify $css_overrides as needed\n    return $css_overrides;\n}, 10, 2 );",
       "since": "1.0",
       "source": {
         "file": "src/Renderer.php",
@@ -1193,7 +1193,7 @@
       "categories": [
         "kanban"
       ],
-      "example": "/**\n * Filter gkgravityboardtranslation-overrides\n *\n * @param array $translation_overrides The translation overrides.\n * @param int $feed_id The ID of the feed.\n * @return array Modified translation_overrides\n */\nadd_filter( 'gkgravityboardtranslation-overrides', 'my_custom_gkgravityboardtranslation_overrides_filter', 10, 2 );\n\nfunction my_custom_gkgravityboardtranslation_overrides_filter($translation_overrides, $feed_id) {\n    // Modify $translation_overrides as needed\n\n    return $translation_overrides;\n}",
+      "example": "add_filter( 'gk/gravityboard/translation-overrides', function($translation_overrides, $feed_id) {\n    // Modify $translation_overrides as needed\n    return $translation_overrides;\n}, 10, 2 );",
       "since": "1.0",
       "source": {
         "file": "src/Renderer.php",

@@ -1,5 +1,5 @@
 {
-  "generated": "2025-12-15T23:52:08.144Z",
+  "generated": "2025-12-15T23:55:35.811Z",
   "product": {
     "id": "gravityview-az-filters",
     "label": "GravityView - A-Z Filters",
@@ -25,7 +25,7 @@
         "search",
         "views"
       ],
-      "example": "/**\n * Filter gravityview_az_filter_parameter\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gravityview_az_filter_parameter', 'my_custom_gravityview_az_filter_parameter_filter' );\n\nfunction my_custom_gravityview_az_filter_parameter_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
+      "example": "add_filter( 'gravityview_az_filter_parameter', function() {\n    // Modify $value as needed\n    return $value;\n} );",
       "since": null,
       "source": {
         "file": "widget/gravityview-a-z-entry-filter-widget.php",
@@ -51,7 +51,7 @@
         "fields",
         "views"
       ],
-      "example": "/**\n * Filter gravityview_blocklist_field_types\n *\n * @param array $blocklist_field_types Array of fields not to be filtered due to storage types (JSON, serialized).\n * @return array Modified blocklist_field_types\n */\nadd_filter( 'gravityview_blocklist_field_types', 'my_custom_gravityview_blocklist_field_types_filter', 10, 1 );\n\nfunction my_custom_gravityview_blocklist_field_types_filter($blocklist_field_types) {\n    // Modify $blocklist_field_types as needed\n\n    return $blocklist_field_types;\n}",
+      "example": "add_filter( 'gravityview_blocklist_field_types', function($blocklist_field_types) {\n    // Modify $blocklist_field_types as needed\n    return $blocklist_field_types;\n}, 10, 1 );",
       "since": "1.3",
       "source": {
         "file": "widget/gravityview-a-z-entry-filter-widget.php",
@@ -82,7 +82,7 @@
         "search",
         "views"
       ],
-      "example": "/**\n * Filter gravityviewaz_filteranchor\n *\n * @param string $az_widget_anchor The anchor in the format <code>#gv-widget-az_filter-\\{integer widget counter\\}</code>\n * @param \\GV\\Template_Context $context The View context\n * @return string Modified az_widget_anchor\n */\nadd_filter( 'gravityviewaz_filteranchor', 'my_custom_gravityviewaz_filteranchor_filter', 10, 2 );\n\nfunction my_custom_gravityviewaz_filteranchor_filter($az_widget_anchor, $context) {\n    // Modify $az_widget_anchor as needed\n\n    return $az_widget_anchor;\n}",
+      "example": "add_filter( 'gravityview/az_filter/anchor', function($az_widget_anchor, $context) {\n    // Modify $az_widget_anchor as needed\n    return $az_widget_anchor;\n}, 10, 2 );",
       "since": null,
       "source": {
         "file": "widget/gravityview-a-z-entry-filter-widget.php",
@@ -116,7 +116,7 @@
         "search",
         "views"
       ],
-      "example": "/**\n * Filter gravityviewaz_filtercollation\n *\n * @param string $collation_override The collation override for the query. May be necessary to limit results with non-latin characters containing accents. Return a valid collation to override, like 'utf8mb4_bin'.\n * @param string $query The MySQL query passed to the database.\n * @return string Modified collation_override\n */\nadd_filter( 'gravityviewaz_filtercollation', 'my_custom_gravityviewaz_filtercollation_filter', 10, 2 );\n\nfunction my_custom_gravityviewaz_filtercollation_filter($collation_override, $query) {\n    // Modify $collation_override as needed\n\n    return $collation_override;\n}",
+      "example": "add_filter( 'gravityview/az_filter/collation', function($collation_override, $query) {\n    // Modify $collation_override as needed\n    return $collation_override;\n}, 10, 2 );",
       "since": "1.3",
       "source": {
         "file": "widget/gravityview-a-z-entry-filter-widget.php",
@@ -145,7 +145,7 @@
         "search",
         "views"
       ],
-      "example": "/**\n * Filter gravityviewaz_filterparameter\n *\n * @param string $parameter The URL parameter used to filter the alphabet by. For example, you could use <code>starts_with</code> as the parameter, and the link would be <code>/view/example/?starts_with=a</code> instead of <code>/view/example/?letter=a</code>\n * @return string Modified parameter\n */\nadd_filter( 'gravityviewaz_filterparameter', 'my_custom_gravityviewaz_filterparameter_filter', 10, 1 );\n\nfunction my_custom_gravityviewaz_filterparameter_filter($parameter) {\n    // Modify $parameter as needed\n\n    return $parameter;\n}",
+      "example": "add_filter( 'gravityview/az_filter/parameter', function($parameter) {\n    // Modify $parameter as needed\n    return $parameter;\n}, 10, 1 );",
       "since": null,
       "source": {
         "file": "widget/gravityview-a-z-entry-filter-widget.php",

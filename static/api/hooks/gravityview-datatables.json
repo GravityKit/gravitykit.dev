@@ -1,5 +1,5 @@
 {
-  "generated": "2025-12-15T23:52:08.144Z",
+  "generated": "2025-12-15T23:55:35.811Z",
   "product": {
     "id": "gravityview-datatables",
     "label": "GravityView - DataTables",
@@ -61,7 +61,7 @@
         "views",
         "before"
       ],
-      "example": "/**\n * Hook into gkgravityviewdatatablesoutputbefore\n *\n * @param \\GV\\Entry_Collection $entries The collection of entries for the current search.\n * @param \\View $view The View.\n * @param \\WP_Post $post The current View or post/page where View is embedded.\n */\nadd_action( 'gkgravityviewdatatablesoutputbefore', 'my_custom_gkgravityviewdatatablesoutputbefore_handler', 10, 3 );\n\nfunction my_custom_gkgravityviewdatatablesoutputbefore_handler($entries, $view, $post) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravityview/datatables/output/before', function($entries, $view, $post) {\n    // Your code here\n}, 10, 3 );",
       "since": "TODO: TODO",
       "source": {
         "file": "includes/class-datatables-data.php",
@@ -81,7 +81,7 @@
         "views",
         "assets"
       ],
-      "example": "/**\n * Hook into gravityview_datatables_scripts_styles\n *\n * @return void\n */\nadd_action( 'gravityview_datatables_scripts_styles', 'my_custom_gravityview_datatables_scripts_styles_handler' );\n\nfunction my_custom_gravityview_datatables_scripts_styles_handler() {\n    // Your custom code here\n}",
+      "example": "add_action( 'gravityview_datatables_scripts_styles', function() {\n    // Your code here\n} );",
       "since": null,
       "source": {
         "file": "includes/class-datatables-data.php",
@@ -106,7 +106,7 @@
       "categories": [
         "views"
       ],
-      "example": "/**\n * Hook into gravityview_datatables_settings_row\n *\n * @param array $ds DataTables settings stored in <code>_gravityview_datatables_settings</code> postmeta\n */\nadd_action( 'gravityview_datatables_settings_row', 'my_custom_gravityview_datatables_settings_row_handler', 10, 1 );\n\nfunction my_custom_gravityview_datatables_settings_row_handler($ds) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gravityview_datatables_settings_row', function($ds) {\n    // Your code here\n}, 10, 1 );",
       "since": null,
       "source": {
         "file": "includes/class-admin-datatables.php",
@@ -136,7 +136,7 @@
       "categories": [
         "views"
       ],
-      "example": "/**\n * Filter gravityview_datatables_button_labels\n *\n * @param array $button_labels Array of button types and their associated labels\n * @param string $context Where the labels are being shown. Allows for modifying the label for the View Settings vs frontend (default: \"admin\")\n * @return array Modified button_labels\n */\nadd_filter( 'gravityview_datatables_button_labels', 'my_custom_gravityview_datatables_button_labels_filter', 10, 2 );\n\nfunction my_custom_gravityview_datatables_button_labels_filter($button_labels, $context) {\n    // Modify $button_labels as needed\n\n    return $button_labels;\n}",
+      "example": "add_filter( 'gravityview_datatables_button_labels', function($button_labels, $context) {\n    // Modify $button_labels as needed\n    return $button_labels;\n}, 10, 2 );",
       "since": "2.4",
       "source": {
         "file": "includes/extensions/class-datatables-buttons.php",
@@ -176,7 +176,7 @@
       "categories": [
         "views"
       ],
-      "example": "/**\n * Filter gravityview_datatables_js_options\n *\n * @param array $dt_config The configuration for the current View\n * @param int $view_id The ID of the View being configured\n * @param \\WP_Post $post Current View or post/page where View is embedded\n * @param \\GV_Extension_DataTables_Data $this The current instance of the class.\n * @return array Modified dt_config\n */\nadd_filter( 'gravityview_datatables_js_options', 'my_custom_gravityview_datatables_js_options_filter', 10, 4 );\n\nfunction my_custom_gravityview_datatables_js_options_filter($dt_config, $view_id, $post, $this) {\n    // Modify $dt_config as needed\n\n    return $dt_config;\n}",
+      "example": "add_filter( 'gravityview_datatables_js_options', function($dt_config, $view_id, $post, $this) {\n    // Modify $dt_config as needed\n    return $dt_config;\n}, 10, 4 );",
       "since": "3.3: Added $this parameter.",
       "source": {
         "file": "includes/class-datatables-data.php",
@@ -206,7 +206,7 @@
       "categories": [
         "views"
       ],
-      "example": "/**\n * Filter gravityview_datatables_lengthmenu\n *\n * @param array $values Array of values and labels for the page length menu.\n * @param array $view_data The View data as an array \\{@see \\GV\\View::as_data()\\}.\n * @return array Modified values\n */\nadd_filter( 'gravityview_datatables_lengthmenu', 'my_custom_gravityview_datatables_lengthmenu_filter', 10, 2 );\n\nfunction my_custom_gravityview_datatables_lengthmenu_filter($values, $view_data) {\n    // Modify $values as needed\n\n    return $values;\n}",
+      "example": "add_filter( 'gravityview_datatables_lengthmenu', function($values, $view_data) {\n    // Modify $values as needed\n    return $values;\n}, 10, 2 );",
       "since": "3.3.5",
       "source": {
         "file": "includes/class-datatables-data.php",
@@ -236,7 +236,7 @@
       "categories": [
         "views"
       ],
-      "example": "/**\n * Filter gravityview_datatables_loading_text\n *\n * @param string $loading_text Default: Loading data…\n * @param \\View $view The View\n * @return string Modified loading_text\n */\nadd_filter( 'gravityview_datatables_loading_text', 'my_custom_gravityview_datatables_loading_text_filter', 10, 2 );\n\nfunction my_custom_gravityview_datatables_loading_text_filter($loading_text, $view) {\n    // Modify $loading_text as needed\n\n    return $loading_text;\n}",
+      "example": "add_filter( 'gravityview_datatables_loading_text', function($loading_text, $view) {\n    // Modify $loading_text as needed\n    return $loading_text;\n}, 10, 2 );",
       "since": "2.5: Added $view parameter",
       "source": {
         "file": "includes/class-datatables-data.php",
@@ -262,7 +262,7 @@
         "views",
         "assets"
       ],
-      "example": "/**\n * Filter gravityview_datatables_style_src\n *\n * @param string $css_source URL to the datatables.css file\n * @return string Modified css_source\n */\nadd_filter( 'gravityview_datatables_style_src', 'my_custom_gravityview_datatables_style_src_filter', 10, 1 );\n\nfunction my_custom_gravityview_datatables_style_src_filter($css_source) {\n    // Modify $css_source as needed\n\n    return $css_source;\n}",
+      "example": "add_filter( 'gravityview_datatables_style_src', function($css_source) {\n    // Modify $css_source as needed\n    return $css_source;\n}, 10, 1 );",
       "since": null,
       "source": {
         "file": "includes/class-datatables-template.php",
@@ -287,7 +287,7 @@
       "categories": [
         "views"
       ],
-      "example": "/**\n * Filter gravityview_dt_default_settings\n *\n * @param array $defaults Empty array of settings, to be filled-in by DT extensions\n * @return array Modified defaults\n */\nadd_filter( 'gravityview_dt_default_settings', 'my_custom_gravityview_dt_default_settings_filter', 10, 1 );\n\nfunction my_custom_gravityview_dt_default_settings_filter($defaults) {\n    // Modify $defaults as needed\n\n    return $defaults;\n}",
+      "example": "add_filter( 'gravityview_dt_default_settings', function($defaults) {\n    // Modify $defaults as needed\n    return $defaults;\n}, 10, 1 );",
       "since": null,
       "source": {
         "file": "includes/class-admin-datatables.php",
@@ -307,7 +307,7 @@
         "views",
         "assets"
       ],
-      "example": "/**\n * Filter gravityview_dt_rowgroup_script_src\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gravityview_dt_rowgroup_script_src', 'my_custom_gravityview_dt_rowgroup_script_src_filter' );\n\nfunction my_custom_gravityview_dt_rowgroup_script_src_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
+      "example": "add_filter( 'gravityview_dt_rowgroup_script_src', function() {\n    // Modify $value as needed\n    return $value;\n} );",
       "since": null,
       "source": {
         "file": "includes/extensions/class-datatables-rowgroup.php",
@@ -327,7 +327,7 @@
         "views",
         "assets"
       ],
-      "example": "/**\n * Filter gravityview_dt_rowgroup_style_src\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gravityview_dt_rowgroup_style_src', 'my_custom_gravityview_dt_rowgroup_style_src_filter' );\n\nfunction my_custom_gravityview_dt_rowgroup_style_src_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
+      "example": "add_filter( 'gravityview_dt_rowgroup_style_src', function() {\n    // Modify $value as needed\n    return $value;\n} );",
       "since": null,
       "source": {
         "file": "includes/extensions/class-datatables-rowgroup.php",
@@ -357,7 +357,7 @@
       "categories": [
         "views"
       ],
-      "example": "/**\n * Filter gravityviewdatatablesbutton\n *\n * @param array $button_config Associative array of button options (mandatory 'extend' and 'text' (e.g. add pdf orientation with 'orientation' =&gt; 'landscape' )\n * @param int $view_id View ID\n * @return array Modified button_config\n */\nadd_filter( 'gravityviewdatatablesbutton', 'my_custom_gravityviewdatatablesbutton_filter', 10, 2 );\n\nfunction my_custom_gravityviewdatatablesbutton_filter($button_config, $view_id) {\n    // Modify $button_config as needed\n\n    return $button_config;\n}",
+      "example": "add_filter( 'gravityview/datatables/button', function($button_config, $view_id) {\n    // Modify $button_config as needed\n    return $button_config;\n}, 10, 2 );",
       "since": "2.0",
       "source": {
         "file": "includes/extensions/class-datatables-buttons.php",
@@ -390,7 +390,7 @@
       "categories": [
         "views"
       ],
-      "example": "/**\n * Filter gravityviewdatatablesbutton_.button\n *\n * @param array $button_config Associative array of button options (mandatory 'extend' and 'text' (e.g. add pdf orientation with 'orientation' =&gt; 'landscape' )\n * @param int $view_id View ID\n * @return array Modified button_config\n */\nadd_filter( 'gravityviewdatatablesbutton_.button', 'my_custom_gravityviewdatatablesbutton__button_filter', 10, 2 );\n\nfunction my_custom_gravityviewdatatablesbutton__button_filter($button_config, $view_id) {\n    // Modify $button_config as needed\n\n    return $button_config;\n}",
+      "example": "add_filter( 'gravityview/datatables/button_ . $button', function($button_config, $view_id) {\n    // Modify $button_config as needed\n    return $button_config;\n}, 10, 2 );",
       "since": "2.0",
       "source": {
         "file": "includes/extensions/class-datatables-buttons.php",
@@ -428,7 +428,7 @@
       "categories": [
         "views"
       ],
-      "example": "/**\n * Filter gravityviewdatatablesconfiglanguage\n *\n * @param array $translations The translations mapping array from <code>GV_Extension_DataTables_Data::get_translations()</code>\n * @param string $locale The blog's locale, fetched from <code>get_locale()</code> Override language settings\n * @param array $language The language settings array.\\n <a href=\"https://github.com/DataTables/Plugins/blob/master/i18n/English.lang\">See a sample file with all available translations and their matching keys</a>\n * @return array Modified translations\n */\nadd_filter( 'gravityviewdatatablesconfiglanguage', 'my_custom_gravityviewdatatablesconfiglanguage_filter', 10, 3 );\n\nfunction my_custom_gravityviewdatatablesconfiglanguage_filter($translations, $locale, $language) {\n    // Modify $translations as needed\n\n    return $translations;\n}",
+      "example": "add_filter( 'gravityview/datatables/config/language', function($translations, $locale, $language) {\n    // Modify $translations as needed\n    return $translations;\n}, 10, 3 );",
       "since": "1.2.2: \\{@link <a href=\"https://github.com/DataTables/Plugins/blob/master/i18n/English.lang\">https://github.com/DataTables/Plugins/blob/master/i18n/English.lang</a>\\}",
       "source": {
         "file": "includes/class-datatables-data.php",
@@ -449,7 +449,7 @@
       "categories": [
         "views"
       ],
-      "example": "/**\n * Filter gravityviewdatatablesconfiglocale\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gravityviewdatatablesconfiglocale', 'my_custom_gravityviewdatatablesconfiglocale_filter' );\n\nfunction my_custom_gravityviewdatatablesconfiglocale_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
+      "example": "add_filter( 'gravityview/datatables/config/locale', function() {\n    // Modify $value as needed\n    return $value;\n} );",
       "since": "1.2.3",
       "source": {
         "file": "includes/class-datatables-data.php",
@@ -478,7 +478,7 @@
         "search",
         "views"
       ],
-      "example": "/**\n * Filter gravityviewdatatablesfield_filtersatts\n *\n * @param \\GV\\GF_Field\\ $field \\GV\\Internal_Field`\n * @return \\GV\\GF_Field\\ Modified field\n */\nadd_filter( 'gravityviewdatatablesfield_filtersatts', 'my_custom_gravityviewdatatablesfield_filtersatts_filter', 10, 1 );\n\nfunction my_custom_gravityviewdatatablesfield_filtersatts_filter($field) {\n    // Modify $field as needed\n\n    return $field;\n}",
+      "example": "add_filter( 'gravityview/datatables/field_filters/atts', function($field) {\n    // Modify $field as needed\n    return $field;\n}, 10, 1 );",
       "since": "3.0",
       "source": {
         "file": "includes/class-datatables-field-filters.php",
@@ -501,7 +501,7 @@
         "search",
         "views"
       ],
-      "example": "/**\n * Filter gravityviewdatatablesfield_filtersplaceholder\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gravityviewdatatablesfield_filtersplaceholder', 'my_custom_gravityviewdatatablesfield_filtersplaceholder_filter' );\n\nfunction my_custom_gravityviewdatatablesfield_filtersplaceholder_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
+      "example": "add_filter( 'gravityview/datatables/field_filters/placeholder', function() {\n    // Modify $value as needed\n    return $value;\n} );",
       "since": "3.0",
       "source": {
         "file": "includes/class-datatables-field-filters.php",
@@ -528,7 +528,7 @@
       "categories": [
         "views"
       ],
-      "example": "/**\n * Filter gravityviewdatatablesjsonheadercontent_length\n *\n * @param bool $has_content_length true by default\n * @return bool Modified has_content_length\n */\nadd_filter( 'gravityviewdatatablesjsonheadercontent_length', 'my_custom_gravityviewdatatablesjsonheadercontent_length_filter', 10, 1 );\n\nfunction my_custom_gravityviewdatatablesjsonheadercontent_length_filter($has_content_length) {\n    // Modify $has_content_length as needed\n\n    return $has_content_length;\n}",
+      "example": "add_filter( 'gravityview/datatables/json/header/content_length', function($has_content_length) {\n    // Modify $has_content_length as needed\n    return $has_content_length;\n}, 10, 1 );",
       "since": null,
       "source": {
         "file": "includes/class-datatables-data.php",
@@ -547,7 +547,7 @@
       "categories": [
         "views"
       ],
-      "example": "/**\n * Filter gravityviewdatatablesoutput\n *\n * @param mixed $value The value to filter\n * @return mixed Modified value\n */\nadd_filter( 'gravityviewdatatablesoutput', 'my_custom_gravityviewdatatablesoutput_filter' );\n\nfunction my_custom_gravityviewdatatablesoutput_filter() {\n    // Modify $value as needed\n\n    return $value;\n}",
+      "example": "add_filter( 'gravityview/datatables/output', function() {\n    // Modify $value as needed\n    return $value;\n} );",
       "since": "2.3",
       "source": {
         "file": "includes/class-datatables-processing-mode.php",
@@ -586,7 +586,7 @@
         "entries",
         "views"
       ],
-      "example": "/**\n * Filter gravityviewdatatablesoutputentry\n *\n * @param array $temp Array of values for the entry, one item per field being rendered by \\GV\\Field_Renderer()\n * @param \\View $view Current View being processed\n * @param array $entry Current Gravity Forms entry array\n * @return array Modified temp\n */\nadd_filter( 'gravityviewdatatablesoutputentry', 'my_custom_gravityviewdatatablesoutputentry_filter', 10, 3 );\n\nfunction my_custom_gravityviewdatatablesoutputentry_filter($temp, $view, $entry) {\n    // Modify $temp as needed\n\n    return $temp;\n}",
+      "example": "add_filter( 'gravityview/datatables/output/entry', function($temp, $view, $entry) {\n    // Modify $temp as needed\n    return $temp;\n}, 10, 3 );",
       "since": "2.3.1",
       "source": {
         "file": "includes/class-datatables-data.php",
@@ -627,7 +627,7 @@
         "entries",
         "views"
       ],
-      "example": "/**\n * Filter gravityviewentrycellattributes\n *\n * @param array $attributes The HTML attributes.\n * @param \\GV\\Field $field The field these attributes are for.\n * @param \\GV\\Entry $entry The entry this is being called for.\n * @param \\GV\\View_Template $ This template.\n * @return array Modified attributes\n */\nadd_filter( 'gravityviewentrycellattributes', 'my_custom_gravityviewentrycellattributes_filter', 10, 4 );\n\nfunction my_custom_gravityviewentrycellattributes_filter($attributes, $field, $entry, $) {\n    // Modify $attributes as needed\n\n    return $attributes;\n}",
+      "example": "add_filter( 'gravityview/entry/cell/attributes', function($attributes, $field, $entry, $) {\n    // Modify $attributes as needed\n    return $attributes;\n}, 10, 4 );",
       "since": "2.0",
       "source": {
         "file": "includes/class-gv-template-view-datatable.php",
@@ -663,7 +663,7 @@
         "entries",
         "views"
       ],
-      "example": "/**\n * Filter gravityviewentryrowattributes\n *\n * @param array $attributes The HTML attributes.\n * @param \\GV\\Entry $entry The entry this is being called for.\n * @param \\GV\\View_Template $ This template.\n * @return array Modified attributes\n */\nadd_filter( 'gravityviewentryrowattributes', 'my_custom_gravityviewentryrowattributes_filter', 10, 3 );\n\nfunction my_custom_gravityviewentryrowattributes_filter($attributes, $entry, $) {\n    // Modify $attributes as needed\n\n    return $attributes;\n}",
+      "example": "add_filter( 'gravityview/entry/row/attributes', function($attributes, $entry, $) {\n    // Modify $attributes as needed\n    return $attributes;\n}, 10, 3 );",
       "since": "2.0",
       "source": {
         "file": "includes/class-gv-template-view-datatable.php",
@@ -689,7 +689,7 @@
         "search",
         "views"
       ],
-      "example": "/**\n * Filter gravityviewsearch-all-split-words\n *\n * @param bool $split_words True: split a phrase into words; False: search whole word only [Default: true]\n * @return bool Modified split_words\n */\nadd_filter( 'gravityviewsearch-all-split-words', 'my_custom_gravityviewsearch_all_split_words_filter', 10, 1 );\n\nfunction my_custom_gravityviewsearch_all_split_words_filter($split_words) {\n    // Modify $split_words as needed\n\n    return $split_words;\n}",
+      "example": "add_filter( 'gravityview/search-all-split-words', function($split_words) {\n    // Modify $split_words as needed\n    return $split_words;\n}, 10, 1 );",
       "since": "2.1.1",
       "source": {
         "file": "includes/class-datatables-data.php",
@@ -730,7 +730,7 @@
       "categories": [
         "views"
       ],
-      "example": "/**\n * Filter gravityviewviewwrapper_container\n *\n * @param string $wrapper_container Wrapper container HTML markup\n * @param string $anchor_id (optional) Unique anchor ID to identify the view.\n * @param \\GV\\View $view The View.\n * @return string Modified wrapper_container\n */\nadd_filter( 'gravityviewviewwrapper_container', 'my_custom_gravityviewviewwrapper_container_filter', 10, 3 );\n\nfunction my_custom_gravityviewviewwrapper_container_filter($wrapper_container, $anchor_id, $view) {\n    // Modify $wrapper_container as needed\n\n    return $wrapper_container;\n}",
+      "example": "add_filter( 'gravityview/view/wrapper_container', function($wrapper_container, $anchor_id, $view) {\n    // Modify $wrapper_container as needed\n    return $wrapper_container;\n}, 10, 3 );",
       "since": "2.7",
       "source": {
         "file": "templates/views/datatable.php",

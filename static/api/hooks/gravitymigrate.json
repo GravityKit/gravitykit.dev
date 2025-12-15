@@ -1,5 +1,5 @@
 {
-  "generated": "2025-12-15T23:52:08.144Z",
+  "generated": "2025-12-15T23:55:35.811Z",
   "product": {
     "id": "gravitymigrate",
     "label": "GravityMigrate",
@@ -37,7 +37,7 @@
       "categories": [
         "after"
       ],
-      "example": "/**\n * Hook into gkgravitymigrateuploadafter-upload\n *\n * @param string $new_file_path The path to the uploaded file.\n * @param string $password The password for the uploaded file.\n */\nadd_action( 'gkgravitymigrateuploadafter-upload', 'my_custom_gkgravitymigrateuploadafter_upload_handler', 10, 2 );\n\nfunction my_custom_gkgravitymigrateuploadafter_upload_handler($new_file_path, $password) {\n    // Your custom code here\n}",
+      "example": "add_action( 'gk/gravitymigrate/upload/after-upload', function($new_file_path, $password) {\n    // Your code here\n}, 10, 2 );",
       "since": "1.0.0",
       "source": {
         "file": "src/Uploader.php",
@@ -62,7 +62,7 @@
       "categories": [
         "export"
       ],
-      "example": "/**\n * Filter gkgravitymigratecronclear-export-interval\n *\n * @param int $export_interval The number of seconds to wait after an export before deleting generated files. Default 3 hours (in seconds).\n * @return int Modified export_interval\n */\nadd_filter( 'gkgravitymigratecronclear-export-interval', 'my_custom_gkgravitymigratecronclear_export_interval_filter', 10, 1 );\n\nfunction my_custom_gkgravitymigratecronclear_export_interval_filter($export_interval) {\n    // Modify $export_interval as needed\n\n    return $export_interval;\n}",
+      "example": "add_filter( 'gk/gravitymigrate/cron/clear-export-interval', function($export_interval) {\n    // Modify $export_interval as needed\n    return $export_interval;\n}, 10, 1 );",
       "since": "1.0.0",
       "source": {
         "file": "src/Export.php",
@@ -89,7 +89,7 @@
       "categories": [
         "import"
       ],
-      "example": "/**\n * Filter gkgravitymigratecronclear-import-interval\n *\n * @param int $import_interval The number of seconds to wait after an import before deleting uploaded files. Default 1 hour (in seconds).\n * @return int Modified import_interval\n */\nadd_filter( 'gkgravitymigratecronclear-import-interval', 'my_custom_gkgravitymigratecronclear_import_interval_filter', 10, 1 );\n\nfunction my_custom_gkgravitymigratecronclear_import_interval_filter($import_interval) {\n    // Modify $import_interval as needed\n\n    return $import_interval;\n}",
+      "example": "add_filter( 'gk/gravitymigrate/cron/clear-import-interval', function($import_interval) {\n    // Modify $import_interval as needed\n    return $import_interval;\n}, 10, 1 );",
       "since": "1.0.0",
       "source": {
         "file": "src/Uploader.php",
@@ -116,7 +116,7 @@
       "categories": [
         "export"
       ],
-      "example": "/**\n * Filter gkgravitymigrateexportbatch-size\n *\n * @param int $batch_size The batch size of the export. Default 10000.\n * @return int Modified batch_size\n */\nadd_filter( 'gkgravitymigrateexportbatch-size', 'my_custom_gkgravitymigrateexportbatch_size_filter', 10, 1 );\n\nfunction my_custom_gkgravitymigrateexportbatch_size_filter($batch_size) {\n    // Modify $batch_size as needed\n\n    return $batch_size;\n}",
+      "example": "add_filter( 'gk/gravitymigrate/export/batch-size', function($batch_size) {\n    // Modify $batch_size as needed\n    return $batch_size;\n}, 10, 1 );",
       "since": "1.0.0",
       "source": {
         "file": "src/Export.php",
@@ -141,7 +141,7 @@
       "categories": [
         "import"
       ],
-      "example": "/**\n * Filter gkgravitymigrateimportdata_chunk_sizes\n *\n * @param array $data_chunk_sizes Array of data types and their chunk sizes.\n * @return array Modified data_chunk_sizes\n */\nadd_filter( 'gkgravitymigrateimportdata_chunk_sizes', 'my_custom_gkgravitymigrateimportdata_chunk_sizes_filter', 10, 1 );\n\nfunction my_custom_gkgravitymigrateimportdata_chunk_sizes_filter($data_chunk_sizes) {\n    // Modify $data_chunk_sizes as needed\n\n    return $data_chunk_sizes;\n}",
+      "example": "add_filter( 'gk/gravitymigrate/import/data_chunk_sizes', function($data_chunk_sizes) {\n    // Modify $data_chunk_sizes as needed\n    return $data_chunk_sizes;\n}, 10, 1 );",
       "since": "1.0",
       "source": {
         "file": "src/Import.php",
@@ -171,7 +171,7 @@
       "categories": [
         "general"
       ],
-      "example": "/**\n * Filter gkgravitymigrateremote-request-args\n *\n * @param array $args The arguments for wp_remote_head/wp_remote_get.\n * @param string $src_url The source URL being checked.\n * @return array Modified args\n */\nadd_filter( 'gkgravitymigrateremote-request-args', 'my_custom_gkgravitymigrateremote_request_args_filter', 10, 2 );\n\nfunction my_custom_gkgravitymigrateremote_request_args_filter($args, $src_url) {\n    // Modify $args as needed\n\n    return $args;\n}",
+      "example": "add_filter( 'gk/gravitymigrate/remote-request-args', function($args, $src_url) {\n    // Modify $args as needed\n    return $args;\n}, 10, 2 );",
       "since": "1.1.4",
       "source": {
         "file": "src/Settings.php",
