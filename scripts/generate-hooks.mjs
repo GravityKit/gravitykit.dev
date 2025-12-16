@@ -25,6 +25,38 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const PROJECT_ROOT = path.resolve(__dirname, '..');
+const TEMPLATES_DIR = path.join(PROJECT_ROOT, 'templates', 'hooks');
+
+/**
+ * Load a template file
+ */
+function loadTemplate(name) {
+  const templatePath = path.join(TEMPLATES_DIR, `${name}.md`);
+  if (!fs.existsSync(templatePath)) {
+    throw new Error(`Template not found: ${templatePath}`);
+  }
+  return fs.readFileSync(templatePath, 'utf8');
+}
+
+/**
+ * Render a template with variables
+ * Supports {{variable}} and {{#condition}}...{{/condition}} blocks
+ */
+function renderTemplate(template, vars) {
+  let result = template;
+
+  // Handle conditional blocks: {{#condition}}...{{/condition}}
+  result = result.replace(/\{\{#(\w+)\}\}([\s\S]*?)\{\{\/\1\}\}/g, (match, key, content) => {
+    return vars[key] ? content : '';
+  });
+
+  // Handle simple variables: {{variable}}
+  result = result.replace(/\{\{(\w+)\}\}/g, (match, key) => {
+    return vars[key] !== undefined ? vars[key] : match;
+  });
+
+  return result;
+}
 
 // ANSI color codes
 const colors = {
@@ -304,35 +336,16 @@ function generateProductIndex(product, outputDir) {
   const actionCount = hasActions ? fs.readdirSync(actionsDir).filter(f => f.endsWith('.md')).length : 0;
   const filterCount = hasFilters ? fs.readdirSync(filtersDir).filter(f => f.endsWith('.md')).length : 0;
 
-  const content = `---
-sidebar_position: 1
-title: ${product.label} Hooks
-description: WordPress hooks (actions and filters) available in ${product.label}
----
-
-# ${product.label} Hooks
-
-This documentation covers all WordPress hooks (actions and filters) available in ${product.label}.
-
-**Total hooks:** ${actionCount + filterCount} (${actionCount} actions, ${filterCount} filters)
-
-${hasActions ? `## Actions
-
-[View all Actions](./actions/) (${actionCount} hooks)
-
-Actions allow you to run custom code at specific points during ${product.label}'s execution.
-` : ''}
-${hasFilters ? `## Filters
-
-[View all Filters](./filters/) (${filterCount} hooks)
-
-Filters allow you to modify data as it passes through ${product.label}.
-` : ''}
-## Source Code
-
-The source code for ${product.label} is available on GitHub:
-- [GitHub Repository](https://github.com/${product.repo})
-`;
+  const template = loadTemplate('product-index');
+  const content = renderTemplate(template, {
+    label: product.label,
+    repo: product.repo,
+    totalHooks: actionCount + filterCount,
+    actionCount,
+    filterCount,
+    hasActions,
+    hasFilters,
+  });
 
   fs.writeFileSync(indexPath, content);
 }
@@ -360,22 +373,12 @@ function generateActionsIndex(product, outputDir) {
     .map(h => `- [${h}](./${h}.md)`)
     .join('\n');
 
-  const content = `---
-sidebar_position: 1
-title: Actions
-description: Action hooks available in ${product.label}
----
-
-# ${product.label} Actions
-
-Action hooks allow you to run custom code at specific points during ${product.label}'s execution.
-
-**Total actions:** ${hooks.length}
-
-## Available Actions
-
-${hookList}
-`;
+  const template = loadTemplate('actions-index');
+  const content = renderTemplate(template, {
+    label: product.label,
+    count: hooks.length,
+    hookList,
+  });
 
   fs.writeFileSync(path.join(actionsDir, 'index.md'), content);
 }
@@ -403,22 +406,12 @@ function generateFiltersIndex(product, outputDir) {
     .map(h => `- [${h}](./${h}.md)`)
     .join('\n');
 
-  const content = `---
-sidebar_position: 2
-title: Filters
-description: Filter hooks available in ${product.label}
----
-
-# ${product.label} Filters
-
-Filter hooks allow you to modify data as it passes through ${product.label}.
-
-**Total filters:** ${hooks.length}
-
-## Available Filters
-
-${hookList}
-`;
+  const template = loadTemplate('filters-index');
+  const content = renderTemplate(template, {
+    label: product.label,
+    count: hooks.length,
+    hookList,
+  });
 
   fs.writeFileSync(path.join(filtersDir, 'index.md'), content);
 }
@@ -437,33 +430,12 @@ function generateMainIndex(config, results) {
 
   const productList = successfulProducts
     .map((p) => `- [${p.label}](./${p.id}/)`)
-    .join('\n');
+    .join('\n') || '_No products generated yet. Run `npm run hooks:generate` to generate documentation._';
 
-  const content = `---
-sidebar_position: 1
-title: GravityKit Hooks Reference
-description: Complete reference for WordPress hooks in GravityKit products
----
-
-# GravityKit Hooks Reference
-
-This documentation provides a comprehensive reference for all WordPress hooks (actions and filters) available in GravityKit products.
-
-## Products
-
-${productList || '_No products generated yet. Run `npm run hooks:generate` to generate documentation._'}
-
-## About Hooks
-
-WordPress hooks allow developers to modify or extend plugin functionality without editing core files:
-
-- **Actions**: Run custom code at specific points during execution
-- **Filters**: Modify data as it passes through the system
-
-## Contributing
-
-Found an issue or want to improve the documentation? Each hook page links to its source code on GitHub.
-`;
+  const template = loadTemplate('main-index');
+  const content = renderTemplate(template, {
+    productList,
+  });
 
   fs.writeFileSync(indexPath, content);
 }
