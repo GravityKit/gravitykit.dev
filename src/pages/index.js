@@ -279,6 +279,12 @@ export default function Home() {
             <p>
               <strong>{totalProducts} products</strong> with comprehensive hook documentation
             </p>
+            <p>
+              Looking for user documentation? Visit the{' '}
+              <a href="https://docs.gravitykit.com" target="_blank" rel="noopener noreferrer">
+                official GravityKit Documentation
+              </a>.
+            </p>
           </div>
         </div>
       </main>
