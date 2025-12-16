@@ -1,5 +1,6 @@
 ---
 sidebar_position: 1
+sidebar_label: "{{label}} Hooks"
 title: {{label}} Hooks
 description: WordPress hooks (actions and filters) available in {{label}}
 ---
@@ -26,3 +27,7 @@ Actions allow you to run custom code at specific points during {{label}}'s execu
 Filters allow you to modify data as it passes through {{label}}.
 
 {{/hasFilters}}
+## Source Code
+
+The source code for {{label}} is available on GitHub:
+- [GitHub Repository](https://github.com/{{repo}})

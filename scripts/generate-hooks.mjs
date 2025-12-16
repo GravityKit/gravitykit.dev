@@ -155,6 +155,23 @@ function deleteDirRecursive(dir) {
 }
 
 /**
+ * Generate a _category_.json file for Docusaurus sidebar ordering
+ */
+function generateCategoryJson(dir, label, position) {
+  if (!fs.existsSync(dir)) {
+    return;
+  }
+
+  const categoryPath = path.join(dir, '_category_.json');
+  const category = {
+    label,
+    position,
+  };
+
+  fs.writeFileSync(categoryPath, JSON.stringify(category, null, 2) + '\n');
+}
+
+/**
  * Rename directory to lowercase if it exists
  */
 function lowercaseDirectory(dir, name) {
@@ -312,6 +329,10 @@ function generateHooksDocs(product, config, options) {
     generateProductIndex(product, finalOutputDir);
     generateActionsIndex(product, finalOutputDir);
     generateFiltersIndex(product, finalOutputDir);
+
+    // Generate _category_.json files to control sidebar ordering
+    generateCategoryJson(path.join(finalOutputDir, 'actions'), 'Actions', 2);
+    generateCategoryJson(path.join(finalOutputDir, 'filters'), 'Filters', 3);
 
     return { ok: true, id: product.id, action: 'generated' };
   } finally {
