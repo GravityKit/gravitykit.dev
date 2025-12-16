@@ -120,11 +120,6 @@ const config = {
             position: 'left',
             items: product_nav_items,
           },
-          {
-            href: 'https://github.com/GravityKit',
-            label: 'GitHub',
-            position: 'right',
-          },
         ],
       },
       footer: {
