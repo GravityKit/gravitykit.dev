@@ -436,15 +436,15 @@ async function main() {
   fs.writeFileSync(compactJsonPath, JSON.stringify(compactHooks));
   log(`  Created: static/api/hooks-compact.json`, colors.green);
 
-  // Step 4: Update llms.txt with stats
-  log('\n▶ Updating llms.txt...', colors.cyan);
+  // Step 4: Create or update llms.txt with stats
+  log('\n▶ Creating/Updating llms.txt...', colors.cyan);
   const llmsPath = path.join(PROJECT_ROOT, 'static', 'llms.txt');
-  if (fs.existsSync(llmsPath)) {
-    let llmsContent = fs.readFileSync(llmsPath, 'utf8');
 
-    // Add/update stats section
-    const statsSection = `
-## Statistics (Auto-Updated)
+  // Generate the product IDs list
+  const productIds = Object.keys(hooksData.products).join(', ');
+
+  // Stats section that gets updated each time
+  const statsSection = `## Statistics (Auto-Updated)
 
 - **Total Hooks:** ${hooksData.stats.totalHooks}
 - **Actions:** ${hooksData.stats.totalActions}
@@ -452,6 +452,85 @@ async function main() {
 - **Products:** ${hooksData.stats.productCount}
 - **Last Updated:** ${new Date().toISOString().split('T')[0]}
 `;
+
+  // Full template for llms.txt - used when file doesn't exist
+  const llmsTemplate = `# GravityKit Developer Documentation
+
+> GravityKit builds WordPress plugins that extend Gravity Forms. This documentation covers all hooks (actions and filters) available for developers.
+
+## About This Documentation
+
+This site documents WordPress hooks (actions and filters) for GravityKit products. Use this documentation to:
+- Customize GravityKit plugin behavior
+- Integrate with GravityKit products
+- Build extensions and add-ons
+- Modify default functionality
+
+## Products Documented
+
+- **GravityView** - Display Gravity Forms entries in customizable Views (tables, lists, maps, DataTables)
+- **GravityCalendar** - Display entries as calendar events
+- **GravityCharts** - Visualize form data with charts
+- **GravityImport** - Import CSV/Excel data into Gravity Forms
+- **GravityExport** - Export entries to CSV, Excel, PDF
+- **GravityEdit** - Frontend entry editing
+- **GravityMath** - Calculations and math operations
+- **GravityActions** - Bulk actions and workflows
+- **GravityRevisions** - Entry revision history
+
+Plus 20+ additional products and extensions.
+
+## URL Structure
+
+Documentation follows this pattern:
+- \`/docs/{product}/\` - Product overview
+- \`/docs/{product}/actions/\` - All actions for product
+- \`/docs/{product}/filters/\` - All filters for product
+- \`/docs/{product}/actions/{hook-name}/\` - Individual action documentation
+- \`/docs/{product}/filters/{hook-name}/\` - Individual filter documentation
+
+## Machine-Readable Data
+
+For programmatic access to hook information:
+
+### Recommended: Per-Product APIs (Smaller Files)
+- \`/api/hooks/index.json\` - Product directory with stats (~6KB)
+- \`/api/hooks/{product-id}.json\` - Individual product hooks (1KB-408KB each)
+
+Example workflow:
+1. Fetch \`/api/hooks/index.json\` to discover available products
+2. Fetch \`/api/hooks/gravityview.json\` for GravityView hooks only (408KB)
+3. Fetch \`/api/hooks/gravityedit.json\` for GravityEdit hooks only (21KB)
+
+### Full Database (Large - 728KB)
+- \`/api/hooks.json\` - All ${hooksData.stats.totalHooks} hooks in one file
+- \`/api/hooks-compact.json\` - Minimal format for quick searches
+
+### Product IDs
+${productIds}
+
+## Related Resources
+
+- Main documentation: https://docs.gravitykit.com
+- Support: https://www.gravitykit.com/support/
+- GitHub: https://github.com/GravityKit
+
+## For AI Assistants
+
+When helping developers with GravityKit:
+1. Check the specific product's hooks section
+2. Look for filters to modify data, actions for side effects
+3. Note the hook's parameters and their types
+4. Include the full hook name with any dynamic portions (e.g., \`{field_type}\`)
+5. Check related hooks for comprehensive solutions
+
+${statsSection}`;
+
+  let llmsContent;
+
+  if (fs.existsSync(llmsPath)) {
+    // File exists - update the stats section
+    llmsContent = fs.readFileSync(llmsPath, 'utf8');
 
     // Replace or append stats
     if (llmsContent.includes('## Statistics (Auto-Updated)')) {
@@ -462,10 +541,14 @@ async function main() {
     } else {
       llmsContent += '\n' + statsSection;
     }
-
-    fs.writeFileSync(llmsPath, llmsContent);
     log(`  Updated: static/llms.txt`, colors.green);
+  } else {
+    // File doesn't exist - create it from template
+    llmsContent = llmsTemplate;
+    log(`  Created: static/llms.txt`, colors.green);
   }
+
+  fs.writeFileSync(llmsPath, llmsContent);
 
   // Summary
   log('\n✅ LLM Enhancement Complete!\n', colors.bright + colors.green);
