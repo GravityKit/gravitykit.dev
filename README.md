@@ -240,14 +240,14 @@ The hooks API provides programmatic access to all hook information:
 
 ```bash
 # Discover available products (lightweight - 6KB)
-curl https://gravitykit.dev/api/hooks/index.json
+curl https://www.gravitykit.dev/api/hooks/index.json
 
 # Get hooks for a specific product (recommended)
-curl https://gravitykit.dev/api/hooks/gravityview.json
-curl https://gravitykit.dev/api/hooks/gravityedit.json
+curl https://www.gravitykit.dev/api/hooks/gravityview.json
+curl https://www.gravitykit.dev/api/hooks/gravityedit.json
 
 # Full database (large - 728KB, use per-product instead)
-curl https://gravitykit.dev/api/hooks.json
+curl https://www.gravitykit.dev/api/hooks.json
 ```
 
 ### Regenerating LLM Enhancements
@@ -255,6 +255,51 @@ curl https://gravitykit.dev/api/hooks.json
 ```bash
 npm run llm:enhance  # Regenerate JSON APIs and add examples
 ```
+
+## IDE Integration
+
+Add GravityKit hooks documentation to your AI-powered code assistant.
+
+### Cursor
+
+1. Open Cursor Settings (`Cmd/Ctrl + ,`)
+2. Go to **Features** → **Docs**
+3. Click **Add new doc**
+4. Enter: `https://www.gravitykit.dev`
+
+Cursor will index the documentation and use it when answering questions about GravityKit plugins.
+
+### Windsurf
+
+1. Open Windsurf Settings
+2. Go to **Cascade** → **Memories & rules**
+3. Under **Indexed Docs**, click **Add**
+4. Enter: `https://www.gravitykit.dev`
+
+### Other IDEs
+
+For IDEs without built-in doc indexing, add to your project instructions file:
+
+**VS Code** (`.github/copilot-instructions.md`):
+```markdown
+Reference GravityKit hooks at https://www.gravitykit.dev
+API: https://www.gravitykit.dev/api/hooks/{product}.json
+```
+
+**Claude Code** (`CLAUDE.md`):
+```markdown
+Fetch GravityKit hooks from https://www.gravitykit.dev/api/hooks/{product}.json
+```
+
+### Available Endpoints
+
+| Endpoint | Description |
+|----------|-------------|
+| `/llms.txt` | LLM-optimized context file |
+| `/api/hooks/index.json` | Product directory with hook counts |
+| `/api/hooks/{product}.json` | All hooks for a specific product |
+
+**Products**: `gravityview`, `gravitycalendar`, `gravitycharts`, `gravityedit`, `gravityexport`, `gravityimport`, `gravitymath`, `gravityactions`, `gravityboard`, `gravitymigrate`, `gravityrevisions`, and more.
 
 ## Environment Variables
 
