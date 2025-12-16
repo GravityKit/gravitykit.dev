@@ -111,8 +111,9 @@ function checkGhAvailable() {
 function getCloneUrl(repo, authMethod) {
   if (authMethod === 'token') {
     // Use HTTPS with token authentication (for CI/CD)
+    // Format: https://x-access-token:TOKEN@github.com/repo.git
     const token = process.env.GH_TOKEN;
-    return `https://${token}@github.com/${repo}.git`;
+    return `https://x-access-token:${token}@github.com/${repo}.git`;
   }
   if (authMethod === 'gh') {
     // Use HTTPS with gh CLI handling authentication

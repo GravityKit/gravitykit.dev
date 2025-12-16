@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npm run build",
+  "buildCommand": "npm run docs:full",
   "outputDirectory": "build",
   "cleanUrls": true,
   "trailingSlash": false,

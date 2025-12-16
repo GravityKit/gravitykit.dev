@@ -112,15 +112,17 @@ function loadConfig() {
  * Check if wp-hooks-documentor is available
  */
 function checkWpHooksDocumentor() {
-  const result = spawnSync('wp-hooks-documentor', ['--version'], {
+  // Try --help first as it's more universally supported than --version
+  const result = spawnSync('wp-hooks-documentor', ['--help'], {
     encoding: 'utf8',
     stdio: 'pipe',
   });
 
-  if (result.error || result.status !== 0) {
-    return false;
+  // If no error running the command, the tool is available
+  if (!result.error) {
+    return true;
   }
-  return true;
+  return false;
 }
 
 /**
