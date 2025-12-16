@@ -256,19 +256,56 @@ curl https://gravitykit.dev/api/hooks.json
 npm run llm:enhance  # Regenerate JSON APIs and add examples
 ```
 
-## Search Configuration
+## Environment Variables
 
-The site uses Algolia DocSearch for search functionality. To configure:
+The site uses environment variables for optional integrations. Set these in your deployment environment or local `.env` file.
 
+### Google Analytics
+
+Track site usage with Google Analytics 4:
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `GOOGLE_GTAG_ID` | Google Analytics 4 measurement ID | `G-XXXXXXXXXX` |
+
+The site uses `@docusaurus/plugin-google-gtag` with IP anonymization enabled for privacy compliance.
+
+### Algolia Search
+
+The site uses Algolia DocSearch for search functionality:
+
+| Variable | Description |
+|----------|-------------|
+| `ALGOLIA_APP_ID` | Algolia application ID |
+| `ALGOLIA_API_KEY` | Algolia search-only API key |
+| `ALGOLIA_INDEX_NAME` | Index name (defaults to `gravitykit`) |
+
+To set up search:
 1. Apply for [Algolia DocSearch](https://docsearch.algolia.com/)
-2. Update `docusaurus.config.js` with your API keys:
+2. Set the environment variables above
 
-```javascript
-algolia: {
-  appId: 'YOUR_APP_ID',
-  apiKey: 'YOUR_API_KEY',
-  indexName: 'gravitykit',
-}
+### GitHub Access
+
+For cloning private GravityKit repositories:
+
+| Variable | Description |
+|----------|-------------|
+| `GK_REPOS_TOKEN` | GitHub Personal Access Token with `repo` scope |
+| `GH_TOKEN` | Alternative name (used by some deployment platforms) |
+
+### Example .env file
+
+```bash
+# Google Analytics
+GOOGLE_GTAG_ID=G-XXXXXXXXXX
+
+# Algolia Search
+ALGOLIA_APP_ID=your-app-id
+ALGOLIA_API_KEY=your-search-api-key
+ALGOLIA_INDEX_NAME=gravitykit
+
+# GitHub Access (for CI/CD)
+GK_REPOS_TOKEN=ghp_xxxxxxxxxxxx
 ```
 
 ## Troubleshooting
