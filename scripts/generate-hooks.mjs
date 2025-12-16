@@ -189,7 +189,8 @@ function lowercaseDirectory(dir, name) {
 }
 
 /**
- * Add tags to hook markdown files based on @since versions and hook type
+ * Add tags to hook markdown files based on @since versions
+ * Also converts the Since section to link to the tag pages
  */
 function addTagsToHooks(outputDir) {
   const dirs = ['actions', 'filters'];
@@ -208,9 +209,6 @@ function addTagsToHooks(outputDir) {
       const sinceMatch = content.match(/### Since\n\n((?:- .+\n?)+)/);
       const tags = [];
 
-      // Add hook type as a tag
-      tags.push(subdir === 'actions' ? 'action' : 'filter');
-
       if (sinceMatch) {
         // Extract all versions (handles multiple "- version" lines)
         const versions = sinceMatch[1].match(/- ([^\n]+)/g);
@@ -222,10 +220,23 @@ function addTagsToHooks(outputDir) {
             // Extract just the version number (e.g., "1.18: Added feature" -> "1.18")
             const versionMatch = version.match(/^([\d.]+)/);
             if (versionMatch) {
-              tags.push(`since-${versionMatch[1]}`);
+              tags.push(versionMatch[1]);
             }
           }
         }
+
+        // Convert Since section to use links to tag pages
+        // Replace "- 1.0" with "- [1.0](../../since/1-0/)"
+        // Path is ../../ because docs are in actions/ or filters/ subdirs
+        let newSinceSection = sinceMatch[0];
+        for (const tag of tags) {
+          const tagSlug = tag.replace(/\./g, '-');
+          newSinceSection = newSinceSection.replace(
+            new RegExp(`- ${tag.replace(/\./g, '\\.')}(?!\\])`, 'g'),
+            `- [${tag}](../../since/${tagSlug}/)`
+          );
+        }
+        content = content.replace(sinceMatch[0], newSinceSection);
       }
 
       // Add tags to frontmatter if we have any
@@ -235,9 +246,10 @@ function addTagsToHooks(outputDir) {
         // Insert tags into frontmatter (before the closing ---)
         if (content.match(/^---\n[\s\S]*?\n---/)) {
           content = content.replace(/^(---\n[\s\S]*?)(---)/, `$1${tagsYaml}\n$2`);
-          fs.writeFileSync(filePath, content);
         }
       }
+
+      fs.writeFileSync(filePath, content);
     }
   }
 }
