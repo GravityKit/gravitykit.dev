@@ -31,168 +31,192 @@
       "example": true
     }
   },
+  "categories": {
+    "gravityview": {
+      "label": "GravityView",
+      "position": 1
+    },
+    "gravityview-extensions": {
+      "label": "Extensions",
+      "parent": "gravityview",
+      "position": 2
+    },
+    "gravityview-layouts": {
+      "label": "Layouts",
+      "parent": "gravityview",
+      "position": 3
+    },
+    "gravitykit": {
+      "label": "GravityKit Products",
+      "position": 2
+    },
+    "gravity-forms": {
+      "label": "Gravity Forms Add-Ons",
+      "position": 3
+    }
+  },
   "products": [
     {
-      "id": "gravityactions",
-      "repo": "GravityKit/GravityActions",
-      "label": "GravityActions",
-      "routeBasePath": "docs/gravityactions"
+      "id": "gravityview",
+      "repo": "GravityKit/GravityView",
+      "label": "GravityView",
+      "category": "gravityview"
     },
     {
       "id": "gravityview-advanced-filtering",
       "repo": "GravityKit/Advanced-Filter",
-      "label": "GravityView - Advanced Filtering",
-      "routeBasePath": "docs/gravityview-advanced-filtering"
+      "label": "Advanced Filtering",
+      "category": "gravityview-extensions"
     },
     {
       "id": "gravityview-az-filters",
       "repo": "GravityKit/AZ-Filters",
-      "label": "GravityView - A-Z Filters",
-      "routeBasePath": "docs/gravityview-az-filters"
+      "label": "A-Z Filters",
+      "category": "gravityview-extensions"
+    },
+    {
+      "id": "gravityview-dashboard-views",
+      "repo": "GravityKit/Dashboard-Views",
+      "label": "Dashboard Views",
+      "category": "gravityview-extensions"
+    },
+    {
+      "id": "gravityview-featured-entries",
+      "repo": "GravityKit/Featured-Entries",
+      "label": "Featured Entries",
+      "category": "gravityview-extensions"
+    },
+    {
+      "id": "gravityview-magic-links",
+      "repo": "GravityKit/gravityview-magic-links",
+      "label": "Magic Links",
+      "category": "gravityview-extensions"
+    },
+    {
+      "id": "gravityview-maps",
+      "repo": "GravityKit/Maps",
+      "label": "Maps",
+      "category": "gravityview-extensions"
+    },
+    {
+      "id": "gravityview-multiple-forms",
+      "repo": "GravityKit/Multiple-Forms",
+      "label": "Multiple Forms",
+      "category": "gravityview-extensions"
+    },
+    {
+      "id": "gravityview-ratings-reviews",
+      "repo": "GravityKit/Ratings-Reviews",
+      "label": "Ratings & Reviews",
+      "category": "gravityview-extensions"
+    },
+    {
+      "id": "gravityview-social-sharing-seo",
+      "repo": "GravityKit/Social-Sharing",
+      "label": "SEO & Social Sharing",
+      "category": "gravityview-extensions"
+    },
+    {
+      "id": "gravity-forms-elementor-widget",
+      "repo": "GravityKit/gravity-forms-elementor-widget",
+      "label": "Elementor Widget",
+      "category": "gravityview-extensions"
+    },
+    {
+      "id": "gravityview-datatables",
+      "repo": "GravityKit/DataTables",
+      "label": "DataTables",
+      "category": "gravityview-layouts"
+    },
+    {
+      "id": "gravityview-diy-layout",
+      "repo": "GravityKit/DIY",
+      "label": "DIY Layout",
+      "category": "gravityview-layouts"
+    },
+    {
+      "id": "gravityactions",
+      "repo": "GravityKit/GravityActions",
+      "label": "GravityActions",
+      "category": "gravitykit"
     },
     {
       "id": "gravityboard",
       "repo": "GravityKit/GravityBoard",
       "label": "GravityBoard",
-      "routeBasePath": "docs/gravityboard"
+      "category": "gravitykit"
     },
     {
       "id": "gravitycalendar",
       "repo": "GravityKit/GravityCalendar",
       "label": "GravityCalendar",
-      "routeBasePath": "docs/gravitycalendar"
+      "category": "gravitykit"
     },
     {
       "id": "gravitycharts",
       "repo": "GravityKit/GravityCharts",
       "label": "GravityCharts",
-      "routeBasePath": "docs/gravitycharts"
-    },
-    {
-      "id": "gravityview-dashboard-views",
-      "repo": "GravityKit/Dashboard-Views",
-      "label": "GravityView - Dashboard Views",
-      "routeBasePath": "docs/gravityview-dashboard-views"
-    },
-    {
-      "id": "gravityview-datatables",
-      "repo": "GravityKit/DataTables",
-      "label": "GravityView - DataTables",
-      "routeBasePath": "docs/gravityview-datatables"
-    },
-    {
-      "id": "gravityview-diy-layout",
-      "repo": "GravityKit/DIY",
-      "label": "GravityView - DIY Layout",
-      "routeBasePath": "docs/gravityview-diy-layout"
-    },
-    {
-      "id": "gravity-forms-dynamic-lookup",
-      "repo": "GravityKit/gravity-forms-dynamic-lookup",
-      "label": "Gravity Forms Dynamic Lookup Field",
-      "routeBasePath": "docs/gravity-forms-dynamic-lookup"
+      "category": "gravitykit"
     },
     {
       "id": "gravityedit",
       "repo": "GravityKit/GravityEdit",
       "label": "GravityEdit",
-      "routeBasePath": "docs/gravityedit"
-    },
-    {
-      "id": "gravity-forms-elementor-widget",
-      "repo": "GravityKit/gravity-forms-elementor-widget",
-      "label": "GravityView - Elementor Widget",
-      "routeBasePath": "docs/gravity-forms-elementor-widget"
-    },
-    {
-      "id": "gravity-forms-event-field",
-      "repo": "GravityKit/Event-Field",
-      "label": "Gravity Forms Event Field",
-      "routeBasePath": "docs/gravity-forms-event-field"
+      "category": "gravitykit"
     },
     {
       "id": "gravityexport",
       "repo": "GravityKit/GravityExport",
       "label": "GravityExport",
-      "routeBasePath": "docs/gravityexport"
-    },
-    {
-      "id": "gravityview-featured-entries",
-      "repo": "GravityKit/Featured-Entries",
-      "label": "GravityView - Featured Entries",
-      "routeBasePath": "docs/gravityview-featured-entries"
+      "category": "gravitykit"
     },
     {
       "id": "gravityimport",
       "repo": "GravityKit/GravityImport",
       "label": "GravityImport",
-      "routeBasePath": "docs/gravityimport"
-    },
-    {
-      "id": "gravityview-magic-links",
-      "repo": "GravityKit/gravityview-magic-links",
-      "label": "GravityView - Magic Links",
-      "routeBasePath": "docs/gravityview-magic-links"
-    },
-    {
-      "id": "gravityview-maps",
-      "repo": "GravityKit/Maps",
-      "label": "GravityView - Maps",
-      "routeBasePath": "docs/gravityview-maps"
+      "category": "gravitykit"
     },
     {
       "id": "gravitymath",
       "repo": "gravityview/gravityview-math",
       "label": "GravityMath",
-      "routeBasePath": "docs/gravitymath"
+      "category": "gravitykit"
     },
     {
       "id": "gravitymigrate",
       "repo": "GravityKit/GravityMigrate",
       "label": "GravityMigrate",
-      "routeBasePath": "docs/gravitymigrate"
-    },
-    {
-      "id": "gravityview-multiple-forms",
-      "repo": "GravityKit/Multiple-Forms",
-      "label": "GravityView - Multiple Forms",
-      "routeBasePath": "docs/gravityview-multiple-forms"
-    },
-    {
-      "id": "gravityview-ratings-reviews",
-      "repo": "GravityKit/Ratings-Reviews",
-      "label": "GravityView - Ratings & Reviews",
-      "routeBasePath": "docs/gravityview-ratings-reviews"
+      "category": "gravitykit"
     },
     {
       "id": "gravityrevisions",
       "repo": "GravityKit/GravityRevisions",
       "label": "GravityRevisions",
-      "routeBasePath": "docs/gravityrevisions"
+      "category": "gravitykit"
     },
     {
-      "id": "gravityview-social-sharing-seo",
-      "repo": "GravityKit/Social-Sharing",
-      "label": "GravityView - SEO & Social Sharing",
-      "routeBasePath": "docs/gravityview-social-sharing-seo"
+      "id": "gravity-forms-dynamic-lookup",
+      "repo": "GravityKit/gravity-forms-dynamic-lookup",
+      "label": "Dynamic Lookup Field",
+      "category": "gravity-forms"
+    },
+    {
+      "id": "gravity-forms-event-field",
+      "repo": "GravityKit/Event-Field",
+      "label": "Event Field",
+      "category": "gravity-forms"
     },
     {
       "id": "gravity-forms-entry-tags",
       "repo": "GravityKit/Entry-Tags",
-      "label": "Gravity Forms Entry Tags",
-      "routeBasePath": "docs/gravity-forms-entry-tags"
-    },
-    {
-      "id": "gravityview",
-      "repo": "GravityKit/GravityView",
-      "label": "GravityView",
-      "routeBasePath": "docs/gravityview"
+      "label": "Entry Tags",
+      "category": "gravity-forms"
     },
     {
       "id": "gravity-forms-zero-spam",
       "repo": "GravityKit/gravity-forms-zero-spam",
-      "label": "Gravity Forms Zero Spam",
-      "routeBasePath": "docs/gravity-forms-zero-spam"
+      "label": "Zero Spam",
+      "category": "gravity-forms"
     }
   ]
 }

@@ -170,6 +170,61 @@ function lowercaseDirectory(dir, name) {
 }
 
 /**
+ * Get the output directory for a product based on its category
+ */
+function getProductOutputDir(outputBaseDir, product, categories) {
+  if (!product.category || !categories) {
+    return path.join(outputBaseDir, product.id);
+  }
+
+  const category = categories[product.category];
+  if (!category) {
+    return path.join(outputBaseDir, product.id);
+  }
+
+  // Build the path based on category hierarchy
+  if (category.parent) {
+    // This is a subcategory (e.g., gravityview-extensions under gravityview)
+    return path.join(outputBaseDir, category.parent, product.category, product.id);
+  } else {
+    // Top-level category
+    return path.join(outputBaseDir, product.category, product.id);
+  }
+}
+
+/**
+ * Generate _category_.json file for Docusaurus sidebar
+ */
+function generateCategoryJson(dir, label, position) {
+  const categoryFile = path.join(dir, '_category_.json');
+  const content = {
+    label,
+    position,
+    collapsed: true,
+    collapsible: true,
+  };
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(categoryFile, JSON.stringify(content, null, 2));
+}
+
+/**
+ * Generate all category directories and _category_.json files
+ */
+function generateCategoryStructure(outputBaseDir, categories) {
+  if (!categories) return;
+
+  for (const [id, category] of Object.entries(categories)) {
+    let categoryDir;
+    if (category.parent) {
+      categoryDir = path.join(outputBaseDir, category.parent, id);
+    } else {
+      categoryDir = path.join(outputBaseDir, id);
+    }
+    generateCategoryJson(categoryDir, category.label, category.position);
+  }
+}
+
+/**
  * Run wp-hooks-documentor for a product
  */
 function generateHooksDocs(product, config, options) {
@@ -202,8 +257,8 @@ function generateHooksDocs(product, config, options) {
     };
   }
 
-  // Final output directory for this product's hooks
-  const finalOutputDir = path.join(outputBaseDir, product.id);
+  // Determine output directory based on category
+  const finalOutputDir = getProductOutputDir(outputBaseDir, product, config.categories);
 
   if (options.dryRun) {
     logInfo(`[DRY RUN] Would generate: ${product.id}`);
@@ -443,9 +498,42 @@ function generateMainIndex(config, results) {
     .map((r) => config.products.find((p) => p.id === r.id))
     .filter(Boolean);
 
-  const productList = successfulProducts
-    .map((p) => `- [${p.label}](./${p.id}/)`)
-    .join('\n') || '_No products generated yet. Run `npm run hooks:generate` to generate documentation._';
+  // Build product list with category structure
+  let productList = '';
+  if (config.categories) {
+    // Group products by top-level category
+    const topCategories = Object.entries(config.categories)
+      .filter(([, cat]) => !cat.parent)
+      .sort((a, b) => a[1].position - b[1].position);
+
+    for (const [catId, cat] of topCategories) {
+      const categoryProducts = successfulProducts.filter(p => {
+        const productCat = config.categories[p.category];
+        return p.category === catId || (productCat && productCat.parent === catId);
+      });
+
+      if (categoryProducts.length === 0) continue;
+
+      productList += `### ${cat.label}\n\n`;
+      categoryProducts.forEach(p => {
+        const productCat = config.categories[p.category];
+        let productPath;
+        if (productCat && productCat.parent) {
+          productPath = `./${productCat.parent}/${p.category}/${p.id}/`;
+        } else {
+          productPath = `./${p.category}/${p.id}/`;
+        }
+        productList += `- [${p.label}](${productPath})\n`;
+      });
+      productList += '\n';
+    }
+  } else {
+    productList = successfulProducts
+      .map((p) => `- [${p.label}](./${p.id}/)`)
+      .join('\n');
+  }
+
+  productList = productList || '_No products generated yet. Run `npm run hooks:generate` to generate documentation._';
 
   const template = loadTemplate('main-index');
   const content = renderTemplate(template, {
@@ -614,6 +702,11 @@ async function main() {
   const outputDir = path.resolve(PROJECT_ROOT, config.outputDir);
   if (!fs.existsSync(outputDir)) {
     fs.mkdirSync(outputDir, { recursive: true });
+  }
+
+  // Generate category structure if not dry run
+  if (!options.dryRun && config.categories) {
+    generateCategoryStructure(outputDir, config.categories);
   }
 
   logStep(`Generating hooks documentation for ${products.length} products`);

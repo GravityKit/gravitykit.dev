@@ -26,7 +26,3 @@ Actions allow you to run custom code at specific points during {{label}}'s execu
 Filters allow you to modify data as it passes through {{label}}.
 
 {{/hasFilters}}
-## Source Code
-
-The source code for {{label}} is available on GitHub:
-- [GitHub Repository](https://github.com/{{repo}})
