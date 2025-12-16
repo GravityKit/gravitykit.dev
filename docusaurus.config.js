@@ -13,7 +13,6 @@ import remarkStripLeadingSrcPath from './src/remark/strip-leading-src-path.js';
 const repos_config_path = new URL('./repos-config.json', import.meta.url);
 const repos_config = JSON.parse(fs.readFileSync(repos_config_path, 'utf8'));
 const config_products = Array.isArray(repos_config?.products) ? repos_config.products : [];
-const defaultBranch = repos_config?.defaults?.branch || 'develop';
 
 // Generate navigation items from products
 const product_nav_items = config_products
@@ -27,19 +26,14 @@ const product_nav_items = config_products
 // Documentation is generated to ./docs/{product-id}/
 const product_docs_plugins = config_products
   .filter((product) => product?.id && product?.repo)
-  .map((product) => {
-    const branch = product.branch || defaultBranch;
-    return [
-      '@docusaurus/plugin-content-docs',
-      {
-        id: product.id,
-        path: `./docs/${product.id}`,
-        routeBasePath: `docs/${product.id}`,
-        // Each plugin auto-generates its own sidebar (no sidebarPath = auto-generate)
-        editUrl: `https://github.com/${product.repo}/edit/${branch}/`,
-      },
-    ];
-  });
+  .map((product) => [
+    '@docusaurus/plugin-content-docs',
+    {
+      id: product.id,
+      path: `./docs/${product.id}`,
+      routeBasePath: `docs/${product.id}`,
+    },
+  ]);
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
