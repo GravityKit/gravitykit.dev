@@ -296,16 +296,17 @@ function linkParameterTypes(outputDir) {
       for (const [typeName, url] of Object.entries(typeLinks)) {
         // Match `TypeName` or `\TypeName` in parameter tables
         // The backticks indicate it's a type in the markdown table
-        const patterns = [
-          new RegExp('`\\\\?' + escapeRegExp(typeName) + '`', 'g'),
-        ];
+        // Capture the optional backslash to preserve it in the output
+        const pattern = new RegExp('`(\\\\?)' + escapeRegExp(typeName) + '`', 'g');
 
-        for (const pattern of patterns) {
-          if (pattern.test(content)) {
-            // Replace with linked version, preserving the backticks around the link
-            content = content.replace(pattern, `[\`${typeName}\`](${url})`);
-            modified = true;
-          }
+        if (pattern.test(content)) {
+          // Reset lastIndex after test() for replace() to work correctly
+          pattern.lastIndex = 0;
+          // Replace with linked version, preserving the original format (with or without backslash)
+          content = content.replace(pattern, (match, backslash) => {
+            return `[\`${backslash}${typeName}\`](${url})`;
+          });
+          modified = true;
         }
       }
 
