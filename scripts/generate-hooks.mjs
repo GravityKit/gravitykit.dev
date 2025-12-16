@@ -276,8 +276,10 @@ function generateHooksDocs(product, config, options) {
     lowercaseDirectory(finalOutputDir, 'Actions');
     lowercaseDirectory(finalOutputDir, 'Filters');
 
-    // Generate index.md for the product
+    // Generate index.md for the product and subdirectories
     generateProductIndex(product, finalOutputDir);
+    generateActionsIndex(product, finalOutputDir);
+    generateFiltersIndex(product, finalOutputDir);
 
     return { ok: true, id: product.id, action: 'generated' };
   } finally {
@@ -333,6 +335,92 @@ The source code for ${product.label} is available on GitHub:
 `;
 
   fs.writeFileSync(indexPath, content);
+}
+
+/**
+ * Generate an index.md file for the actions subdirectory
+ */
+function generateActionsIndex(product, outputDir) {
+  const actionsDir = path.join(outputDir, 'actions');
+
+  if (!fs.existsSync(actionsDir)) {
+    return;
+  }
+
+  const hooks = fs.readdirSync(actionsDir)
+    .filter(f => f.endsWith('.md') && f !== 'index.md')
+    .map(f => f.replace('.md', ''));
+
+  if (hooks.length === 0) {
+    return;
+  }
+
+  const hookList = hooks
+    .sort()
+    .map(h => `- [${h}](./${h}.md)`)
+    .join('\n');
+
+  const content = `---
+sidebar_position: 1
+title: Actions
+description: Action hooks available in ${product.label}
+---
+
+# ${product.label} Actions
+
+Action hooks allow you to run custom code at specific points during ${product.label}'s execution.
+
+**Total actions:** ${hooks.length}
+
+## Available Actions
+
+${hookList}
+`;
+
+  fs.writeFileSync(path.join(actionsDir, 'index.md'), content);
+}
+
+/**
+ * Generate an index.md file for the filters subdirectory
+ */
+function generateFiltersIndex(product, outputDir) {
+  const filtersDir = path.join(outputDir, 'filters');
+
+  if (!fs.existsSync(filtersDir)) {
+    return;
+  }
+
+  const hooks = fs.readdirSync(filtersDir)
+    .filter(f => f.endsWith('.md') && f !== 'index.md')
+    .map(f => f.replace('.md', ''));
+
+  if (hooks.length === 0) {
+    return;
+  }
+
+  const hookList = hooks
+    .sort()
+    .map(h => `- [${h}](./${h}.md)`)
+    .join('\n');
+
+  const content = `---
+sidebar_position: 2
+title: Filters
+description: Filter hooks available in ${product.label}
+---
+
+# ${product.label} Filters
+
+Filter hooks allow you to modify data as it passes through ${product.label}.
+
+**Total filters:** ${hooks.length}
+
+## Available Filters
+
+${hookList}
+`;
+
+  fs.writeFileSync(path.join(filtersDir, 'index.md'), content);
 }
 
 /**
