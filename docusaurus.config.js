@@ -60,7 +60,7 @@ const config = {
     preprocessor: ({filePath, fileContent}) => fileContent,
   },
 
-  // Sitemap generation for SEO
+  // Trailing slash for consistent URLs (important for sitemap)
   trailingSlash: true,
 
   // Even if you don't use internationalization, you can use this field to set
@@ -85,15 +85,19 @@ const config = {
         theme: {
           customCss: './src/css/custom.css',
         },
-        // Sitemap configuration for SEO
+        // Sitemap plugin (@docusaurus/plugin-sitemap) - included in preset-classic
         sitemap: {
           changefreq: 'weekly',
           priority: 0.5,
           ignorePatterns: ['/tags/**'],
           filename: 'sitemap.xml',
         },
-        // Google Tag Manager (can be configured later)
-        gtag: undefined,
+        // Google gtag plugin (@docusaurus/plugin-google-gtag) - included in preset-classic
+        // Set GOOGLE_GTAG_ID environment variable (e.g., G-XXXXXXXXXX)
+        gtag: process.env.GOOGLE_GTAG_ID ? {
+          trackingID: process.env.GOOGLE_GTAG_ID,
+          anonymizeIP: true,
+        } : undefined,
       }),
     ],
   ],
