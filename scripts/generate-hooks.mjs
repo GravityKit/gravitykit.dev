@@ -189,6 +189,60 @@ function lowercaseDirectory(dir, name) {
 }
 
 /**
+ * Add tags to hook markdown files based on @since versions and hook type
+ */
+function addTagsToHooks(outputDir) {
+  const dirs = ['actions', 'filters'];
+
+  for (const subdir of dirs) {
+    const dirPath = path.join(outputDir, subdir);
+    if (!fs.existsSync(dirPath)) continue;
+
+    const files = fs.readdirSync(dirPath).filter(f => f.endsWith('.md') && f !== 'index.md');
+
+    for (const file of files) {
+      const filePath = path.join(dirPath, file);
+      let content = fs.readFileSync(filePath, 'utf8');
+
+      // Extract @since versions from the "### Since" section
+      const sinceMatch = content.match(/### Since\n\n((?:- .+\n?)+)/);
+      const tags = [];
+
+      // Add hook type as a tag
+      tags.push(subdir === 'actions' ? 'action' : 'filter');
+
+      if (sinceMatch) {
+        // Extract all versions (handles multiple "- version" lines)
+        const versions = sinceMatch[1].match(/- ([^\n]+)/g);
+        if (versions) {
+          for (const v of versions) {
+            let version = v.replace(/^- /, '').trim();
+            // Skip versions with @link tags
+            if (version.includes('{@link')) continue;
+            // Extract just the version number (e.g., "1.18: Added feature" -> "1.18")
+            const versionMatch = version.match(/^([\d.]+)/);
+            if (versionMatch) {
+              tags.push(`since-${versionMatch[1]}`);
+            }
+          }
+        }
+      }
+
+      // Add tags to frontmatter if we have any
+      if (tags.length > 0) {
+        const tagsYaml = `tags:\n${tags.map(t => `  - "${t}"`).join('\n')}`;
+
+        // Insert tags into frontmatter (before the closing ---)
+        if (content.match(/^---\n[\s\S]*?\n---/)) {
+          content = content.replace(/^(---\n[\s\S]*?)(---)/, `$1${tagsYaml}\n$2`);
+          fs.writeFileSync(filePath, content);
+        }
+      }
+    }
+  }
+}
+
+/**
  * Run wp-hooks-documentor for a product
  */
 function generateHooksDocs(product, config, options) {
@@ -326,6 +380,9 @@ function generateHooksDocs(product, config, options) {
     // Rename Actions/Filters to lowercase for cleaner URLs
     lowercaseDirectory(finalOutputDir, 'Actions');
     lowercaseDirectory(finalOutputDir, 'Filters');
+
+    // Add tags to hook files based on @since versions
+    addTagsToHooks(finalOutputDir);
 
     // Generate index.md for the product and subdirectories
     generateProductIndex(product, finalOutputDir);

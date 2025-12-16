@@ -32,6 +32,7 @@ const product_docs_plugins = config_products
       id: product.id,
       path: `./docs/${product.id}`,
       routeBasePath: `docs/${product.id}`,
+      tagsBasePath: 'tags',
     },
   ]);
 
