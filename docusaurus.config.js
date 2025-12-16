@@ -43,7 +43,7 @@ const config = {
   favicon: 'img/favicon-192.png',
 
   // Set the production url of your site here
-  url: 'https://gravitykit.dev',
+  url: 'https://www.gravitykit.dev',
   // Set the /<baseUrl>/ pathname under which your site is served
   baseUrl: '/',
 
