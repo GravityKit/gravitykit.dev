@@ -36,15 +36,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install wp-hooks-documentor
-        run: |
-          npm install -g github:GravityKit/wp-hooks-documentor
-          # Add npm global bin to PATH for subsequent steps
-          echo "$(npm config get prefix)/bin" >> $GITHUB_PATH
-
-      - name: Verify wp-hooks-documentor installation
-        run: wp-hooks-documentor --version || wp-hooks-documentor --help || echo "Tool installed but may not support --version flag"
-
       - name: Clone GravityKit repositories
         run: npm run repos:clone
         env:

@@ -13,7 +13,7 @@
  *   npm run hooks:generate -- --list     # List available product IDs
  *
  * Prerequisites:
- *   - wp-hooks-documentor installed globally: npm i -g github:GravityKit/wp-hooks-documentor
+ *   - Dependencies installed: npm install
  *   - Repos cloned via: npm run repos:clone
  */
 
@@ -109,17 +109,17 @@ function loadConfig() {
 }
 
 /**
- * Check if wp-hooks-documentor is available
+ * Check if wp-hooks-documentor is available (via npx for local install)
  */
 function checkWpHooksDocumentor() {
-  // Try --help first as it's more universally supported than --version
-  const result = spawnSync('wp-hooks-documentor', ['--help'], {
+  // Try running via npx which finds locally installed packages
+  const result = spawnSync('npx', ['wp-hooks-documentor', '--help'], {
     encoding: 'utf8',
     stdio: 'pipe',
   });
 
   // If no error running the command, the tool is available
-  if (!result.error) {
+  if (!result.error && result.status === 0) {
     return true;
   }
   return false;
@@ -269,8 +269,8 @@ function generateHooksDocs(product, config, options) {
     const configPath = path.join(tempWorkDir, 'wp-hooks-doc.json');
     fs.writeFileSync(configPath, JSON.stringify(hooksConfig, null, 2));
 
-    // Run wp-hooks-documentor from the temp directory
-    const result = spawnSync('wp-hooks-documentor', ['generate', '--skip-build'], {
+    // Run wp-hooks-documentor via npx from the temp directory
+    const result = spawnSync('npx', ['wp-hooks-documentor', 'generate', '--skip-build'], {
       cwd: tempWorkDir,
       stdio: 'inherit',
       shell: false,
@@ -281,7 +281,7 @@ function generateHooksDocs(product, config, options) {
         return {
           ok: false,
           id: product.id,
-          reason: 'wp-hooks-documentor not found. Install: npm i -g github:GravityKit/wp-hooks-documentor',
+          reason: 'wp-hooks-documentor not found. Run: npm install',
         };
       }
       return {
@@ -591,7 +591,7 @@ ${colors.cyan}Examples:${colors.reset}
   npm run hooks:generate -- --dry-run         # Preview mode
 
 ${colors.cyan}Prerequisites:${colors.reset}
-  1. Install wp-hooks-documentor: npm i -g github:GravityKit/wp-hooks-documentor
+  1. Install dependencies: npm install
   2. Clone repositories: npm run repos:clone
 
 ${colors.cyan}Output:${colors.reset}
@@ -643,8 +643,8 @@ async function main() {
   logStep('Checking prerequisites');
 
   if (!checkWpHooksDocumentor()) {
-    logError('wp-hooks-documentor is not installed or not in PATH');
-    logInfo('Install it with: npm i -g github:GravityKit/wp-hooks-documentor');
+    logError('wp-hooks-documentor is not installed');
+    logInfo('Run: npm install');
     return 1;
   }
   logSuccess('wp-hooks-documentor is available');

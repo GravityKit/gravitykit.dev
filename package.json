@@ -31,7 +31,8 @@
   "devDependencies": {
     "@docusaurus/module-type-aliases": "^3.5.2",
     "@docusaurus/tsconfig": "^3.5.2",
-    "@docusaurus/types": "^3.5.2"
+    "@docusaurus/types": "^3.5.2",
+    "wp-hooks-documentor": "github:GravityKit/wp-hooks-documentor"
   },
   "browserslist": {
     "production": [
