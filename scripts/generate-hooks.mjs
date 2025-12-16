@@ -351,26 +351,49 @@ function generateProductIndex(product, outputDir) {
 }
 
 /**
+ * Extract sidebar_label from a markdown file's frontmatter
+ */
+function getHookLabel(filePath) {
+  try {
+    const content = fs.readFileSync(filePath, 'utf8');
+    const match = content.match(/sidebar_label:\s*"([^"]+)"/);
+    return match ? match[1] : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Get hook info (filename and display label) from a directory
+ */
+function getHooksFromDir(dir) {
+  if (!fs.existsSync(dir)) {
+    return [];
+  }
+
+  return fs.readdirSync(dir)
+    .filter(f => f.endsWith('.md') && f !== 'index.md')
+    .map(f => {
+      const filename = f.replace('.md', '');
+      const label = getHookLabel(path.join(dir, f)) || filename;
+      return { filename, label };
+    })
+    .sort((a, b) => a.label.localeCompare(b.label));
+}
+
+/**
  * Generate an index.md file for the actions subdirectory
  */
 function generateActionsIndex(product, outputDir) {
   const actionsDir = path.join(outputDir, 'actions');
-
-  if (!fs.existsSync(actionsDir)) {
-    return;
-  }
-
-  const hooks = fs.readdirSync(actionsDir)
-    .filter(f => f.endsWith('.md') && f !== 'index.md')
-    .map(f => f.replace('.md', ''));
+  const hooks = getHooksFromDir(actionsDir);
 
   if (hooks.length === 0) {
     return;
   }
 
   const hookList = hooks
-    .sort()
-    .map(h => `- [${h}](./${h}.md)`)
+    .map(h => `- [${h.label}](./${h.filename}.md)`)
     .join('\n');
 
   const template = loadTemplate('actions-index');
@@ -388,22 +411,14 @@ function generateActionsIndex(product, outputDir) {
  */
 function generateFiltersIndex(product, outputDir) {
   const filtersDir = path.join(outputDir, 'filters');
-
-  if (!fs.existsSync(filtersDir)) {
-    return;
-  }
-
-  const hooks = fs.readdirSync(filtersDir)
-    .filter(f => f.endsWith('.md') && f !== 'index.md')
-    .map(f => f.replace('.md', ''));
+  const hooks = getHooksFromDir(filtersDir);
 
   if (hooks.length === 0) {
     return;
   }
 
   const hookList = hooks
-    .sort()
-    .map(h => `- [${h}](./${h}.md)`)
+    .map(h => `- [${h.label}](./${h.filename}.md)`)
     .join('\n');
 
   const template = loadTemplate('filters-index');
