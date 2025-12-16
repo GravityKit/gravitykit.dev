@@ -392,6 +392,8 @@ function generateHooksDocs(product, config, options) {
       customFields: config.defaults.customFields || {},
       // Don't build the site, just generate markdown
       skipBuild: true,
+      // Replace slashes with dashes in hook IDs for cleaner URLs
+      hookIdSlashReplacement: '-',
     };
 
     // Merge any product-specific overrides
