@@ -255,6 +255,75 @@ function addTagsToHooks(outputDir) {
 }
 
 /**
+ * Load type links configuration
+ */
+function loadTypeLinks() {
+  const typeLinksPath = path.join(PROJECT_ROOT, 'type-links.json');
+  if (!fs.existsSync(typeLinksPath)) {
+    return {};
+  }
+  try {
+    const config = JSON.parse(fs.readFileSync(typeLinksPath, 'utf8'));
+    return config.types || {};
+  } catch (err) {
+    console.warn('Warning: Could not parse type-links.json:', err.message);
+    return {};
+  }
+}
+
+/**
+ * Link parameter types in hook markdown files to their documentation
+ * Converts `GF_Field_Address` or `\GF_Field_Address` to linked versions
+ */
+function linkParameterTypes(outputDir) {
+  const typeLinks = loadTypeLinks();
+  if (Object.keys(typeLinks).length === 0) return;
+
+  const dirs = ['actions', 'filters'];
+
+  for (const subdir of dirs) {
+    const dirPath = path.join(outputDir, subdir);
+    if (!fs.existsSync(dirPath)) continue;
+
+    const files = fs.readdirSync(dirPath).filter(f => f.endsWith('.md') && f !== 'index.md');
+
+    for (const file of files) {
+      const filePath = path.join(dirPath, file);
+      let content = fs.readFileSync(filePath, 'utf8');
+      let modified = false;
+
+      // Process each type in the configuration
+      for (const [typeName, url] of Object.entries(typeLinks)) {
+        // Match `TypeName` or `\TypeName` in parameter tables
+        // The backticks indicate it's a type in the markdown table
+        const patterns = [
+          new RegExp('`\\\\?' + escapeRegExp(typeName) + '`', 'g'),
+        ];
+
+        for (const pattern of patterns) {
+          if (pattern.test(content)) {
+            // Replace with linked version, preserving the backticks around the link
+            content = content.replace(pattern, `[\`${typeName}\`](${url})`);
+            modified = true;
+          }
+        }
+      }
+
+      if (modified) {
+        fs.writeFileSync(filePath, content);
+      }
+    }
+  }
+}
+
+/**
+ * Escape special regex characters in a string
+ */
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+/**
  * Run wp-hooks-documentor for a product
  */
 function generateHooksDocs(product, config, options) {
@@ -395,6 +464,9 @@ function generateHooksDocs(product, config, options) {
 
     // Add tags to hook files based on @since versions
     addTagsToHooks(finalOutputDir);
+
+    // Link parameter types to their documentation
+    linkParameterTypes(finalOutputDir);
 
     // Generate index.md for the product and subdirectories
     generateProductIndex(product, finalOutputDir);
