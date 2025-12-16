@@ -8,6 +8,13 @@ dist/
 # Generated documentation (built from wp-hooks-doc.json by scripts)
 docs/
 
+# Generated API files (built by npm run llm:enhance)
+static/api/
+static/llms.txt
+
+# Generated hooks config (built by npm run hooks:generate)
+wp-hooks-doc.json
+
 # Docusaurus generated files
 .docusaurus/
 .cache-loader/
