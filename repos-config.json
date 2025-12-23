@@ -195,6 +195,12 @@
       "category": "gravitykit"
     },
     {
+      "id": "gravityforms",
+      "repo": "gravityforms/gravityforms",
+      "label": "Gravity Forms",
+      "category": "gravity-forms"
+    },
+    {
       "id": "gravity-forms-dynamic-lookup",
       "repo": "GravityKit/gravity-forms-dynamic-lookup",
       "label": "Dynamic Lookup Field",
