@@ -10,8 +10,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import remarkStripLeadingSrcPath from './src/remark/strip-leading-src-path.js';
-import remarkRemoveEmptySections from './src/remark/remove-empty-sections.js';
-import {normalizeDescriptions} from './src/plugins/normalize-doc-descriptions.js';
+import remarkRemoveEmptySections from './src/remark/remove-empty-sections.mjs';
+import {normalizeDescriptions} from './src/plugins/normalize-doc-descriptions.mjs';
 
 // Load configuration from repos-config.json (new GitHub-based approach)
 const repos_config_path = new URL('./repos-config.json', import.meta.url);
@@ -140,7 +140,7 @@ const product_llms_plugin = [
 ];
 
 const markdown_endpoints_plugin = fileURLToPath(
-  new URL('./src/plugins/markdown-endpoints.js', import.meta.url),
+  new URL('./src/plugins/markdown-endpoints.mjs', import.meta.url),
 );
 
 /** @type {import('@docusaurus/types').Config} */
