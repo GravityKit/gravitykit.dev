@@ -9,6 +9,11 @@
  */
 export default function remarkStripLeadingSrcPath() {
   return (tree) => {
+    /**
+     * Walk the AST and update inline code paths in place.
+     * @param {object} node
+     * @returns {void}
+     */
     const visit_node = (node) => {
       if ( ! node || 'object' !== typeof node ) {
         return;
