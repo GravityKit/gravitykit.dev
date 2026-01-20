@@ -280,6 +280,10 @@ const config = {
                 label: 'Documentation',
                 href: 'https://docs.gravitykit.com',
               },
+              {
+                label: 'LLMs.txt',
+                href: '/llms.txt',
+              },
             ],
           },
           {
