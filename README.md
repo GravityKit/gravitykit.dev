@@ -356,9 +356,21 @@ The site uses Algolia DocSearch for search functionality:
 | `ALGOLIA_API_KEY` | Algolia search-only API key |
 | `ALGOLIA_INDEX_NAME` | Index name (defaults to `gravitykit`) |
 
+For automatic index updates on deployment, also configure:
+
+| Variable | Description | Type |
+|----------|-------------|------|
+| `ALGOLIA_CRAWLER_ID` | Algolia crawler ID from dashboard | Repository Variable |
+| `ALGOLIA_CRAWLER_API_KEY` | Algolia crawler API key with write access | Repository Secret |
+
 To set up search:
 1. Apply for [Algolia DocSearch](https://docsearch.algolia.com/)
-2. Set the environment variables above
+2. Set the environment variables above in your deployment settings
+3. Configure crawler variables in GitHub repository settings:
+   - Go to Settings → Secrets and variables → Actions
+   - Add `ALGOLIA_CRAWLER_API_KEY` as a secret
+   - Add `ALGOLIA_CRAWLER_ID` as a variable
+4. The crawler will automatically re-index after each deployment
 
 ### GitHub Access
 
@@ -375,10 +387,14 @@ For cloning private GravityKit repositories:
 # Google Analytics
 GOOGLE_GTAG_ID=G-XXXXXXXXXX
 
-# Algolia Search
+# Algolia Search (for search UI)
 ALGOLIA_APP_ID=your-app-id
 ALGOLIA_API_KEY=your-search-api-key
 ALGOLIA_INDEX_NAME=gravitykit
+
+# Algolia Crawler (for CI/CD - use GitHub secrets instead of .env)
+# ALGOLIA_CRAWLER_ID=your-crawler-id
+# ALGOLIA_CRAWLER_API_KEY=your-crawler-api-key
 
 # GitHub Access (for CI/CD)
 GK_REPOS_TOKEN=ghp_xxxxxxxxxxxx
