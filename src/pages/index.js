@@ -9,6 +9,24 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 import styles from './index.module.css';
 
 /**
+ * Build an absolute URL using the site config base URL.
+ * @param {string} siteUrl
+ * @param {string} baseUrl
+ * @param {string} pathname
+ * @returns {string}
+ */
+function buildAbsoluteUrl(siteUrl, baseUrl, pathname) {
+  const origin = siteUrl.replace(/\/+$/, '');
+  const normalizedBaseUrl = baseUrl.startsWith('/') ? baseUrl : `/${baseUrl}`;
+  const baseUrlWithSlash = normalizedBaseUrl.endsWith('/')
+    ? normalizedBaseUrl
+    : `${normalizedBaseUrl}/`;
+  const normalizedPath = pathname.replace(/^\/+/, '');
+
+  return `${origin}${baseUrlWithSlash}${normalizedPath}`;
+}
+
+/**
  * Render the homepage hero header.
  * @returns {JSX.Element}
  */
@@ -258,7 +276,7 @@ function ProductSection({ title, description, products, showImages = true }) {
 export default function Home() {
   const {siteConfig} = useDocusaurusContext();
   const totalProducts = mainProducts.length + gravityviewLayouts.length + gravityviewExtensions.length + gravityFormsAddons.length;
-  const llmsHref = useBaseUrl('/llms.txt');
+  const llmsHref = buildAbsoluteUrl(siteConfig.url, siteConfig.baseUrl, 'llms.txt');
 
   return (
     <Layout

@@ -3,6 +3,7 @@ import Head from '@docusaurus/Head';
 import {PageMetadata} from '@docusaurus/theme-common';
 import {useDoc} from '@docusaurus/plugin-content-docs/client';
 import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import reposConfig from '@site/repos-config.json';
 
 const products = Array.isArray(reposConfig?.products) ? reposConfig.products : [];
@@ -32,12 +33,31 @@ function getProductForPermalink(permalink, withBaseUrl) {
 }
 
 /**
+ * Build an absolute URL using the site config base URL.
+ * @param {string} siteUrl
+ * @param {string} baseUrl
+ * @param {string} pathname
+ * @returns {string}
+ */
+function buildAbsoluteUrl(siteUrl, baseUrl, pathname) {
+  const origin = siteUrl.replace(/\/+$/, '');
+  const normalizedBaseUrl = baseUrl.startsWith('/') ? baseUrl : `/${baseUrl}`;
+  const baseUrlWithSlash = normalizedBaseUrl.endsWith('/')
+    ? normalizedBaseUrl
+    : `${normalizedBaseUrl}/`;
+  const normalizedPath = pathname.replace(/^\/+/, '');
+
+  return `${origin}${baseUrlWithSlash}${normalizedPath}`;
+}
+
+/**
  * Build a markdown-source URL for individual hook pages.
  * @param {{source?: string, permalink?: string}} metadata
- * @param {(path: string) => string} withBaseUrl
+ * @param {string} siteUrl
+ * @param {string} baseUrl
  * @returns {string|null}
  */
-function getHookMarkdownHref(metadata, withBaseUrl) {
+function getHookMarkdownHref(metadata, siteUrl, baseUrl) {
   if (!metadata?.source || !metadata.permalink) {
     return null;
   }
@@ -53,7 +73,7 @@ function getHookMarkdownHref(metadata, withBaseUrl) {
     return null;
   }
 
-  return withBaseUrl(`/${sourcePath}`);
+  return buildAbsoluteUrl(siteUrl, baseUrl, sourcePath);
 }
 
 /**
@@ -63,12 +83,15 @@ function getHookMarkdownHref(metadata, withBaseUrl) {
 export default function DocItemMetadata() {
   const {metadata, frontMatter, assets} = useDoc();
   const {withBaseUrl} = useBaseUrlUtils();
+  const {siteConfig} = useDocusaurusContext();
   const productInfo = getProductForPermalink(metadata.permalink, withBaseUrl);
-  const llmsHref = productInfo ? withBaseUrl(`/docs/${productInfo.id}/llms.txt`) : null;
+  const llmsHref = productInfo
+    ? buildAbsoluteUrl(siteConfig.url, siteConfig.baseUrl, `docs/${productInfo.id}/llms.txt`)
+    : null;
   const llmsTitle = productInfo?.label
     ? `${productInfo.label} llms.txt`
     : 'Product llms.txt';
-  const hookMarkdownHref = getHookMarkdownHref(metadata, withBaseUrl);
+  const hookMarkdownHref = getHookMarkdownHref(metadata, siteConfig.url, siteConfig.baseUrl);
 
   return (
     <>
