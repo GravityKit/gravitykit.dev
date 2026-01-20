@@ -407,6 +407,79 @@ function ensureSourceHeadingSpacing(outputDir) {
 }
 
 /**
+ * Remove empty heading sections from hook markdown files.
+ * @param {string} outputDir
+ * @returns {void}
+ */
+function removeEmptySections(outputDir) {
+  const dirs = ['actions', 'filters', 'Actions', 'Filters'];
+  const headingRe = /^(#{2,6})\s+(.+?)\s*$/;
+
+  for (const subdir of dirs) {
+    const dirPath = path.join(outputDir, subdir);
+    if (!fs.existsSync(dirPath)) {
+      continue;
+    }
+
+    const files = fs
+      .readdirSync(dirPath)
+      .filter((file) => (file.endsWith('.md') || file.endsWith('.mdx')) && file !== 'index.md');
+
+    for (const file of files) {
+      const filePath = path.join(dirPath, file);
+      const content = fs.readFileSync(filePath, 'utf8');
+      const endsWithNewline = content.endsWith('\n');
+      const lines = content.split(/\r?\n/);
+      const output = [];
+      let changed = false;
+      let i = 0;
+
+      while (i < lines.length) {
+        const match = headingRe.exec(lines[i]);
+        if (!match) {
+          output.push(lines[i]);
+          i += 1;
+          continue;
+        }
+
+        const level = match[1].length;
+        let j = i + 1;
+
+        while (j < lines.length) {
+          const nextMatch = headingRe.exec(lines[j]);
+          if (nextMatch && nextMatch[1].length <= level) {
+            break;
+          }
+          j += 1;
+        }
+
+        const sectionLines = lines.slice(i + 1, j);
+        const isEmpty = sectionLines.every((line) => line.trim() === '');
+
+        if (isEmpty) {
+          changed = true;
+          i = j;
+          continue;
+        }
+
+        output.push(lines[i], ...sectionLines);
+        i = j;
+      }
+
+      if (changed) {
+        let nextContent = output.join('\n');
+        if (endsWithNewline && !nextContent.endsWith('\n')) {
+          nextContent += '\n';
+        }
+        if (nextContent !== content) {
+          fs.writeFileSync(filePath, nextContent);
+        }
+      }
+    }
+  }
+}
+
+/**
  * Escape special regex characters in a string.
  * @param {string} value
  * @returns {string}
@@ -568,6 +641,9 @@ function generateHooksDocs(product, config, options) {
 
     // Normalize spacing before "### Source" headings
     ensureSourceHeadingSpacing(finalOutputDir);
+
+    // Remove empty sections like "## Returns" with no content
+    removeEmptySections(finalOutputDir);
 
     // Generate index.md for the product and subdirectories
     generateProductIndex(product, finalOutputDir);

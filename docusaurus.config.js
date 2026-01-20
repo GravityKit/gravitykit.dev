@@ -10,6 +10,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import remarkStripLeadingSrcPath from './src/remark/strip-leading-src-path.js';
+import remarkRemoveEmptySections from './src/remark/remove-empty-sections.js';
+import {normalizeDescriptions} from './src/plugins/normalize-doc-descriptions.js';
 
 // Load configuration from repos-config.json (new GitHub-based approach)
 const repos_config_path = new URL('./repos-config.json', import.meta.url);
@@ -81,6 +83,8 @@ const llms_static_plugin = [
         if (customLLMFiles.length === 0) {
           return null;
         }
+
+        await normalizeDescriptions(path.resolve(context.siteDir, 'docs'));
 
         const {collectDocFiles, generateCustomLLMFiles} = await import('docusaurus-plugin-llms/lib/generator.js');
         const outDir = fileURLToPath(new URL(llms_static_output_dir, import.meta.url));
@@ -155,13 +159,15 @@ const config = {
   projectName: 'gravitykit.dev',
 
   onBrokenLinks: 'warn',
-  onBrokenMarkdownLinks: 'warn',
 
   // Configure markdown processing to avoid MDX parsing issues
   markdown: {
     format: 'md',
     mermaid: false,
     preprocessor: ({filePath, fileContent}) => fileContent,
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+    },
   },
 
   // Trailing slash for consistent URLs (important for sitemap)
@@ -194,6 +200,7 @@ const config = {
         // Disable preset's docs - we use multi-instance plugins for each product
         docs: false,
         pages: {
+          beforeDefaultRemarkPlugins: [remarkRemoveEmptySections],
           remarkPlugins: [remarkStripLeadingSrcPath],
         },
         blog: false,
@@ -282,7 +289,7 @@ const config = {
               },
               {
                 label: 'LLMs.txt',
-                href: '/llms.txt',
+                href: normalizeUrl([site_url, base_url, 'llms.txt']),
               },
             ],
           },
@@ -352,6 +359,10 @@ const config = {
         pluginEntry[0],
         {
           ...pluginOptions,
+          beforeDefaultRemarkPlugins: [
+            ...(pluginOptions.beforeDefaultRemarkPlugins ?? []),
+            remarkRemoveEmptySections,
+          ],
           remarkPlugins: [
             ...(pluginOptions.remarkPlugins ?? []),
             remarkStripLeadingSrcPath,
