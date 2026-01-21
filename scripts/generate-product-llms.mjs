@@ -143,7 +143,7 @@ function generateProductLLMSTxt(productData) {
 
 - **Total Hooks:** 0
 - **Repository:** ${product.repo}
-- **JSON API:** \`/api/hooks/${product.id}.json\`
+${product.version ? `- **Version:** ${product.version}\n` : ''}- **JSON API:** \`/api/hooks/${product.id}.json\`
 - **Documentation:** \`/docs/${product.id}/\`
 
 ## Status
@@ -193,7 +193,7 @@ This product currently has no documented hooks. Hooks documentation will be adde
 
 - **Total Hooks:** ${stats.total} (${stats.actions} actions, ${stats.filters} filters)
 - **Repository:** ${product.repo}
-- **JSON API:** \`/api/hooks/${product.id}.json\`
+${product.version ? `- **Version:** ${product.version}\n` : ''}- **JSON API:** \`/api/hooks/${product.id}.json\`
 - **Documentation:** \`/docs/${product.id}/\`
 
 ## What You Can Do

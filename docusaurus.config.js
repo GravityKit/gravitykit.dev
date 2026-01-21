@@ -12,6 +12,7 @@ import { fileURLToPath } from 'node:url';
 import remarkStripLeadingSrcPath from './src/remark/strip-leading-src-path.js';
 import remarkRemoveEmptySections from './src/remark/remove-empty-sections.mjs';
 import {normalizeDescriptions} from './src/plugins/normalize-doc-descriptions.mjs';
+import {readAllProductVersions} from './src/utils/read-product-versions.mjs';
 
 // Load configuration from repos-config.json (new GitHub-based approach)
 const repos_config_path = new URL('./repos-config.json', import.meta.url);
@@ -29,6 +30,9 @@ const products_with_docs = config_products
     const docsDir = fileURLToPath(new URL(`./docs/${product.id}`, import.meta.url));
     return fs.existsSync(docsDir);
   });
+
+// Read actual plugin versions from repository files
+const product_versions = readAllProductVersions(config_products);
 
 const llms_static_output_dir = './static';
 
@@ -61,13 +65,17 @@ const product_docs_plugins = config_products
 
 // Generate customLLMFiles configuration for each product
 const customLLMFiles = products_with_docs
-  .map((product) => ({
-    filename: `docs/${product.id}/llms.txt`,
-    includePatterns: [`docs/${product.id}/**`],
-    fullContent: false,
-    title: `${product.label} Developer Documentation`,
-    description: `Hooks documentation for ${product.label}`,
-  }));
+  .map((product) => {
+    const version = product_versions.get(product.id);
+    return {
+      filename: `docs/${product.id}/llms.txt`,
+      includePatterns: [`docs/${product.id}/**`],
+      fullContent: false,
+      title: `${product.label} Developer Documentation`,
+      description: `Hooks documentation for ${product.label}`,
+      ...(version && { version }), // Only include version if found
+    };
+  });
 
 const llms_static_plugin = [
   /**

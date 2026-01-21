@@ -16,6 +16,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { readAllProductVersions } from '../src/utils/read-product-versions.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -309,6 +310,10 @@ function collectAllHooks() {
   }
 
   const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+
+  // Read actual plugin versions from repositories
+  const productVersions = readAllProductVersions(config.products);
+
   const allHooks = {
     generated: new Date().toISOString(),
     products: {},
@@ -325,10 +330,12 @@ function collectAllHooks() {
     const productDir = path.join(docsDir, product.id);
     if (!fs.existsSync(productDir)) continue;
 
+    const productVersion = productVersions.get(product.id);
     const productHooks = {
       id: product.id,
       label: product.label,
       repo: product.repo,
+      ...(productVersion && { version: productVersion }), // Include version if found
       actions: [],
       filters: [],
     };
@@ -424,6 +431,7 @@ async function main() {
       id,
       label: info.label,
       repo: info.repo,
+      ...(info.version && { version: info.version }), // Include version if available
       actions: info.actions.length,
       filters: info.filters.length,
       total: info.actions.length + info.filters.length,
