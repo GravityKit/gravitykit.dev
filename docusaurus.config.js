@@ -67,7 +67,6 @@ const customLLMFiles = products_with_docs
     fullContent: false,
     title: `${product.label} Developer Documentation`,
     description: `Hooks documentation for ${product.label}`,
-    version: llms_version,
   }));
 
 const llms_static_plugin = [

@@ -311,7 +311,6 @@ function collectAllHooks() {
   const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
   const allHooks = {
     generated: new Date().toISOString(),
-    version: '1.0',
     products: {},
     hooks: [],
     stats: {
@@ -419,7 +418,6 @@ async function main() {
   // Step 3: Create index.json with product list and stats (lightweight)
   const indexData = {
     generated: hooksData.generated,
-    version: '1.0',
     baseUrl: '/api/hooks/',
     stats: hooksData.stats,
     products: Object.entries(hooksData.products).map(([id, info]) => ({
