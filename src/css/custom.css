@@ -4,29 +4,141 @@
  * work well for content-centric websites.
  */
 
+/* Font Face Declarations - GravityKit Fonts */
+/* Eudoxus Sans */
+@font-face {
+  font-family: 'Eudoxus Sans';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('/fonts/eudoxus-sans/EudoxusSans-Light.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Eudoxus Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/eudoxus-sans/EudoxusSans-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Eudoxus Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/eudoxus-sans/EudoxusSans-Medium.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Eudoxus Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/eudoxus-sans/EudoxusSans-Bold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Eudoxus Sans';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('/fonts/eudoxus-sans/EudoxusSans-ExtraBold.woff2') format('woff2');
+}
+
+/* JetBrains Mono */
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/jetbrains-mono/JetBrainsMono-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/jetbrains-mono/JetBrainsMono-Medium.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/jetbrains-mono/JetBrainsMono-SemiBold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/jetbrains-mono/JetBrainsMono-Bold.woff2') format('woff2');
+}
+
 /* You can override the default Infima variables here. */
+/* Colors from GravityKit theme.json */
 :root {
-  --ifm-color-primary: #1d4ed8;
-  --ifm-color-primary-dark: #1a45c2;
-  --ifm-color-primary-darker: #1841b7;
-  --ifm-color-primary-darkest: #143596;
-  --ifm-color-primary-light: #2057ee;
-  --ifm-color-primary-lighter: #295bf3;
-  --ifm-color-primary-lightest: #4470f5;
+  /* GravityKit Fonts */
+  --ifm-font-family-base: 'Eudoxus Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  --ifm-font-family-monospace: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  --ifm-heading-font-family: 'Eudoxus Sans', var(--ifm-font-family-base);
+
+  /* Adjust heading font weights to match GravityKit style */
+  --ifm-heading-font-weight: 700;
+  --ifm-h1-font-size: 2.5rem;
+  --ifm-h2-font-size: 2rem;
+  --ifm-h3-font-size: 1.5rem;
+
+  /* GravityKit Brand Colors */
+  /* GravityKit Brand Colors */
+  --gk-primary: #001A4D;        /* Oxford Blue */
+  --gk-secondary: #D91556;      /* Peevish Red */
+  --gk-tertiary: #D99B21;       /* Tiger King */
+  --gk-slate-blue: #637AA7;     /* Slate Blue */
+  --gk-purple: #6A49E2;         /* Purple */
+  --gk-blue-black: #0B101F;     /* Blue Black */
+
+  /* Primary color variations for light mode */
+  --ifm-color-primary: #001A4D;           /* Oxford Blue */
+  --ifm-color-primary-dark: #001842;      /* Darker */
+  --ifm-color-primary-darker: #00163d;    /* Even darker */
+  --ifm-color-primary-darkest: #001233;   /* Darkest */
+  --ifm-color-primary-light: #002058;     /* Lighter */
+  --ifm-color-primary-lighter: #00235d;   /* Even lighter */
+  --ifm-color-primary-lightest: #002d71;  /* Lightest */
+
   --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --docusaurus-highlighted-code-line-bg: rgba(0, 26, 77, 0.1);
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
-  --ifm-color-primary: #60a5fa;
-  --ifm-color-primary-dark: #3b92f8;
-  --ifm-color-primary-darker: #2a87f7;
-  --ifm-color-primary-darkest: #0969f4;
-  --ifm-color-primary-light: #85b8fc;
-  --ifm-color-primary-lighter: #96c3fd;
-  --ifm-color-primary-lightest: #c9defe;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  /* Use Slate Blue for dark mode - better contrast and readability */
+  --ifm-color-primary: #637AA7;           /* Slate Blue */
+  --ifm-color-primary-dark: #566d96;      /* Darker */
+  --ifm-color-primary-darker: #50678e;    /* Even darker */
+  --ifm-color-primary-darkest: #425473;   /* Darkest */
+  --ifm-color-primary-light: #7087b8;     /* Lighter */
+  --ifm-color-primary-lighter: #788dc0;   /* Even lighter */
+  --ifm-color-primary-lightest: #93a5ca;  /* Lightest */
+
+  --docusaurus-highlighted-code-line-bg: rgba(99, 122, 167, 0.2);
+}
+
+/* Card button customization - softer color for card CTAs */
+.card__footer .button--primary {
+  background-color: #fff;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  color: var(--ifm-color-primary);
+}
+
+.card__footer .button--primary:hover {
+  border-color: var(--ifm-color-primary);
+  color: var(--ifm-color-primary-dark);
 }
 
 /* Custom styles for better readability */
