@@ -150,6 +150,14 @@ const markdown_endpoints_plugin = fileURLToPath(
   new URL('./src/plugins/markdown-endpoints.mjs', import.meta.url),
 );
 
+// Product sitemaps plugin - generates per-product sitemap.xml files
+const product_sitemaps_plugin = [
+  fileURLToPath(new URL('./src/plugins/product-sitemaps.mjs', import.meta.url)),
+  {
+    products: products_with_docs,
+  },
+];
+
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'GravityKit Developer Documentation',
@@ -187,6 +195,14 @@ const config = {
         rel: 'sitemap',
         type: 'application/xml',
         href: normalizeUrl([site_url, base_url, 'sitemap.xml']),
+      },
+    },
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'sitemap',
+        type: 'application/xml',
+        href: normalizeUrl([site_url, base_url, 'sitemap-products.xml']),
       },
     },
   ],
@@ -342,6 +358,7 @@ const config = {
     product_llms_plugin,
     ...llms_static_plugin,
     markdown_endpoints_plugin,
+    product_sitemaps_plugin,
   ].filter((pluginEntry) => {
     if (!Array.isArray(pluginEntry) || pluginEntry[0] !== '@docusaurus/plugin-content-docs') {
       return true;

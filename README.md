@@ -332,6 +332,32 @@ Fetch GravityKit hooks from https://www.gravitykit.dev/api/hooks/{product}.json
 
 **Products**: `gravityview`, `gravitycalendar`, `gravitycharts`, `gravityedit`, `gravityexport`, `gravityimport`, `gravitymath`, `gravityactions`, `gravityboard`, `gravitymigrate`, `gravityrevisions`, and more.
 
+## Sitemaps
+
+The site automatically generates XML sitemaps for search engine optimization:
+
+- **`/sitemap.xml`** - Main site-wide sitemap (all pages)
+- **`/sitemap-products.xml`** - Product-specific sitemap index
+- **`/docs/{product}/sitemap.xml`** - Individual product sitemaps (28 products)
+
+### Features
+
+- **Automatic Generation**: Sitemaps are built during `npm run build`
+- **Smart Priorities**: Product home pages (0.9), top-level docs (0.7), hooks (0.6)
+- **HTML Discovery**: Both sitemaps are linked in the `<head>` of every page
+- **robots.txt**: Both sitemaps are listed for search engine crawlers
+
+### Example URLs
+
+```
+https://www.gravitykit.dev/sitemap.xml
+https://www.gravitykit.dev/sitemap-products.xml
+https://www.gravitykit.dev/docs/gravityview/sitemap.xml
+https://www.gravitykit.dev/docs/gravitycalendar/sitemap.xml
+```
+
+For more details, see [SITEMAPS.md](./SITEMAPS.md).
+
 ## Environment Variables
 
 The site uses environment variables for optional integrations. Set these in your deployment environment or local `.env` file.
