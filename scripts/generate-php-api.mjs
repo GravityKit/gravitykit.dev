@@ -98,17 +98,68 @@ function collectMarkdownFiles(dir) {
   return out;
 }
 
-function extractReferencedTypesFromText(markdown) {
-  const text = String(markdown ?? '');
-  const found = new Set();
+/**
+ * Parse a symbol reference (from @see or backtick) and add to result.
+ * Handles: ClassName, \Namespace\ClassName, ClassName::methodName, \Namespace\Class::method
+ */
+function parseSymbolReference(ref, result) {
+  // Remove trailing parentheses and trim
+  const cleaned = ref.replace(/\(\)$/, '').replace(/^\\+/, '').trim();
+  if (!cleaned) return;
 
-  // Types sometimes appear as [`\WP_Post`](...) links; capture the code-span text.
-  for (const m of text.matchAll(/\[\`([^\`]+)\`\]\([^)]+\)/g)) {
-    const inner = (m[1] ?? '').trim();
-    if (inner) found.add(inner);
+  // Check for Class::method pattern
+  const methodMatch = cleaned.match(/^(.+)::(\w+)$/);
+  if (methodMatch) {
+    const className = methodMatch[1].replace(/^\\+/, '');
+    const methodName = methodMatch[2];
+    result.classes.add(className);
+    if (!result.methods.has(className)) {
+      result.methods.set(className, new Set());
+    }
+    result.methods.get(className).add(methodName);
+    return;
   }
 
-  // Also capture any inline code spans.
+  // Check if it looks like a function (starts with lowercase, no namespace separator)
+  const isFunction = /^[a-z_]/.test(cleaned) && !cleaned.includes('\\');
+  if (isFunction) {
+    result.functions.add(cleaned);
+    return;
+  }
+
+  // Otherwise treat as class reference if it starts with uppercase
+  const lastPart = cleaned.split('\\').pop() || '';
+  if (/^[A-Z]/.test(lastPart)) {
+    result.classes.add(cleaned);
+  }
+}
+
+/**
+ * Extract referenced symbols from markdown text.
+ * Returns: { classes: Set, methods: Map<className, Set<methodName>>, functions: Set }
+ */
+function extractReferencedSymbolsFromText(markdown) {
+  const text = String(markdown ?? '');
+  const result = {
+    classes: new Set(),
+    methods: new Map(),
+    functions: new Set(),
+  };
+
+  // 1. Extract {@see ...} patterns (inline docblock references)
+  // Matches: {@see \GV\View::as_data()} or \{@see \get_bloginfo()\}
+  for (const m of text.matchAll(/\\?\{@see\s+\\?([^}]+)\}/g)) {
+    parseSymbolReference(m[1].trim(), result);
+  }
+
+  // 2. Extract See Also section backtick entries
+  // Matches: - `ClassName::methodName` or - `\Namespace\Class::method`
+  for (const m of text.matchAll(/^-\s+`([^`]+)`/gm)) {
+    parseSymbolReference(m[1].trim(), result);
+  }
+
+  // 3. Extract namespaced types from backticks (for type references in tables)
+  const found = new Set();
   for (const m of text.matchAll(/\`([^\`]+)\`/g)) {
     const inner = (m[1] ?? '').trim();
     if (inner) found.add(inner);
@@ -120,10 +171,10 @@ function extractReferencedTypesFromText(markdown) {
     if (inner) found.add(inner);
   }
 
-  const types = new Set();
+  // Process found type references
   for (const raw of found) {
     const cleaned = String(raw)
-      .replace(/\\\|/g, '|') // unescape markdown table pipe
+      .replace(/\\\|/g, '|')
       .replace(/\s+/g, ' ')
       .trim();
 
@@ -137,31 +188,64 @@ function extractReferencedTypesFromText(markdown) {
       p = p.replace(/^\?/, '').trim();
       p = p.replace(/^\\+/, '').trim();
       if (!p) continue;
+
+      // Handle Class::method references
+      if (p.includes('::')) {
+        parseSymbolReference(p, result);
+        continue;
+      }
+
+      // Handle class/type references
       if (
         /^\\?[A-Za-z_][A-Za-z0-9_]*(?:\\[A-Za-z_][A-Za-z0-9_]*)+$/.test(`\\${p}`) ||
         /^[A-Z][A-Za-z0-9_]*$/.test(p)
       ) {
-        types.add(p);
+        result.classes.add(p);
       }
     }
   }
 
-  return types;
+  return result;
 }
 
-function collectReferencedTypesFromHooksDocs({ outputBaseDir, productId }) {
+/**
+ * Collect all referenced symbols from hooks documentation.
+ * Returns: { classes: Set, methods: Map<className, Set<methodName>>, functions: Set }
+ */
+function collectReferencedSymbolsFromHooksDocs({ outputBaseDir, productId }) {
   const base = path.join(outputBaseDir, productId);
   const actionsDir = path.join(base, 'actions');
   const filtersDir = path.join(base, 'filters');
   const files = [...collectMarkdownFiles(actionsDir), ...collectMarkdownFiles(filtersDir)];
-  const types = new Set();
+
+  const result = {
+    classes: new Set(),
+    methods: new Map(),
+    functions: new Set(),
+  };
+
   for (const filePath of files) {
     const content = fs.readFileSync(filePath, 'utf8');
-    for (const t of extractReferencedTypesFromText(content)) {
-      types.add(t);
+    const extracted = extractReferencedSymbolsFromText(content);
+
+    // Merge classes
+    for (const c of extracted.classes) result.classes.add(c);
+
+    // Merge methods
+    for (const [className, methods] of extracted.methods) {
+      if (!result.methods.has(className)) {
+        result.methods.set(className, new Set());
+      }
+      for (const m of methods) {
+        result.methods.get(className).add(m);
+      }
     }
+
+    // Merge functions
+    for (const f of extracted.functions) result.functions.add(f);
   }
-  return types;
+
+  return result;
 }
 
 function checkPhpAvailable() {
@@ -601,7 +685,7 @@ function renderParamsTable(params, typeLinkCtx) {
     .filter((p) => p?.name || p?.type || p?.description || p?.default)
     .map((p) => {
       const displayName = `${p.byRef ? '&' : ''}${p.variadic ? '...' : ''}${p.name || ''}`;
-      return `| ${codeTable(displayName)} | ${codeTableType(p.type || '', typeLinkCtx)} | ${codeTable(phpShortArraySyntax(p.default || ''))} | ${mdEscape(p.description || '')} |`;
+      return `| ${codeTable(displayName)} | ${codeTableType(p.type || '', typeLinkCtx)} | ${codeTable(phpShortArraySyntax(p.default || ''))} | ${mdEscape(cleanDescription(p.description))} |`;
     })
     .join('\n');
 
@@ -645,12 +729,78 @@ function formatSourceMarkdown({ product, repoRef, file, line }) {
   const repoPath = repoPathForSymbolFile({ product, file });
   const label = formatSourceLabel(repoPath, line);
   if (!label) return '';
-  const url = buildSourceUrl({ product, repoRef, file, line });
-  return url ? `[\`${label}\`](${url})` : `\`${label}\``;
+  // Don't link to GitHub (repos are private)
+  return `\`${label}\``;
 }
 
 function mdEscape(text) {
-  return (text ?? '').replace(/\|/g, '\\|');
+  return (text ?? '')
+    .replace(/\|/g, '\\|')
+    .replace(/  \r?\n/g, '<br>')  // Two trailing spaces + newline = <br>
+    .replace(/\r?\n/g, ' ')       // Other newlines become spaces
+    .replace(/  +/g, ' ')         // Collapse multiple spaces (but not <br>)
+    .trim();
+}
+
+/**
+ * Clean description text: strip leading em-dashes and similar prefixes.
+ */
+function cleanDescription(text) {
+  return String(text ?? '')
+    .replace(/^[\u2014\u2013—–-]+\s*/, '') // Strip leading em-dash, en-dash, hyphen
+    .trim();
+}
+
+/**
+ * Process {@see ...} patterns in text, converting them to markdown code references.
+ * `{@see \GV\View::get_entries}` => `\GV\View::get_entries()`
+ */
+function processInlineSeeRefs(text) {
+  return String(text ?? '')
+    .replace(/\\?\{@see\s+([^}]+?)\\?\}/g, (match, ref) => {
+      const cleaned = ref.trim().replace(/\(\)$/, '');
+      // Add () if it looks like a method reference
+      const hasMethod = cleaned.includes('::');
+      const display = cleaned.startsWith('\\') ? cleaned : `\\${cleaned}`;
+      return `\`${display}${hasMethod ? '()' : ''}\``;
+    });
+}
+
+/**
+ * Format function signature with WordPress-style spacing inside parentheses.
+ * `func($arg)` => `func( $arg )`
+ */
+function wordpressFormatSignature(signature) {
+  const sig = String(signature ?? '');
+  // Find the parameter list between first ( and matching )
+  const firstParen = sig.indexOf('(');
+  if (firstParen === -1) return sig;
+
+  let depth = 0;
+  let closeParen = -1;
+  for (let i = firstParen; i < sig.length; i++) {
+    const ch = sig[i];
+    if (ch === '(') depth++;
+    if (ch === ')') {
+      depth--;
+      if (depth === 0) {
+        closeParen = i;
+        break;
+      }
+    }
+  }
+
+  if (closeParen === -1) return sig;
+
+  const before = sig.slice(0, firstParen + 1);
+  const params = sig.slice(firstParen + 1, closeParen);
+  const after = sig.slice(closeParen);
+
+  // If params are empty, don't add spaces
+  if (!params.trim()) return sig;
+
+  // Add spaces inside parentheses
+  return `${before} ${params.trim()} ${after}`;
 }
 
 function escapeHtml(text) {
@@ -728,8 +878,13 @@ function linkifyTypeStringHtml(typeString, ctx, { escapePipes = false } = {}) {
         const st = m.index ?? 0;
         const en = st + m[0].length;
         const token = m[0];
-        out.push(part.slice(idx, st));
         const url = resolveTypeUrl(token, ctx);
+        // Get text before the match, stripping trailing backslash if linking
+        let before = part.slice(idx, st);
+        if (url && before.endsWith('\\')) {
+          before = before.slice(0, -1);
+        }
+        out.push(before);
         if (url) {
           out.push({ type: 'link', text: token, url });
         } else {
@@ -764,7 +919,11 @@ function codeInline(text) {
 
 function codeInlineType(typeString, ctx) {
   const inner = linkifyTypeStringHtml(typeString, ctx);
-  if (!inner) return '<code></code>';
+  if (!inner) return '``';
+  // If inner contains links, don't wrap in <code> to avoid MDX converting to <pre>
+  if (inner.includes('<a ')) {
+    return inner;
+  }
   return `<code>${inner}</code>`;
 }
 
@@ -779,6 +938,10 @@ function codeTable(text) {
 function codeTableType(typeString, ctx) {
   const inner = linkifyTypeStringHtml(typeString, ctx, { escapePipes: true });
   if (!inner.trim()) return '';
+  // If inner contains links, don't wrap in <code> to avoid MDX converting to <pre>
+  if (inner.includes('<a ')) {
+    return inner;
+  }
   return `<code>${inner}</code>`;
 }
 
@@ -847,7 +1010,7 @@ function generateClassPage({ productLabel, classSymbol, product, repoRef, typeLi
     ? methods
         .map(
           (m) =>
-            `| \`${m.name}()\` | ${mdEscape(m.summary || '')} | \`${mdEscape(phpShortArraySyntax(m.signature || ''))}\` |`
+            `| [\`${m.name}()\`](#${m.name.toLowerCase()}) | ${mdEscape(m.summary || '')} | \`${mdEscape(wordpressFormatSignature(phpShortArraySyntax(m.signature || '')))}\` |`
         )
         .join('\n')
     : '';
@@ -864,21 +1027,28 @@ function generateClassPage({ productLabel, classSymbol, product, repoRef, typeLi
       const paramsTable = renderParamsTable(params, typeLinkCtx);
       const returnTag = returnsList[0] ?? null;
       const resolvedReturnType = (returnTag?.type || returnType || '').trim();
-      const resolvedReturnDesc = (returnTag?.description || '').trim();
+      const resolvedReturnDesc = cleanDescription(returnTag?.description || '');
 
       return `### \`${m.name}()\`
 
-\`${phpShortArraySyntax(m.signature || `function ${m.name}()`)}\`
+\`${wordpressFormatSignature(phpShortArraySyntax(m.signature || `function ${m.name}()`))}\`
 
 ${m.summary || ''}
-${m.description ? `\n${m.description}\n` : ''}
+${m.description ? `\n${processInlineSeeRefs(m.description)}\n` : ''}
 ${paramsTable ? `\n#### Parameters\n\n${paramsTable}\n` : ''}
 ${resolvedReturnType || resolvedReturnDesc ? `\n#### Returns\n\n- ${codeInlineType(resolvedReturnType, typeLinkCtx)}${resolvedReturnDesc ? ` — ${mdEscape(resolvedReturnDesc)}` : ''}\n` : ''}
-${throwsList.length ? `\n#### Throws\n\n${throwsList.map((t) => `- ${codeInlineType(t.type, typeLinkCtx)}${t.description ? ` — ${mdEscape(t.description)}` : ''}`).join('\n')}\n` : ''}
+${throwsList.length ? `\n#### Throws\n\n${throwsList.map((t) => `- ${codeInlineType(t.type, typeLinkCtx)}${t.description ? ` — ${mdEscape(cleanDescription(t.description))}` : ''}`).join('\n')}\n` : ''}
 ${renderExamplesSection(m.tags, { heading: '####' })}
 ${renderSeeAlsoSection(m.tags, typeLinkCtx, { heading: '####' })}
 ${since.length ? `\n**Since:** ${since.map((v) => `\`${mdEscape(v.version)}\`${v.description ? ` (${mdEscape(v.description)})` : ''}`).join(', ')}\n` : ''}
-${deprecated.length ? `\n**Deprecated:** ${deprecated.map((d) => `\`${mdEscape(d.version || '')}\`${d.description ? ` (${mdEscape(d.description)})` : ''}`).join(', ')}\n` : ''}
+${deprecated.length ? `\n**Deprecated:** ${deprecated.map((d) => {
+  const ver = d.version ? `\`${mdEscape(d.version)}\`` : '';
+  const desc = d.description ? processInlineSeeRefs(d.description) : '';
+  if (ver && desc) return `${ver} (${desc})`;
+  if (ver) return ver;
+  if (desc) return desc;
+  return 'Yes';
+}).join(', ')}\n` : ''}
 ${sourceLine ? `\n**Source:** ${sourceLine}\n` : ''}`;
     })
     .join('\n\n');
@@ -894,11 +1064,18 @@ sidebar_label: ${shortName}
 # \`${fqcn}\`
 
 ${classSymbol.summary || ''}
-${classSymbol.description ? `\n${classSymbol.description}\n` : ''}
+${classSymbol.description ? `\n${processInlineSeeRefs(classSymbol.description)}\n` : ''}
 ${renderExamplesSection(classSymbol.tags, { heading: '##' })}
 ${renderSeeAlsoSection(classSymbol.tags, typeLinkCtx, { heading: '##' })}
 ${since.length ? `\n**Since:** ${since.map((v) => `\`${mdEscape(v.version)}\`${v.description ? ` (${mdEscape(v.description)})` : ''}`).join(', ')}\n` : ''}
-${deprecated.length ? `\n**Deprecated:** ${deprecated.map((d) => `\`${mdEscape(d.version || '')}\`${d.description ? ` (${mdEscape(d.description)})` : ''}`).join(', ')}\n` : ''}
+${deprecated.length ? `\n**Deprecated:** ${deprecated.map((d) => {
+  const ver = d.version ? `\`${mdEscape(d.version)}\`` : '';
+  const desc = d.description ? processInlineSeeRefs(d.description) : '';
+  if (ver && desc) return `${ver} (${desc})`;
+  if (ver) return ver;
+  if (desc) return desc;
+  return 'Yes';
+}).join(', ')}\n` : ''}
 ${source ? `\n**Source:** ${source}\n` : ''}
 
 ## Details
@@ -933,7 +1110,7 @@ function generateFunctionPage({ functionSymbol, product, repoRef, typeLinkCtx })
 
   const returnTag = returnsList[0] ?? null;
   const resolvedReturnType = (returnTag?.type || returnType || '').trim();
-  const resolvedReturnDesc = (returnTag?.description || '').trim();
+  const resolvedReturnDesc = cleanDescription(returnTag?.description || '');
 
   const paramsSection = paramsTable ? `## Parameters\n\n${paramsTable}\n` : '';
   const returnsSection =
@@ -941,7 +1118,7 @@ function generateFunctionPage({ functionSymbol, product, repoRef, typeLinkCtx })
       ? `## Returns\n\n- ${codeInlineType(resolvedReturnType, typeLinkCtx)}${resolvedReturnDesc ? ` — ${mdEscape(resolvedReturnDesc)}` : ''}\n`
       : '';
   const throwsSection = throwsList.length
-    ? `## Throws\n\n${throwsList.map((t) => `- ${codeInlineType(t.type, typeLinkCtx)}${t.description ? ` — ${mdEscape(t.description)}` : ''}`).join('\n')}\n`
+    ? `## Throws\n\n${throwsList.map((t) => `- ${codeInlineType(t.type, typeLinkCtx)}${t.description ? ` — ${mdEscape(cleanDescription(t.description))}` : ''}`).join('\n')}\n`
     : '';
 
   return `---
@@ -951,14 +1128,21 @@ sidebar_label: ${shortName}()
 
 # \`${fqfn}()\`
 
-\`${phpShortArraySyntax(functionSymbol.signature || `function ${shortName}()`)}\`
+\`${wordpressFormatSignature(phpShortArraySyntax(functionSymbol.signature || `function ${shortName}()`))}\`
 
 ${functionSymbol.summary || ''}
-${functionSymbol.description ? `\n${functionSymbol.description}\n` : ''}
+${functionSymbol.description ? `\n${processInlineSeeRefs(functionSymbol.description)}\n` : ''}
 ${renderExamplesSection(functionSymbol.tags, { heading: '##' })}
 ${renderSeeAlsoSection(functionSymbol.tags, typeLinkCtx, { heading: '##' })}
 ${since.length ? `\n**Since:** ${since.map((v) => `\`${mdEscape(v.version)}\`${v.description ? ` (${mdEscape(v.description)})` : ''}`).join(', ')}\n` : ''}
-${deprecated.length ? `\n**Deprecated:** ${deprecated.map((d) => `\`${mdEscape(d.version || '')}\`${d.description ? ` (${mdEscape(d.description)})` : ''}`).join(', ')}\n` : ''}
+${deprecated.length ? `\n**Deprecated:** ${deprecated.map((d) => {
+  const ver = d.version ? `\`${mdEscape(d.version)}\`` : '';
+  const desc = d.description ? processInlineSeeRefs(d.description) : '';
+  if (ver && desc) return `${ver} (${desc})`;
+  if (ver) return ver;
+  if (desc) return desc;
+  return 'Yes';
+}).join(', ')}\n` : ''}
 ${source ? `\n**Source:** ${source}\n` : ''}
 
 ${paramsSection}${returnsSection}${throwsSection}`;
@@ -1188,10 +1372,11 @@ function main() {
 
     console.log(`▶ Generating API docs: ${product.id} (${productLabel})`);
 
-    const referencedTypes = collectReferencedTypesFromHooksDocs({ outputBaseDir, productId: product.id });
-    const hasReferenceFilter = referencedTypes.size > 0;
+    const referencedSymbols = collectReferencedSymbolsFromHooksDocs({ outputBaseDir, productId: product.id });
+    const hasReferenceFilter = referencedSymbols.classes.size > 0 || referencedSymbols.methods.size > 0;
     if (hasReferenceFilter) {
-      console.log(`ℹ️  ${product.id}: limiting API classes to ${referencedTypes.size} types referenced in hooks docs`);
+      const totalRefs = referencedSymbols.classes.size + referencedSymbols.methods.size + referencedSymbols.functions.size;
+      console.log(`ℹ️  ${product.id}: limiting API to ${totalRefs} symbols referenced in @see docblocks`);
     }
 
     const extracted = runExtractor({ inputDir, ignoreDirs });
@@ -1224,13 +1409,24 @@ function main() {
           : [];
 
         const fqcn = String(c.fqcn || '').replace(/^\\+/, '');
-        const referenced = hasReferenceFilter ? referencedTypes.has(fqcn) : false;
-        const publicApi = referenced || hasMeaningfulDoc(doc) || methods.some((m) => hasMeaningfulDoc(m));
+
+        // Check if class itself or any of its methods are referenced in @see
+        const classReferenced = referencedSymbols.classes.has(fqcn);
+        const referencedMethods = referencedSymbols.methods.get(fqcn) || new Set();
+        const hasReferencedMethods = referencedMethods.size > 0;
+        const isReferenced = classReferenced || hasReferencedMethods;
+
+        // When filtering by reference, ONLY include referenced symbols
+        // Otherwise fall back to the original "has meaningful doc" logic
+        const publicApi = hasReferenceFilter
+          ? isReferenced
+          : (hasMeaningfulDoc(doc) || methods.some((m) => hasMeaningfulDoc(m)));
 
         return {
           ...c,
           slug: slugify(c.fqcn),
-          referenced,
+          referenced: isReferenced,
+          referencedMethods,
           summary: doc.summary,
           description: doc.description,
           tags: doc.tags,
@@ -1240,16 +1436,29 @@ function main() {
         };
       })
       .filter((c) => !c.internal && c.publicApi)
-      .filter((c) => (hasReferenceFilter ? Boolean(c.referenced) : true))
       .sort((a, b) => a.fqcn.localeCompare(b.fqcn));
 
     const localTypeSlugs = buildLocalTypeSlugMap(classes);
-    const classTypeLinkCtx = { localTypeSlugs, externalTypeLinks, classesLinkPrefix: './' };
+    // Use '../' prefix because Docusaurus URLs end with trailing slash,
+    // so from /classes/gv-view/ we need ../gv-field to reach /classes/gv-field/
+    const classTypeLinkCtx = { localTypeSlugs, externalTypeLinks, classesLinkPrefix: '../' };
     const functionTypeLinkCtx = { localTypeSlugs, externalTypeLinks, classesLinkPrefix: '../classes/' };
 
+    // Filter functions - only include if referenced in @see or has meaningful docs (when no filter)
     const functions = allFunctions
       .map((f) => {
         const doc = parseDocblock(f.docblock);
+        const fqfn = String(f.fqfn || '').replace(/^\\+/, '');
+        const funcName = String(f.name || '');
+
+        // Check if function is referenced in @see
+        const isReferenced = referencedSymbols.functions.has(fqfn) || referencedSymbols.functions.has(funcName);
+
+        // When filtering by reference, ONLY include referenced functions
+        const publicApi = hasReferenceFilter
+          ? isReferenced
+          : (hasMeaningfulDoc(doc) && !funcName.startsWith('_'));
+
         return {
           ...f,
           slug: slugify(f.fqfn),
@@ -1257,7 +1466,8 @@ function main() {
           description: doc.description,
           tags: doc.tags,
           internal: doc.internal,
-          publicApi: hasMeaningfulDoc(doc) && !String(f.name || '').startsWith('_'),
+          referenced: isReferenced,
+          publicApi,
         };
       })
       .filter((f) => !f.internal && f.publicApi)
@@ -1265,6 +1475,13 @@ function main() {
 
     rmDir(outputDir, args.dryRun);
     ensureDir(outputDir, args.dryRun);
+
+    // Skip API generation entirely if no classes or functions
+    if (classes.length === 0 && functions.length === 0) {
+      console.log(`✅ ${product.id}: 0 classes, 0 functions (skipping API generation)`);
+      okCount++;
+      continue;
+    }
 
     writeFile(
       path.join(outputDir, '_category_.json'),
@@ -1293,52 +1510,62 @@ function main() {
       );
     }
 
-    const classesDir = path.join(outputDir, 'classes');
-    const functionsDir = path.join(outputDir, 'functions');
-    ensureDir(classesDir, args.dryRun);
-    ensureDir(functionsDir, args.dryRun);
+    // Only create classes directory if there are classes
+    if (classes.length > 0) {
+      const classesDir = path.join(outputDir, 'classes');
+      ensureDir(classesDir, args.dryRun);
 
-    writeFile(
-      path.join(classesDir, '_category_.json'),
-      JSON.stringify({ label: 'Classes', position: 1 }, null, 2) + '\n',
-      args.dryRun
-    );
-    writeFile(
-      path.join(functionsDir, '_category_.json'),
-      JSON.stringify({ label: 'Functions', position: 2 }, null, 2) + '\n',
-      args.dryRun
-    );
-
-    writeFile(
-      path.join(classesDir, 'index.md'),
-      generateClassesIndexMd({
-        productLabel,
-        classes: classes.map((c) => ({ fqcn: c.fqcn, slug: c.slug, summary: c.summary })),
-      }),
-      args.dryRun
-    );
-    writeFile(
-      path.join(functionsDir, 'index.md'),
-      generateFunctionsIndexMd({
-        productLabel,
-        functions: functions.map((f) => ({ fqfn: f.fqfn, slug: f.slug, summary: f.summary })),
-      }),
-      args.dryRun
-    );
-
-    for (const c of classes) {
       writeFile(
-        path.join(classesDir, `${c.slug}.md`),
-        generateClassPage({ productLabel, classSymbol: c, product, repoRef, typeLinkCtx: classTypeLinkCtx }),
+        path.join(classesDir, '_category_.json'),
+        JSON.stringify({ label: 'Classes', position: 1 }, null, 2) + '\n',
         args.dryRun
       );
+
+      writeFile(
+        path.join(classesDir, 'index.md'),
+        generateClassesIndexMd({
+          productLabel,
+          classes: classes.map((c) => ({ fqcn: c.fqcn, slug: c.slug, summary: c.summary })),
+        }),
+        args.dryRun
+      );
+
+      for (const c of classes) {
+        writeFile(
+          path.join(classesDir, `${c.slug}.md`),
+          generateClassPage({ productLabel, classSymbol: c, product, repoRef, typeLinkCtx: classTypeLinkCtx }),
+          args.dryRun
+        );
+      }
     }
-    for (const f of functions) {
+
+    // Only create functions directory if there are functions
+    if (functions.length > 0) {
+      const functionsDir = path.join(outputDir, 'functions');
+      ensureDir(functionsDir, args.dryRun);
+
       writeFile(
-        path.join(functionsDir, `${f.slug}.md`),
-        generateFunctionPage({ functionSymbol: f, product, repoRef, typeLinkCtx: functionTypeLinkCtx }),
+        path.join(functionsDir, '_category_.json'),
+        JSON.stringify({ label: 'Functions', position: 2 }, null, 2) + '\n',
         args.dryRun
       );
+
+      writeFile(
+        path.join(functionsDir, 'index.md'),
+        generateFunctionsIndexMd({
+          productLabel,
+          functions: functions.map((f) => ({ fqfn: f.fqfn, slug: f.slug, summary: f.summary })),
+        }),
+        args.dryRun
+      );
+
+      for (const f of functions) {
+        writeFile(
+          path.join(functionsDir, `${f.slug}.md`),
+          generateFunctionPage({ functionSymbol: f, product, repoRef, typeLinkCtx: functionTypeLinkCtx }),
+          args.dryRun
+        );
+      }
     }
 
     console.log(`✅ ${product.id}: ${classes.length} classes, ${functions.length} functions`);
