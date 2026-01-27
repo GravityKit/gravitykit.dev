@@ -696,6 +696,25 @@ ${rows}
 `;
 }
 
+/**
+ * Render @since tags - single entry inline, multiple as bullet list.
+ */
+function renderSinceTags(since) {
+  if (!since || since.length === 0) return '';
+
+  const formatEntry = (v) => {
+    const ver = `\`${mdEscape(v.version)}\``;
+    return v.description ? `${ver} (${mdEscape(v.description)})` : ver;
+  };
+
+  if (since.length === 1) {
+    return `\n**Since:** ${formatEntry(since[0])}\n`;
+  }
+
+  const list = since.map((v) => `- ${formatEntry(v)}`).join('\n');
+  return `\n**Since:**\n\n${list}\n`;
+}
+
 function formatSourceLabel(file, line) {
   if (!file) return '';
   return line ? `${file}:${line}` : file;
@@ -1047,7 +1066,7 @@ ${resolvedReturnType || resolvedReturnDesc ? `\n#### Returns\n\n- ${codeInlineTy
 ${throwsList.length ? `\n#### Throws\n\n${throwsList.map((t) => `- ${codeInlineType(t.type, typeLinkCtx)}${t.description ? ` — ${mdEscape(cleanDescription(t.description))}` : ''}`).join('\n')}\n` : ''}
 ${renderExamplesSection(m.tags, { heading: '####' })}
 ${renderSeeAlsoSection(m.tags, typeLinkCtx, { heading: '####' })}
-${since.length ? `\n**Since:** ${since.map((v) => `\`${mdEscape(v.version)}\`${v.description ? ` (${mdEscape(v.description)})` : ''}`).join(', ')}\n` : ''}
+${renderSinceTags(since)}
 ${deprecated.length ? `\n**Deprecated:** ${deprecated.map((d) => {
   const ver = d.version ? `\`${mdEscape(d.version)}\`` : '';
   const desc = d.description ? processInlineSeeRefs(d.description) : '';
@@ -1074,7 +1093,7 @@ ${classSymbol.summary || ''}
 ${classSymbol.description ? `\n${processInlineSeeRefs(classSymbol.description)}\n` : ''}
 ${renderExamplesSection(classSymbol.tags, { heading: '##' })}
 ${renderSeeAlsoSection(classSymbol.tags, typeLinkCtx, { heading: '##' })}
-${since.length ? `\n**Since:** ${since.map((v) => `\`${mdEscape(v.version)}\`${v.description ? ` (${mdEscape(v.description)})` : ''}`).join(', ')}\n` : ''}
+${renderSinceTags(since)}
 ${deprecated.length ? `\n**Deprecated:** ${deprecated.map((d) => {
   const ver = d.version ? `\`${mdEscape(d.version)}\`` : '';
   const desc = d.description ? processInlineSeeRefs(d.description) : '';
@@ -1141,7 +1160,7 @@ ${functionSymbol.summary || ''}
 ${functionSymbol.description ? `\n${processInlineSeeRefs(functionSymbol.description)}\n` : ''}
 ${renderExamplesSection(functionSymbol.tags, { heading: '##' })}
 ${renderSeeAlsoSection(functionSymbol.tags, typeLinkCtx, { heading: '##' })}
-${since.length ? `\n**Since:** ${since.map((v) => `\`${mdEscape(v.version)}\`${v.description ? ` (${mdEscape(v.description)})` : ''}`).join(', ')}\n` : ''}
+${renderSinceTags(since)}
 ${deprecated.length ? `\n**Deprecated:** ${deprecated.map((d) => {
   const ver = d.version ? `\`${mdEscape(d.version)}\`` : '';
   const desc = d.description ? processInlineSeeRefs(d.description) : '';
