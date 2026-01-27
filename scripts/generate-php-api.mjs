@@ -80,6 +80,55 @@ function loadTypeLinks() {
   }
 }
 
+/**
+ * Scan existing API docs across all products to build cross-product type links.
+ * This allows types like \GV\View referenced in gravityview-advanced-filtering
+ * to link to the gravityview docs.
+ */
+function buildCrossProductTypeLinks(docsDir) {
+  const map = new Map();
+  if (!fs.existsSync(docsDir)) return map;
+
+  // Scan all product directories
+  const productDirs = fs.readdirSync(docsDir, { withFileTypes: true })
+    .filter((d) => d.isDirectory())
+    .map((d) => d.name);
+
+  for (const productId of productDirs) {
+    const classesDir = path.join(docsDir, productId, 'api', 'classes');
+    if (!fs.existsSync(classesDir)) continue;
+
+    const classFiles = fs.readdirSync(classesDir, { withFileTypes: true })
+      .filter((f) => f.isFile() && f.name.endsWith('.md') && f.name !== 'index.md');
+
+    for (const file of classFiles) {
+      const filePath = path.join(classesDir, file.name);
+      try {
+        const content = fs.readFileSync(filePath, 'utf8');
+        // Extract FQCN from title frontmatter
+        const titleMatch = content.match(/^---[\s\S]*?title:\s*(.+?)[\r\n]/m);
+        if (!titleMatch) continue;
+        const fqcn = titleMatch[1].trim().replace(/^\\+/, '');
+        if (!fqcn) continue;
+
+        const slug = file.name.replace(/\.md$/, '');
+        const url = `/docs/${productId}/api/classes/${slug}/`;
+
+        // Add both with and without namespace prefix
+        map.set(fqcn, url);
+        // Also add the fully qualified version with backslash
+        if (!fqcn.startsWith('\\')) {
+          map.set(`\\${fqcn}`, url);
+        }
+      } catch {
+        // Skip files that can't be read
+      }
+    }
+  }
+
+  return map;
+}
+
 function collectMarkdownFiles(dir) {
   const out = [];
   if (!dir || !fs.existsSync(dir)) return out;
@@ -273,6 +322,60 @@ function collectReferencedSymbolsFromHooksDocs({ outputBaseDir, productId }) {
   return result;
 }
 
+/**
+ * Extract class references from property types of already-referenced classes.
+ * This ensures that if a class is included, classes referenced in its property types are also included.
+ * @param {Array} allClasses - All extracted classes from PHP
+ * @param {Object} referencedSymbols - Current set of referenced symbols
+ * @returns {void} - Modifies referencedSymbols in place
+ */
+function expandReferencesFromPropertyTypes(allClasses, referencedSymbols) {
+  // Build a set of classes we need to scan (those already referenced)
+  const classesToScan = new Set(referencedSymbols.classes);
+  const scanned = new Set();
+
+  // Keep expanding until no new classes are added
+  while (classesToScan.size > 0) {
+    const className = classesToScan.values().next().value;
+    classesToScan.delete(className);
+    if (scanned.has(className)) continue;
+    scanned.add(className);
+
+    // Find this class in allClasses
+    const classData = allClasses.find((c) => {
+      const fqcn = String(c.fqcn || '').replace(/^\\+/, '');
+      return fqcn === className || fqcn.endsWith(`\\${className}`);
+    });
+
+    if (!classData?.properties) continue;
+
+    // Extract class references from property types
+    for (const prop of classData.properties) {
+      // Get type from @var docblock tag or native type
+      const doc = parseDocblock(prop.docblock);
+      const varTag = parseVarTagValue((doc.tags?.var ?? [])[0]);
+      const typeStr = String(varTag?.type || prop.type || '');
+      if (!typeStr) continue;
+
+      // Split union types and process each
+      const types = typeStr.split(/\s*\|\s*/);
+      for (let t of types) {
+        // Remove array suffix and nullable prefix
+        t = t.replace(/\[\]+$/g, '').replace(/^\?/, '').replace(/^\\+/, '').trim();
+        if (!t) continue;
+
+        // Check if it looks like a namespaced class
+        if (t.includes('\\') && /^[A-Za-z_]/.test(t)) {
+          if (!referencedSymbols.classes.has(t)) {
+            referencedSymbols.classes.add(t);
+            classesToScan.add(t);
+          }
+        }
+      }
+    }
+  }
+}
+
 function checkPhpAvailable() {
   const result = spawnSync('php', ['-v'], { encoding: 'utf8', stdio: 'pipe' });
   return !result.error && result.status === 0;
@@ -377,6 +480,105 @@ function hasMeaningfulDoc(doc) {
   return tagKeys.some((k) => (doc.tags?.[k]?.length ?? 0) > 0);
 }
 
+/**
+ * Check if a docblock contains @inheritDoc tag.
+ */
+function hasInheritDoc(doc) {
+  if (!doc) return false;
+  // Check for @inheritDoc or @inheritdoc tag
+  if (doc.tags?.inheritDoc?.length || doc.tags?.inheritdoc?.length) return true;
+  // Check for {@inheritDoc} or {@inheritdoc} in summary/description
+  const text = `${doc.summary || ''} ${doc.description || ''}`;
+  return /\{@inherit[Dd]oc\}/.test(text);
+}
+
+/**
+ * Build a map of class FQCN -> class data for quick lookup.
+ */
+function buildClassMap(allClasses) {
+  const map = new Map();
+  for (const c of allClasses) {
+    const fqcn = String(c.fqcn || '').replace(/^\\+/, '');
+    if (fqcn) map.set(fqcn, c);
+    // Also map short name for fallback
+    const shortName = fqcn.split('\\').pop();
+    if (shortName && !map.has(shortName)) map.set(shortName, c);
+  }
+  return map;
+}
+
+/**
+ * Find a method in parent classes/interfaces.
+ * @param {string} methodName - Method name to find
+ * @param {Array} parents - List of parent class/interface names
+ * @param {Map} classMap - Map of FQCN -> class data
+ * @param {Set} visited - Already visited classes (to prevent cycles)
+ * @returns {Object|null} - Method data with parsed docblock, or null
+ */
+function findMethodInParents(methodName, parents, classMap, visited = new Set()) {
+  for (const parentName of parents) {
+    const cleanName = String(parentName).replace(/^\\+/, '');
+    if (visited.has(cleanName)) continue;
+    visited.add(cleanName);
+
+    const parentClass = classMap.get(cleanName);
+    if (!parentClass) continue;
+
+    // Look for the method in this parent
+    const method = (parentClass.methods || []).find((m) => m.name === methodName);
+    if (method) {
+      const md = parseDocblock(method.docblock);
+      // If parent also has @inheritDoc, keep looking up the chain
+      if (hasInheritDoc(md)) {
+        const grandParents = [
+          ...(Array.isArray(parentClass.extends) ? parentClass.extends : parentClass.extends ? [parentClass.extends] : []),
+          ...(parentClass.implements || []),
+        ];
+        const inherited = findMethodInParents(methodName, grandParents, classMap, visited);
+        if (inherited) return inherited;
+      }
+      return { method, doc: md };
+    }
+
+    // Not found in this parent, check its parents
+    const grandParents = [
+      ...(Array.isArray(parentClass.extends) ? parentClass.extends : parentClass.extends ? [parentClass.extends] : []),
+      ...(parentClass.implements || []),
+    ];
+    const inherited = findMethodInParents(methodName, grandParents, classMap, visited);
+    if (inherited) return inherited;
+  }
+  return null;
+}
+
+/**
+ * Resolve @inheritDoc for a method by looking up parent class documentation.
+ */
+function resolveInheritDoc(method, methodDoc, classData, classMap) {
+  if (!hasInheritDoc(methodDoc)) return methodDoc;
+
+  const parents = [
+    ...(Array.isArray(classData.extends) ? classData.extends : classData.extends ? [classData.extends] : []),
+    ...(classData.implements || []),
+  ];
+
+  const inherited = findMethodInParents(method.name, parents, classMap);
+  if (!inherited) return methodDoc;
+
+  // Merge inherited doc with current doc (current takes precedence for non-empty values)
+  return {
+    summary: methodDoc.summary?.replace(/\{@inherit[Dd]oc\}/g, '').trim() || inherited.doc.summary,
+    description: methodDoc.description?.replace(/\{@inherit[Dd]oc\}/g, '').trim() || inherited.doc.description,
+    tags: {
+      ...inherited.doc.tags,
+      ...Object.fromEntries(
+        Object.entries(methodDoc.tags || {}).filter(([k, v]) => v?.length > 0)
+      ),
+    },
+    internal: methodDoc.internal,
+  };
+}
+
 function extractDefaultFromParamDescription(description) {
   const text = String(description ?? '');
   const match = text.match(/\(\s*default\s*:\s*([^)]+)\)/i);
@@ -449,8 +651,45 @@ function parseDeprecatedTagValue(value) {
 function parseVarTagValue(value) {
   const v = String(value ?? '').trim();
   if (!v) return null;
+
+  // Split into parts
   const parts = v.split(/\s+/);
-  return { type: parts[0] ?? '', description: parts.slice(1).join(' ').trim() };
+  const type = parts[0] ?? '';
+
+  // Skip variable name if present (e.g., $settings)
+  let descStart = 1;
+  if (parts[1]?.startsWith('$')) {
+    descStart = 2;
+  }
+
+  let description = parts.slice(descStart).join(' ').trim();
+
+  // Strip leading { if present (array shape docs - @type entries are parsed separately by parseDocblock)
+  if (description === '{' || description.startsWith('{ ')) {
+    description = '';
+  }
+
+  return { type, description };
+}
+
+/**
+ * Format @type entries from tags into a readable description with proper list.
+ * Input: ["string $slug - template slug", "string $css_source - url path"]
+ * Output: "Array shape:<ul><li><code>$slug</code> (string): template slug</li>...</ul>"
+ */
+function formatTypeEntries(typeEntries) {
+  if (!Array.isArray(typeEntries) || typeEntries.length === 0) return '';
+
+  const formatted = typeEntries.map((entry) => {
+    // Parse: "type $name - description" or "type $name description"
+    const match = String(entry).match(/^(\S+)\s+(\$\w+)\s*(?:-\s*)?(.*)$/);
+    if (!match) return null;
+    const [, entryType, entryName, entryDesc] = match;
+    return `<li><code>${escapeHtml(entryName)}</code> (${escapeHtml(entryType)})${entryDesc.trim() ? ': ' + escapeHtml(entryDesc.trim()) : ''}</li>`;
+  }).filter(Boolean);
+
+  if (formatted.length === 0) return '';
+  return `Array shape:<ul>${formatted.join('')}</ul>`;
 }
 
 function splitTopLevelCommas(input) {
@@ -596,11 +835,15 @@ function parseSignatureParams(signature) {
   for (const part of parts) {
     const seg = part.trim();
     if (!seg) continue;
+    // Skip comment-like segments (e.g., /** varargs */)
+    if (/^\s*\/\*/.test(seg) || /\*\/\s*$/.test(seg)) continue;
     const nameMatch = seg.match(/(\$[A-Za-z_\x80-\xff][A-Za-z0-9_\x80-\xff]*)/);
-    const name = nameMatch?.[1] ?? '';
-    const nameIndex = nameMatch ? seg.indexOf(nameMatch[1]) : -1;
-    const before = nameIndex >= 0 ? seg.slice(0, nameIndex).trim() : seg;
-    const after = nameIndex >= 0 ? seg.slice(nameIndex + name.length).trim() : '';
+    // Skip segments without a valid parameter name
+    if (!nameMatch) continue;
+    const name = nameMatch[1];
+    const nameIndex = seg.indexOf(name);
+    const before = seg.slice(0, nameIndex).trim();
+    const after = seg.slice(nameIndex + name.length).trim();
 
     const byRef = /&\s*$/.test(before) || /&\s*\$/.test(seg);
     const variadic = before.includes('...') || seg.includes('...');
@@ -703,6 +946,18 @@ function renderSeeAlsoSection(tags, typeLinkCtx, { heading = '##' } = {}) {
   const list = items
     .map((v) => {
       if (/^https?:\/\//i.test(v)) return `- ${v}`;
+
+      // Handle ClassName::methodName() format
+      const methodMatch = v.match(/^\\?([^:]+)::(\w+)\(\)$/);
+      if (methodMatch) {
+        const className = methodMatch[1];
+        const methodName = methodMatch[2].toLowerCase();
+        const classUrl = resolveTypeUrl(className, typeLinkCtx);
+        if (classUrl) {
+          return `- [\`${v}\`](${classUrl}#${methodName})`;
+        }
+      }
+
       const url = resolveTypeUrl(v, typeLinkCtx);
       if (url) return `- ${codeInlineType(v, typeLinkCtx)}`;
       return `- ${codeInline(v)}`;
@@ -906,67 +1161,47 @@ function linkifyTypeStringHtml(typeString, ctx, { escapePipes = false } = {}) {
   const s = String(typeString ?? '');
   if (!s) return '';
 
-  const parts = [];
+  // Split on | to handle union types, then process each type separately
+  const unionParts = s.split(/\s*\|\s*/);
 
-  // Link namespaced types first.
-  const nsRe = /\\?[A-Za-z_][A-Za-z0-9_]*(?:\\[A-Za-z_][A-Za-z0-9_]*)+/g;
-  let last = 0;
-  for (const match of s.matchAll(nsRe)) {
-    const start = match.index ?? 0;
-    const end = start + match[0].length;
-    parts.push(s.slice(last, start));
-    const t = match[0];
-    const url = resolveTypeUrl(t, ctx);
-    if (url) {
-      parts.push({ type: 'link', text: t, url });
-    } else {
-      parts.push(t);
-    }
-    last = end;
-  }
-  parts.push(s.slice(last));
+  const processedParts = unionParts.map((typePart) => {
+    const trimmed = typePart.trim();
+    if (!trimmed) return '';
 
-  const out = [];
-  for (const part of parts) {
-    if (typeof part === 'string') {
-      // Link known non-namespaced types (e.g., WP_Post) if explicitly mapped.
-      const re = /\b[A-Z][A-Za-z0-9_]*\b/g;
-      let idx = 0;
-      for (const m of part.matchAll(re)) {
-        const st = m.index ?? 0;
-        const en = st + m[0].length;
-        const token = m[0];
-        const url = resolveTypeUrl(token, ctx);
-        // Get text before the match, stripping trailing backslash if linking
-        let before = part.slice(idx, st);
-        if (url && before.endsWith('\\')) {
-          before = before.slice(0, -1);
-        }
-        out.push(before);
-        if (url) {
-          out.push({ type: 'link', text: token, url });
-        } else {
-          out.push(token);
-        }
-        idx = en;
+    // Extract array suffix ([], [][], etc.) before processing the base type
+    const arrayMatch = trimmed.match(/^(.+?)(\[\])+$/);
+    const baseType = arrayMatch ? arrayMatch[1] : trimmed;
+    const arraySuffix = arrayMatch ? trimmed.slice(arrayMatch[1].length) : '';
+
+    // Check if this is a namespaced type that can be linked
+    const nsRe = /^\\?[A-Za-z_][A-Za-z0-9_]*(?:\\[A-Za-z_][A-Za-z0-9_]*)+$/;
+    if (nsRe.test(baseType)) {
+      const url = resolveTypeUrl(baseType, ctx);
+      if (url) {
+        // Include array suffix inside the link for cleaner appearance
+        return `<a href="${escapeHtmlAttribute(url)}">${escapeHtml(baseType)}${escapeHtml(arraySuffix)}</a>`;
       }
-      out.push(part.slice(idx));
-      continue;
+      return `<code>${escapeHtml(trimmed)}</code>`;
     }
-    out.push(part);
-  }
 
-  const escapeChunk = (v) => {
-    const escaped = escapeHtml(v);
-    return escapePipes ? escaped.replace(/\|/g, '&#124;') : escaped;
-  };
+    // Check if this is a known non-namespaced type (e.g., WP_Post)
+    const classRe = /^[A-Z][A-Za-z0-9_]*$/;
+    if (classRe.test(baseType)) {
+      const url = resolveTypeUrl(baseType, ctx);
+      if (url) {
+        // Include array suffix inside the link for cleaner appearance
+        return `<a href="${escapeHtmlAttribute(url)}">${escapeHtml(baseType)}${escapeHtml(arraySuffix)}</a>`;
+      }
+      return `<code>${escapeHtml(trimmed)}</code>`;
+    }
 
-  return out
-    .map((p) => {
-      if (typeof p === 'string') return escapeChunk(p);
-      return `<a href="${escapeHtmlAttribute(p.url)}">${escapeChunk(p.text)}</a>`;
-    })
-    .join('');
+    // For primitives (null, string, int, bool, array, mixed, etc.) wrap in code
+    return `<code>${escapeHtml(trimmed)}</code>`;
+  }).filter(Boolean);
+
+  // Join with spaced pipe separator
+  const separator = escapePipes ? ' &#124; ' : ' | ';
+  return processedParts.join(separator);
 }
 
 function codeInline(text) {
@@ -977,12 +1212,8 @@ function codeInline(text) {
 
 function codeInlineType(typeString, ctx) {
   const inner = linkifyTypeStringHtml(typeString, ctx);
-  if (!inner) return '``';
-  // If inner contains links, don't wrap in <code> to avoid MDX converting to <pre>
-  if (inner.includes('<a ')) {
-    return inner;
-  }
-  return `<code>${inner}</code>`;
+  // linkifyTypeStringHtml now handles all code wrapping for each type part
+  return inner || '';
 }
 
 function codeTable(text) {
@@ -994,13 +1225,8 @@ function codeTable(text) {
 }
 
 function codeTableType(typeString, ctx) {
-  const inner = linkifyTypeStringHtml(typeString, ctx, { escapePipes: true });
-  if (!inner.trim()) return '';
-  // If inner contains links, don't wrap in <code> to avoid MDX converting to <pre>
-  if (inner.includes('<a ')) {
-    return inner;
-  }
-  return `<code>${inner}</code>`;
+  // linkifyTypeStringHtml handles all code wrapping and pipe escaping
+  return linkifyTypeStringHtml(typeString, ctx, { escapePipes: true });
 }
 
 function generateIndexMd({ productLabel, classCount, functionCount }) {
@@ -1068,7 +1294,14 @@ function generateClassPage({ productLabel, classSymbol, product, repoRef, typeLi
     const doc = parseDocblock(p.docblock);
     const varTag = parseVarTagValue((doc.tags?.var ?? [])[0]);
     const propType = varTag?.type || p.type || '';
-    const propDesc = cleanDescription(varTag?.description || doc.summary || '');
+
+    // Build description: @var description, or @type entries, or summary
+    let propDesc = cleanDescription(varTag?.description || doc.summary || '');
+    const typeEntriesDesc = formatTypeEntries(doc.tags?.type);
+    if (typeEntriesDesc) {
+      propDesc = propDesc ? `${propDesc} ${typeEntriesDesc}` : typeEntriesDesc;
+    }
+
     return {
       ...p,
       summary: propDesc,
@@ -1076,12 +1309,12 @@ function generateClassPage({ productLabel, classSymbol, product, repoRef, typeLi
       tags: doc.tags,
       internal: doc.internal,
     };
-  }).filter((p) => !p.internal && p.visibility !== 'private');
+  }).filter((p) => !p.internal && p.visibility !== 'private' && (p.type || p.summary));
 
   const propertyTableRows = properties.length
     ? properties
         .map((p) => {
-          return `| \`$${p.name}\` | ${codeInlineType(p.type, typeLinkCtx)} | ${mdEscape(processInlineSeeRefs(p.summary || ''))} |`;
+          return `| \`$${p.name}\` | ${codeTableType(p.type, typeLinkCtx)} | ${mdEscape(processInlineSeeRefs(p.summary || ''))} |`;
         })
         .join('\n')
     : '';
@@ -1091,7 +1324,7 @@ function generateClassPage({ productLabel, classSymbol, product, repoRef, typeLi
     ? methods
         .map(
           (m) =>
-            `| [\`${m.name}()\`](#${m.name.toLowerCase()}) | ${mdEscape(m.summary || '')} | \`${mdEscape(wordpressFormatSignature(phpShortArraySyntax(m.signature || '')))}\` |`
+            `| [\`${m.name}()\`](#${m.name.toLowerCase()}) | ${mdEscape(m.summary || '')} |`
         )
         .join('\n')
     : '';
@@ -1140,6 +1373,8 @@ ${sourceLine ? `\n**Source:** ${sourceLine}\n` : ''}`;
   return `---
 title: ${fqcn}
 sidebar_label: ${shortName}
+pagination_prev: null
+pagination_next: null
 ---
 
 # \`${fqcn}\`
@@ -1174,8 +1409,8 @@ ${propertyTableRows}
 ` : ''}
 ## Methods
 
-${methods.length ? `| Method | Description | Signature |
-| --- | --- | --- |
+${methods.length ? `| Method | Description |
+| --- | --- |
 ${methodTableRows}
 ` : '_No documented public methods found._'}
 ${methodSections ? `\n## Method Reference\n\n${methodSections}\n` : ''}
@@ -1210,6 +1445,8 @@ function generateFunctionPage({ functionSymbol, product, repoRef, typeLinkCtx })
   return `---
 title: ${fqfn}
 sidebar_label: ${shortName}()
+pagination_prev: null
+pagination_next: null
 ---
 
 # \`${fqfn}()\`
@@ -1406,7 +1643,7 @@ function auditDocQuality({ product, repoRef, classes, functions }) {
 function main() {
   const args = parseArgs(process.argv);
   const config = loadConfig();
-  const externalTypeLinks = loadTypeLinks();
+  const configTypeLinks = loadTypeLinks();
   const products = Array.isArray(config.products) ? config.products : [];
 
   if (args.list) {
@@ -1423,6 +1660,12 @@ function main() {
 
   const reposDir = path.resolve(PROJECT_ROOT, config.reposDir || './repos');
   const outputBaseDir = path.resolve(PROJECT_ROOT, config.outputDir || './docs');
+
+  // Build cross-product type links from existing API docs
+  const crossProductLinks = buildCrossProductTypeLinks(outputBaseDir);
+
+  // Merge: config type links take precedence over cross-product links
+  const externalTypeLinks = new Map([...crossProductLinks, ...configTypeLinks]);
   const ignoreDirs = ignoredDirNamesFromConfig(config);
 
   const selected = args.product
@@ -1475,6 +1718,19 @@ function main() {
     const allClasses = Array.isArray(extracted.data?.classes) ? extracted.data.classes : [];
     const allFunctions = Array.isArray(extracted.data?.functions) ? extracted.data.functions : [];
 
+    // Build class map for @inheritDoc resolution
+    const classMap = buildClassMap(allClasses);
+
+    // Expand references to include classes referenced in property types of already-referenced classes
+    if (hasReferenceFilter) {
+      const beforeCount = referencedSymbols.classes.size;
+      expandReferencesFromPropertyTypes(allClasses, referencedSymbols);
+      const addedFromProps = referencedSymbols.classes.size - beforeCount;
+      if (addedFromProps > 0) {
+        console.log(`ℹ️  ${product.id}: added ${addedFromProps} classes from property types`);
+      }
+    }
+
     const classes = allClasses
       .map((c) => {
         const doc = parseDocblock(c.docblock);
@@ -1483,12 +1739,14 @@ function main() {
               .filter((m) => m?.visibility === 'public')
               .map((m) => {
                 const md = parseDocblock(m.docblock);
+                // Resolve @inheritDoc by looking up parent class documentation
+                const resolvedDoc = resolveInheritDoc(m, md, c, classMap);
                 return {
                   ...m,
-                  summary: md.summary,
-                  description: md.description,
-                  tags: md.tags,
-                  internal: md.internal,
+                  summary: resolvedDoc.summary,
+                  description: resolvedDoc.description,
+                  tags: resolvedDoc.tags,
+                  internal: resolvedDoc.internal,
                 };
               })
               .filter((m) => !m.internal)
