@@ -1885,7 +1885,8 @@ function main() {
     // Use '../' prefix because Docusaurus URLs end with trailing slash,
     // so from /classes/gv-view/ we need ../gv-field to reach /classes/gv-field/
     const classTypeLinkCtx = { localTypeSlugs, externalTypeLinks, classesLinkPrefix: '../' };
-    const functionTypeLinkCtx = { localTypeSlugs, externalTypeLinks, classesLinkPrefix: '../classes/' };
+    // From /functions/gravityview_get_entry/ we need ../../classes/gv-view to reach /classes/gv-view/
+    const functionTypeLinkCtx = { localTypeSlugs, externalTypeLinks, classesLinkPrefix: '../../classes/' };
 
     // Filter functions - only include if referenced in @see or has meaningful docs (when no filter)
     const functions = allFunctions
