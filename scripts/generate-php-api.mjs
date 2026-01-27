@@ -528,6 +528,14 @@ function hasInheritDoc(doc) {
 }
 
 /**
+ * Check if a docblock is explicitly marked as public API via @api or @public tags.
+ */
+function isMarkedPublicApi(doc) {
+  if (!doc?.tags) return false;
+  return !!(doc.tags.api?.length || doc.tags.public?.length);
+}
+
+/**
  * Build a map of class FQCN -> class data for quick lookup.
  */
 function buildClassMap(allClasses) {
@@ -1859,11 +1867,11 @@ function main() {
         const hasReferencedMethods = referencedMethods.size > 0;
         const isReferenced = classReferenced || hasReferencedMethods;
 
-        // When filtering by reference, ONLY include referenced symbols
-        // Otherwise fall back to the original "has meaningful doc" logic
-        const publicApi = hasReferenceFilter
+        // Include if: explicitly marked @api/@public, referenced in @see, or has meaningful docs (when no filter)
+        const markedPublic = isMarkedPublicApi(doc) || methods.some((m) => isMarkedPublicApi(m));
+        const publicApi = markedPublic || (hasReferenceFilter
           ? isReferenced
-          : (hasMeaningfulDoc(doc) || methods.some((m) => hasMeaningfulDoc(m)));
+          : (hasMeaningfulDoc(doc) || methods.some((m) => hasMeaningfulDoc(m))));
 
         return {
           ...c,
@@ -1898,10 +1906,11 @@ function main() {
         // Check if function is referenced in @see
         const isReferenced = referencedSymbols.functions.has(fqfn) || referencedSymbols.functions.has(funcName);
 
-        // When filtering by reference, ONLY include referenced functions
-        const publicApi = hasReferenceFilter
+        // Include if: explicitly marked @api/@public, referenced in @see, or has meaningful docs (when no filter)
+        const markedPublic = isMarkedPublicApi(doc);
+        const publicApi = markedPublic || (hasReferenceFilter
           ? isReferenced
-          : (hasMeaningfulDoc(doc) && !funcName.startsWith('_'));
+          : (hasMeaningfulDoc(doc) && !funcName.startsWith('_')));
 
         return {
           ...f,
