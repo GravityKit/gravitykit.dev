@@ -1081,33 +1081,10 @@ function generateClassPage({ productLabel, classSymbol, product, repoRef, typeLi
   const propertyTableRows = properties.length
     ? properties
         .map((p) => {
-          const modifiers = [p.visibility || 'public'];
-          if (p.static) modifiers.push('static');
-          if (p.readonly) modifiers.push('readonly');
-          return `| [\`$${p.name}\`](#${p.name.toLowerCase()}) | ${codeInlineType(p.type, typeLinkCtx)} | ${mdEscape(p.summary || '')} |`;
+          return `| \`$${p.name}\` | ${codeInlineType(p.type, typeLinkCtx)} | ${mdEscape(processInlineSeeRefs(p.summary || ''))} |`;
         })
         .join('\n')
     : '';
-
-  const propertySections = properties
-    .filter((p) => p.summary || p.type)
-    .map((p) => {
-      const sourceLine = formatSourceMarkdown({ product, repoRef, file: p.file || classSymbol.file, line: p.line });
-      const since = (p.tags?.since ?? []).map(parseSinceTagValue).filter(Boolean);
-      const modifiers = [p.visibility || 'public'];
-      if (p.static) modifiers.push('static');
-      if (p.readonly) modifiers.push('readonly');
-      const modifierStr = modifiers.join(' ');
-
-      return `### \`$${p.name}\`
-
-\`${modifierStr} ${p.type ? p.type + ' ' : ''}$${p.name}${p.default ? ` = ${phpShortArraySyntax(p.default)}` : ''}\`
-
-${processInlineSeeRefs(p.summary || '')}
-${renderSinceTags(since)}
-${sourceLine ? `\n**Source:** ${sourceLine}\n` : ''}`;
-    })
-    .join('\n\n');
 
   const methods = classSymbol.methods ?? [];
   const methodTableRows = methods.length
@@ -1201,7 +1178,6 @@ ${methods.length ? `| Method | Description | Signature |
 | --- | --- | --- |
 ${methodTableRows}
 ` : '_No documented public methods found._'}
-${propertySections ? `\n## Property Reference\n\n${propertySections}\n` : ''}
 ${methodSections ? `\n## Method Reference\n\n${methodSections}\n` : ''}
 `;
 }
