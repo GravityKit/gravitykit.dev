@@ -376,6 +376,41 @@ function expandReferencesFromPropertyTypes(allClasses, referencedSymbols) {
   }
 }
 
+/**
+ * Extract function references from @see tags in parsed PHP class docblocks.
+ * This ensures that functions referenced via @see in API docs (not just hooks docs) are included.
+ * @param {Array} allClasses - All extracted classes from PHP
+ * @param {Object} referencedSymbols - Current set of referenced symbols
+ * @returns {void} - Modifies referencedSymbols in place
+ */
+function expandFunctionReferencesFromClassDocs(allClasses, referencedSymbols) {
+  for (const classData of allClasses) {
+    // Check class-level @see tags
+    const classDoc = parseDocblock(classData.docblock);
+    for (const seeTag of classDoc.tags?.see ?? []) {
+      const ref = String(seeTag ?? '').trim();
+      // Match function names (starts with lowercase, no ::, optionally has ())
+      const funcMatch = ref.match(/^([a-z_][a-z0-9_]*)\s*\(?\)?/i);
+      if (funcMatch && /^[a-z_]/.test(funcMatch[1]) && !ref.includes('::')) {
+        referencedSymbols.functions.add(funcMatch[1]);
+      }
+    }
+
+    // Check method-level @see tags
+    for (const method of classData.methods ?? []) {
+      const methodDoc = parseDocblock(method.docblock);
+      for (const seeTag of methodDoc.tags?.see ?? []) {
+        const ref = String(seeTag ?? '').trim();
+        // Match function names (starts with lowercase, no ::, optionally has ())
+        const funcMatch = ref.match(/^([a-z_][a-z0-9_]*)\s*\(?\)?/i);
+        if (funcMatch && /^[a-z_]/.test(funcMatch[1]) && !ref.includes('::')) {
+          referencedSymbols.functions.add(funcMatch[1]);
+        }
+      }
+    }
+  }
+}
+
 function checkPhpAvailable() {
   const result = spawnSync('php', ['-v'], { encoding: 'utf8', stdio: 'pipe' });
   return !result.error && result.status === 0;
@@ -1784,6 +1819,14 @@ function main() {
       const addedFromProps = referencedSymbols.classes.size - beforeCount;
       if (addedFromProps > 0) {
         console.log(`ℹ️  ${product.id}: added ${addedFromProps} classes from property types`);
+      }
+
+      // Also extract function references from @see tags in class docblocks
+      const beforeFuncCount = referencedSymbols.functions.size;
+      expandFunctionReferencesFromClassDocs(allClasses, referencedSymbols);
+      const addedFuncs = referencedSymbols.functions.size - beforeFuncCount;
+      if (addedFuncs > 0) {
+        console.log(`ℹ️  ${product.id}: added ${addedFuncs} functions from @see tags in class docs`);
       }
     }
 
