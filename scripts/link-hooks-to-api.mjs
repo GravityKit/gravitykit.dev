@@ -160,9 +160,10 @@ function collectMethodsByClass(classesDir) {
 /**
  * Resolve a symbol reference (Class::method or Class) to a markdown link.
  * Returns the linked markdown or null if not resolvable.
+ * Supports cross-product linking via globalClassMap.
  */
 function resolveSymbolLink(ref, ctx) {
-  const { classesDir, classSlugs, methodsByClass, fromDir } = ctx;
+  const { classesDir, classSlugs, methodsByClass, fromDir, globalClassMap, docsDir } = ctx;
 
   // Clean the reference: remove trailing (), leading backslashes
   const cleaned = ref.replace(/\(\)$/, '').trim();
@@ -176,7 +177,12 @@ function resolveSymbolLink(ref, ctx) {
 
     if (classSlugs.has(slug)) {
       const classMethods = methodsByClass.get(slug) || new Set();
-      const targetPath = path.join(classesDir, `${slug}.md`);
+
+      // Get the actual classesDir for this class (may be from another product)
+      const classInfo = globalClassMap?.get(slug);
+      const targetClassesDir = classInfo?.classesDir || classesDir;
+      const targetPath = path.join(targetClassesDir, `${slug}.md`);
+
       let rel = path.relative(fromDir, targetPath).split(path.sep).join('/');
       // Docusaurus URLs have trailing slash, so each page is treated as a directory.
       // Add extra ../ to account for the source file's "virtual directory"
@@ -195,7 +201,11 @@ function resolveSymbolLink(ref, ctx) {
   if (classOnly.includes('\\')) {
     const slug = slugify(classOnly);
     if (classSlugs.has(slug)) {
-      const targetPath = path.join(classesDir, `${slug}.md`);
+      // Get the actual classesDir for this class (may be from another product)
+      const classInfo = globalClassMap?.get(slug);
+      const targetClassesDir = classInfo?.classesDir || classesDir;
+      const targetPath = path.join(targetClassesDir, `${slug}.md`);
+
       let rel = path.relative(fromDir, targetPath).split(path.sep).join('/');
       // Docusaurus URLs have trailing slash, so each page is treated as a directory.
       // Add extra ../ to account for the source file's "virtual directory"
@@ -209,7 +219,7 @@ function resolveSymbolLink(ref, ctx) {
   return null;
 }
 
-function renderTypeSpan(inner, { classesDir, classSlugs, fromDir }) {
+function renderTypeSpan(inner, { classesDir, classSlugs, fromDir, globalClassMap }) {
   const raw = String(inner ?? '').trim();
   if (!raw.includes('\\')) return null;
 
@@ -233,7 +243,11 @@ function renderTypeSpan(inner, { classesDir, classSlugs, fromDir }) {
     const slug = hasClass ? slugify(cleaned) : '';
 
     if (hasClass && slug && classSlugs.has(slug)) {
-      const targetPath = path.join(classesDir, `${slug}.md`);
+      // Get the actual classesDir for this class (may be from another product)
+      const classInfo = globalClassMap?.get(slug);
+      const targetClassesDir = classInfo?.classesDir || classesDir;
+      const targetPath = path.join(targetClassesDir, `${slug}.md`);
+
       let rel = path.relative(fromDir, targetPath).split(path.sep).join('/');
       // Docusaurus URLs have trailing slash, so each page is treated as a directory.
       // Add extra ../ to account for the source file's "virtual directory"
@@ -256,10 +270,10 @@ function renderTypeSpan(inner, { classesDir, classSlugs, fromDir }) {
   return rendered.join('');
 }
 
-function linkHookFile({ filePath, classesDir, classSlugs, methodsByClass, dryRun }) {
+function linkHookFile({ filePath, classesDir, classSlugs, methodsByClass, globalClassMap, docsDir, dryRun }) {
   const original = fs.readFileSync(filePath, 'utf8');
   const fromDir = path.dirname(filePath);
-  const ctx = { classesDir, classSlugs, methodsByClass, fromDir };
+  const ctx = { classesDir, classSlugs, methodsByClass, fromDir, globalClassMap, docsDir };
 
   let updated = original;
 
@@ -303,7 +317,7 @@ function linkHookFile({ filePath, classesDir, classSlugs, methodsByClass, dryRun
     const after = updated.slice(offset + match.length, offset + match.length + 2);
     if (before === '[' && after === '](') return match; // already linked
 
-    const html = renderTypeSpan(inner, { classesDir, classSlugs, fromDir });
+    const html = renderTypeSpan(inner, { classesDir, classSlugs, fromDir, globalClassMap });
     return html ?? match;
   });
 
@@ -328,22 +342,47 @@ function main() {
     process.exit(1);
   }
 
+  // Build global map of all classes across all products for cross-product linking
+  // Map: slug -> { productId, classesDir }
+  const globalClassMap = new Map();
+  const globalMethodsByClass = new Map();
+  for (const productId of products) {
+    const classesDir = path.join(docsDir, productId, 'api', 'classes');
+    if (!fs.existsSync(classesDir)) continue;
+
+    const files = fs.readdirSync(classesDir).filter((f) => f.endsWith('.md') && f !== 'index.md');
+    for (const file of files) {
+      const slug = file.replace(/\.md$/i, '');
+      // First product to define a class wins (usually gravityview core)
+      if (!globalClassMap.has(slug)) {
+        globalClassMap.set(slug, { productId, classesDir });
+      }
+    }
+
+    // Collect methods for this product's classes
+    const methods = collectMethodsByClass(classesDir);
+    for (const [slug, methodSet] of methods) {
+      if (!globalMethodsByClass.has(slug)) {
+        globalMethodsByClass.set(slug, methodSet);
+      }
+    }
+  }
+
   let changedFiles = 0;
 
   for (const productId of selected) {
     const productDir = path.join(docsDir, productId);
     const classesDir = path.join(productDir, 'api', 'classes');
-    if (!fs.existsSync(classesDir)) continue;
 
-    const classSlugs = new Set(
-      fs
-        .readdirSync(classesDir)
-        .filter((f) => f.endsWith('.md') && f !== 'index.md')
-        .map((f) => f.replace(/\.md$/i, ''))
-    );
+    // Use global class map for cross-product linking
+    const classSlugs = new Set(globalClassMap.keys());
+    const methodsByClass = globalMethodsByClass;
 
-    // Collect methods for each class to enable method anchor linking
-    const methodsByClass = collectMethodsByClass(classesDir);
+    // Create a context that knows about cross-product classes
+    const crossProductClassesDir = (slug) => {
+      const info = globalClassMap.get(slug);
+      return info ? info.classesDir : classesDir;
+    };
 
     const hookFiles = [
       ...collectMarkdownFiles(path.join(productDir, 'actions')),
@@ -353,7 +392,15 @@ function main() {
 
     let productChanged = 0;
     for (const filePath of hookFiles) {
-      const res = linkHookFile({ filePath, classesDir, classSlugs, methodsByClass, dryRun: args.dryRun });
+      const res = linkHookFile({
+        filePath,
+        classesDir,
+        classSlugs,
+        methodsByClass,
+        globalClassMap,
+        docsDir,
+        dryRun: args.dryRun,
+      });
       if (res.changed) {
         productChanged++;
         changedFiles++;

@@ -44,13 +44,21 @@ function updateProductSitemap() {
   const productId = match[1];
   if (!productsWithSitemaps.includes(productId)) return;
 
-  // Create and append the product sitemap link
+  // Create the product sitemap link
   const link = document.createElement('link');
   link.id = SITEMAP_LINK_ID;
   link.rel = 'sitemap';
   link.type = 'application/xml';
   link.href = `${window.location.origin}/docs/${productId}/sitemap.xml`;
-  document.head.appendChild(link);
+
+  // Insert after the last existing sitemap link for consistent ordering
+  const existingSitemapLinks = document.querySelectorAll('link[rel="sitemap"]');
+  if (existingSitemapLinks.length > 0) {
+    const lastSitemapLink = existingSitemapLinks[existingSitemapLinks.length - 1];
+    lastSitemapLink.parentNode.insertBefore(link, lastSitemapLink.nextSibling);
+  } else {
+    document.head.appendChild(link);
+  }
 }
 
 // Run on initial load
