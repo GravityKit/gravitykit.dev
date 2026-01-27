@@ -30,6 +30,9 @@ npm run repos:clone
 # Generate hooks documentation
 npm run hooks:generate
 
+# Generate PHP API reference documentation (classes/functions)
+npm run api:generate
+
 # Start local development server
 npm start
 ```
@@ -77,6 +80,7 @@ gh auth login
 |---------|-------------|
 | `npm run repos:clone` | Clone/update all product repositories from GitHub |
 | `npm run hooks:generate` | Generate hooks documentation from cloned repos |
+| `npm run api:generate` | Generate PHP API reference docs (classes/functions) |
 | `npm run docs:full` | Full pipeline: clone repos, generate docs, build site |
 | `npm start` | Start local development server |
 | `npm run build` | Build static site for production |

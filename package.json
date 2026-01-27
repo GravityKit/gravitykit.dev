@@ -15,7 +15,9 @@
     "repos:clone": "node ./scripts/clone-repos.mjs",
     "repos:update": "node ./scripts/clone-repos.mjs",
     "hooks:generate": "node ./scripts/generate-hooks.mjs",
-    "docs:generate": "npm run hooks:generate && node ./scripts/generate-category-indexes.mjs",
+    "hooks:link-api-types": "node ./scripts/link-hooks-to-api.mjs",
+    "api:generate": "node ./scripts/generate-php-api.mjs",
+    "docs:generate": "npm run hooks:generate && npm run api:generate && npm run hooks:link-api-types && node ./scripts/generate-category-indexes.mjs",
     "llm:enhance": "node ./scripts/enhance-for-llms.mjs",
     "docs:full": "npm run repos:clone && npm run docs:generate && npm run llm:enhance && npm run build"
   },
@@ -32,7 +34,7 @@
     "@docusaurus/module-type-aliases": "^3.5.2",
     "@docusaurus/tsconfig": "^3.5.2",
     "@docusaurus/types": "^3.5.2",
-    "wp-hooks-documentor": "github:GravityKit/wp-hooks-documentor#develop"
+    "wp-hooks-documentor": "file:../../Products/wp-hooks-documentor"
   },
   "browserslist": {
     "production": [
