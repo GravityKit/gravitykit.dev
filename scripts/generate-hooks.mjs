@@ -51,9 +51,14 @@ function renderTemplate(template, vars) {
   let result = template;
 
   // Handle conditional blocks: {{#condition}}...{{/condition}}
-  result = result.replace(/\{\{#(\w+)\}\}([\s\S]*?)\{\{\/\1\}\}/g, (match, key, content) => {
-    return vars[key] ? content : '';
-  });
+  // Process repeatedly to handle nested conditionals
+  let prevResult;
+  do {
+    prevResult = result;
+    result = result.replace(/\{\{#(\w+)\}\}([\s\S]*?)\{\{\/\1\}\}/g, (match, key, content) => {
+      return vars[key] ? content : '';
+    });
+  } while (result !== prevResult);
 
   // Handle simple variables: {{variable}}
   result = result.replace(/\{\{(\w+)\}\}/g, (match, key) => {
@@ -179,6 +184,47 @@ function copyDirRecursive(src, dest) {
   for (const entry of entries) {
     const srcPath = path.join(src, entry.name);
     const destPath = path.join(dest, entry.name);
+
+    if (entry.isDirectory()) {
+      copyDirRecursive(srcPath, destPath);
+    } else {
+      fs.copyFileSync(srcPath, destPath);
+    }
+  }
+}
+
+/**
+ * Copy hooks directory to destination, preserving API subdirectory.
+ * @param {string} src - Source hooks directory
+ * @param {string} dest - Destination product directory
+ * @returns {void}
+ */
+function copyHooksPreservingApi(src, dest) {
+  if (!fs.existsSync(src)) return;
+
+  // Ensure destination directory exists
+  fs.mkdirSync(dest, { recursive: true });
+
+  // Only delete actions and filters directories (preserve API and other dirs)
+  const actionsDir = path.join(dest, 'actions');
+  const filtersDir = path.join(dest, 'filters');
+  const actionsUpperDir = path.join(dest, 'Actions');
+  const filtersUpperDir = path.join(dest, 'Filters');
+
+  // Clean up existing hooks directories (both cases)
+  if (fs.existsSync(actionsDir)) fs.rmSync(actionsDir, { recursive: true, force: true });
+  if (fs.existsSync(filtersDir)) fs.rmSync(filtersDir, { recursive: true, force: true });
+  if (fs.existsSync(actionsUpperDir)) fs.rmSync(actionsUpperDir, { recursive: true, force: true });
+  if (fs.existsSync(filtersUpperDir)) fs.rmSync(filtersUpperDir, { recursive: true, force: true });
+
+  // Copy hooks content from source
+  const entries = fs.readdirSync(src, { withFileTypes: true });
+  for (const entry of entries) {
+    const srcPath = path.join(src, entry.name);
+    const destPath = path.join(dest, entry.name);
+
+    // Skip if this would overwrite the api directory
+    if (entry.name.toLowerCase() === 'api') continue;
 
     if (entry.isDirectory()) {
       copyDirRecursive(srcPath, destPath);
@@ -622,9 +668,8 @@ function generateHooksDocs(product, config, options) {
       // Try alternative location
       const altHooksDir = path.join(tempOutputDir, 'hooks');
       if (fs.existsSync(altHooksDir)) {
-        // Copy from alternative location
-        deleteDirRecursive(finalOutputDir);
-        copyDirRecursive(altHooksDir, finalOutputDir);
+        // Copy from alternative location, preserving API directory
+        copyHooksPreservingApi(altHooksDir, finalOutputDir);
       } else {
         return {
           ok: false,
@@ -633,9 +678,8 @@ function generateHooksDocs(product, config, options) {
         };
       }
     } else {
-      // Copy generated hooks to final location
-      deleteDirRecursive(finalOutputDir);
-      copyDirRecursive(generatedHooksDir, finalOutputDir);
+      // Copy generated hooks to final location, preserving API directory
+      copyHooksPreservingApi(generatedHooksDir, finalOutputDir);
     }
 
     // Rename Actions/Filters to lowercase for cleaner URLs
@@ -671,7 +715,7 @@ function generateHooksDocs(product, config, options) {
 }
 
 /**
- * Generate an index.md file for a product's hooks documentation.
+ * Generate an index.md file for a product's documentation.
  * @param {object} product
  * @param {string} outputDir
  * @returns {void}
@@ -689,6 +733,17 @@ function generateProductIndex(product, outputDir) {
   const actionCount = hasActions ? fs.readdirSync(actionsDir).filter(f => f.endsWith('.md')).length : 0;
   const filterCount = hasFilters ? fs.readdirSync(filtersDir).filter(f => f.endsWith('.md')).length : 0;
 
+  // Check for API documentation
+  const apiClassesDir = path.join(outputDir, 'api', 'classes');
+  const apiFunctionsDir = path.join(outputDir, 'api', 'functions');
+
+  const hasClasses = fs.existsSync(apiClassesDir) && fs.readdirSync(apiClassesDir).filter(f => f.endsWith('.md')).length > 0;
+  const hasFunctions = fs.existsSync(apiFunctionsDir) && fs.readdirSync(apiFunctionsDir).filter(f => f.endsWith('.md')).length > 0;
+  const hasApi = hasClasses || hasFunctions;
+
+  const classCount = hasClasses ? fs.readdirSync(apiClassesDir).filter(f => f.endsWith('.md')).length : 0;
+  const functionCount = hasFunctions ? fs.readdirSync(apiFunctionsDir).filter(f => f.endsWith('.md')).length : 0;
+
   const template = loadTemplate('product-index');
   const content = renderTemplate(template, {
     label: product.label,
@@ -698,6 +753,10 @@ function generateProductIndex(product, outputDir) {
     filterCount,
     hasActions,
     hasFilters,
+    hasApi,
+    classCount,
+    functionCount,
+    hasFunctions,
   });
 
   fs.writeFileSync(indexPath, content);
