@@ -1880,17 +1880,30 @@ function main() {
         console.log(`ℹ️  ${product.id}: added ${addedFromProps} classes from property types`);
       }
 
-      // Also extract class and function references from @see tags in class docblocks
-      const beforeSeeClassCount = referencedSymbols.classes.size;
-      const beforeSeeFuncCount = referencedSymbols.functions.size;
-      expandReferencesFromClassDocSee(allClasses, referencedSymbols);
-      const addedSeeClasses = referencedSymbols.classes.size - beforeSeeClassCount;
-      const addedSeeFuncs = referencedSymbols.functions.size - beforeSeeFuncCount;
-      if (addedSeeClasses > 0 || addedSeeFuncs > 0) {
+      // Iteratively expand @see references until no new symbols are found
+      // This ensures transitively referenced classes are included
+      let totalAddedSeeClasses = 0;
+      let totalAddedSeeFuncs = 0;
+      let iterations = 0;
+      const maxIterations = 10; // Prevent infinite loops
+      while (iterations < maxIterations) {
+        const beforeSeeClassCount = referencedSymbols.classes.size;
+        const beforeSeeFuncCount = referencedSymbols.functions.size;
+        expandReferencesFromClassDocSee(allClasses, referencedSymbols);
+        const addedSeeClasses = referencedSymbols.classes.size - beforeSeeClassCount;
+        const addedSeeFuncs = referencedSymbols.functions.size - beforeSeeFuncCount;
+        totalAddedSeeClasses += addedSeeClasses;
+        totalAddedSeeFuncs += addedSeeFuncs;
+        iterations++;
+        // Stop when no new symbols are added
+        if (addedSeeClasses === 0 && addedSeeFuncs === 0) break;
+      }
+      if (totalAddedSeeClasses > 0 || totalAddedSeeFuncs > 0) {
         const parts = [];
-        if (addedSeeClasses > 0) parts.push(`${addedSeeClasses} classes`);
-        if (addedSeeFuncs > 0) parts.push(`${addedSeeFuncs} functions`);
-        console.log(`ℹ️  ${product.id}: added ${parts.join(' and ')} from @see tags in class docs`);
+        if (totalAddedSeeClasses > 0) parts.push(`${totalAddedSeeClasses} classes`);
+        if (totalAddedSeeFuncs > 0) parts.push(`${totalAddedSeeFuncs} functions`);
+        const iterNote = iterations > 1 ? ` (${iterations} iterations)` : '';
+        console.log(`ℹ️  ${product.id}: added ${parts.join(' and ')} from @see tags in class docs${iterNote}`);
       }
     }
 
