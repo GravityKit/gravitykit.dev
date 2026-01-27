@@ -362,6 +362,61 @@ function addTagsToHooks(outputDir) {
 }
 
 /**
+ * Clean up malformed content in hook markdown files.
+ * Fixes:
+ * - description frontmatter with @filter/@action prefix (strips prefix, keeps description)
+ * - description frontmatter with \b word boundaries (removes them)
+ * - Malformed "See Also" entries
+ * @param {string} outputDir
+ * @returns {void}
+ */
+function cleanupHookContent(outputDir) {
+  const dirs = ['actions', 'filters'];
+
+  for (const subdir of dirs) {
+    const dirPath = path.join(outputDir, subdir);
+    if (!fs.existsSync(dirPath)) continue;
+
+    const files = fs.readdirSync(dirPath).filter(f => f.endsWith('.md') && f !== 'index.md');
+
+    for (const file of files) {
+      const filePath = path.join(dirPath, file);
+      let content = fs.readFileSync(filePath, 'utf8');
+      let modified = false;
+
+      // Fix description field with @filter/@action prefix
+      // Pattern: description: "@filter  `hook_name` Actual description here"
+      // Should become: description: "Actual description here"
+      const descPatternWithTag = /^(description:\s*"?)@(?:filter|action)\s+`[^`]+`\s*/m;
+      if (descPatternWithTag.test(content)) {
+        content = content.replace(descPatternWithTag, '$1');
+        modified = true;
+      }
+
+      // Fix description field with \b word boundaries
+      // Pattern: description: "\bDocumentation\b \bfor\b..."
+      // Should become: description: "Documentation for..."
+      if (content.includes('\\b')) {
+        content = content.replace(/\\b([^\\]+)\\b/g, '$1');
+        modified = true;
+      }
+
+      // Fix malformed See Also entries like: - `The` - <code>hook_name</code> filter
+      // Should become: - `hook_name`
+      const seeAlsoPattern = /^-\s+`The`\s+-\s+<code>([^<]+)<\/code>(?:\s+filter)?$/gm;
+      if (seeAlsoPattern.test(content)) {
+        content = content.replace(seeAlsoPattern, '- `$1`');
+        modified = true;
+      }
+
+      if (modified) {
+        fs.writeFileSync(filePath, content);
+      }
+    }
+  }
+}
+
+/**
  * Load type links configuration.
  * @returns {Record<string, string>}
  */
@@ -688,6 +743,9 @@ function generateHooksDocs(product, config, options) {
 
     // Add tags to hook files based on @since versions
     addTagsToHooks(finalOutputDir);
+
+    // Clean up malformed content from wp-hooks-documentor
+    cleanupHookContent(finalOutputDir);
 
     // Link parameter types to their documentation
     linkParameterTypes(finalOutputDir);
