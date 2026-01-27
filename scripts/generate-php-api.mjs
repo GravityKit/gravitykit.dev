@@ -377,35 +377,86 @@ function expandReferencesFromPropertyTypes(allClasses, referencedSymbols) {
 }
 
 /**
- * Extract function references from @see tags in parsed PHP class docblocks.
- * This ensures that functions referenced via @see in API docs (not just hooks docs) are included.
+ * Extract function and class references from @see tags in parsed PHP class docblocks.
+ * This ensures that symbols referenced via @see in API docs (not just hooks docs) are included.
+ * Only processes classes that are already referenced or marked @api/@public to avoid pulling
+ * in references from classes that won't be documented.
  * @param {Array} allClasses - All extracted classes from PHP
  * @param {Object} referencedSymbols - Current set of referenced symbols
  * @returns {void} - Modifies referencedSymbols in place
  */
-function expandFunctionReferencesFromClassDocs(allClasses, referencedSymbols) {
+function expandReferencesFromClassDocSee(allClasses, referencedSymbols) {
+  /**
+   * Process a single @see tag and extract references
+   * @param {string} ref - The @see tag value
+   */
+  function processSeeRef(ref) {
+    ref = String(ref ?? '').trim();
+    if (!ref) return;
+
+    // Match ClassName::methodName() pattern (e.g., "GravityView_Merge_Tags::replace_variables()")
+    // Also handles \ClassName::method() with leading backslash
+    const methodMatch = ref.match(/^\\?([A-Za-z_][A-Za-z0-9_\\]*)::(\w+)\(\)/);
+    if (methodMatch) {
+      const className = methodMatch[1];
+      const methodName = methodMatch[2];
+      // Normalize class name (strip leading backslash, convert namespace separators)
+      const normalizedClass = className.replace(/^\\/, '').replace(/\\/g, '\\');
+      referencedSymbols.classes.add(normalizedClass);
+      if (!referencedSymbols.methods.has(normalizedClass)) {
+        referencedSymbols.methods.set(normalizedClass, new Set());
+      }
+      referencedSymbols.methods.get(normalizedClass).add(methodName);
+      return;
+    }
+
+    // Match standalone function names (starts with lowercase, no ::, optionally has ())
+    const funcMatch = ref.match(/^\\?([a-z_][a-z0-9_]*)\s*\(?\)?/i);
+    if (funcMatch && /^[a-z_]/.test(funcMatch[1]) && !ref.includes('::')) {
+      referencedSymbols.functions.add(funcMatch[1]);
+    }
+  }
+
+  // Build a set of classes we should process (referenced or marked @api/@public)
+  const classesToProcess = new Set();
   for (const classData of allClasses) {
+    const fqcn = classData.fqcn || classData.name;
+    const shortName = classData.name;
+    const classDoc = parseDocblock(classData.docblock);
+
+    // Check if class is already referenced
+    const isReferenced =
+      referencedSymbols.classes.has(fqcn) ||
+      referencedSymbols.classes.has(shortName) ||
+      referencedSymbols.methods.has(fqcn) ||
+      referencedSymbols.methods.has(shortName);
+
+    // Check if class or any method has @api or @public
+    const markedPublic =
+      isMarkedPublicApi(classDoc) ||
+      (classData.methods ?? []).some((m) => isMarkedPublicApi(parseDocblock(m.docblock)));
+
+    if (isReferenced || markedPublic) {
+      classesToProcess.add(fqcn);
+    }
+  }
+
+  // Now process @see tags only from classes we're going to document
+  for (const classData of allClasses) {
+    const fqcn = classData.fqcn || classData.name;
+    if (!classesToProcess.has(fqcn)) continue;
+
     // Check class-level @see tags
     const classDoc = parseDocblock(classData.docblock);
     for (const seeTag of classDoc.tags?.see ?? []) {
-      const ref = String(seeTag ?? '').trim();
-      // Match function names (starts with lowercase, no ::, optionally has ())
-      const funcMatch = ref.match(/^([a-z_][a-z0-9_]*)\s*\(?\)?/i);
-      if (funcMatch && /^[a-z_]/.test(funcMatch[1]) && !ref.includes('::')) {
-        referencedSymbols.functions.add(funcMatch[1]);
-      }
+      processSeeRef(seeTag);
     }
 
     // Check method-level @see tags
     for (const method of classData.methods ?? []) {
       const methodDoc = parseDocblock(method.docblock);
       for (const seeTag of methodDoc.tags?.see ?? []) {
-        const ref = String(seeTag ?? '').trim();
-        // Match function names (starts with lowercase, no ::, optionally has ())
-        const funcMatch = ref.match(/^([a-z_][a-z0-9_]*)\s*\(?\)?/i);
-        if (funcMatch && /^[a-z_]/.test(funcMatch[1]) && !ref.includes('::')) {
-          referencedSymbols.functions.add(funcMatch[1]);
-        }
+        processSeeRef(seeTag);
       }
     }
   }
@@ -1829,12 +1880,17 @@ function main() {
         console.log(`ℹ️  ${product.id}: added ${addedFromProps} classes from property types`);
       }
 
-      // Also extract function references from @see tags in class docblocks
-      const beforeFuncCount = referencedSymbols.functions.size;
-      expandFunctionReferencesFromClassDocs(allClasses, referencedSymbols);
-      const addedFuncs = referencedSymbols.functions.size - beforeFuncCount;
-      if (addedFuncs > 0) {
-        console.log(`ℹ️  ${product.id}: added ${addedFuncs} functions from @see tags in class docs`);
+      // Also extract class and function references from @see tags in class docblocks
+      const beforeSeeClassCount = referencedSymbols.classes.size;
+      const beforeSeeFuncCount = referencedSymbols.functions.size;
+      expandReferencesFromClassDocSee(allClasses, referencedSymbols);
+      const addedSeeClasses = referencedSymbols.classes.size - beforeSeeClassCount;
+      const addedSeeFuncs = referencedSymbols.functions.size - beforeSeeFuncCount;
+      if (addedSeeClasses > 0 || addedSeeFuncs > 0) {
+        const parts = [];
+        if (addedSeeClasses > 0) parts.push(`${addedSeeClasses} classes`);
+        if (addedSeeFuncs > 0) parts.push(`${addedSeeFuncs} functions`);
+        console.log(`ℹ️  ${product.id}: added ${parts.join(' and ')} from @see tags in class docs`);
       }
     }
 
