@@ -640,6 +640,36 @@ function parseSinceTagValue(value) {
   return { version: v, description: '' };
 }
 
+/**
+ * Extract version numbers from parsed @since tags for use in frontmatter tags.
+ * @param {Array<{version: string, description: string}>} since - Parsed since tags
+ * @returns {string[]} - Array of version strings (e.g., ["1.0", "2.0"])
+ */
+function extractVersionTags(since) {
+  if (!since || since.length === 0) return [];
+  return since
+    .map((s) => s.version)
+    .filter((v) => v && /^[\d.]+/.test(v)) // Only include numeric versions
+    .map((v) => v.match(/^[\d.]+/)[0]); // Extract just the numeric part
+}
+
+/**
+ * Format version tags as YAML for frontmatter.
+ * @param {string[]} tags - Array of version strings
+ * @returns {string} - YAML tags block or empty string
+ */
+function formatTagsYaml(tags) {
+  if (!tags || tags.length === 0) return '';
+  return `tags:\n${tags.map((t) => `  - "${t}"`).join('\n')}\n`;
+}
+
+/**
+ * Convert version to slug for since page links (e.g., "1.0" -> "1-0").
+ */
+function versionToSlug(version) {
+  return String(version).replace(/\./g, '-');
+}
+
 function parseDeprecatedTagValue(value) {
   const v = String(value ?? '').trim();
   if (!v) return null;
@@ -935,9 +965,10 @@ function renderExamplesSection(tags, { heading = '##' } = {}) {
 }
 
 function renderSeeAlsoSection(tags, typeLinkCtx, { heading = '##' } = {}) {
+  // Note: @link is excluded because file header @link tags (e.g., @link http://www.gravitykit.com)
+  // were incorrectly appearing in See Also sections.
   const items = []
     .concat(tags?.see ?? [])
-    .concat(tags?.link ?? [])
     .map((v) => String(v ?? '').trim())
     .filter(Boolean);
 
@@ -947,15 +978,31 @@ function renderSeeAlsoSection(tags, typeLinkCtx, { heading = '##' } = {}) {
     .map((v) => {
       if (/^https?:\/\//i.test(v)) return `- ${v}`;
 
-      // Handle ClassName::methodName() format
-      const methodMatch = v.match(/^\\?([^:]+)::(\w+)\(\)$/);
+      // Handle ClassName::methodName() with optional description
+      // e.g., "GravityView_Merge_Tags::replace_variables() Moved in 1.8.4"
+      const methodMatch = v.match(/^\\?([A-Za-z_][A-Za-z0-9_\\]*)::(\w+)\(\)\s*(.*)?$/);
       if (methodMatch) {
         const className = methodMatch[1];
-        const methodName = methodMatch[2].toLowerCase();
+        const methodName = methodMatch[2];
+        const description = (methodMatch[3] || '').trim();
         const classUrl = resolveTypeUrl(className, typeLinkCtx);
+        const methodRef = `\\${className}::${methodName}()`;
         if (classUrl) {
-          return `- [\`${v}\`](${classUrl}#${methodName})`;
+          const link = `[\`${methodRef}\`](${classUrl}#${methodName.toLowerCase()})`;
+          return description ? `- ${link} ${description}` : `- ${link}`;
         }
+        // No link available, but still format nicely
+        return description ? `- \`${methodRef}\` ${description}` : `- \`${methodRef}\``;
+      }
+
+      // Handle standalone function references like "functionName()" or "gravityview_get_entry()"
+      const funcMatch = v.match(/^\\?([a-z_][a-z0-9_]*)\(\)$/i);
+      if (funcMatch) {
+        const funcName = funcMatch[1];
+        const funcSlug = slugify(funcName);
+        // Link to functions directory (relative path from classes/classname/ is ../../functions/)
+        const funcUrl = `../../functions/${funcSlug}`;
+        return `- [\`${funcName}()\`](${funcUrl})`;
       }
 
       const url = resolveTypeUrl(v, typeLinkCtx);
@@ -985,12 +1032,19 @@ ${rows}
 
 /**
  * Render @since tags - single entry inline, multiple as bullet list.
+ * Links version numbers to since tag pages.
  */
 function renderSinceTags(since) {
   if (!since || since.length === 0) return '';
 
   const formatEntry = (v) => {
-    const ver = `\`${mdEscape(v.version)}\``;
+    const numericVersion = v.version.match(/^[\d.]+/)?.[0];
+    const versionSlug = numericVersion ? versionToSlug(numericVersion) : null;
+    // Link to since page if we have a valid numeric version
+    // Path is ../../../since/ because API docs are in api/classes/ or api/functions/
+    const ver = versionSlug
+      ? `[\`${mdEscape(v.version)}\`](../../../since/${versionSlug}/)`
+      : `\`${mdEscape(v.version)}\``;
     return v.description ? `${ver} (${mdEscape(v.description)})` : ver;
   };
 
@@ -1369,13 +1423,14 @@ ${sourceLine ? `\n**Source:** ${sourceLine}\n` : ''}`;
 
   const since = (classSymbol.tags?.since ?? []).map(parseSinceTagValue).filter(Boolean);
   const deprecated = (classSymbol.tags?.deprecated ?? []).map(parseDeprecatedTagValue).filter(Boolean);
+  const versionTags = extractVersionTags(since);
 
   return `---
 title: ${fqcn}
 sidebar_label: ${shortName}
 pagination_prev: null
 pagination_next: null
----
+${formatTagsYaml(versionTags)}---
 
 # \`${fqcn}\`
 
@@ -1425,6 +1480,7 @@ function generateFunctionPage({ functionSymbol, product, repoRef, typeLinkCtx })
   const deprecated = (functionSymbol.tags?.deprecated ?? []).map(parseDeprecatedTagValue).filter(Boolean);
   const throwsList = (functionSymbol.tags?.throws ?? []).map(parseThrowsTagValue).filter(Boolean);
   const returnsList = (functionSymbol.tags?.return ?? []).map(parseReturnTagValue).filter(Boolean);
+  const versionTags = extractVersionTags(since);
 
   const { params, returnType } = mergeParams({ signature: functionSymbol.signature, doc: functionSymbol });
   const paramsTable = renderParamsTable(params, typeLinkCtx);
@@ -1447,7 +1503,7 @@ title: ${fqfn}
 sidebar_label: ${shortName}()
 pagination_prev: null
 pagination_next: null
----
+${formatTagsYaml(versionTags)}---
 
 # \`${fqfn}()\`
 
