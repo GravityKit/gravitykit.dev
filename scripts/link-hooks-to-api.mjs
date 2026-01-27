@@ -130,6 +130,85 @@ function looksLikeClassName(token) {
   return /^[A-Za-z_][A-Za-z0-9_]*(?:\\[A-Za-z_][A-Za-z0-9_]*)+$/.test(cleaned);
 }
 
+/**
+ * Collect available methods for each class from API class docs.
+ * Returns Map<classSlug, Set<methodName>>
+ */
+function collectMethodsByClass(classesDir) {
+  const methodsByClass = new Map();
+  if (!fs.existsSync(classesDir)) return methodsByClass;
+
+  const files = fs.readdirSync(classesDir).filter((f) => f.endsWith('.md') && f !== 'index.md');
+
+  for (const file of files) {
+    const slug = file.replace(/\.md$/i, '');
+    const content = fs.readFileSync(path.join(classesDir, file), 'utf8');
+
+    // Extract method names from ### `methodName()` headers
+    const methods = new Set();
+    const methodPattern = /^###\s+`(\w+)\(\)`/gm;
+    for (const m of content.matchAll(methodPattern)) {
+      methods.add(m[1]);
+    }
+
+    methodsByClass.set(slug, methods);
+  }
+
+  return methodsByClass;
+}
+
+/**
+ * Resolve a symbol reference (Class::method or Class) to a markdown link.
+ * Returns the linked markdown or null if not resolvable.
+ */
+function resolveSymbolLink(ref, ctx) {
+  const { classesDir, classSlugs, methodsByClass, fromDir } = ctx;
+
+  // Clean the reference: remove trailing (), leading backslashes
+  const cleaned = ref.replace(/\(\)$/, '').trim();
+
+  // Check for Class::method pattern
+  const methodMatch = cleaned.match(/^\\?(.+)::(\w+)$/);
+  if (methodMatch) {
+    const className = methodMatch[1].replace(/^\\+/, '');
+    const methodName = methodMatch[2];
+    const slug = slugify(className);
+
+    if (classSlugs.has(slug)) {
+      const classMethods = methodsByClass.get(slug) || new Set();
+      const targetPath = path.join(classesDir, `${slug}.md`);
+      let rel = path.relative(fromDir, targetPath).split(path.sep).join('/');
+      // Docusaurus URLs have trailing slash, so each page is treated as a directory.
+      // Add extra ../ to account for the source file's "virtual directory"
+      rel = '../' + rel;
+      const url = rel.replace(/\.md$/i, '');
+
+      // Add method anchor if method exists
+      const anchor = classMethods.has(methodName) ? `#${methodName.toLowerCase()}` : '';
+      const display = cleaned.startsWith('\\') ? cleaned : `\\${cleaned}`;
+      return `[\`${display}()\`](${url}${anchor})`;
+    }
+  }
+
+  // Handle class-only reference (with namespace)
+  const classOnly = cleaned.replace(/^\\+/, '');
+  if (classOnly.includes('\\')) {
+    const slug = slugify(classOnly);
+    if (classSlugs.has(slug)) {
+      const targetPath = path.join(classesDir, `${slug}.md`);
+      let rel = path.relative(fromDir, targetPath).split(path.sep).join('/');
+      // Docusaurus URLs have trailing slash, so each page is treated as a directory.
+      // Add extra ../ to account for the source file's "virtual directory"
+      rel = '../' + rel;
+      const url = rel.replace(/\.md$/i, '');
+      const display = cleaned.startsWith('\\') ? cleaned : `\\${cleaned}`;
+      return `[\`${display}\`](${url})`;
+    }
+  }
+
+  return null;
+}
+
 function renderTypeSpan(inner, { classesDir, classSlugs, fromDir }) {
   const raw = String(inner ?? '').trim();
   if (!raw.includes('\\')) return null;
@@ -155,7 +234,10 @@ function renderTypeSpan(inner, { classesDir, classSlugs, fromDir }) {
 
     if (hasClass && slug && classSlugs.has(slug)) {
       const targetPath = path.join(classesDir, `${slug}.md`);
-      const rel = path.relative(fromDir, targetPath).split(path.sep).join('/');
+      let rel = path.relative(fromDir, targetPath).split(path.sep).join('/');
+      // Docusaurus URLs have trailing slash, so each page is treated as a directory.
+      // Add extra ../ to account for the source file's "virtual directory"
+      rel = '../' + rel;
       const url = rel.replace(/\.md$/i, '');
       const display = tok.startsWith('\\') ? tok : `\\${tok}`;
       rendered.push(`<a href="${escapeHtmlAttribute(url)}">${escapeHtml(display.replace(/\[\]$/g, ''))}</a>${escapeHtml(arraySuffix)}`);
@@ -170,16 +252,55 @@ function renderTypeSpan(inner, { classesDir, classSlugs, fromDir }) {
   }
 
   if (!linkedAny) return null;
-  return `<code>${rendered.join('')}</code>`;
+  // Don't wrap in <code> since it contains links - MDX would convert to <pre>
+  return rendered.join('');
 }
 
-function linkHookFile({ filePath, classesDir, classSlugs, dryRun }) {
+function linkHookFile({ filePath, classesDir, classSlugs, methodsByClass, dryRun }) {
   const original = fs.readFileSync(filePath, 'utf8');
   const fromDir = path.dirname(filePath);
+  const ctx = { classesDir, classSlugs, methodsByClass, fromDir };
 
-  const updated = original.replace(/\`([^\`]+)\`/g, (match, inner, offset) => {
-    const before = original[offset - 1] ?? '';
-    const after = original.slice(offset + match.length, offset + match.length + 2);
+  let updated = original;
+
+  // 1. Handle {@see ...} inline patterns (escaped or not)
+  // Matches: \{@see \GV\View::as_data()\} or {@see \get_bloginfo()}
+  // Note: Both braces may be escaped with backslashes, use lazy match
+  updated = updated.replace(/\\?\{@see\s+(.*?)\\?\}/g, (match, ref) => {
+    const linked = resolveSymbolLink(ref.trim(), ctx);
+    if (linked) {
+      // Replace with just the link (removing the @see wrapper)
+      return linked;
+    }
+    return match;
+  });
+
+  // 2. Handle See Also section backtick entries with :: method references
+  // Matches: - `ClassName::methodName` or - `\Namespace\Class::method`
+  updated = updated.replace(/^(-\s+)`([^`]+::[^`]+)`$/gm, (match, prefix, ref) => {
+    const linked = resolveSymbolLink(ref.trim(), ctx);
+    if (linked) {
+      return `${prefix}${linked}`;
+    }
+    return match;
+  });
+
+  // 3. Handle See Also section backtick entries for classes (without ::)
+  // Matches: - `\Namespace\ClassName` in See Also sections
+  updated = updated.replace(/^(-\s+)`(\\[^`]+)`$/gm, (match, prefix, ref) => {
+    // Skip if it contains ::
+    if (ref.includes('::')) return match;
+    const linked = resolveSymbolLink(ref.trim(), ctx);
+    if (linked) {
+      return `${prefix}${linked}`;
+    }
+    return match;
+  });
+
+  // 4. Handle inline backtick type references (existing logic)
+  updated = updated.replace(/\`([^\`]+)\`/g, (match, inner, offset) => {
+    const before = updated[offset - 1] ?? '';
+    const after = updated.slice(offset + match.length, offset + match.length + 2);
     if (before === '[' && after === '](') return match; // already linked
 
     const html = renderTypeSpan(inner, { classesDir, classSlugs, fromDir });
@@ -221,14 +342,18 @@ function main() {
         .map((f) => f.replace(/\.md$/i, ''))
     );
 
+    // Collect methods for each class to enable method anchor linking
+    const methodsByClass = collectMethodsByClass(classesDir);
+
     const hookFiles = [
       ...collectMarkdownFiles(path.join(productDir, 'actions')),
       ...collectMarkdownFiles(path.join(productDir, 'filters')),
+      ...collectMarkdownFiles(path.join(productDir, 'api', 'functions')),
     ];
 
     let productChanged = 0;
     for (const filePath of hookFiles) {
-      const res = linkHookFile({ filePath, classesDir, classSlugs, dryRun: args.dryRun });
+      const res = linkHookFile({ filePath, classesDir, classSlugs, methodsByClass, dryRun: args.dryRun });
       if (res.changed) {
         productChanged++;
         changedFiles++;
