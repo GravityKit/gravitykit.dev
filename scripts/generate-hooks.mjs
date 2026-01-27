@@ -158,9 +158,18 @@ function deleteDirRecursive(dir) {
 
 /**
  * Generate a _category_.json file for Docusaurus sidebar ordering
+ * Only generates if directory exists and has content
  */
 function generateCategoryJson(dir, label, position) {
   if (!fs.existsSync(dir)) {
+    return;
+  }
+
+  // Check if directory has any markdown files (excluding index.md)
+  const hasContent = fs.readdirSync(dir).some(f => f.endsWith('.md') && f !== 'index.md');
+  if (!hasContent) {
+    // Remove empty directory
+    fs.rmSync(dir, { recursive: true, force: true });
     return;
   }
 
