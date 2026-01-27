@@ -158,6 +158,7 @@ const product_sitemaps_plugin = [
   },
 ];
 
+
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'GravityKit Developer Documentation',
@@ -205,11 +206,6 @@ const config = {
         href: normalizeUrl([site_url, base_url, 'sitemap-products.xml']),
       },
     },
-  ],
-
-  // Client modules for dynamic head injection
-  clientModules: [
-    fileURLToPath(new URL('./src/clientModules/productSitemapHead.js', import.meta.url)),
   ],
 
   // Even if you don't use internationalization, you can use this field to set
