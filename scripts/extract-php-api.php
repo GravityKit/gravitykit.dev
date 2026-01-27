@@ -374,6 +374,149 @@ function extractSymbolsFromFile(string $filePath, string $root): array {
       continue;
     }
 
+    // Property detection: public|protected|private [static] [readonly] [?Type] $name
+    if ($atClassTopLevel && ($id === T_PUBLIC || $id === T_PROTECTED || $id === T_PRIVATE || $id === T_VAR)) {
+      // Look ahead to check if this is a property (not a function)
+      $propStartIdx = $i;
+      $visibility = 'public';
+      if ($id === T_PRIVATE) $visibility = 'private';
+      if ($id === T_PROTECTED) $visibility = 'protected';
+
+      $static = false;
+      $readonly = false;
+      $propType = '';
+      $propName = null;
+      $propDefault = null;
+
+      $j = $i + 1;
+      while ($j < $count) {
+        $jt = $tokens[$j];
+        $jid = tokenId($jt);
+        $jtx = tokenText($jt);
+
+        // Skip whitespace and comments
+        if ($jid === T_WHITESPACE || $jid === T_COMMENT) {
+          $j++;
+          continue;
+        }
+
+        // Check for modifiers
+        if ($jid === T_STATIC) {
+          $static = true;
+          $j++;
+          continue;
+        }
+        if (defined('T_READONLY') && $jid === T_READONLY) {
+          $readonly = true;
+          $j++;
+          continue;
+        }
+        if ($jid === T_PUBLIC || $jid === T_PROTECTED || $jid === T_PRIVATE) {
+          if ($jid === T_PRIVATE) $visibility = 'private';
+          if ($jid === T_PROTECTED) $visibility = 'protected';
+          if ($jid === T_PUBLIC) $visibility = 'public';
+          $j++;
+          continue;
+        }
+
+        // If we hit T_FUNCTION, this is a method not a property
+        if ($jid === T_FUNCTION) {
+          break;
+        }
+
+        // If we hit T_CONST, skip
+        if ($jid === T_CONST) {
+          break;
+        }
+
+        // Type hint (nullable or regular)
+        if ($jtx === '?') {
+          $propType = '?';
+          $j++;
+          continue;
+        }
+        if (isNameToken($jt)) {
+          [$typeName, $j] = readQualifiedName($tokens, $j);
+          $propType .= $typeName;
+          continue;
+        }
+
+        // Variable name
+        if ($jid === T_VARIABLE) {
+          $propName = $jtx;
+          $j++;
+
+          // Look for default value
+          while ($j < $count) {
+            $dt = $tokens[$j];
+            $did = tokenId($dt);
+            $dtx = tokenText($dt);
+
+            if ($did === T_WHITESPACE || $did === T_COMMENT) {
+              $j++;
+              continue;
+            }
+
+            if ($dtx === '=') {
+              $j++;
+              $defaultParts = '';
+              $parenDepth = 0;
+              $bracketDepth = 0;
+              while ($j < $count) {
+                $vt = $tokens[$j];
+                $vtx = tokenText($vt);
+                if ($vtx === '(') $parenDepth++;
+                if ($vtx === ')') $parenDepth--;
+                if ($vtx === '[') $bracketDepth++;
+                if ($vtx === ']') $bracketDepth--;
+                if (($vtx === ';' || $vtx === ',') && $parenDepth === 0 && $bracketDepth === 0) break;
+                $defaultParts .= $vtx;
+                $j++;
+              }
+              $propDefault = trim($defaultParts);
+              break;
+            }
+
+            if ($dtx === ';' || $dtx === ',') {
+              break;
+            }
+
+            $j++;
+          }
+          break;
+        }
+
+        // Anything else, break out
+        break;
+      }
+
+      // If we found a property name, record it
+      if ($propName !== null) {
+        $classIndex = $classStack[count($classStack) - 1]['index'];
+        $line = tokenLine($tok);
+        $doc = null;
+        if ($lastDoc && ($line - $lastDoc['endLine']) <= 2) {
+          $doc = $lastDoc['text'];
+        }
+        $lastDoc = null;
+
+        $classes[$classIndex]['properties'][] = [
+          'name' => ltrim($propName, '$'),
+          'visibility' => $visibility,
+          'static' => $static,
+          'readonly' => $readonly,
+          'type' => $propType,
+          'default' => $propDefault,
+          'line' => $line,
+          'docblock' => $doc,
+          'file' => relativePath($filePath, $root),
+        ];
+
+        $i = $j - 1;
+        continue;
+      }
+    }
+
     if ($id === T_FUNCTION) {
       $nameIdx = nextNonIgnorableIndex($tokens, $i + 1);
       if ($nameIdx < 0) continue;

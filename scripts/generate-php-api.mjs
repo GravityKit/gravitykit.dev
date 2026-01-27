@@ -107,6 +107,19 @@ function parseSymbolReference(ref, result) {
   const cleaned = ref.replace(/\(\)$/, '').replace(/^\\+/, '').trim();
   if (!cleaned) return;
 
+  // Check for Class::$property pattern (property references)
+  const propertyMatch = cleaned.match(/^(.+)::\$(\w+)$/);
+  if (propertyMatch) {
+    const className = propertyMatch[1].replace(/^\\+/, '');
+    const propertyName = propertyMatch[2];
+    result.classes.add(className);
+    if (!result.properties.has(className)) {
+      result.properties.set(className, new Set());
+    }
+    result.properties.get(className).add(propertyName);
+    return;
+  }
+
   // Check for Class::method pattern
   const methodMatch = cleaned.match(/^(.+)::(\w+)$/);
   if (methodMatch) {
@@ -143,6 +156,7 @@ function extractReferencedSymbolsFromText(markdown) {
   const result = {
     classes: new Set(),
     methods: new Map(),
+    properties: new Map(),
     functions: new Set(),
   };
 
@@ -210,7 +224,7 @@ function extractReferencedSymbolsFromText(markdown) {
 
 /**
  * Collect all referenced symbols from hooks documentation.
- * Returns: { classes: Set, methods: Map<className, Set<methodName>>, functions: Set }
+ * Returns: { classes: Set, methods: Map, properties: Map, functions: Set }
  */
 function collectReferencedSymbolsFromHooksDocs({ outputBaseDir, productId }) {
   const base = path.join(outputBaseDir, productId);
@@ -221,6 +235,7 @@ function collectReferencedSymbolsFromHooksDocs({ outputBaseDir, productId }) {
   const result = {
     classes: new Set(),
     methods: new Map(),
+    properties: new Map(),
     functions: new Set(),
   };
 
@@ -238,6 +253,16 @@ function collectReferencedSymbolsFromHooksDocs({ outputBaseDir, productId }) {
       }
       for (const m of methods) {
         result.methods.get(className).add(m);
+      }
+    }
+
+    // Merge properties
+    for (const [className, properties] of extracted.properties) {
+      if (!result.properties.has(className)) {
+        result.properties.set(className, new Set());
+      }
+      for (const p of properties) {
+        result.properties.get(className).add(p);
       }
     }
 
@@ -419,6 +444,13 @@ function parseDeprecatedTagValue(value) {
   const match = v.match(/^([0-9][0-9A-Za-z.\-_]*)(?:\s+([\s\S]+))?$/);
   if (match) return { version: match[1] ?? '', description: (match[2] ?? '').trim() };
   return { version: '', description: v };
+}
+
+function parseVarTagValue(value) {
+  const v = String(value ?? '').trim();
+  if (!v) return null;
+  const parts = v.split(/\s+/);
+  return { type: parts[0] ?? '', description: parts.slice(1).join(' ').trim() };
 }
 
 function splitTopLevelCommas(input) {
@@ -1031,6 +1063,52 @@ function generateClassPage({ productLabel, classSymbol, product, repoRef, typeLi
   const extendsList = Array.isArray(classSymbol.extends) ? classSymbol.extends : [];
   const implementsList = Array.isArray(classSymbol.implements) ? classSymbol.implements : [];
 
+  // Parse properties
+  const properties = (classSymbol.properties ?? []).map((p) => {
+    const doc = parseDocblock(p.docblock);
+    const varTag = parseVarTagValue((doc.tags?.var ?? [])[0]);
+    const propType = varTag?.type || p.type || '';
+    const propDesc = cleanDescription(varTag?.description || doc.summary || '');
+    return {
+      ...p,
+      summary: propDesc,
+      type: propType,
+      tags: doc.tags,
+      internal: doc.internal,
+    };
+  }).filter((p) => !p.internal && p.visibility !== 'private');
+
+  const propertyTableRows = properties.length
+    ? properties
+        .map((p) => {
+          const modifiers = [p.visibility || 'public'];
+          if (p.static) modifiers.push('static');
+          if (p.readonly) modifiers.push('readonly');
+          return `| [\`$${p.name}\`](#${p.name.toLowerCase()}) | ${codeInlineType(p.type, typeLinkCtx)} | ${mdEscape(p.summary || '')} |`;
+        })
+        .join('\n')
+    : '';
+
+  const propertySections = properties
+    .filter((p) => p.summary || p.type)
+    .map((p) => {
+      const sourceLine = formatSourceMarkdown({ product, repoRef, file: p.file || classSymbol.file, line: p.line });
+      const since = (p.tags?.since ?? []).map(parseSinceTagValue).filter(Boolean);
+      const modifiers = [p.visibility || 'public'];
+      if (p.static) modifiers.push('static');
+      if (p.readonly) modifiers.push('readonly');
+      const modifierStr = modifiers.join(' ');
+
+      return `### \`$${p.name}\`
+
+\`${modifierStr} ${p.type ? p.type + ' ' : ''}$${p.name}${p.default ? ` = ${phpShortArraySyntax(p.default)}` : ''}\`
+
+${processInlineSeeRefs(p.summary || '')}
+${renderSinceTags(since)}
+${sourceLine ? `\n**Source:** ${sourceLine}\n` : ''}`;
+    })
+    .join('\n\n');
+
   const methods = classSymbol.methods ?? [];
   const methodTableRows = methods.length
     ? methods
@@ -1110,14 +1188,20 @@ ${source ? `\n**Source:** ${source}\n` : ''}
 - **Namespace:** \`${classSymbol.namespace || '(global)'}\`
 ${extendsList.length ? `- **Extends:** ${renderTypeListInline(extendsList, typeLinkCtx)}` : ''}
 ${implementsList.length ? `- **Implements:** ${renderTypeListInline(implementsList, typeLinkCtx)}` : ''}
+${properties.length ? `
+## Properties
 
+| Property | Type | Description |
+| --- | --- | --- |
+${propertyTableRows}
+` : ''}
 ## Methods
 
 ${methods.length ? `| Method | Description | Signature |
 | --- | --- | --- |
 ${methodTableRows}
 ` : '_No documented public methods found._'}
-
+${propertySections ? `\n## Property Reference\n\n${propertySections}\n` : ''}
 ${methodSections ? `\n## Method Reference\n\n${methodSections}\n` : ''}
 `;
 }
