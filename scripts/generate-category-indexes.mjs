@@ -12,7 +12,11 @@ import { fileURLToPath } from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const docsDir = path.join(__dirname, '..', 'docs');
 
-// Find all actions and filters directories (lowercase)
+/**
+ * Find all actions and filters directories (lowercase).
+ * @param {string} dir
+ * @returns {string[]}
+ */
 function findCategoryDirs(dir) {
   const results = [];
   const entries = fs.readdirSync(dir, { withFileTypes: true });
@@ -31,13 +35,21 @@ function findCategoryDirs(dir) {
   return results;
 }
 
-// Count markdown files in a directory (excluding index.md)
+/**
+ * Count markdown files in a directory (excluding index.md).
+ * @param {string} dir
+ * @returns {number}
+ */
 function countHooks(dir) {
   const files = fs.readdirSync(dir);
   return files.filter(f => f.endsWith('.md') && f !== 'index.md').length;
 }
 
-// Get product name from path
+/**
+ * Get product name from path.
+ * @param {string} dirPath
+ * @returns {string}
+ */
 function getProductName(dirPath) {
   const parts = dirPath.split(path.sep);
   const docsIndex = parts.indexOf('docs');
@@ -51,7 +63,12 @@ function getProductName(dirPath) {
   return 'Unknown Product';
 }
 
-// Generate index.md content
+/**
+ * Generate index.md content.
+ * @param {string} dirPath
+ * @param {string} category
+ * @returns {string}
+ */
 function generateIndexContent(dirPath, category) {
   const productName = getProductName(dirPath);
   const hookCount = countHooks(dirPath);

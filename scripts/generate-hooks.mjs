@@ -28,7 +28,9 @@ const PROJECT_ROOT = path.resolve(__dirname, '..');
 const TEMPLATES_DIR = path.join(PROJECT_ROOT, 'templates', 'hooks');
 
 /**
- * Load a template file
+ * Load a template file.
+ * @param {string} name
+ * @returns {string}
  */
 function loadTemplate(name) {
   const templatePath = path.join(TEMPLATES_DIR, `${name}.md`);
@@ -39,8 +41,11 @@ function loadTemplate(name) {
 }
 
 /**
- * Render a template with variables
- * Supports {{variable}} and {{#condition}}...{{/condition}} blocks
+ * Render a template with variables.
+ * Supports {{variable}} and {{#condition}}...{{/condition}} blocks.
+ * @param {string} template
+ * @param {Record<string, unknown>} vars
+ * @returns {string}
  */
 function renderTemplate(template, vars) {
   let result = template;
@@ -70,32 +75,64 @@ const colors = {
   cyan: '\x1b[36m',
 };
 
+/**
+ * Log a message with optional ANSI color.
+ * @param {string} message
+ * @param {string} [color]
+ * @returns {void}
+ */
 function log(message, color = '') {
   console.log(`${color}${message}${colors.reset}`);
 }
 
+/**
+ * Log an informational message.
+ * @param {string} message
+ * @returns {void}
+ */
 function logInfo(message) {
   log(`ℹ️  ${message}`, colors.blue);
 }
 
+/**
+ * Log a success message.
+ * @param {string} message
+ * @returns {void}
+ */
 function logSuccess(message) {
   log(`✅ ${message}`, colors.green);
 }
 
+/**
+ * Log a warning message.
+ * @param {string} message
+ * @returns {void}
+ */
 function logWarning(message) {
   log(`⚠️  ${message}`, colors.yellow);
 }
 
+/**
+ * Log an error message.
+ * @param {string} message
+ * @returns {void}
+ */
 function logError(message) {
   log(`❌ ${message}`, colors.red);
 }
 
+/**
+ * Log a step heading.
+ * @param {string} message
+ * @returns {void}
+ */
 function logStep(message) {
   log(`\n${colors.bright}▶ ${message}${colors.reset}`);
 }
 
 /**
- * Load configuration from repos-config.json
+ * Load configuration from repos-config.json.
+ * @returns {object}
  */
 function loadConfig() {
   const configPath = path.join(PROJECT_ROOT, 'repos-config.json');
@@ -109,7 +146,8 @@ function loadConfig() {
 }
 
 /**
- * Check if wp-hooks-documentor is available (via npx for local install)
+ * Check if wp-hooks-documentor is available (via npx for local install).
+ * @returns {boolean}
  */
 function checkWpHooksDocumentor() {
   // Try running via npx which finds locally installed packages
@@ -126,7 +164,10 @@ function checkWpHooksDocumentor() {
 }
 
 /**
- * Copy directory recursively
+ * Copy a directory recursively.
+ * @param {string} src
+ * @param {string} dest
+ * @returns {void}
  */
 function copyDirRecursive(src, dest) {
   if (!fs.existsSync(src)) return;
@@ -148,7 +189,9 @@ function copyDirRecursive(src, dest) {
 }
 
 /**
- * Delete directory recursively
+ * Delete a directory recursively.
+ * @param {string} dir
+ * @returns {void}
  */
 function deleteDirRecursive(dir) {
   if (fs.existsSync(dir)) {
@@ -157,8 +200,12 @@ function deleteDirRecursive(dir) {
 }
 
 /**
- * Generate a _category_.json file for Docusaurus sidebar ordering
- * Only generates if directory exists and has content
+ * Generate a _category_.json file for Docusaurus sidebar ordering.
+ * Only generates if directory exists and has content.
+ * @param {string} dir
+ * @param {string} label
+ * @param {number} position
+ * @returns {void}
  */
 function generateCategoryJson(dir, label, position) {
   if (!fs.existsSync(dir)) {
@@ -183,7 +230,10 @@ function generateCategoryJson(dir, label, position) {
 }
 
 /**
- * Rename directory to lowercase if it exists
+ * Rename a directory to lowercase if it exists.
+ * @param {string} dir
+ * @param {string} name
+ * @returns {void}
  */
 function lowercaseDirectory(dir, name) {
   const upperPath = path.join(dir, name);
@@ -198,8 +248,10 @@ function lowercaseDirectory(dir, name) {
 }
 
 /**
- * Add tags to hook markdown files based on @since versions
- * Also converts the Since section to link to the tag pages
+ * Add tags to hook markdown files based on @since versions.
+ * Also converts the Since section to link to the tag pages.
+ * @param {string} outputDir
+ * @returns {void}
  */
 function addTagsToHooks(outputDir) {
   const dirs = ['actions', 'filters'];
@@ -264,7 +316,8 @@ function addTagsToHooks(outputDir) {
 }
 
 /**
- * Load type links configuration
+ * Load type links configuration.
+ * @returns {Record<string, string>}
  */
 function loadTypeLinks() {
   const typeLinksPath = path.join(PROJECT_ROOT, 'type-links.json');
@@ -281,8 +334,10 @@ function loadTypeLinks() {
 }
 
 /**
- * Link parameter types in hook markdown files to their documentation
- * Converts `GF_Field_Address` or `\GF_Field_Address` to linked versions
+ * Link parameter types in hook markdown files to their documentation.
+ * Converts `GF_Field_Address` or `\\GF_Field_Address` to linked versions.
+ * @param {string} outputDir
+ * @returns {void}
  */
 function linkParameterTypes(outputDir) {
   const typeLinks = loadTypeLinks();
@@ -327,14 +382,127 @@ function linkParameterTypes(outputDir) {
 }
 
 /**
- * Escape special regex characters in a string
+ * Ensure there is a blank line before headings.
+ * @param {string} outputDir
+ * @returns {void}
  */
-function escapeRegExp(string) {
-  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+function ensureSourceHeadingSpacing(outputDir) {
+  const dirs = ['actions', 'filters'];
+
+  for (const subdir of dirs) {
+    const dirPath = path.join(outputDir, subdir);
+    if (!fs.existsSync(dirPath)) {
+      continue;
+    }
+
+    const files = fs
+      .readdirSync(dirPath)
+      .filter((file) => file.endsWith('.md') && file !== 'index.md');
+
+    for (const file of files) {
+      const filePath = path.join(dirPath, file);
+      const content = fs.readFileSync(filePath, 'utf8');
+
+      const updated = content.replace(
+        /([^\n])\n(#{2,3}\s+Source)/g,
+        '$1\n\n$2'
+      );
+
+      if (updated !== content) {
+        fs.writeFileSync(filePath, updated);
+      }
+    }
+  }
 }
 
 /**
- * Run wp-hooks-documentor for a product
+ * Remove empty heading sections from hook markdown files.
+ * @param {string} outputDir
+ * @returns {void}
+ */
+function removeEmptySections(outputDir) {
+  const dirs = ['actions', 'filters', 'Actions', 'Filters'];
+  const headingRe = /^(#{2,6})\s+(.+?)\s*$/;
+
+  for (const subdir of dirs) {
+    const dirPath = path.join(outputDir, subdir);
+    if (!fs.existsSync(dirPath)) {
+      continue;
+    }
+
+    const files = fs
+      .readdirSync(dirPath)
+      .filter((file) => (file.endsWith('.md') || file.endsWith('.mdx')) && file !== 'index.md');
+
+    for (const file of files) {
+      const filePath = path.join(dirPath, file);
+      const content = fs.readFileSync(filePath, 'utf8');
+      const endsWithNewline = content.endsWith('\n');
+      const lines = content.split(/\r?\n/);
+      const output = [];
+      let changed = false;
+      let i = 0;
+
+      while (i < lines.length) {
+        const match = headingRe.exec(lines[i]);
+        if (!match) {
+          output.push(lines[i]);
+          i += 1;
+          continue;
+        }
+
+        const level = match[1].length;
+        let j = i + 1;
+
+        while (j < lines.length) {
+          const nextMatch = headingRe.exec(lines[j]);
+          if (nextMatch && nextMatch[1].length <= level) {
+            break;
+          }
+          j += 1;
+        }
+
+        const sectionLines = lines.slice(i + 1, j);
+        const isEmpty = sectionLines.every((line) => line.trim() === '');
+
+        if (isEmpty) {
+          changed = true;
+          i = j;
+          continue;
+        }
+
+        output.push(lines[i], ...sectionLines);
+        i = j;
+      }
+
+      if (changed) {
+        let nextContent = output.join('\n');
+        if (endsWithNewline && !nextContent.endsWith('\n')) {
+          nextContent += '\n';
+        }
+        if (nextContent !== content) {
+          fs.writeFileSync(filePath, nextContent);
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Escape special regex characters in a string.
+ * @param {string} value
+ * @returns {string}
+ */
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+/**
+ * Run wp-hooks-documentor for a product.
+ * @param {object} product
+ * @param {object} config
+ * @param {object} options
+ * @returns {{ok: boolean, id: string, reason?: string, action?: string}}
  */
 function generateHooksDocs(product, config, options) {
   const reposDir = path.resolve(PROJECT_ROOT, config.reposDir);
@@ -480,6 +648,12 @@ function generateHooksDocs(product, config, options) {
     // Link parameter types to their documentation
     linkParameterTypes(finalOutputDir);
 
+    // Normalize spacing before "### Source" headings
+    ensureSourceHeadingSpacing(finalOutputDir);
+
+    // Remove empty sections like "## Returns" with no content
+    removeEmptySections(finalOutputDir);
+
     // Generate index.md for the product and subdirectories
     generateProductIndex(product, finalOutputDir);
     generateActionsIndex(product, finalOutputDir);
@@ -497,7 +671,10 @@ function generateHooksDocs(product, config, options) {
 }
 
 /**
- * Generate an index.md file for a product's hooks documentation
+ * Generate an index.md file for a product's hooks documentation.
+ * @param {object} product
+ * @param {string} outputDir
+ * @returns {void}
  */
 function generateProductIndex(product, outputDir) {
   const indexPath = path.join(outputDir, 'index.md');
@@ -527,7 +704,9 @@ function generateProductIndex(product, outputDir) {
 }
 
 /**
- * Extract sidebar_label from a markdown file's frontmatter
+ * Extract sidebar_label from a markdown file's frontmatter.
+ * @param {string} filePath
+ * @returns {string|null}
  */
 function getHookLabel(filePath) {
   try {
@@ -540,7 +719,9 @@ function getHookLabel(filePath) {
 }
 
 /**
- * Get hook info (filename and display label) from a directory
+ * Get hook info (filename and display label) from a directory.
+ * @param {string} dir
+ * @returns {Array<{filename: string, label: string}>}
  */
 function getHooksFromDir(dir) {
   if (!fs.existsSync(dir)) {
@@ -558,7 +739,10 @@ function getHooksFromDir(dir) {
 }
 
 /**
- * Generate an index.md file for the actions subdirectory
+ * Generate an index.md file for the actions subdirectory.
+ * @param {object} product
+ * @param {string} outputDir
+ * @returns {void}
  */
 function generateActionsIndex(product, outputDir) {
   const actionsDir = path.join(outputDir, 'actions');
@@ -583,7 +767,10 @@ function generateActionsIndex(product, outputDir) {
 }
 
 /**
- * Generate an index.md file for the filters subdirectory
+ * Generate an index.md file for the filters subdirectory.
+ * @param {object} product
+ * @param {string} outputDir
+ * @returns {void}
  */
 function generateFiltersIndex(product, outputDir) {
   const filtersDir = path.join(outputDir, 'filters');
@@ -608,7 +795,10 @@ function generateFiltersIndex(product, outputDir) {
 }
 
 /**
- * Generate main hooks index page
+ * Generate main hooks index page.
+ * @param {object} config
+ * @param {Array<{ok: boolean, id: string, action?: string}>} results
+ * @returns {void}
  */
 function generateMainIndex(config, results) {
   const outputDir = path.resolve(PROJECT_ROOT, config.outputDir);
@@ -694,7 +884,9 @@ function generateMainIndex(config, results) {
 }
 
 /**
- * Parse command line arguments
+ * Parse command line arguments.
+ * @param {string[]} args
+ * @returns {{product: string|null, dryRun: boolean, help: boolean, list: boolean}}
  */
 function parseArgs(args) {
   const options = {
@@ -722,7 +914,8 @@ function parseArgs(args) {
 }
 
 /**
- * Print help message
+ * Print help message.
+ * @returns {void}
  */
 function printHelp() {
   console.log(`
@@ -753,7 +946,9 @@ ${colors.cyan}Output:${colors.reset}
 }
 
 /**
- * Print list of available products
+ * Print list of available products.
+ * @param {Array<{id: string, label: string}>} products
+ * @returns {void}
  */
 function printProductList(products) {
   console.log(`
@@ -766,7 +961,8 @@ ${colors.dim}Use: npm run hooks:generate -- --product <id>${colors.reset}
 }
 
 /**
- * Main function
+ * Main entry point.
+ * @returns {Promise<number>}
  */
 async function main() {
   const args = process.argv.slice(2);

@@ -3,13 +3,11 @@
 /**
  * Enhance Documentation for LLM Consumption
  *
- * This script post-processes generated hooks documentation to make it
- * more useful for LLMs (Large Language Models) by:
+ * This script post-processes generated hooks documentation to:
  *
- * 1. Creating a comprehensive hooks.json index
- * 2. Adding structured JSON-LD data to frontmatter
- * 3. Adding code examples where missing
- * 4. Ensuring consistent formatting
+ * 1. Build per-product and full JSON hook indexes under static/api
+ * 2. Fill missing descriptions/examples in the JSON payloads
+ * 3. Update static/llms.txt with URL structure, per-product links, and stats
  *
  * Usage:
  *   npm run llm:enhance
@@ -18,6 +16,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { readAllProductVersions } from '../src/utils/read-product-versions.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -33,12 +32,22 @@ const colors = {
   cyan: '\x1b[36m',
 };
 
+/**
+ * Write a colored log message.
+ * @param {string} message
+ * @param {string} [color]
+ * @returns {void}
+ */
 function log(message, color = '') {
   console.log(`${color}${message}${colors.reset}`);
 }
 
 /**
- * Generate a description from hook name and type when one doesn't exist
+ * Generate a description from hook name and type when one doesn't exist.
+ * @param {string} hookName
+ * @param {string} hookType
+ * @param {Array<{name: string}>} [params]
+ * @returns {string}
  */
 function generateDescription(hookName, hookType, params = []) {
   // Parse the hook name to extract meaningful parts
@@ -63,7 +72,9 @@ function generateDescription(hookName, hookType, params = []) {
 }
 
 /**
- * Infer category/tags from hook name
+ * Infer category/tags from a hook name.
+ * @param {string} hookName
+ * @returns {string[]}
  */
 function inferCategories(hookName) {
   const categories = [];
@@ -102,7 +113,10 @@ function inferCategories(hookName) {
 }
 
 /**
- * Find related hooks based on naming patterns
+ * Find related hooks based on naming patterns.
+ * @param {string} hookName
+ * @param {string[]} allHookNames
+ * @returns {string[]}
  */
 function findRelatedHooks(hookName, allHookNames) {
   const related = [];
@@ -145,7 +159,11 @@ function findRelatedHooks(hookName, allHookNames) {
 }
 
 /**
- * Generate a usage example for JSON output
+ * Generate a usage example for JSON output.
+ * @param {string} hookName
+ * @param {string} hookType
+ * @param {Array<{name: string}>} [params]
+ * @returns {string}
  */
 function generateExample(hookName, hookType, params = []) {
   const paramList = params.map(p => `$${p.name}`).join(', ');
@@ -166,7 +184,11 @@ function generateExample(hookName, hookType, params = []) {
 }
 
 /**
- * Parse a hook markdown file and extract metadata
+ * Parse a hook markdown file and extract metadata.
+ * @param {string} filePath
+ * @param {string} productId
+ * @param {string} hookType
+ * @returns {object|null}
  */
 function parseHookFile(filePath, productId, hookType) {
   const content = fs.readFileSync(filePath, 'utf8');
@@ -276,7 +298,8 @@ function parseHookFile(filePath, productId, hookType) {
 }
 
 /**
- * Scan all products and collect hook data
+ * Scan all products and collect hook data.
+ * @returns {object}
  */
 function collectAllHooks() {
   const docsDir = path.join(PROJECT_ROOT, 'docs');
@@ -287,9 +310,12 @@ function collectAllHooks() {
   }
 
   const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+
+  // Read actual plugin versions from repositories
+  const productVersions = readAllProductVersions(config.products);
+
   const allHooks = {
     generated: new Date().toISOString(),
-    version: '1.0',
     products: {},
     hooks: [],
     stats: {
@@ -304,10 +330,12 @@ function collectAllHooks() {
     const productDir = path.join(docsDir, product.id);
     if (!fs.existsSync(productDir)) continue;
 
+    const productVersion = productVersions.get(product.id);
     const productHooks = {
       id: product.id,
       label: product.label,
       repo: product.repo,
+      ...(productVersion && { version: productVersion }), // Include version if found
       actions: [],
       filters: [],
     };
@@ -358,7 +386,8 @@ function collectAllHooks() {
 }
 
 /**
- * Main function
+ * Main entry point.
+ * @returns {Promise<number>}
  */
 async function main() {
   log('\n📚 Enhancing Documentation for LLM Consumption\n', colors.bright);
@@ -396,13 +425,13 @@ async function main() {
   // Step 3: Create index.json with product list and stats (lightweight)
   const indexData = {
     generated: hooksData.generated,
-    version: '1.0',
     baseUrl: '/api/hooks/',
     stats: hooksData.stats,
     products: Object.entries(hooksData.products).map(([id, info]) => ({
       id,
       label: info.label,
       repo: info.repo,
+      ...(info.version && { version: info.version }), // Include version if available
       actions: info.actions.length,
       filters: info.filters.length,
       total: info.actions.length + info.filters.length,
@@ -436,7 +465,7 @@ async function main() {
   fs.writeFileSync(compactJsonPath, JSON.stringify(compactHooks));
   log(`  Created: static/api/hooks-compact.json`, colors.green);
 
-  // Step 4: Create or update llms.txt with stats
+  // Step 6: Create or update root llms.txt with stats
   log('\n▶ Creating/Updating llms.txt...', colors.cyan);
   const llmsPath = path.join(PROJECT_ROOT, 'static', 'llms.txt');
 
@@ -451,6 +480,39 @@ async function main() {
 - **Filters:** ${hooksData.stats.totalFilters}
 - **Products:** ${hooksData.stats.productCount}
 - **Last Updated:** ${new Date().toISOString().split('T')[0]}
+`;
+
+  const urlStructureSection = `## URL Structure
+
+Documentation follows this pattern:
+- \`/docs/{product}/\` - Product overview
+- \`/docs/{product}/llms.txt\` - Product-specific AI documentation
+- \`/docs/{product}/actions/\` - All actions for product
+- \`/docs/{product}/filters/\` - All filters for product
+- \`/docs/{product}/actions/{hook-name}.md\` - Individual action documentation
+- \`/docs/{product}/filters/{hook-name}/\` - Individual filter documentation
+`;
+
+  const perProductSection = `## Per-Product Documentation Files
+
+For detailed product-specific documentation optimized for AI assistants, see:
+
+${Object.entries(hooksData.products)
+  .map(([productId, productInfo]) => {
+    const hookCount = hooksData.hooks.filter(h => h.product === productId).length;
+    return `- \`/docs/${productId}/llms.txt\` - ${productInfo.label} (${hookCount} hooks)`;
+  })
+  .join('\n')}
+
+These files provide:
+- Product overview and capabilities
+- Top 10-15 most commonly used hooks with full examples
+- Hooks organized by use case (display, data, fields, search, etc.)
+- Common integration patterns specific to each product
+- Hook naming conventions and best practices
+- Pro tips for AI assistants working with the product
+
+Use these files for focused, product-specific context when working with a particular GravityKit product.
 `;
 
   // Full template for llms.txt - used when file doesn't exist
@@ -480,14 +542,7 @@ This site documents WordPress hooks (actions and filters) for GravityKit product
 
 Plus 20+ additional products and extensions.
 
-## URL Structure
-
-Documentation follows this pattern:
-- \`/docs/{product}/\` - Product overview
-- \`/docs/{product}/actions/\` - All actions for product
-- \`/docs/{product}/filters/\` - All filters for product
-- \`/docs/{product}/actions/{hook-name}/\` - Individual action documentation
-- \`/docs/{product}/filters/{hook-name}/\` - Individual filter documentation
+${urlStructureSection}
 
 ## Machine-Readable Data
 
@@ -509,6 +564,8 @@ Example workflow:
 ### Product IDs
 ${productIds}
 
+${perProductSection}
+
 ## Related Resources
 
 - Main documentation: https://docs.gravitykit.com
@@ -518,7 +575,7 @@ ${productIds}
 ## For AI Assistants
 
 When helping developers with GravityKit:
-1. Check the specific product's hooks section
+1. Check the specific product's hooks section or use \`/docs/{product}/llms.txt\` for focused context
 2. Look for filters to modify data, actions for side effects
 3. Note the hook's parameters and their types
 4. Include the full hook name with any dynamic portions (e.g., \`{field_type}\`)
@@ -531,6 +588,36 @@ ${statsSection}`;
   if (fs.existsSync(llmsPath)) {
     // File exists - update the stats section
     llmsContent = fs.readFileSync(llmsPath, 'utf8');
+
+    // Replace or append URL structure section
+    if (llmsContent.includes('## URL Structure')) {
+      llmsContent = llmsContent.replace(
+        /## URL Structure[\s\S]*?(?=\n##|$)/,
+        urlStructureSection
+      );
+    } else if (llmsContent.includes('## Machine-Readable Data')) {
+      llmsContent = llmsContent.replace(
+        '## Machine-Readable Data',
+        `${urlStructureSection}\n\n## Machine-Readable Data`
+      );
+    } else {
+      llmsContent += `\n\n${urlStructureSection}`;
+    }
+
+    // Replace or append per-product section
+    if (llmsContent.includes('## Per-Product Documentation Files')) {
+      llmsContent = llmsContent.replace(
+        /## Per-Product Documentation Files[\s\S]*?(?=\n##|$)/,
+        perProductSection
+      );
+    } else if (llmsContent.includes('## Related Resources')) {
+      llmsContent = llmsContent.replace(
+        '## Related Resources',
+        `${perProductSection}\n\n## Related Resources`
+      );
+    } else {
+      llmsContent += `\n\n${perProductSection}`;
+    }
 
     // Replace or append stats
     if (llmsContent.includes('## Statistics (Auto-Updated)')) {
@@ -561,8 +648,9 @@ ${statsSection}`;
 
   log('Recommended usage:', colors.cyan);
   log('  1. Fetch /api/hooks/index.json to discover products');
-  log('  2. Fetch /api/hooks/{product}.json for specific product hooks');
-  log('  3. Use /llms.txt for AI assistant context\n');
+  log('  2. Fetch /api/hooks/{product}.json for specific product hooks (JSON)');
+  log('  3. Read /docs/{product}/llms.txt for AI-optimized product documentation');
+  log('  4. Use /llms.txt for overall AI assistant context\n');
 
   return 0;
 }

@@ -11,6 +11,7 @@ docs/
 # Generated API files (built by npm run llm:enhance)
 static/api/
 static/llms.txt
+static/docs/
 
 # Generated hooks config (built by npm run hooks:generate)
 wp-hooks-doc.json

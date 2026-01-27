@@ -38,32 +38,64 @@ const colors = {
   cyan: '\x1b[36m',
 };
 
+/**
+ * Log a message with optional ANSI color.
+ * @param {string} message
+ * @param {string} [color]
+ * @returns {void}
+ */
 function log(message, color = '') {
   console.log(`${color}${message}${colors.reset}`);
 }
 
+/**
+ * Log an informational message.
+ * @param {string} message
+ * @returns {void}
+ */
 function logInfo(message) {
   log(`ℹ️  ${message}`, colors.blue);
 }
 
+/**
+ * Log a success message.
+ * @param {string} message
+ * @returns {void}
+ */
 function logSuccess(message) {
   log(`✅ ${message}`, colors.green);
 }
 
+/**
+ * Log a warning message.
+ * @param {string} message
+ * @returns {void}
+ */
 function logWarning(message) {
   log(`⚠️  ${message}`, colors.yellow);
 }
 
+/**
+ * Log an error message.
+ * @param {string} message
+ * @returns {void}
+ */
 function logError(message) {
   log(`❌ ${message}`, colors.red);
 }
 
+/**
+ * Log a step heading.
+ * @param {string} message
+ * @returns {void}
+ */
 function logStep(message) {
   log(`\n${colors.bright}▶ ${message}${colors.reset}`);
 }
 
 /**
- * Load configuration from repos-config.json
+ * Load configuration from repos-config.json.
+ * @returns {object}
  */
 function loadConfig() {
   const configPath = path.join(PROJECT_ROOT, 'repos-config.json');
@@ -77,7 +109,8 @@ function loadConfig() {
 }
 
 /**
- * Check if git is available
+ * Check if git is available.
+ * @returns {boolean}
  */
 function checkGitAvailable() {
   const result = spawnSync('git', ['--version'], { encoding: 'utf8' });
@@ -88,14 +121,16 @@ function checkGitAvailable() {
 }
 
 /**
- * Check if GH_TOKEN environment variable is set (for CI/CD)
+ * Check if GH_TOKEN environment variable is set (for CI/CD).
+ * @returns {boolean}
  */
 function checkGhTokenAvailable() {
   return !!process.env.GH_TOKEN;
 }
 
 /**
- * Check if GitHub CLI is available and authenticated
+ * Check if GitHub CLI is available and authenticated.
+ * @returns {boolean}
  */
 function checkGhAvailable() {
   const result = spawnSync('gh', ['auth', 'status'], {
@@ -106,7 +141,10 @@ function checkGhAvailable() {
 }
 
 /**
- * Determine the best clone URL based on available authentication
+ * Determine the best clone URL based on available authentication.
+ * @param {string} repo
+ * @param {string} authMethod
+ * @returns {string}
  */
 function getCloneUrl(repo, authMethod) {
   if (authMethod === 'token') {
@@ -124,7 +162,12 @@ function getCloneUrl(repo, authMethod) {
 }
 
 /**
- * Clone a repository
+ * Clone a repository.
+ * @param {string} repo
+ * @param {string} targetDir
+ * @param {string} branch
+ * @param {string} authMethod
+ * @returns {Promise<{ok: boolean, repo: string, reason?: string}>}
  */
 function cloneRepo(repo, targetDir, branch, authMethod) {
   return new Promise((resolve) => {
@@ -168,7 +211,11 @@ function cloneRepo(repo, targetDir, branch, authMethod) {
 }
 
 /**
- * Update an existing repository
+ * Update an existing repository.
+ * @param {string} repoDir
+ * @param {string} repo
+ * @param {string} branch
+ * @returns {Promise<{ok: boolean, repo: string, action: string, error?: string}>}
  */
 function updateRepo(repoDir, repo, branch) {
   return new Promise((resolve) => {
@@ -212,7 +259,9 @@ function updateRepo(repoDir, repo, branch) {
 }
 
 /**
- * Delete a directory recursively
+ * Delete a directory recursively.
+ * @param {string} dir
+ * @returns {void}
  */
 function deleteDir(dir) {
   if (fs.existsSync(dir)) {
@@ -221,7 +270,11 @@ function deleteDir(dir) {
 }
 
 /**
- * Process a single product
+ * Process a single product.
+ * @param {object} product
+ * @param {object} config
+ * @param {object} options
+ * @returns {Promise<{ok: boolean, repo: string, action?: string, error?: string}>}
  */
 async function processProduct(product, config, options) {
   const reposDir = path.resolve(PROJECT_ROOT, config.reposDir);
@@ -245,7 +298,12 @@ async function processProduct(product, config, options) {
 }
 
 /**
- * Process products in parallel batches
+ * Process products in parallel batches.
+ * @param {object[]} products
+ * @param {object} config
+ * @param {object} options
+ * @param {number} parallelism
+ * @returns {Promise<Array<{ok: boolean, repo: string, action?: string, error?: string}>>}
  */
 async function processProductsInParallel(products, config, options, parallelism) {
   const results = [];
@@ -262,7 +320,9 @@ async function processProductsInParallel(products, config, options, parallelism)
 }
 
 /**
- * Parse command line arguments
+ * Parse command line arguments.
+ * @param {string[]} args
+ * @returns {{force: boolean, product: string|null, parallel: number, help: boolean, list: boolean}}
  */
 function parseArgs(args) {
   const options = {
@@ -293,7 +353,8 @@ function parseArgs(args) {
 }
 
 /**
- * Print help message
+ * Print help message.
+ * @returns {void}
  */
 function printHelp() {
   console.log(`
@@ -325,7 +386,9 @@ ${colors.cyan}Notes:${colors.reset}
 }
 
 /**
- * Print list of available products
+ * Print list of available products.
+ * @param {Array<{id: string, label: string}>} products
+ * @returns {void}
  */
 function printProductList(products) {
   console.log(`
@@ -339,6 +402,10 @@ ${colors.dim}Use: npm run repos:clone -- --product <id>${colors.reset}
 
 /**
  * Main function
+ */
+/**
+ * Main entry point.
+ * @returns {Promise<number>}
  */
 async function main() {
   const args = process.argv.slice(2);

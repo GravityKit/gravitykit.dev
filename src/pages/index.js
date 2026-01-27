@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
+import Head from '@docusaurus/Head';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
@@ -7,6 +8,28 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import styles from './index.module.css';
 
+/**
+ * Build an absolute URL using the site config base URL.
+ * @param {string} siteUrl
+ * @param {string} baseUrl
+ * @param {string} pathname
+ * @returns {string}
+ */
+function buildAbsoluteUrl(siteUrl, baseUrl, pathname) {
+  const origin = siteUrl.replace(/\/+$/, '');
+  const normalizedBaseUrl = baseUrl.startsWith('/') ? baseUrl : `/${baseUrl}`;
+  const baseUrlWithSlash = normalizedBaseUrl.endsWith('/')
+    ? normalizedBaseUrl
+    : `${normalizedBaseUrl}/`;
+  const normalizedPath = pathname.replace(/^\/+/, '');
+
+  return `${origin}${baseUrlWithSlash}${normalizedPath}`;
+}
+
+/**
+ * Render the homepage hero header.
+ * @returns {JSX.Element}
+ */
 function HomepageHeader() {
   const {siteConfig} = useDocusaurusContext();
   return (
@@ -188,6 +211,11 @@ const gravityFormsAddons = [
   }
 ];
 
+/**
+ * Render a product card.
+ * @param {{product: {title: string, description: string, link: string, slug?: string}, showImage?: boolean}} props
+ * @returns {JSX.Element}
+ */
 function ProductCard({ product, showImage = true }) {
   const imageName = product.slug || product.title.toLowerCase();
   return (
@@ -218,6 +246,11 @@ function ProductCard({ product, showImage = true }) {
   );
 }
 
+/**
+ * Render a section of product cards.
+ * @param {{title: string, description: string, products: Array<{title: string, description: string, link: string, slug?: string}>, showImages?: boolean}} props
+ * @returns {JSX.Element}
+ */
 function ProductSection({ title, description, products, showImages = true }) {
   return (
     <section className={styles.products}>
@@ -236,14 +269,22 @@ function ProductSection({ title, description, products, showImages = true }) {
   );
 }
 
+/**
+ * Render the documentation homepage.
+ * @returns {JSX.Element}
+ */
 export default function Home() {
   const {siteConfig} = useDocusaurusContext();
   const totalProducts = mainProducts.length + gravityviewLayouts.length + gravityviewExtensions.length + gravityFormsAddons.length;
+  const llmsHref = buildAbsoluteUrl(siteConfig.url, siteConfig.baseUrl, 'llms.txt');
 
   return (
     <Layout
       title={`${siteConfig.title}`}
       description="Comprehensive developer documentation for all GravityKit products">
+      <Head>
+        <link rel="alternate" type="text/plain" href={llmsHref} title="GravityKit llms.txt" />
+      </Head>
       <HomepageHeader />
       <main>
         <ProductSection

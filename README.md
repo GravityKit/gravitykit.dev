@@ -232,11 +232,31 @@ This documentation is optimized for consumption by Large Language Models (LLMs) 
 
 ### Features
 
-- **`/llms.txt`** - Context file following the emerging llms.txt standard
+- **`/llms.txt`** - Root context file with overview and product directory
+- **`/docs/{product}/llms.txt`** - Per-product AI documentation (25+ files)
+- **`/docs/{product}/**/*.md`** - Raw Markdown for any individual doc (append `.md` to a doc URL)
 - **`/api/hooks/index.json`** - Product directory with stats (6KB)
 - **`/api/hooks/{product}.json`** - Per-product hooks (25 files, 1KB-408KB each)
+- **Raw Markdown endpoints** - Published automatically during the build, so any doc page can be fetched as a `.md` file.
 - **Usage examples** - Every hook includes copy-paste-ready code examples
 - **Structured data** - Consistent frontmatter and parameter tables
+
+### Dual Format Strategy
+
+Each product provides documentation in two complementary formats:
+
+**JSON API** (`/api/hooks/{product}.json`):
+- Machine-readable structure for programmatic access
+- Complete hook metadata (parameters, types, locations)
+- Ideal for building tools and integrations
+
+**Markdown Documentation** (`/docs/{product}/llms.txt`):
+- AI-optimized natural language format
+- Product overview and capabilities
+- Top 10-15 most commonly used hooks with full code examples
+- Hooks grouped by use case (display, data, fields, search, etc.)
+- Common integration patterns and best practices
+- Pro tips for AI assistants
 
 ### Machine-Readable API
 
@@ -246,9 +266,16 @@ The hooks API provides programmatic access to all hook information:
 # Discover available products (lightweight - 6KB)
 curl https://www.gravitykit.dev/api/hooks/index.json
 
-# Get hooks for a specific product (recommended)
+# Get hooks for a specific product (JSON format - recommended for tools)
 curl https://www.gravitykit.dev/api/hooks/gravityview.json
 curl https://www.gravitykit.dev/api/hooks/gravityedit.json
+
+# Get AI-optimized documentation (Markdown format - recommended for LLMs)
+curl https://www.gravitykit.dev/docs/gravityview/llms.txt
+curl https://www.gravitykit.dev/docs/gravityedit/llms.txt
+
+# Get raw Markdown for any individual doc (append .md to the doc URL)
+curl https://www.gravitykit.dev/docs/gravitycalendar/actions/gravityview-calendar-enqueue-scripts.md
 
 # Full database (large - 728KB, use per-product instead)
 curl https://www.gravitykit.dev/api/hooks.json
@@ -257,7 +284,7 @@ curl https://www.gravitykit.dev/api/hooks.json
 ### Regenerating LLM Enhancements
 
 ```bash
-npm run llm:enhance  # Regenerate JSON APIs and add examples
+npm run llm:enhance  # Regenerate JSON APIs, llms.txt files, and add examples
 ```
 
 ## IDE Integration
@@ -297,13 +324,43 @@ Fetch GravityKit hooks from https://www.gravitykit.dev/api/hooks/{product}.json
 
 ### Available Endpoints
 
-| Endpoint | Description |
-|----------|-------------|
-| `/llms.txt` | LLM-optimized context file |
-| `/api/hooks/index.json` | Product directory with hook counts |
-| `/api/hooks/{product}.json` | All hooks for a specific product |
+| Endpoint | Format | Description |
+|----------|--------|-------------|
+| `/llms.txt` | Markdown | Root context file with overview and product directory |
+| `/docs/{product}/llms.txt` | Markdown | Per-product AI-optimized documentation with examples and use cases |
+| `/docs/{product}/**/*.md` | Markdown | Raw Markdown for any individual doc (append `.md` to a doc URL) |
+| `/api/hooks/index.json` | JSON | Product directory with hook counts (lightweight - 6KB) |
+| `/api/hooks/{product}.json` | JSON | Complete hooks data for a specific product (1KB-408KB) |
+
+**Recommendation**: For AI assistants, start with `/docs/{product}/llms.txt` for focused context. For tools and integrations, use `/api/hooks/{product}.json` for structured data.
 
 **Products**: `gravityview`, `gravitycalendar`, `gravitycharts`, `gravityedit`, `gravityexport`, `gravityimport`, `gravitymath`, `gravityactions`, `gravityboard`, `gravitymigrate`, `gravityrevisions`, and more.
+
+## Sitemaps
+
+The site automatically generates XML sitemaps for search engine optimization:
+
+- **`/sitemap.xml`** - Main site-wide sitemap (all pages)
+- **`/sitemap-products.xml`** - Product-specific sitemap index
+- **`/docs/{product}/sitemap.xml`** - Individual product sitemaps (28 products)
+
+### Features
+
+- **Automatic Generation**: Sitemaps are built during `npm run build`
+- **Smart Priorities**: Product home pages (0.9), top-level docs (0.7), hooks (0.6)
+- **HTML Discovery**: Both sitemaps are linked in the `<head>` of every page
+- **robots.txt**: Both sitemaps are listed for search engine crawlers
+
+### Example URLs
+
+```
+https://www.gravitykit.dev/sitemap.xml
+https://www.gravitykit.dev/sitemap-products.xml
+https://www.gravitykit.dev/docs/gravityview/sitemap.xml
+https://www.gravitykit.dev/docs/gravitycalendar/sitemap.xml
+```
+
+For more details, see [SITEMAPS.md](./SITEMAPS.md).
 
 ## Environment Variables
 
@@ -331,7 +388,8 @@ The site uses Algolia DocSearch for search functionality:
 
 To set up search:
 1. Apply for [Algolia DocSearch](https://docsearch.algolia.com/)
-2. Set the environment variables above
+2. Set the environment variables above in your deployment settings
+3. Configure the [Algolia crawler](https://dashboard.algolia.com/apps/CLS6UYEGBJ/crawler/crawler/7bfac9ff-b5d5-4d70-b992-f5115760feac/overview) to automatically index the site on a schedule (currently set to daily)
 
 ### GitHub Access
 
@@ -348,7 +406,7 @@ For cloning private GravityKit repositories:
 # Google Analytics
 GOOGLE_GTAG_ID=G-XXXXXXXXXX
 
-# Algolia Search
+# Algolia Search (for search UI)
 ALGOLIA_APP_ID=your-app-id
 ALGOLIA_API_KEY=your-search-api-key
 ALGOLIA_INDEX_NAME=gravitykit

@@ -5,7 +5,8 @@
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
-    "build": "docusaurus build",
+    "clean:dsstore": "find . -name .DS_Store -delete",
+    "build": "npm run clean:dsstore && docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
@@ -18,7 +19,8 @@
     "hooks:link-api-types": "node ./scripts/link-hooks-to-api.mjs",
     "api:generate": "node ./scripts/generate-php-api.mjs",
     "docs:generate": "npm run hooks:generate && npm run api:generate && npm run hooks:link-api-types && node ./scripts/generate-category-indexes.mjs",
-    "llm:enhance": "node ./scripts/enhance-for-llms.mjs",
+    "llm:enhance": "node ./scripts/enhance-for-llms.mjs && node ./scripts/generate-product-llms.mjs",
+    "llm:product": "node ./scripts/generate-product-llms.mjs",
     "docs:full": "npm run repos:clone && npm run docs:generate && npm run llm:enhance && npm run build"
   },
   "dependencies": {
@@ -34,7 +36,8 @@
     "@docusaurus/module-type-aliases": "^3.5.2",
     "@docusaurus/tsconfig": "^3.5.2",
     "@docusaurus/types": "^3.5.2",
-    "wp-hooks-documentor": "file:../../Products/wp-hooks-documentor"
+    "docusaurus-plugin-llms": "^0.2.2",
+    "wp-hooks-documentor": "github:GravityKit/wp-hooks-documentor#develop"
   },
   "browserslist": {
     "production": [

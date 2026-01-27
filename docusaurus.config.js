@@ -5,14 +5,41 @@
 // See: https://docusaurus.io/docs/api/docusaurus-config
 
 import {themes as prismThemes} from 'prism-react-renderer';
+import {normalizeUrl} from '@docusaurus/utils';
 import fs from 'node:fs';
+import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import remarkStripLeadingSrcPath from './src/remark/strip-leading-src-path.js';
+import remarkRemoveEmptySections from './src/remark/remove-empty-sections.mjs';
+import {normalizeDescriptions} from './src/plugins/normalize-doc-descriptions.mjs';
+import {readAllProductVersions} from './src/utils/read-product-versions.mjs';
 
 // Load configuration from repos-config.json (new GitHub-based approach)
 const repos_config_path = new URL('./repos-config.json', import.meta.url);
 const repos_config = JSON.parse(fs.readFileSync(repos_config_path, 'utf8'));
 const config_products = Array.isArray(repos_config?.products) ? repos_config.products : [];
+const package_json_path = new URL('./package.json', import.meta.url);
+const package_json = JSON.parse(fs.readFileSync(package_json_path, 'utf8'));
+const llms_version = package_json?.version;
+const site_url = 'https://www.gravitykit.dev';
+const base_url = '/';
+
+const products_with_docs = config_products
+  .filter((product) => product?.id && product?.repo)
+  .filter((product) => {
+    const docsDir = fileURLToPath(new URL(`./docs/${product.id}`, import.meta.url));
+    return fs.existsSync(docsDir);
+  });
+
+// Read actual plugin versions from repository files
+const product_versions = readAllProductVersions(config_products);
+
+const llms_static_output_dir = './static';
+
+const llms_sitemap_paths = [
+  'llms.txt',
+  ...products_with_docs.map((product) => `docs/${product.id}/llms.txt`),
+];
 
 // Generate navigation items from products
 const product_nav_items = config_products
@@ -36,6 +63,101 @@ const product_docs_plugins = config_products
     },
   ]);
 
+// Generate customLLMFiles configuration for each product
+const customLLMFiles = products_with_docs
+  .map((product) => {
+    const version = product_versions.get(product.id);
+    return {
+      filename: `docs/${product.id}/llms.txt`,
+      includePatterns: [`docs/${product.id}/**`],
+      fullContent: false,
+      title: `${product.label} Developer Documentation`,
+      description: `Hooks documentation for ${product.label}`,
+      ...(version && { version }), // Only include version if found
+    };
+  });
+
+const llms_static_plugin = [
+  /**
+   * Generate per-product llms.txt files into the static output dir.
+   * @param {import('@docusaurus/types').LoadContext} context
+   * @returns {Promise<import('@docusaurus/types').Plugin<void>>}
+   */
+  async function llmsStaticPlugin(context) {
+    return {
+      name: 'llms-static-files',
+      async loadContent() {
+        if (customLLMFiles.length === 0) {
+          return null;
+        }
+
+        await normalizeDescriptions(path.resolve(context.siteDir, 'docs'));
+
+        const {collectDocFiles, generateCustomLLMFiles} = await import('docusaurus-plugin-llms/lib/generator.js');
+        const outDir = fileURLToPath(new URL(llms_static_output_dir, import.meta.url));
+
+        await fs.promises.mkdir(outDir, {recursive: true});
+
+        for (const customFile of customLLMFiles) {
+          const customFilePath = path.join(outDir, customFile.filename);
+          await fs.promises.mkdir(path.dirname(customFilePath), {recursive: true});
+        }
+
+        const siteUrl = context.siteConfig.url + (context.siteConfig.baseUrl.endsWith('/')
+          ? context.siteConfig.baseUrl.slice(0, -1)
+          : context.siteConfig.baseUrl || '');
+
+        const pluginContext = {
+          siteDir: context.siteDir,
+          outDir,
+          siteUrl,
+          docsDir: 'docs',
+          docTitle: context.siteConfig.title,
+          docDescription: context.siteConfig.tagline || '',
+          options: {
+            docsDir: 'docs',
+            ignoreFiles: [],
+            customLLMFiles,
+          },
+        };
+
+        const allDocFiles = await collectDocFiles(pluginContext);
+        if (allDocFiles.length === 0) {
+          return null;
+        }
+
+        await generateCustomLLMFiles(pluginContext, allDocFiles);
+        return null;
+      },
+    };
+  },
+];
+
+// Single llms plugin instance with custom files for each product
+const product_llms_plugin = [
+  'docusaurus-plugin-llms',
+  {
+    customLLMFiles: customLLMFiles,
+    generateLLMsTxt: false,
+    generateLLMsFullTxt: false,
+    sitemapUrl: normalizeUrl([site_url, base_url, 'sitemap.xml']),
+    title: 'GravityKit Developer Documentation',
+    description: 'Comprehensive documentation for all GravityKit products',
+  },
+];
+
+const markdown_endpoints_plugin = fileURLToPath(
+  new URL('./src/plugins/markdown-endpoints.mjs', import.meta.url),
+);
+
+// Product sitemaps plugin - generates per-product sitemap.xml files
+const product_sitemaps_plugin = [
+  fileURLToPath(new URL('./src/plugins/product-sitemaps.mjs', import.meta.url)),
+  {
+    products: products_with_docs,
+  },
+];
+
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'GravityKit Developer Documentation',
@@ -43,26 +165,47 @@ const config = {
   favicon: 'img/favicon-192.png',
 
   // Set the production url of your site here
-  url: 'https://www.gravitykit.dev',
+  url: site_url,
   // Set the /<baseUrl>/ pathname under which your site is served
-  baseUrl: '/',
+  baseUrl: base_url,
 
   // GitHub pages deployment config.
   organizationName: 'gravitykit',
   projectName: 'gravitykit.dev',
 
   onBrokenLinks: 'warn',
-  onBrokenMarkdownLinks: 'warn',
 
   // Configure markdown processing to avoid MDX parsing issues
   markdown: {
     format: 'md',
     mermaid: false,
     preprocessor: ({filePath, fileContent}) => fileContent,
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+    },
   },
 
   // Trailing slash for consistent URLs (important for sitemap)
   trailingSlash: true,
+
+  headTags: [
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'sitemap',
+        type: 'application/xml',
+        href: normalizeUrl([site_url, base_url, 'sitemap.xml']),
+      },
+    },
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'sitemap',
+        type: 'application/xml',
+        href: normalizeUrl([site_url, base_url, 'sitemap-products.xml']),
+      },
+    },
+  ],
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
@@ -80,6 +223,7 @@ const config = {
         // Disable preset's docs - we use multi-instance plugins for each product
         docs: false,
         pages: {
+          beforeDefaultRemarkPlugins: [remarkRemoveEmptySections],
           remarkPlugins: [remarkStripLeadingSrcPath],
         },
         blog: false,
@@ -92,6 +236,18 @@ const config = {
           priority: 0.5,
           ignorePatterns: ['/tags/**'],
           filename: 'sitemap.xml',
+          createSitemapItems: async ({siteConfig, routes, defaultCreateSitemapItems}) => {
+            const items = await defaultCreateSitemapItems({siteConfig, routes});
+            const baseUrl = normalizeUrl([siteConfig.url, siteConfig.baseUrl]);
+            const existingUrls = new Set(items.map((item) => item.url));
+
+            const llmsItems = llms_sitemap_paths
+              .map((path) => normalizeUrl([baseUrl, path]))
+              .filter((url) => !existingUrls.has(url))
+              .map((url) => ({url}));
+
+            return [...items, ...llmsItems];
+          },
         },
         // Google gtag plugin (@docusaurus/plugin-google-gtag) - included in preset-classic
         // Set GOOGLE_GTAG_ID environment variable (e.g., G-XXXXXXXXXX)
@@ -154,6 +310,10 @@ const config = {
                 label: 'Documentation',
                 href: 'https://docs.gravitykit.com',
               },
+              {
+                label: 'LLMs.txt',
+                href: normalizeUrl([site_url, base_url, 'llms.txt']),
+              },
             ],
           },
           {
@@ -193,7 +353,13 @@ const config = {
     }),
 
 
-  plugins: product_docs_plugins.filter((pluginEntry) => {
+  plugins: [
+    ...product_docs_plugins,
+    product_llms_plugin,
+    ...llms_static_plugin,
+    markdown_endpoints_plugin,
+    product_sitemaps_plugin,
+  ].filter((pluginEntry) => {
     if (!Array.isArray(pluginEntry) || pluginEntry[0] !== '@docusaurus/plugin-content-docs') {
       return true;
     }
@@ -217,6 +383,10 @@ const config = {
         pluginEntry[0],
         {
           ...pluginOptions,
+          beforeDefaultRemarkPlugins: [
+            ...(pluginOptions.beforeDefaultRemarkPlugins ?? []),
+            remarkRemoveEmptySections,
+          ],
           remarkPlugins: [
             ...(pluginOptions.remarkPlugins ?? []),
             remarkStripLeadingSrcPath,
