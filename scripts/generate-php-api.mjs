@@ -685,7 +685,7 @@ function renderParamsTable(params, typeLinkCtx) {
     .filter((p) => p?.name || p?.type || p?.description || p?.default)
     .map((p) => {
       const displayName = `${p.byRef ? '&' : ''}${p.variadic ? '...' : ''}${p.name || ''}`;
-      return `| ${codeTable(displayName)} | ${codeTableType(p.type || '', typeLinkCtx)} | ${codeTable(phpShortArraySyntax(p.default || ''))} | ${mdEscape(cleanDescription(p.description))} |`;
+      return `| ${codeTable(displayName)} | ${codeTableType(p.type || '', typeLinkCtx)} | ${codeTable(phpShortArraySyntax(p.default || ''))} | ${processInlineSeeRefs(mdEscape(cleanDescription(p.description)))} |`;
     })
     .join('\n');
 
@@ -758,10 +758,17 @@ function cleanDescription(text) {
 function processInlineSeeRefs(text) {
   return String(text ?? '')
     .replace(/\\?\{@see\s+([^}]+?)\\?\}/g, (match, ref) => {
-      const cleaned = ref.trim().replace(/\(\)$/, '');
-      // Add () if it looks like a method reference
-      const hasMethod = cleaned.includes('::');
-      const display = cleaned.startsWith('\\') ? cleaned : `\\${cleaned}`;
+      const cleaned = ref.trim();
+
+      // Handle URL references - convert to markdown link
+      if (cleaned.startsWith('http://') || cleaned.startsWith('https://')) {
+        return `[${cleaned}](${cleaned})`;
+      }
+
+      // Handle class/method references
+      const withoutParens = cleaned.replace(/\(\)$/, '');
+      const hasMethod = withoutParens.includes('::');
+      const display = withoutParens.startsWith('\\') ? withoutParens : `\\${withoutParens}`;
       return `\`${display}${hasMethod ? '()' : ''}\``;
     });
 }
