@@ -105,6 +105,137 @@ npm run hooks:generate -- --dry-run        # Preview without making changes
 npm run hooks:generate -- --help           # Show help
 ```
 
+**Generate PHP API Reference**
+```bash
+npm run api:generate                       # Generate all API docs
+npm run api:generate -- --filter gravityview  # Generate specific product
+npm run api:generate -- --dry-run          # Preview without making changes
+```
+
+## PHP API Documentation
+
+The PHP API reference documents classes, methods, and functions from your codebase. Documentation is automatically generated from PHPDoc comments.
+
+### How classes and functions get included
+
+Not every class gets documented—only those that meet specific criteria:
+
+1. **Referenced in hooks documentation** - Classes/methods mentioned via `@see` in hook docblocks
+2. **Marked as public API** - Classes/methods with `@api` or `@public` tags
+3. **Transitively referenced** - Classes referenced via `@see` in already-documented classes
+
+This scoping ensures the API docs focus on symbols developers actually interact with, rather than internal implementation details.
+
+### Using @api and @public tags
+
+Add `@api` or `@public` to any class, method, or function docblock to include it in the documentation:
+
+```php
+/**
+ * Public API for creating custom entry displays.
+ *
+ * @api
+ */
+class GravityView_Entry_Renderer {
+    /**
+     * Render an entry using the specified template.
+     *
+     * @api
+     * @param array $entry The Gravity Forms entry.
+     * @param string $template Template slug to use.
+     * @return string Rendered HTML.
+     */
+    public function render( $entry, $template ) {
+        // ...
+    }
+}
+```
+
+**When to use:**
+- Public APIs that third-party developers should use
+- Extension points designed for customization
+- Utility functions meant for external consumption
+
+**Tag equivalence:** Both `@api` and `@public` work identically. Use whichever fits your team's conventions.
+
+### Using @see for cross-references
+
+The `@see` tag creates links between documented symbols and can pull in additional classes:
+
+```php
+/**
+ * Alias for GravityView_Merge_Tags::replace_variables()
+ *
+ * @see \GravityView_Merge_Tags::replace_variables() Moved in 1.8.4
+ * @see gravityview_get_entry()
+ */
+public static function replace_variables( $text, $form = [], $entry = [] ) {
+    // ...
+}
+```
+
+**Supported @see formats:**
+- `\ClassName::methodName()` - Links to a class method (also includes that class in docs)
+- `functionName()` - Links to a standalone function
+- `https://...` - External URL (rendered as-is)
+
+**Transitive expansion:** If ClassA references ClassB via `@see`, and ClassB references ClassC, all three classes are included. This runs iteratively to capture the full reference graph.
+
+### Best practices for PHPDoc
+
+For quality API documentation:
+
+```php
+/**
+ * Brief one-line summary of what this does.
+ *
+ * Longer description with more details about usage,
+ * edge cases, and important considerations.
+ *
+ * @since 2.0
+ *
+ * @param array  $entry   The Gravity Forms entry array.
+ * @param string $context Where this is being called from.
+ *
+ * @return string|null The processed value, or null on failure.
+ *
+ * @throws \InvalidArgumentException When entry is missing required fields.
+ *
+ * @see \GV\Entry::get_value() For the modern approach.
+ * @see https://docs.gravitykit.com/article/123 Full documentation.
+ */
+```
+
+**Required for good docs:**
+- Summary line (first line of docblock)
+- `@param` with type and description for each parameter
+- `@return` with type and description
+- `@since` version tag
+
+**Optional but helpful:**
+- `@throws` for exceptions
+- `@see` for related symbols
+- `@deprecated` with replacement guidance
+- `@example` with code samples
+
+### Viewing generation output
+
+When you run `npm run api:generate`, you'll see output like:
+
+```
+▶ Generating API docs: gravityview (GravityView)
+ℹ️  gravityview: limiting API to 102 symbols referenced in @see docblocks
+ℹ️  gravityview: added 11 classes from property types
+ℹ️  gravityview: added 11 classes and 15 functions from @see tags (3 iterations)
+⚠️  gravityview: 609 doc issues (missing summary: 130, missing @param: 125...)
+✅ gravityview: 64 classes, 5 functions
+```
+
+- **Limiting API to N symbols** - How many symbols were found in hooks docs
+- **Added N classes from property types** - Classes found in typed properties
+- **Added N from @see tags (M iterations)** - Transitive expansion results
+- **Doc issues** - Missing summaries, parameters, or return types
+
 ## Project Structure
 
 ```
@@ -121,7 +252,9 @@ gravitykit.dev/
 │   └── ...
 ├── scripts/
 │   ├── clone-repos.mjs        # Clone/update GitHub repos
-│   └── regen-hooks-docs-new.mjs  # Generate hooks documentation
+│   ├── generate-hooks.mjs     # Generate hooks documentation
+│   ├── generate-php-api.mjs   # Generate PHP API reference docs
+│   └── extract-php-api.php    # PHP parser for class extraction
 ├── src/
 │   ├── pages/                 # Custom pages
 │   └── css/                   # Styling
