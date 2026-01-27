@@ -1,16 +1,22 @@
 ---
 sidebar_position: 1
-sidebar_label: "{{label}} Hooks"
-title: {{label}} Hooks
-description: WordPress hooks (actions and filters) available in {{label}}
+sidebar_label: "{{label}}"
+title: {{label}} Developer Documentation
+description: Developer documentation for {{label}} including hooks, actions, filters, and PHP API reference
 ---
 
-# {{label}} Hooks
+# {{label}}
 
-This documentation covers all WordPress hooks (actions and filters) available in {{label}}.
+Developer documentation for {{label}}.
 
-**Total hooks:** {{totalHooks}} ({{actionCount}} actions, {{filterCount}} filters)
+{{#hasApi}}
+## PHP API Reference
 
+[View API Reference](./api/) ({{classCount}} classes{{#hasFunctions}}, {{functionCount}} functions{{/hasFunctions}})
+
+Documentation for PHP classes, methods, and functions available for developers.
+
+{{/hasApi}}
 {{#hasActions}}
 ## Actions
 

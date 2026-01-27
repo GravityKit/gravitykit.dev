@@ -158,6 +158,7 @@ const product_sitemaps_plugin = [
   },
 ];
 
+
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'GravityKit Developer Documentation',
