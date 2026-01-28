@@ -65,3 +65,4 @@ yarn-error.log*
 # Misc
 *.log
 *.tmp
+/claudedocs

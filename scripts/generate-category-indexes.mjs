@@ -12,6 +12,15 @@ import { fileURLToPath } from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const docsDir = path.join(__dirname, '..', 'docs');
 
+// Load product config for proper labels
+const configPath = path.join(__dirname, '..', 'repos-config.json');
+const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+const productLabels = new Map(
+  (config.products || [])
+    .filter(p => p.id && p.label)
+    .map(p => [p.id, p.label])
+);
+
 /**
  * Find all actions and filters directories (lowercase).
  * @param {string} dir
@@ -46,7 +55,7 @@ function countHooks(dir) {
 }
 
 /**
- * Get product name from path.
+ * Get product name from path using repos-config.json labels.
  * @param {string} dirPath
  * @returns {string}
  */
@@ -54,8 +63,13 @@ function getProductName(dirPath) {
   const parts = dirPath.split(path.sep);
   const docsIndex = parts.indexOf('docs');
   if (docsIndex !== -1 && parts[docsIndex + 1]) {
-    // Convert slug to title case
-    return parts[docsIndex + 1]
+    const productId = parts[docsIndex + 1];
+    // Use label from config, fallback to title case
+    if (productLabels.has(productId)) {
+      return productLabels.get(productId);
+    }
+    // Fallback: convert slug to title case
+    return productId
       .split('-')
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');

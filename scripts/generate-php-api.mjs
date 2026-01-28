@@ -1200,12 +1200,24 @@ function mdEscape(text) {
 
 /**
  * Escape HTML entities in text to prevent markdown/HTML parsing issues.
- * Use this for descriptions and summaries that appear in markdown content.
+ * Use this for summaries and short text that appear inline.
  */
 function htmlEscape(text) {
   return String(text ?? '')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
+}
+
+/**
+ * Escape HTML entities in description text, preserving PHPDoc <code> blocks.
+ * Converts <code>...</code> to markdown fenced code blocks.
+ * Use this for multi-line descriptions where code examples may appear.
+ */
+function htmlEscapeDescription(text) {
+  return htmlEscape(text)
+    // Convert <code> blocks to markdown fenced code blocks
+    .replace(/&lt;code&gt;/gi, '\n```php\n')
+    .replace(/&lt;\/code&gt;/gi, '\n```\n');
 }
 
 /**
@@ -1518,7 +1530,7 @@ function generateClassPage({ productLabel, classSymbol, product, repoRef, typeLi
 \`${wordpressFormatSignature(phpShortArraySyntax(m.signature || `function ${m.name}()`))}\`
 
 ${htmlEscape(m.summary || '')}
-${m.description ? `\n${processInlineSeeRefs(htmlEscape(m.description))}\n` : ''}
+${m.description ? `\n${processInlineSeeRefs(htmlEscapeDescription(m.description))}\n` : ''}
 ${paramsTable ? `\n#### Parameters\n\n${paramsTable}\n` : ''}
 ${resolvedReturnType || resolvedReturnDesc ? `\n#### Returns\n\n- ${codeInlineType(resolvedReturnType, typeLinkCtx)}${resolvedReturnDesc ? ` — ${mdEscape(resolvedReturnDesc)}` : ''}\n` : ''}
 ${throwsList.length ? `\n#### Throws\n\n${throwsList.map((t) => `- ${codeInlineType(t.type, typeLinkCtx)}${t.description ? ` — ${mdEscape(cleanDescription(t.description))}` : ''}`).join('\n')}\n` : ''}
@@ -1527,7 +1539,7 @@ ${renderSeeAlsoSection(m.tags, typeLinkCtx, { heading: '####' })}
 ${renderSinceTags(since)}
 ${deprecated.length ? `\n**Deprecated:** ${deprecated.map((d) => {
   const ver = d.version ? `\`${mdEscape(d.version)}\`` : '';
-  const desc = d.description ? processInlineSeeRefs(htmlEscape(d.description)) : '';
+  const desc = d.description ? processInlineSeeRefs(htmlEscapeDescription(d.description)) : '';
   if (ver && desc) return `${ver} (${desc})`;
   if (ver) return ver;
   if (desc) return desc;
@@ -1551,13 +1563,13 @@ ${formatTagsYaml(versionTags)}---
 # \`${fqcn}\`
 
 ${htmlEscape(classSymbol.summary || '')}
-${classSymbol.description ? `\n${processInlineSeeRefs(htmlEscape(classSymbol.description))}\n` : ''}
+${classSymbol.description ? `\n${processInlineSeeRefs(htmlEscapeDescription(classSymbol.description))}\n` : ''}
 ${renderExamplesSection(classSymbol.tags, { heading: '##' })}
 ${renderSeeAlsoSection(classSymbol.tags, typeLinkCtx, { heading: '##' })}
 ${renderSinceTags(since)}
 ${deprecated.length ? `\n**Deprecated:** ${deprecated.map((d) => {
   const ver = d.version ? `\`${mdEscape(d.version)}\`` : '';
-  const desc = d.description ? processInlineSeeRefs(htmlEscape(d.description)) : '';
+  const desc = d.description ? processInlineSeeRefs(htmlEscapeDescription(d.description)) : '';
   if (ver && desc) return `${ver} (${desc})`;
   if (ver) return ver;
   if (desc) return desc;
@@ -1626,13 +1638,13 @@ ${formatTagsYaml(versionTags)}---
 \`${wordpressFormatSignature(phpShortArraySyntax(functionSymbol.signature || `function ${shortName}()`))}\`
 
 ${htmlEscape(functionSymbol.summary || '')}
-${functionSymbol.description ? `\n${processInlineSeeRefs(htmlEscape(functionSymbol.description))}\n` : ''}
+${functionSymbol.description ? `\n${processInlineSeeRefs(htmlEscapeDescription(functionSymbol.description))}\n` : ''}
 ${renderExamplesSection(functionSymbol.tags, { heading: '##' })}
 ${renderSeeAlsoSection(functionSymbol.tags, typeLinkCtx, { heading: '##' })}
 ${renderSinceTags(since)}
 ${deprecated.length ? `\n**Deprecated:** ${deprecated.map((d) => {
   const ver = d.version ? `\`${mdEscape(d.version)}\`` : '';
-  const desc = d.description ? processInlineSeeRefs(htmlEscape(d.description)) : '';
+  const desc = d.description ? processInlineSeeRefs(htmlEscapeDescription(d.description)) : '';
   if (ver && desc) return `${ver} (${desc})`;
   if (ver) return ver;
   if (desc) return desc;
