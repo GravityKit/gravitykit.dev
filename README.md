@@ -269,46 +269,123 @@ gravitykit.dev/
 
 ### repos-config.json
 
-Central configuration file mapping products to GitHub repositories:
+Central configuration file mapping products to GitHub repositories. This file controls repository cloning, documentation generation, and navigation structure.
+
+#### Schema Overview
 
 ```json
 {
+  "$schema": "./repos-config.schema.json",
   "reposDir": "./repos",
   "outputDir": "./docs",
   "defaults": {
     "branch": "develop",
     "ignoreFiles": ["**/vendor/**", "**/node_modules/**"],
-    "ignoreHooks": ["deprecated_*", "private_*"]
+    "ignoreHooks": ["deprecated_*", "private_*"],
+    "customFields": {
+      "since": true,
+      "deprecated": true,
+      "internal": false,
+      "example": true
+    }
+  },
+  "categories": {
+    "gravityview": {
+      "label": "GravityView",
+      "position": 1
+    },
+    "gravityview-extensions": {
+      "label": "Extensions",
+      "parent": "gravityview",
+      "position": 2
+    }
   },
   "products": [
     {
       "id": "gravityview",
       "repo": "GravityKit/GravityView",
       "label": "GravityView",
-      "routeBasePath": "docs/gravityview"
+      "category": "gravityview",
+      "purchaseUrl": "https://www.gravitykit.com/products/gravityview/"
     }
   ]
 }
 ```
 
+#### Top-Level Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `reposDir` | string | Directory where repos are cloned (default: `./repos`) |
+| `outputDir` | string | Directory for generated documentation (default: `./docs`) |
+| `defaults` | object | Default settings applied to all products |
+| `categories` | object | Navigation groupings for the site navbar |
+| `products` | array | List of product configurations |
+
+#### Categories
+
+Categories control how products are grouped in the site navigation. Each category can have:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `label` | string | Display name in navigation |
+| `parent` | string | Parent category ID (for nested dropdowns) |
+| `position` | number | Sort order in navigation |
+
+**Current category structure:**
+- `gravityview` - Main GravityView dropdown
+  - `gravityview-extensions` - Extensions submenu
+  - `gravityview-layouts` - Layouts submenu
+- `gravitykit` - GravityKit Products dropdown
+- `gravity-forms` - Gravity Forms Add-Ons dropdown
+
+#### Product Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | string | Yes | Unique identifier, used in URLs (e.g., `gravityview`) |
+| `repo` | string | Yes | GitHub repository path (e.g., `GravityKit/GravityView`) |
+| `label` | string | Yes | Display name (e.g., `GravityView`) |
+| `category` | string | Yes | Category ID for navigation grouping |
+| `purchaseUrl` | string | No | URL to product purchase page |
+| `isFree` | boolean | No | Set to `true` for free products |
+| `branch` | string | No | Override default branch |
+| `ignoreFiles` | array | No | Additional glob patterns to ignore |
+| `ignoreHooks` | array | No | Additional hook patterns to ignore |
+
 ### Adding a New Product
 
-1. Add an entry to `repos-config.json`:
+1. Add an entry to `repos-config.json` under `products`:
 
 ```json
 {
   "id": "new-product",
   "repo": "GravityKit/NewProduct",
   "label": "New Product Name",
-  "routeBasePath": "docs/new-product"
+  "category": "gravitykit",
+  "purchaseUrl": "https://www.gravitykit.com/products/new-product/"
 }
 ```
 
-2. Regenerate documentation:
+2. If needed, add a new category:
+
+```json
+{
+  "categories": {
+    "new-category": {
+      "label": "New Category",
+      "position": 4
+    }
+  }
+}
+```
+
+3. Regenerate documentation:
 
 ```bash
 npm run repos:clone -- --product new-product
 npm run hooks:generate -- --product new-product
+npm run api:generate -- --filter new-product
 ```
 
 ## Deployment
