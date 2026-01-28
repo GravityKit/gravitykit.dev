@@ -32,27 +32,32 @@
     }
   },
   "categories": {
-    "gravityview": {
-      "label": "GravityView",
+    "gravitykit": {
+      "label": "GravityKit Products",
+      "description": "Standalone products that enhance Gravity Forms.",
       "position": 1
     },
-    "gravityview-extensions": {
-      "label": "Extensions",
-      "parent": "gravityview",
+    "gravityview": {
+      "label": "GravityView",
+      "description": "Display Gravity Forms entries in beautiful, customizable layouts.",
       "position": 2
     },
-    "gravityview-layouts": {
-      "label": "Layouts",
+    "gravityview-extensions": {
+      "label": "GravityView Extensions",
+      "description": "Add features and functionality to GravityView.",
       "parent": "gravityview",
       "position": 3
     },
-    "gravitykit": {
-      "label": "GravityKit Products",
-      "position": 2
+    "gravityview-layouts": {
+      "label": "GravityView Layouts",
+      "description": "Alternative ways to display your View data.",
+      "parent": "gravityview",
+      "position": 4
     },
     "gravity-forms": {
       "label": "Gravity Forms Add-Ons",
-      "position": 3
+      "description": "Free and third-party plugins that enhance Gravity Forms.",
+      "position": 5
     }
   },
   "products": [
@@ -60,169 +65,255 @@
       "id": "gravityview",
       "repo": "GravityKit/GravityView",
       "label": "GravityView",
-      "category": "gravityview"
+      "description": "Display Gravity Forms entries in beautiful, customizable layouts.",
+      "category": "gravityview",
+      "purchaseUrl": "https://www.gravitykit.com/products/gravityview/"
+    },
+    {
+      "id": "gravityview-advanced-elementor",
+      "repo": "GravityKit/gravityview-advanced-elementor",
+      "label": "Advanced Elementor",
+      "title": "Advanced Elementor for GravityView",
+      "description": "Display GravityView using the Elementor page builder.",
+      "category": "gravityview-extensions",
+      "purchaseUrl": "https://www.gravitykit.com/products/advanced-elementor-widget/",
+      "isFree": true
     },
     {
       "id": "gravityview-advanced-filtering",
       "repo": "GravityKit/Advanced-Filter",
       "label": "Advanced Filtering",
-      "category": "gravityview-extensions"
+      "description": "Add powerful filtering capabilities to your Views.",
+      "category": "gravityview-extensions",
+      "purchaseUrl": "https://www.gravitykit.com/products/advanced-filter/"
     },
     {
       "id": "gravityview-az-filters",
       "repo": "GravityKit/AZ-Filters",
       "label": "A-Z Filters",
-      "category": "gravityview-extensions"
+      "description": "Filter entries alphabetically with letter-based navigation.",
+      "category": "gravityview-extensions",
+      "purchaseUrl": "https://www.gravitykit.com/products/a-z-filter/"
     },
     {
       "id": "gravityview-dashboard-views",
       "repo": "GravityKit/Dashboard-Views",
       "label": "Dashboard Views",
-      "category": "gravityview-extensions"
+      "description": "Display Views in the WordPress admin dashboard.",
+      "category": "gravityview-extensions",
+      "purchaseUrl": "https://www.gravitykit.com/products/dashboard-views/"
     },
     {
       "id": "gravityview-featured-entries",
       "repo": "GravityKit/Featured-Entries",
       "label": "Featured Entries",
-      "category": "gravityview-extensions"
+      "description": "Highlight and pin important entries to the top of Views.",
+      "category": "gravityview-extensions",
+      "purchaseUrl": "https://www.gravitykit.com/products/featured-entries/"
     },
     {
       "id": "gravityview-magic-links",
       "repo": "GravityKit/gravityview-magic-links",
       "label": "Magic Links",
-      "category": "gravityview-extensions"
+      "description": "Share unique links for accessing entries without logging in.",
+      "category": "gravityview-extensions",
+      "purchaseUrl": "https://www.gravitykit.com/products/magic-links/"
     },
     {
       "id": "gravityview-maps",
       "repo": "GravityKit/Maps",
       "label": "Maps",
-      "category": "gravityview-extensions"
+      "description": "Display entries on interactive Google Maps.",
+      "category": "gravityview-layouts",
+      "purchaseUrl": "https://www.gravitykit.com/products/maps/"
     },
     {
       "id": "gravityview-multiple-forms",
       "repo": "GravityKit/Multiple-Forms",
       "label": "Multiple Forms",
-      "category": "gravityview-extensions"
+      "description": "Combine entries from multiple forms into a single View.",
+      "category": "gravityview-extensions",
+      "purchaseUrl": "https://www.gravitykit.com/products/multiple-forms/"
     },
     {
       "id": "gravityview-ratings-reviews",
       "repo": "GravityKit/Ratings-Reviews",
       "label": "Ratings & Reviews",
-      "category": "gravityview-extensions"
+      "description": "Add star ratings and reviews to your entries.",
+      "category": "gravityview-extensions",
+      "purchaseUrl": "https://www.gravitykit.com/products/ratings-reviews/"
     },
     {
       "id": "gravityview-social-sharing-seo",
       "repo": "GravityKit/Social-Sharing",
       "label": "SEO & Social Sharing",
-      "category": "gravityview-extensions"
-    },
-    {
-      "id": "gravity-forms-elementor-widget",
-      "repo": "GravityKit/gravity-forms-elementor-widget",
-      "label": "Elementor Widget",
-      "category": "gravityview-extensions"
+      "description": "Enable social sharing and optimize entries for search engines.",
+      "category": "gravityview-extensions",
+      "purchaseUrl": "https://www.gravitykit.com/products/social-sharing-seo/"
     },
     {
       "id": "gravityview-datatables",
       "repo": "GravityKit/DataTables",
       "label": "DataTables",
-      "category": "gravityview-layouts"
+      "description": "Enhance Views with sortable, searchable DataTables.",
+      "category": "gravityview-layouts",
+      "purchaseUrl": "https://www.gravitykit.com/products/datatables/"
     },
     {
       "id": "gravityview-diy-layout",
       "repo": "GravityKit/DIY",
       "label": "DIY Layout",
-      "category": "gravityview-layouts"
+      "description": "Build custom layouts with complete control over HTML and CSS.",
+      "category": "gravityview-layouts",
+      "purchaseUrl": "https://www.gravitykit.com/products/diy/"
     },
     {
       "id": "gravityactions",
       "repo": "GravityKit/GravityActions",
       "label": "GravityActions",
-      "category": "gravitykit"
+      "description": "Update multiple entries at once, send bulk emails, and automate workflows.",
+      "category": "gravitykit",
+      "purchaseUrl": "https://www.gravitykit.com/products/gravityactions/"
     },
     {
       "id": "gravityboard",
       "repo": "GravityKit/GravityBoard",
       "label": "GravityBoard",
-      "category": "gravitykit"
+      "description": "Manage projects with collaborative Kanban-style project boards.",
+      "category": "gravitykit",
+      "purchaseUrl": "https://www.gravitykit.com/products/gravityboard/"
     },
     {
       "id": "gravitycalendar",
       "repo": "GravityKit/GravityCalendar",
       "label": "GravityCalendar",
-      "category": "gravitykit"
+      "description": "Transform entries into interactive calendars with FullCalendar.",
+      "category": "gravitykit",
+      "purchaseUrl": "https://www.gravitykit.com/products/gravitycalendar/"
     },
     {
       "id": "gravitycharts",
       "repo": "GravityKit/GravityCharts",
       "label": "GravityCharts",
-      "category": "gravitykit"
+      "description": "Visualize form data with powerful charts and graphs.",
+      "category": "gravitykit",
+      "purchaseUrl": "https://www.gravitykit.com/products/gravitycharts/"
     },
     {
       "id": "gravityedit",
       "repo": "GravityKit/GravityEdit",
       "label": "GravityEdit",
-      "category": "gravitykit"
+      "description": "Edit Gravity Forms entries inline to save time and streamline your workflow.",
+      "category": "gravitykit",
+      "purchaseUrl": "https://www.gravitykit.com/products/gravityedit/"
     },
     {
       "id": "gravityexport",
       "repo": "GravityKit/GravityExport",
       "label": "GravityExport",
-      "category": "gravitykit"
+      "description": "Export form entries in multiple formats.",
+      "category": "gravitykit",
+      "purchaseUrl": "https://www.gravitykit.com/products/gravityexport/"
+    },
+    {
+      "id": "gravityexport-lite",
+      "repo": "GravityKit/GravityExport-Lite",
+      "label": "GravityExport Lite",
+      "description": "Free version of GravityExport with essential export features.",
+      "category": "gravitykit",
+      "purchaseUrl": "https://www.gravitykit.com/products/gravityexport-lite/",
+      "isFree": true
     },
     {
       "id": "gravityimport",
       "repo": "GravityKit/GravityImport",
       "label": "GravityImport",
-      "category": "gravitykit"
+      "description": "Import data into Gravity Forms from CSV, Excel, and more.",
+      "category": "gravitykit",
+      "purchaseUrl": "https://www.gravitykit.com/products/gravityimport/"
     },
     {
       "id": "gravitymath",
       "repo": "gravityview/gravityview-math",
       "label": "GravityMath",
-      "category": "gravitykit"
+      "description": "Advanced mathematical calculations for your forms.",
+      "category": "gravitykit",
+      "purchaseUrl": "https://www.gravitykit.com/products/gravitymath/"
     },
     {
       "id": "gravitymigrate",
       "repo": "GravityKit/GravityMigrate",
       "label": "GravityMigrate",
-      "category": "gravitykit"
+      "description": "Migrate all Gravity Forms data including forms, entries, Views, and feeds.",
+      "category": "gravitykit",
+      "purchaseUrl": "https://www.gravitykit.com/products/gravitymigrate/"
     },
     {
       "id": "gravityrevisions",
       "repo": "GravityKit/GravityRevisions",
       "label": "GravityRevisions",
-      "category": "gravitykit"
+      "description": "Track, compare, and restore changes made to forms and entries.",
+      "category": "gravitykit",
+      "purchaseUrl": "https://www.gravitykit.com/products/gravityrevisions/"
     },
     {
       "id": "gravityforms",
       "repo": "gravityforms/gravityforms",
       "label": "Gravity Forms",
-      "category": "gravity-forms"
+      "description": "The best WordPress form plugin. Starter templates, advanced calculations, and more.",
+      "category": "gravity-forms",
+      "purchaseUrl": "https://www.gravitykit.com/gravityforms/",
+      "isThirdParty": true
+    },
+    {
+      "id": "gravity-forms-elementor-widget",
+      "repo": "GravityKit/gravity-forms-elementor-widget",
+      "label": "Elementor Widget",
+      "title": "Elementor Widget for Gravity Forms",
+      "description": "Embed Gravity Forms in Elementor with a native widget.",
+      "category": "gravity-forms",
+      "purchaseUrl": "https://www.gravitykit.com/products/gravity-forms-elementor-widget/",
+      "isFree": true
     },
     {
       "id": "gravity-forms-dynamic-lookup",
       "repo": "GravityKit/gravity-forms-dynamic-lookup",
-      "label": "Dynamic Lookup Field",
-      "category": "gravity-forms"
+      "label": "Dynamic Lookup",
+      "title": "Dynamic Lookup Field for Gravity Forms",
+      "description": "Dynamically populate fields from other forms or entries.",
+      "category": "gravity-forms",
+      "purchaseUrl": "https://www.gravitykit.com/products/gravity-forms-dynamic-lookup/",
+      "isFree": true
     },
     {
       "id": "gravity-forms-event-field",
       "repo": "GravityKit/Event-Field",
       "label": "Event Field",
-      "category": "gravity-forms"
+      "title": "Event Field for Gravity Forms",
+      "description": "Add event scheduling fields with date, time, and recurrence.",
+      "category": "gravity-forms",
+      "purchaseUrl": "https://www.gravitykit.com/products/gravity-forms-event-field/",
+      "isFree": true
     },
     {
       "id": "gravity-forms-entry-tags",
       "repo": "GravityKit/Entry-Tags",
       "label": "Entry Tags",
-      "category": "gravity-forms"
+      "title": "Entry Tags for Gravity Forms",
+      "description": "Organize entries with customizable tags.",
+      "category": "gravity-forms",
+      "purchaseUrl": "https://www.gravitykit.com/products/gravity-forms-entry-tags/",
+      "isFree": true
     },
     {
       "id": "gravity-forms-zero-spam",
       "repo": "GravityKit/gravity-forms-zero-spam",
       "label": "Zero Spam",
-      "category": "gravity-forms"
+      "title": "Zero Spam for Gravity Forms",
+      "description": "Block spam submissions without CAPTCHAs or honeypots.",
+      "category": "gravity-forms",
+      "purchaseUrl": "https://www.gravitykit.com/products/gravity-forms-zero-spam/",
+      "isFree": true
     }
   ]
 }
