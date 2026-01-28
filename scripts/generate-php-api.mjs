@@ -1189,11 +1189,23 @@ function formatSourceMarkdown({ product, repoRef, file, line }) {
 
 function mdEscape(text) {
   return (text ?? '')
+    .replace(/</g, '&lt;')        // Escape HTML < to prevent tag interpretation
+    .replace(/>/g, '&gt;')        // Escape HTML > to prevent tag interpretation
     .replace(/\|/g, '\\|')
     .replace(/  \r?\n/g, '<br>')  // Two trailing spaces + newline = <br>
     .replace(/\r?\n/g, ' ')       // Other newlines become spaces
     .replace(/  +/g, ' ')         // Collapse multiple spaces (but not <br>)
     .trim();
+}
+
+/**
+ * Escape HTML entities in text to prevent markdown/HTML parsing issues.
+ * Use this for descriptions and summaries that appear in markdown content.
+ */
+function htmlEscape(text) {
+  return String(text ?? '')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
 }
 
 /**
@@ -1399,7 +1411,7 @@ Generated from PHP source and PHPDoc comments.
 
 function generateClassesIndexMd({ productLabel, classes }) {
   const items = classes
-    .map((c) => `- [\`${c.fqcn}\`](./${c.slug})${c.summary ? ` — ${c.summary}` : ''}`)
+    .map((c) => `- [\`${c.fqcn}\`](./${c.slug})${c.summary ? ` — ${htmlEscape(c.summary)}` : ''}`)
     .join('\n');
 
   return `---
@@ -1415,7 +1427,7 @@ ${items || '_No documented classes found._'}
 
 function generateFunctionsIndexMd({ productLabel, functions }) {
   const items = functions
-    .map((f) => `- [\`${f.fqfn}\`](./${f.slug})${f.summary ? ` — ${f.summary}` : ''}`)
+    .map((f) => `- [\`${f.fqfn}\`](./${f.slug})${f.summary ? ` — ${htmlEscape(f.summary)}` : ''}`)
     .join('\n');
 
   return `---
@@ -1495,8 +1507,8 @@ function generateClassPage({ productLabel, classSymbol, product, repoRef, typeLi
 
 \`${wordpressFormatSignature(phpShortArraySyntax(m.signature || `function ${m.name}()`))}\`
 
-${m.summary || ''}
-${m.description ? `\n${processInlineSeeRefs(m.description)}\n` : ''}
+${htmlEscape(m.summary || '')}
+${m.description ? `\n${processInlineSeeRefs(htmlEscape(m.description))}\n` : ''}
 ${paramsTable ? `\n#### Parameters\n\n${paramsTable}\n` : ''}
 ${resolvedReturnType || resolvedReturnDesc ? `\n#### Returns\n\n- ${codeInlineType(resolvedReturnType, typeLinkCtx)}${resolvedReturnDesc ? ` — ${mdEscape(resolvedReturnDesc)}` : ''}\n` : ''}
 ${throwsList.length ? `\n#### Throws\n\n${throwsList.map((t) => `- ${codeInlineType(t.type, typeLinkCtx)}${t.description ? ` — ${mdEscape(cleanDescription(t.description))}` : ''}`).join('\n')}\n` : ''}
@@ -1505,7 +1517,7 @@ ${renderSeeAlsoSection(m.tags, typeLinkCtx, { heading: '####' })}
 ${renderSinceTags(since)}
 ${deprecated.length ? `\n**Deprecated:** ${deprecated.map((d) => {
   const ver = d.version ? `\`${mdEscape(d.version)}\`` : '';
-  const desc = d.description ? processInlineSeeRefs(d.description) : '';
+  const desc = d.description ? processInlineSeeRefs(htmlEscape(d.description)) : '';
   if (ver && desc) return `${ver} (${desc})`;
   if (ver) return ver;
   if (desc) return desc;
@@ -1528,14 +1540,14 @@ ${formatTagsYaml(versionTags)}---
 
 # \`${fqcn}\`
 
-${classSymbol.summary || ''}
-${classSymbol.description ? `\n${processInlineSeeRefs(classSymbol.description)}\n` : ''}
+${htmlEscape(classSymbol.summary || '')}
+${classSymbol.description ? `\n${processInlineSeeRefs(htmlEscape(classSymbol.description))}\n` : ''}
 ${renderExamplesSection(classSymbol.tags, { heading: '##' })}
 ${renderSeeAlsoSection(classSymbol.tags, typeLinkCtx, { heading: '##' })}
 ${renderSinceTags(since)}
 ${deprecated.length ? `\n**Deprecated:** ${deprecated.map((d) => {
   const ver = d.version ? `\`${mdEscape(d.version)}\`` : '';
-  const desc = d.description ? processInlineSeeRefs(d.description) : '';
+  const desc = d.description ? processInlineSeeRefs(htmlEscape(d.description)) : '';
   if (ver && desc) return `${ver} (${desc})`;
   if (ver) return ver;
   if (desc) return desc;
@@ -1603,14 +1615,14 @@ ${formatTagsYaml(versionTags)}---
 
 \`${wordpressFormatSignature(phpShortArraySyntax(functionSymbol.signature || `function ${shortName}()`))}\`
 
-${functionSymbol.summary || ''}
-${functionSymbol.description ? `\n${processInlineSeeRefs(functionSymbol.description)}\n` : ''}
+${htmlEscape(functionSymbol.summary || '')}
+${functionSymbol.description ? `\n${processInlineSeeRefs(htmlEscape(functionSymbol.description))}\n` : ''}
 ${renderExamplesSection(functionSymbol.tags, { heading: '##' })}
 ${renderSeeAlsoSection(functionSymbol.tags, typeLinkCtx, { heading: '##' })}
 ${renderSinceTags(since)}
 ${deprecated.length ? `\n**Deprecated:** ${deprecated.map((d) => {
   const ver = d.version ? `\`${mdEscape(d.version)}\`` : '';
-  const desc = d.description ? processInlineSeeRefs(d.description) : '';
+  const desc = d.description ? processInlineSeeRefs(htmlEscape(d.description)) : '';
   if (ver && desc) return `${ver} (${desc})`;
   if (ver) return ver;
   if (desc) return desc;
