@@ -207,3 +207,50 @@
   margin-left: 2rem;
   margin-bottom: 0.5rem;
 }
+
+/* Navbar dropdown styling */
+.dropdown-separator {
+  margin: 0.5rem 0;
+  border: none;
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.dropdown-heading {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ifm-color-emphasis-600);
+  padding: 0.25rem 0.75rem;
+  display: block;
+}
+
+.dropdown-heading-item {
+  pointer-events: none;
+}
+
+/* Purchase/Learn More button styling */
+.navbar-purchase-button {
+  background-color: var(--gk-secondary);
+  color: white !important;
+  padding: 0.4rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+  margin-right: 1rem;
+  white-space: nowrap;
+}
+
+.navbar-purchase-button:hover {
+  background-color: #b81248;
+  color: white !important;
+  text-decoration: none;
+}
+
+[data-theme='dark'] .navbar-purchase-button {
+  background-color: var(--gk-secondary);
+}
+
+[data-theme='dark'] .navbar-purchase-button:hover {
+  background-color: #e01860;
+}
