@@ -51,6 +51,9 @@ jobs:
       - name: Generate hooks documentation
         run: npm run docs:generate
 
+      - name: Generate relationship graphs for LLMs
+        run: npm run relations:generate
+
       - name: Enhance documentation for LLMs
         run: npm run llm:enhance
 
