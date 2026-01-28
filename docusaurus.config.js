@@ -255,6 +255,11 @@ const config = {
   tagline: 'Comprehensive documentation for all GravityKit products',
   favicon: 'img/favicon-192.png',
 
+  // Client modules - runs on every page load
+  clientModules: [
+    './src/clientModules/docsbot.js',
+  ],
+
   // Set the production url of your site here
   url: site_url,
   // Set the /<baseUrl>/ pathname under which your site is served
