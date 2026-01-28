@@ -2,6 +2,8 @@
 sidebar_position: 2
 title: Filters
 description: Filter hooks available in {{label}}
+pagination_prev: null
+pagination_next: null
 ---
 
 # {{label}} Filters

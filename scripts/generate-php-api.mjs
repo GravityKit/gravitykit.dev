@@ -1189,11 +1189,23 @@ function formatSourceMarkdown({ product, repoRef, file, line }) {
 
 function mdEscape(text) {
   return (text ?? '')
+    .replace(/</g, '&lt;')        // Escape HTML < to prevent tag interpretation
+    .replace(/>/g, '&gt;')        // Escape HTML > to prevent tag interpretation
     .replace(/\|/g, '\\|')
     .replace(/  \r?\n/g, '<br>')  // Two trailing spaces + newline = <br>
     .replace(/\r?\n/g, ' ')       // Other newlines become spaces
     .replace(/  +/g, ' ')         // Collapse multiple spaces (but not <br>)
     .trim();
+}
+
+/**
+ * Escape HTML entities in text to prevent markdown/HTML parsing issues.
+ * Use this for descriptions and summaries that appear in markdown content.
+ */
+function htmlEscape(text) {
+  return String(text ?? '')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
 }
 
 /**
@@ -1378,28 +1390,38 @@ function codeTableType(typeString, ctx) {
 }
 
 function generateIndexMd({ productLabel, classCount, functionCount }) {
+  const browseItems = ['- [Classes](./classes/)'];
+  if (functionCount > 0) {
+    browseItems.push('- [Functions](./functions/)');
+  }
+
+  const stats = [`- **Classes:** ${classCount}`];
+  if (functionCount > 0) {
+    stats.push(`- **Functions:** ${functionCount}`);
+  }
+
   return `---
 sidebar_position: 4
 title: ${productLabel} API Reference
+pagination_prev: null
+pagination_next: null
 ---
 
 # ${productLabel} API Reference
 
 Generated from PHP source and PHPDoc comments.
 
-- **Classes:** ${classCount}
-- **Functions:** ${functionCount}
+${stats.join('\n')}
 
 ## Browse
 
-- [Classes](./classes/)
-- [Functions](./functions/)
+${browseItems.join('\n')}
 `;
 }
 
 function generateClassesIndexMd({ productLabel, classes }) {
   const items = classes
-    .map((c) => `- [\`${c.fqcn}\`](./${c.slug})${c.summary ? ` — ${c.summary}` : ''}`)
+    .map((c) => `- [\`${c.fqcn}\`](./${c.slug})${c.summary ? ` — ${htmlEscape(c.summary)}` : ''}`)
     .join('\n');
 
   return `---
@@ -1415,7 +1437,7 @@ ${items || '_No documented classes found._'}
 
 function generateFunctionsIndexMd({ productLabel, functions }) {
   const items = functions
-    .map((f) => `- [\`${f.fqfn}\`](./${f.slug})${f.summary ? ` — ${f.summary}` : ''}`)
+    .map((f) => `- [\`${f.fqfn}\`](./${f.slug})${f.summary ? ` — ${htmlEscape(f.summary)}` : ''}`)
     .join('\n');
 
   return `---
@@ -1468,8 +1490,9 @@ function generateClassPage({ productLabel, classSymbol, product, repoRef, typeLi
     : '';
 
   const methods = classSymbol.methods ?? [];
-  const methodTableRows = methods.length
-    ? methods
+  const documentedMethods = methods.filter((m) => hasMeaningfulDoc(m));
+  const methodTableRows = documentedMethods.length
+    ? documentedMethods
         .map(
           (m) =>
             `| [\`${m.name}()\`](#${m.name.toLowerCase()}) | ${mdEscape(m.summary || '')} |`
@@ -1477,8 +1500,7 @@ function generateClassPage({ productLabel, classSymbol, product, repoRef, typeLi
         .join('\n')
     : '';
 
-  const methodSections = methods
-    .filter((m) => hasMeaningfulDoc(m))
+  const methodSections = documentedMethods
     .map((m) => {
       const sourceLine = formatSourceMarkdown({ product, repoRef, file: m.file || classSymbol.file, line: m.line });
       const since = (m.tags?.since ?? []).map(parseSinceTagValue).filter(Boolean);
@@ -1495,8 +1517,8 @@ function generateClassPage({ productLabel, classSymbol, product, repoRef, typeLi
 
 \`${wordpressFormatSignature(phpShortArraySyntax(m.signature || `function ${m.name}()`))}\`
 
-${m.summary || ''}
-${m.description ? `\n${processInlineSeeRefs(m.description)}\n` : ''}
+${htmlEscape(m.summary || '')}
+${m.description ? `\n${processInlineSeeRefs(htmlEscape(m.description))}\n` : ''}
 ${paramsTable ? `\n#### Parameters\n\n${paramsTable}\n` : ''}
 ${resolvedReturnType || resolvedReturnDesc ? `\n#### Returns\n\n- ${codeInlineType(resolvedReturnType, typeLinkCtx)}${resolvedReturnDesc ? ` — ${mdEscape(resolvedReturnDesc)}` : ''}\n` : ''}
 ${throwsList.length ? `\n#### Throws\n\n${throwsList.map((t) => `- ${codeInlineType(t.type, typeLinkCtx)}${t.description ? ` — ${mdEscape(cleanDescription(t.description))}` : ''}`).join('\n')}\n` : ''}
@@ -1505,7 +1527,7 @@ ${renderSeeAlsoSection(m.tags, typeLinkCtx, { heading: '####' })}
 ${renderSinceTags(since)}
 ${deprecated.length ? `\n**Deprecated:** ${deprecated.map((d) => {
   const ver = d.version ? `\`${mdEscape(d.version)}\`` : '';
-  const desc = d.description ? processInlineSeeRefs(d.description) : '';
+  const desc = d.description ? processInlineSeeRefs(htmlEscape(d.description)) : '';
   if (ver && desc) return `${ver} (${desc})`;
   if (ver) return ver;
   if (desc) return desc;
@@ -1528,14 +1550,14 @@ ${formatTagsYaml(versionTags)}---
 
 # \`${fqcn}\`
 
-${classSymbol.summary || ''}
-${classSymbol.description ? `\n${processInlineSeeRefs(classSymbol.description)}\n` : ''}
+${htmlEscape(classSymbol.summary || '')}
+${classSymbol.description ? `\n${processInlineSeeRefs(htmlEscape(classSymbol.description))}\n` : ''}
 ${renderExamplesSection(classSymbol.tags, { heading: '##' })}
 ${renderSeeAlsoSection(classSymbol.tags, typeLinkCtx, { heading: '##' })}
 ${renderSinceTags(since)}
 ${deprecated.length ? `\n**Deprecated:** ${deprecated.map((d) => {
   const ver = d.version ? `\`${mdEscape(d.version)}\`` : '';
-  const desc = d.description ? processInlineSeeRefs(d.description) : '';
+  const desc = d.description ? processInlineSeeRefs(htmlEscape(d.description)) : '';
   if (ver && desc) return `${ver} (${desc})`;
   if (ver) return ver;
   if (desc) return desc;
@@ -1558,7 +1580,7 @@ ${propertyTableRows}
 ` : ''}
 ## Methods
 
-${methods.length ? `| Method | Description |
+${documentedMethods.length ? `| Method | Description |
 | --- | --- |
 ${methodTableRows}
 ` : '_No documented public methods found._'}
@@ -1603,14 +1625,14 @@ ${formatTagsYaml(versionTags)}---
 
 \`${wordpressFormatSignature(phpShortArraySyntax(functionSymbol.signature || `function ${shortName}()`))}\`
 
-${functionSymbol.summary || ''}
-${functionSymbol.description ? `\n${processInlineSeeRefs(functionSymbol.description)}\n` : ''}
+${htmlEscape(functionSymbol.summary || '')}
+${functionSymbol.description ? `\n${processInlineSeeRefs(htmlEscape(functionSymbol.description))}\n` : ''}
 ${renderExamplesSection(functionSymbol.tags, { heading: '##' })}
 ${renderSeeAlsoSection(functionSymbol.tags, typeLinkCtx, { heading: '##' })}
 ${renderSinceTags(since)}
 ${deprecated.length ? `\n**Deprecated:** ${deprecated.map((d) => {
   const ver = d.version ? `\`${mdEscape(d.version)}\`` : '';
-  const desc = d.description ? processInlineSeeRefs(d.description) : '';
+  const desc = d.description ? processInlineSeeRefs(htmlEscape(d.description)) : '';
   if (ver && desc) return `${ver} (${desc})`;
   if (ver) return ver;
   if (desc) return desc;

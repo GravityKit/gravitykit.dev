@@ -3,6 +3,8 @@ sidebar_position: 1
 sidebar_label: "{{label}}"
 title: {{label}} Developer Documentation
 description: Developer documentation for {{label}} including hooks, actions, filters, and PHP API reference
+pagination_prev: null
+pagination_next: null
 ---
 
 # {{label}}

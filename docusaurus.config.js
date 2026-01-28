@@ -41,13 +41,103 @@ const llms_sitemap_paths = [
   ...products_with_docs.map((product) => `docs/${product.id}/llms.txt`),
 ];
 
-// Generate navigation items from products
-const product_nav_items = config_products
-  .filter((product) => product?.label && product?.id)
-  .map((product) => ({
-    label: product.label,
-    href: `/docs/${product.id}/`,
-  }));
+// Generate navigation items grouped by category
+const categories = repos_config.categories || {};
+
+// Helper to get products by category
+function getProductsByCategory(categoryId) {
+  return config_products
+    .filter((p) => p?.category === categoryId && p?.label && p?.id)
+    .map((p) => ({
+      label: p.label,
+      href: `/docs/${p.id}/`,
+    }));
+}
+
+// Helper to get free add-ons (products with isFree: true)
+function getFreeProducts() {
+  return config_products
+    .filter((p) => p?.isFree === true && p?.label && p?.id)
+    .map((p) => ({
+      label: p.label,
+      href: `/docs/${p.id}/`,
+    }));
+}
+
+// Helper to get third-party products (products with isThirdParty: true)
+function getThirdPartyProducts() {
+  return config_products
+    .filter((p) => p?.isThirdParty === true && p?.label && p?.id)
+    .map((p) => ({
+      label: p.label,
+      href: `/docs/${p.id}/`,
+    }));
+}
+
+// Build GravityView dropdown with nested extensions and layouts
+const gravityview_nav = {
+  label: 'GravityView',
+  position: 'left',
+  items: [
+    { label: 'GravityView', href: '/docs/gravityview/' },
+    {
+      type: 'html',
+      value: '<hr class="dropdown-separator">',
+    },
+    {
+      type: 'html',
+      value: '<span class="dropdown-heading">Extensions</span>',
+      className: 'dropdown-heading-item',
+    },
+    ...getProductsByCategory('gravityview-extensions'),
+    {
+      type: 'html',
+      value: '<hr class="dropdown-separator">',
+    },
+    {
+      type: 'html',
+      value: '<span class="dropdown-heading">Layouts</span>',
+      className: 'dropdown-heading-item',
+    },
+    ...getProductsByCategory('gravityview-layouts'),
+  ],
+};
+
+// Build GravityKit Products dropdown (includes GravityView, free add-ons, and third-party)
+const gravitykit_nav = {
+  label: 'GravityKit Products',
+  position: 'left',
+  items: [
+    ...getProductsByCategory('gravitykit'),
+    { label: 'GravityView', href: '/docs/gravityview/' },
+    {
+      type: 'html',
+      value: '<hr class="dropdown-separator">',
+    },
+    {
+      type: 'html',
+      value: '<span class="dropdown-heading">Free Add-Ons</span>',
+      className: 'dropdown-heading-item',
+    },
+    ...getFreeProducts(),
+    {
+      type: 'html',
+      value: '<hr class="dropdown-separator">',
+    },
+    {
+      type: 'html',
+      value: '<span class="dropdown-heading">Third Party</span>',
+      className: 'dropdown-heading-item',
+    },
+    ...getThirdPartyProducts(),
+  ],
+};
+
+// Helper to get purchase URL for a product from repos-config.json
+function getProductPurchaseUrl(productId) {
+  const product = config_products.find((p) => p.id === productId);
+  return product?.purchaseUrl || null;
+}
 
 // Generate docs plugins for each product
 // Documentation is generated to ./docs/{product-id}/
@@ -273,10 +363,11 @@ const config = {
           src: 'img/gravitykit-icon.svg',
         },
         items: [
+          gravitykit_nav,
+          gravityview_nav,
           {
-            label: 'Products',
-            position: 'left',
-            items: product_nav_items,
+            type: 'custom-productLearnMoreLink',
+            position: 'right',
           },
         ],
       },
