@@ -2,6 +2,8 @@
 sidebar_position: 1
 title: Actions
 description: Action hooks available in {{label}}
+pagination_prev: null
+pagination_next: null
 ---
 
 # {{label}} Actions

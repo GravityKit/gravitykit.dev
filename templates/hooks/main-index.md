@@ -2,6 +2,8 @@
 sidebar_position: 1
 title: GravityKit Hooks Reference
 description: Complete reference for WordPress hooks in GravityKit products
+pagination_prev: null
+pagination_next: null
 ---
 
 # GravityKit Hooks Reference
