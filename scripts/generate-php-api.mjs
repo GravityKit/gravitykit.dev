@@ -1390,22 +1390,32 @@ function codeTableType(typeString, ctx) {
 }
 
 function generateIndexMd({ productLabel, classCount, functionCount }) {
+  const browseItems = ['- [Classes](./classes/)'];
+  if (functionCount > 0) {
+    browseItems.push('- [Functions](./functions/)');
+  }
+
+  const stats = [`- **Classes:** ${classCount}`];
+  if (functionCount > 0) {
+    stats.push(`- **Functions:** ${functionCount}`);
+  }
+
   return `---
 sidebar_position: 4
 title: ${productLabel} API Reference
+pagination_prev: null
+pagination_next: null
 ---
 
 # ${productLabel} API Reference
 
 Generated from PHP source and PHPDoc comments.
 
-- **Classes:** ${classCount}
-- **Functions:** ${functionCount}
+${stats.join('\n')}
 
 ## Browse
 
-- [Classes](./classes/)
-- [Functions](./functions/)
+${browseItems.join('\n')}
 `;
 }
 
