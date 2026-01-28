@@ -8,6 +8,11 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import styles from './index.module.css';
 
+// Import centralized product configuration
+import reposConfig from '../../repos-config.json';
+
+const { categories, products } = reposConfig;
+
 /**
  * Build an absolute URL using the site config base URL.
  * @param {string} siteUrl
@@ -24,6 +29,72 @@ function buildAbsoluteUrl(siteUrl, baseUrl, pathname) {
   const normalizedPath = pathname.replace(/^\/+/, '');
 
   return `${origin}${baseUrlWithSlash}${normalizedPath}`;
+}
+
+/**
+ * Get products by category ID, sorted alphabetically by label.
+ * @param {string} categoryId
+ * @param {Object} options
+ * @param {string} options.showFirst - Product ID to show first
+ * @param {boolean} options.excludeThirdParty - Exclude third-party products
+ * @returns {Array}
+ */
+function getProductsByCategory(categoryId, options = {}) {
+  const { showFirst, excludeThirdParty = false } = options;
+
+  let filtered = products.filter((p) => {
+    if (p.category !== categoryId) return false;
+    if (excludeThirdParty && p.isThirdParty) return false;
+    return true;
+  });
+
+  // Sort alphabetically
+  filtered.sort((a, b) => a.label.localeCompare(b.label));
+
+  // Move showFirst product to the beginning
+  if (showFirst) {
+    const firstIndex = filtered.findIndex((p) => p.id === showFirst);
+    if (firstIndex > 0) {
+      const [first] = filtered.splice(firstIndex, 1);
+      filtered.unshift(first);
+    }
+  }
+
+  return filtered.map((p) => ({
+    id: p.id,
+    title: p.label,
+    description: p.description || '',
+    link: `/docs/${p.id}/`,
+  }));
+}
+
+/**
+ * Get third-party products (isThirdParty: true).
+ * @returns {Array}
+ */
+function getThirdPartyProducts() {
+  return products
+    .filter((p) => p.isThirdParty === true)
+    .sort((a, b) => a.label.localeCompare(b.label))
+    .map((p) => ({
+      id: p.id,
+      title: p.label,
+      description: p.description || '',
+      link: `/docs/${p.id}/`,
+    }));
+}
+
+/**
+ * Get sorted categories for display.
+ * @returns {Array}
+ */
+function getSortedCategories() {
+  return Object.entries(categories)
+    .map(([id, config]) => ({
+      id,
+      ...config,
+    }))
+    .sort((a, b) => (a.position || 99) - (b.position || 99));
 }
 
 /**
@@ -44,187 +115,25 @@ function HomepageHeader() {
   );
 }
 
-// Main GravityKit Products
-const mainProducts = [
-  {
-    title: 'GravityView',
-    description: 'Display Gravity Forms entries in beautiful, customizable layouts.',
-    link: '/docs/gravityview/'
-  },
-  {
-    title: 'GravityCalendar',
-    description: 'Transform entries into interactive calendars with FullCalendar.',
-    link: '/docs/gravitycalendar/'
-  },
-  {
-    title: 'GravityCharts',
-    description: 'Visualize form data with powerful charts and graphs.',
-    link: '/docs/gravitycharts/'
-  },
-  {
-    title: 'GravityImport',
-    description: 'Import data into Gravity Forms from CSV, Excel, and more.',
-    link: '/docs/gravityimport/'
-  },
-  {
-    title: 'GravityExport',
-    description: 'Export form entries in multiple formats.',
-    link: '/docs/gravityexport/'
-  },
-  {
-    title: 'GravityMath',
-    description: 'Advanced mathematical calculations for your forms.',
-    link: '/docs/gravitymath/'
-  },
-  {
-    title: 'GravityEdit',
-    description: 'Edit Gravity Forms entries inline to save time and streamline your workflow.',
-    link: '/docs/gravityedit/'
-  },
-  {
-    title: 'GravityActions',
-    description: 'Update multiple entries at once, send bulk emails, and automate workflows.',
-    link: '/docs/gravityactions/'
-  },
-  {
-    title: 'GravityRevisions',
-    description: 'Track, compare, and restore changes made to forms and entries.',
-    link: '/docs/gravityrevisions/'
-  },
-  {
-    title: 'GravityMigrate',
-    description: 'Migrate all Gravity Forms data including forms, entries, Views, and feeds.',
-    link: '/docs/gravitymigrate/'
-  },
-  {
-    title: 'GravityBoard',
-    description: 'Manage projects with collaborative Kanban-style project boards.',
-    link: '/docs/gravityboard/'
-  }
-];
-
-// GravityView Layouts
-const gravityviewLayouts = [
-  {
-    title: 'DataTables',
-    description: 'Enhance Views with sortable, searchable DataTables.',
-    link: '/docs/gravityview-datatables/',
-    slug: 'gravityview-datatables'
-  },
-  {
-    title: 'DIY Layout',
-    description: 'Build custom layouts with complete control over HTML and CSS.',
-    link: '/docs/gravityview-diy-layout/',
-    slug: 'gravityview-diy-layout'
-  },
-  {
-    title: 'Maps',
-    description: 'Display entries on interactive Google Maps.',
-    link: '/docs/gravityview-maps/',
-    slug: 'gravityview-maps'
-  }
-];
-
-// GravityView Extensions
-const gravityviewExtensions = [
-  {
-    title: 'Advanced Filtering',
-    description: 'Add powerful filtering capabilities to your Views.',
-    link: '/docs/gravityview-advanced-filtering/',
-    slug: 'gravityview-advanced-filtering'
-  },
-  {
-    title: 'A-Z Filters',
-    description: 'Filter entries alphabetically with letter-based navigation.',
-    link: '/docs/gravityview-az-filters/',
-    slug: 'gravityview-az-filters'
-  },
-  {
-    title: 'Dashboard Views',
-    description: 'Display Views in the WordPress admin dashboard.',
-    link: '/docs/gravityview-dashboard-views/',
-    slug: 'gravityview-dashboard-views'
-  },
-  {
-    title: 'Featured Entries',
-    description: 'Highlight and pin important entries to the top of Views.',
-    link: '/docs/gravityview-featured-entries/',
-    slug: 'gravityview-featured-entries'
-  },
-  {
-    title: 'Magic Links',
-    description: 'Share unique links for accessing entries without logging in.',
-    link: '/docs/gravityview-magic-links/',
-    slug: 'gravityview-magic-links'
-  },
-  {
-    title: 'Multiple Forms',
-    description: 'Combine entries from multiple forms into a single View.',
-    link: '/docs/gravityview-multiple-forms/',
-    slug: 'gravityview-multiple-forms'
-  },
-  {
-    title: 'Ratings & Reviews',
-    description: 'Add star ratings and reviews to your entries.',
-    link: '/docs/gravityview-ratings-reviews/',
-    slug: 'gravityview-ratings-reviews'
-  },
-  {
-    title: 'Social Sharing & SEO',
-    description: 'Enable social sharing and optimize entries for search engines.',
-    link: '/docs/gravityview-social-sharing-seo/',
-    slug: 'gravityview-social-sharing-seo'
-  }
-];
-
-// Free Gravity Forms Add-ons
-const gravityFormsAddons = [
-  {
-    title: 'Zero Spam',
-    description: 'Block spam submissions without CAPTCHAs or honeypots.',
-    link: '/docs/gravity-forms-zero-spam/',
-    slug: 'gravity-forms-zero-spam'
-  },
-  {
-    title: 'Dynamic Lookup',
-    description: 'Dynamically populate fields from other forms or entries.',
-    link: '/docs/gravity-forms-dynamic-lookup/',
-    slug: 'gravity-forms-dynamic-lookup'
-  },
-  {
-    title: 'Entry Tags',
-    description: 'Organize entries with customizable tags.',
-    link: '/docs/gravity-forms-entry-tags/',
-    slug: 'gravity-forms-entry-tags'
-  },
-  {
-    title: 'Event Field',
-    description: 'Add event scheduling fields with date, time, and recurrence.',
-    link: '/docs/gravity-forms-event-field/',
-    slug: 'gravity-forms-event-field'
-  },
-  {
-    title: 'Elementor Widget',
-    description: 'Embed Gravity Forms in Elementor with a native widget.',
-    link: '/docs/gravity-forms-elementor-widget/',
-    slug: 'gravity-forms-elementor-widget'
-  }
-];
-
 /**
  * Render a product card.
- * @param {{product: {title: string, description: string, link: string, slug?: string}, showImage?: boolean}} props
+ * @param {{product: {id: string, title: string, description: string, link: string}, showImage?: boolean}} props
  * @returns {JSX.Element}
  */
 function ProductCard({ product, showImage = true }) {
-  const imageName = product.slug || product.title.toLowerCase();
+  const imagePath = useBaseUrl(`/img/${product.id}.svg`);
+
   return (
     <div className={clsx('col col--4 margin-bottom--lg')}>
       <div className="card">
         <div className="card__header">
           {showImage && (
             <Link to={product.link}>
-              <img src={useBaseUrl(`/img/${imageName}.svg`)} alt={product.title} />
+              <img
+                src={imagePath}
+                alt={product.title}
+                onError={(e) => { e.target.style.display = 'none'; }}
+              />
             </Link>
           )}
           <Link to={product.link}>
@@ -248,10 +157,14 @@ function ProductCard({ product, showImage = true }) {
 
 /**
  * Render a section of product cards.
- * @param {{title: string, description: string, products: Array<{title: string, description: string, link: string, slug?: string}>, showImages?: boolean}} props
- * @returns {JSX.Element}
+ * @param {{title: string, description: string, products: Array, showImages?: boolean}} props
+ * @returns {JSX.Element|null}
  */
 function ProductSection({ title, description, products, showImages = true }) {
+  if (!products || products.length === 0) {
+    return null;
+  }
+
   return (
     <section className={styles.products}>
       <div className="container">
@@ -260,8 +173,8 @@ function ProductSection({ title, description, products, showImages = true }) {
           {description && <p className="hero__subtitle">{description}</p>}
         </div>
         <div className="row">
-          {products.map((product, idx) => (
-            <ProductCard key={idx} product={product} showImage={showImages} />
+          {products.map((product) => (
+            <ProductCard key={product.id} product={product} showImage={showImages} />
           ))}
         </div>
       </div>
@@ -275,7 +188,8 @@ function ProductSection({ title, description, products, showImages = true }) {
  */
 export default function Home() {
   const {siteConfig} = useDocusaurusContext();
-  const totalProducts = mainProducts.length + gravityviewLayouts.length + gravityviewExtensions.length + gravityFormsAddons.length;
+  const sortedCategories = getSortedCategories();
+  const thirdPartyProducts = getThirdPartyProducts();
   const llmsHref = buildAbsoluteUrl(siteConfig.url, siteConfig.baseUrl, 'llms.txt');
 
   return (
@@ -287,38 +201,50 @@ export default function Home() {
       </Head>
       <HomepageHeader />
       <main>
+        {sortedCategories.map((category) => {
+          // Special handling for gravitykit category: include GravityView first
+          const options = category.id === 'gravitykit'
+            ? { showFirst: 'gravityview' }
+            : { excludeThirdParty: true };
+
+          // For gravitykit, also include gravityview at the end
+          let categoryProducts;
+          if (category.id === 'gravitykit') {
+            const gravityview = products.find((p) => p.id === 'gravityview');
+            const gravityKitProducts = getProductsByCategory('gravitykit');
+            categoryProducts = gravityview
+              ? [...gravityKitProducts, { id: gravityview.id, title: gravityview.label, description: gravityview.description, link: `/docs/${gravityview.id}/` }]
+              : gravityKitProducts;
+          } else if (category.id === 'gravityview') {
+            // Skip gravityview category since it's included in gravitykit
+            return null;
+          } else {
+            categoryProducts = getProductsByCategory(category.id, options);
+          }
+
+          return (
+            <ProductSection
+              key={category.id}
+              title={category.label}
+              description={category.description}
+              products={categoryProducts}
+              showImages={true}
+            />
+          );
+        })}
+
+        {/* Third Party Section */}
         <ProductSection
-          title="Main Products"
-          description="Core GravityKit products with comprehensive functionality"
-          products={mainProducts}
+          title="Third Party"
+          description="Documentation for third-party plugins."
+          products={thirdPartyProducts}
           showImages={true}
-        />
-
-        <ProductSection
-          title="GravityView Layouts"
-          description="Alternative ways to display your View data"
-          products={gravityviewLayouts}
-          showImages={false}
-        />
-
-        <ProductSection
-          title="GravityView Extensions"
-          description="Add features and functionality to GravityView"
-          products={gravityviewExtensions}
-          showImages={false}
-        />
-
-        <ProductSection
-          title="Gravity Forms Add-ons"
-          description="Free plugins that enhance Gravity Forms"
-          products={gravityFormsAddons}
-          showImages={false}
         />
 
         <div className="container">
           <div className="text--center margin-top--lg margin-bottom--lg">
             <p>
-              <strong>{totalProducts} products</strong> with comprehensive hook documentation
+              <strong>{products.length} products</strong> with comprehensive hook documentation
             </p>
             <p>
               Looking for user documentation? Visit the{' '}
