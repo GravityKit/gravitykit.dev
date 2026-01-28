@@ -546,9 +546,21 @@ ${urlStructureSection}
 
 ## Machine-Readable Data
 
-For programmatic access to hook information:
+For programmatic access to hook information and code structure:
 
-### Recommended: Per-Product APIs (Smaller Files)
+### Class Relationship Graphs (For Code Understanding)
+- \`/relations/{product-id}.json\` - Class inheritance, traits, dependencies, and call graphs
+
+These relationship files enable AI assistants to understand codebase architecture without direct code access. Each file contains:
+- **extends** - Parent class inheritance
+- **implements** - Interface implementations
+- **uses** - Trait usage
+- **dependencies** - Constructor/method type-hinted dependencies
+- **instantiates** - Classes created via \`new\`
+- **staticCalls** - Static method calls to other classes
+- **usedBy** - Reverse lookup (what uses this class)
+
+### Hooks APIs (For WordPress Integration)
 - \`/api/hooks/index.json\` - Product directory with stats (~6KB)
 - \`/api/hooks/{product-id}.json\` - Individual product hooks (1KB-408KB each)
 

@@ -129,6 +129,31 @@ export default function productSitemapsPlugin(context, options) {
           };
         });
 
+        // Add machine-readable API files to sitemap
+        // Relations JSON (class relationships for code understanding)
+        sitemapItems.push({
+          url: normalizeUrl([baseUrl, 'relations', `${productId}.json`]),
+          lastmod: new Date().toISOString().split('T')[0],
+          changefreq: 'weekly',
+          priority: 0.8,
+        });
+
+        // Hooks JSON (WordPress hooks API)
+        sitemapItems.push({
+          url: normalizeUrl([baseUrl, 'api', 'hooks', `${productId}.json`]),
+          lastmod: new Date().toISOString().split('T')[0],
+          changefreq: 'weekly',
+          priority: 0.8,
+        });
+
+        // Product-specific llms.txt
+        sitemapItems.push({
+          url: normalizeUrl([baseUrl, 'docs', productId, 'llms.txt']),
+          lastmod: new Date().toISOString().split('T')[0],
+          changefreq: 'weekly',
+          priority: 0.8,
+        });
+
         // Generate sitemap XML
         const sitemapXML = generateSitemapXML(sitemapItems, productLabel);
 
