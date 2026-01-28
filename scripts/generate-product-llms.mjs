@@ -143,7 +143,8 @@ function generateProductLLMSTxt(productData) {
 
 - **Total Hooks:** 0
 - **Repository:** ${product.repo}
-${product.version ? `- **Version:** ${product.version}\n` : ''}- **JSON API:** \`/api/hooks/${product.id}.json\`
+${product.version ? `- **Version:** ${product.version}\n` : ''}- **Hooks JSON:** \`/api/hooks/${product.id}.json\`
+- **Relations JSON:** \`/relations/${product.id}.json\` (class relationships for code understanding)
 - **Documentation:** \`/docs/${product.id}/\`
 
 ## Status
@@ -153,7 +154,8 @@ This product currently has no documented hooks. Hooks documentation will be adde
 ## Related Resources
 
 - **Full Hook List:** \`/docs/${product.id}/actions/\` and \`/docs/${product.id}/filters/\`
-- **JSON API:** \`/api/hooks/${product.id}.json\`
+- **Hooks JSON:** \`/api/hooks/${product.id}.json\`
+- **Relations JSON:** \`/relations/${product.id}.json\`
 - **Support:** https://www.gravitykit.com/support/
 - **GitHub:** https://github.com/${product.repo}
 
@@ -193,7 +195,8 @@ This product currently has no documented hooks. Hooks documentation will be adde
 
 - **Total Hooks:** ${stats.total} (${stats.actions} actions, ${stats.filters} filters)
 - **Repository:** ${product.repo}
-${product.version ? `- **Version:** ${product.version}\n` : ''}- **JSON API:** \`/api/hooks/${product.id}.json\`
+${product.version ? `- **Version:** ${product.version}\n` : ''}- **Hooks JSON:** \`/api/hooks/${product.id}.json\`
+- **Relations JSON:** \`/relations/${product.id}.json\` (class relationships for code understanding)
 - **Documentation:** \`/docs/${product.id}/\`
 
 ## What You Can Do
@@ -293,6 +296,20 @@ Understanding ${product.label} hook naming helps you find what you need:
 - \`.../before_...\` - Fires before an action (preparation, validation)
 - \`.../after_...\` - Fires after an action (cleanup, logging)
 
+## Class Relationship Graph
+
+For deep code understanding, fetch \`/relations/${product.id}.json\` which contains:
+
+- **extends** - Parent class inheritance
+- **implements** - Interface implementations
+- **uses** - Trait usage
+- **dependencies** - Constructor/method type-hinted dependencies
+- **instantiates** - Classes created via \`new\`
+- **staticCalls** - Static method calls to other classes
+- **usedBy** - Reverse lookup (what uses this class)
+
+This graph enables understanding ${product.label}'s architecture without direct code access.
+
 ## Pro Tips for AI Assistants
 
 When helping developers with ${product.label}:
@@ -308,7 +325,8 @@ When helping developers with ${product.label}:
 ## Additional Resources
 
 - **Full Hook List:** \`/docs/${product.id}/actions/\` and \`/docs/${product.id}/filters/\`
-- **JSON API:** \`/api/hooks/${product.id}.json\`
+- **Hooks JSON:** \`/api/hooks/${product.id}.json\`
+- **Relations JSON:** \`/relations/${product.id}.json\`
 - **Support:** https://www.gravitykit.com/support/
 - **GitHub:** https://github.com/${product.repo}
 
