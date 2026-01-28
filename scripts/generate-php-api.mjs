@@ -1468,8 +1468,9 @@ function generateClassPage({ productLabel, classSymbol, product, repoRef, typeLi
     : '';
 
   const methods = classSymbol.methods ?? [];
-  const methodTableRows = methods.length
-    ? methods
+  const documentedMethods = methods.filter((m) => hasMeaningfulDoc(m));
+  const methodTableRows = documentedMethods.length
+    ? documentedMethods
         .map(
           (m) =>
             `| [\`${m.name}()\`](#${m.name.toLowerCase()}) | ${mdEscape(m.summary || '')} |`
@@ -1477,8 +1478,7 @@ function generateClassPage({ productLabel, classSymbol, product, repoRef, typeLi
         .join('\n')
     : '';
 
-  const methodSections = methods
-    .filter((m) => hasMeaningfulDoc(m))
+  const methodSections = documentedMethods
     .map((m) => {
       const sourceLine = formatSourceMarkdown({ product, repoRef, file: m.file || classSymbol.file, line: m.line });
       const since = (m.tags?.since ?? []).map(parseSinceTagValue).filter(Boolean);
@@ -1558,7 +1558,7 @@ ${propertyTableRows}
 ` : ''}
 ## Methods
 
-${methods.length ? `| Method | Description |
+${documentedMethods.length ? `| Method | Description |
 | --- | --- |
 ${methodTableRows}
 ` : '_No documented public methods found._'}
