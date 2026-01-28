@@ -375,23 +375,6 @@ const config = {
         style: 'dark',
         links: [
           {
-            title: 'Products',
-            items: [
-              {
-                label: 'GravityView',
-                to: '/docs/gravityview',
-              },
-              {
-                label: 'GravityCalendar',
-                to: '/docs/gravitycalendar',
-              },
-              {
-                label: 'GravityCharts',
-                to: '/docs/gravitycharts',
-              },
-            ],
-          },
-          {
             title: 'Resources',
             items: [
               {
@@ -422,7 +405,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} GravityKit.`,
+        copyright: `Copyright © ${new Date().getFullYear()} GravityKit. Gravity Forms is a registered trademark of Rocketgenius, Inc.`,
       },
       prism: {
         theme: prismThemes.github,

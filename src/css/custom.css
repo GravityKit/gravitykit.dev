@@ -254,3 +254,16 @@
 [data-theme='dark'] .navbar-purchase-button:hover {
   background-color: #e01860;
 }
+
+/* Footer link hover styles */
+.footer__link-item:hover {
+  color: #fff;
+}
+
+.footer__links .footer__link-item {
+  transition: color 0.2s ease;
+}
+
+[data-theme='dark'] .footer__link-item:hover {
+  color: #fff;
+}
