@@ -323,6 +323,26 @@
       "category": "gravity-forms",
       "purchaseUrl": "https://www.gravitykit.com/products/gravity-forms-zero-spam/",
       "isFree": true
+    },
+    {
+      "id": "pdf-for-gravityview",
+      "branch": "main",
+      "repo": "GravityPDF/pdf-for-gravityview",
+      "label": "PDF for GravityView",
+      "description": "Generate PDFs from GravityView entries using Gravity PDF.",
+      "category": "gravityview-extensions",
+      "purchaseUrl": "https://gravitypdf.com/shop/pdf-for-gravityview/",
+      "isThirdParty": true
+    },
+    {
+      "id": "image-hopper",
+      "branch": "main",
+      "repo": "GravityPDF/image-hopper",
+      "label": "Image Hopper",
+      "description": "Bulk image uploads and photo management for Gravity Forms.",
+      "category": "gravity-forms",
+      "purchaseUrl": "https://imagehopper.tech/",
+      "isThirdParty": true
     }
   ]
 }
