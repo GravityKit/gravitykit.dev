@@ -234,7 +234,7 @@
     },
     {
       "id": "gravitymath",
-      "repo": "gravityview/gravityview-math",
+      "repo": "GravityKit/GravityMath",
       "label": "GravityMath",
       "description": "Advanced mathematical calculations for your forms.",
       "category": "gravitykit",
@@ -255,6 +255,15 @@
       "description": "Track, compare, and restore changes made to forms and entries.",
       "category": "gravitykit",
       "purchaseUrl": "https://www.gravitykit.com/products/gravityrevisions/"
+    },
+    {
+      "id": "gravityflow",
+      "repo": "gravityforms/gravityflow",
+      "label": "Gravity Flow",
+      "description": "Automate your business processes with workflow steps for Gravity Forms.",
+      "category": "gravity-forms",
+      "purchaseUrl": "https://gravityflow.io/",
+      "isThirdParty": true
     },
     {
       "id": "gravityforms",
