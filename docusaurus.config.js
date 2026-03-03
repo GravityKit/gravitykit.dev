@@ -103,7 +103,7 @@ const gravityview_nav = {
   ],
 };
 
-// Build GravityKit Products dropdown (includes GravityView, free add-ons, and third-party)
+// Build GravityKit Products dropdown (includes GravityView and free add-ons)
 const gravitykit_nav = {
   label: 'GravityKit Products',
   position: 'left',
@@ -120,17 +120,22 @@ const gravitykit_nav = {
       className: 'dropdown-heading-item',
     },
     ...getFreeProducts(),
-    {
-      type: 'html',
-      value: '<hr class="dropdown-separator">',
-    },
-    {
-      type: 'html',
-      value: '<span class="dropdown-heading">Third Party</span>',
-      className: 'dropdown-heading-item',
-    },
-    ...getThirdPartyProducts(),
   ],
+};
+
+// Build Third-Party dropdown (Gravity Forms first)
+const thirdparty_nav = {
+  label: 'Third Party',
+  position: 'left',
+  items: (() => {
+    const items = getThirdPartyProducts();
+    const gfIndex = items.findIndex((p) => p.href === '/docs/gravityforms/');
+    if (gfIndex > 0) {
+      const [gf] = items.splice(gfIndex, 1);
+      items.unshift(gf);
+    }
+    return items;
+  })(),
 };
 
 // Helper to get purchase URL for a product from repos-config.json
@@ -370,6 +375,7 @@ const config = {
         items: [
           gravitykit_nav,
           gravityview_nav,
+          thirdparty_nav,
           {
             type: 'custom-productLearnMoreLink',
             position: 'right',
