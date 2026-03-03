@@ -73,15 +73,23 @@ function getProductsByCategory(categoryId, options = {}) {
  * @returns {Array}
  */
 function getThirdPartyProducts() {
-  return products
+  const filtered = products
     .filter((p) => p.isThirdParty === true)
-    .sort((a, b) => a.label.localeCompare(b.label))
-    .map((p) => ({
-      id: p.id,
-      title: p.label,
-      description: p.description || '',
-      link: `/docs/${p.id}/`,
-    }));
+    .sort((a, b) => a.label.localeCompare(b.label));
+
+  // Gravity Forms first
+  const gfIndex = filtered.findIndex((p) => p.id === 'gravityforms');
+  if (gfIndex > 0) {
+    const [gf] = filtered.splice(gfIndex, 1);
+    filtered.unshift(gf);
+  }
+
+  return filtered.map((p) => ({
+    id: p.id,
+    title: p.label,
+    description: p.description || '',
+    link: `/docs/${p.id}/`,
+  }));
 }
 
 /**
