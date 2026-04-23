@@ -389,6 +389,10 @@ const config = {
             title: 'Resources',
             items: [
               {
+                label: 'GravityView 3.0 beta migration guide',
+                to: '/migrating-to-3-0-dev-guide/',
+              },
+              {
                 label: 'Support',
                 href: 'https://www.gravitykit.com/support/',
               },
