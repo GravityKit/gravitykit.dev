@@ -168,6 +168,15 @@
       "purchaseUrl": "https://www.gravitykit.com/products/diy/"
     },
     {
+      "id": "block-mcp",
+      "repo": "GravityKit/block-mcp",
+      "label": "Block MCP",
+      "description": "The WordPress MCP that won't wreck your pages: give AI assistants surgical, block-level editing of your Gutenberg content.",
+      "category": "gravitykit",
+      "purchaseUrl": "https://www.gravitykit.com/wordpress-block-mcp/",
+      "isFree": true
+    },
+    {
       "id": "gravityactions",
       "repo": "GravityKit/GravityActions",
       "label": "GravityActions",
