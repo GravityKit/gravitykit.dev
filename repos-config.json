@@ -266,6 +266,14 @@
       "purchaseUrl": "https://www.gravitykit.com/products/gravityrevisions/"
     },
     {
+      "id": "gravitysearch",
+      "repo": "GravityKit/GravitySearch",
+      "label": "GravitySearch",
+      "description": "Advanced search across all your Gravity Forms entries with powerful filtering.",
+      "category": "gravitykit",
+      "purchaseUrl": "https://www.gravitykit.com/products/gravity-search/"
+    },
+    {
       "id": "gravityflow",
       "repo": "gravityforms/gravityflow",
       "label": "Gravity Flow",
