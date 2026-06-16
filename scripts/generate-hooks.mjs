@@ -435,6 +435,22 @@ function cleanupHookContent(outputDir) {
         }
       }
 
+      // Fix @example blocks where wp-hooks-documentor peeled a leading code
+      // COMMENT out of the example and rendered it as prose above the ```php
+      // fence. Its example parser (hook-collector.js) treats any text before the
+      // first add_filter/add_action/apply_filters/do_action/function as a
+      // "description", which wrongly captures leading `//` comments. Move those
+      // comment lines back inside the fence as the first code lines. Idempotent:
+      // once the comment is inside the fence this no longer matches.
+      {
+        const exampleCommentRe = /(^#{2,3} (?:Examples?|Example \d+)[^\n]*\n)(?:[ \t]*\n)*((?:[ \t]*\/\/[^\n]*\n)+)(?:[ \t]*\n)*(^```php[^\n]*\n)/gm;
+        const before = content;
+        content = content.replace(exampleCommentRe, (_m, heading, comments, fence) => heading + '\n' + fence + comments);
+        if (content !== before) {
+          modified = true;
+        }
+      }
+
       if (modified) {
         fs.writeFileSync(filePath, content);
       }
