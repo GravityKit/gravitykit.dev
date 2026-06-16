@@ -409,6 +409,32 @@ function cleanupHookContent(outputDir) {
         modified = true;
       }
 
+      // Fix double-escaped type shapes inside inline code spans.
+      // wp-hooks-documentor HTML-escapes `<`/`>` and wraps types in backticks
+      // (e.g. `array&lt;string,bool&gt;`). Markdown/MDX renders inline-code content
+      // literally — it does NOT decode entities — so the page shows the raw
+      // "array&lt;string,bool&gt;" instead of "array<string,bool>". Decode the
+      // entities INSIDE inline code spans only: prose outside backticks (e.g.
+      // "name =&gt; value") must stay escaped, and fenced ``` blocks are skipped.
+      // (API class docs use real <code> tags, where &lt; is correct — untouched.)
+      if (/`[^`\n]*&(?:lt|gt|amp);/.test(content)) {
+        const lines = content.split('\n');
+        let inFence = false;
+        let changedSpans = false;
+        for (let i = 0; i < lines.length; i++) {
+          if (/^\s*```/.test(lines[i])) { inFence = !inFence; continue; }
+          if (inFence) continue;
+          const next = lines[i].replace(/`([^`\n]+)`/g, (_m, inner) =>
+            '`' + inner.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&') + '`'
+          );
+          if (next !== lines[i]) { lines[i] = next; changedSpans = true; }
+        }
+        if (changedSpans) {
+          content = lines.join('\n');
+          modified = true;
+        }
+      }
+
       if (modified) {
         fs.writeFileSync(filePath, content);
       }
