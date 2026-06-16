@@ -1082,7 +1082,10 @@ function renderSeeAlsoSection(tags, typeLinkCtx, { heading = '##' } = {}) {
         const classUrl = resolveTypeUrl(className, typeLinkCtx);
         const methodRef = `\\${className}::${methodName}()`;
         if (classUrl) {
-          const link = `[\`${methodRef}\`](${classUrl}#${methodName.toLowerCase()})`;
+          // Link to the class page, not a method anchor: an @see-referenced method
+          // is often not a rendered heading on the target page (not in its public
+          // set), so `#method` anchors frequently 404. The class page always exists.
+          const link = `[\`${methodRef}\`](${classUrl})`;
           return description ? `- ${link} ${description}` : `- ${link}`;
         }
         // No link available, but still format nicely
@@ -1132,13 +1135,9 @@ function renderSinceTags(since) {
   if (!since || since.length === 0) return '';
 
   const formatEntry = (v) => {
-    const numericVersion = v.version.match(/^[\d.]+/)?.[0];
-    const versionSlug = numericVersion ? versionToSlug(numericVersion) : null;
-    // Link to since page if we have a valid numeric version
-    // Path is ../../../since/ because API docs are in api/classes/ or api/functions/
-    const ver = versionSlug
-      ? `[\`${mdEscape(v.version)}\`](../../../since/${versionSlug}/)`
-      : `\`${mdEscape(v.version)}\``;
+    // Render the version as plain text. Per-version "since" index pages are not
+    // generated, so linking to ../../../since/<version>/ produced broken links.
+    const ver = `\`${mdEscape(v.version)}\``;
     return v.description ? `${ver} (${mdEscape(v.description)})` : ver;
   };
 
