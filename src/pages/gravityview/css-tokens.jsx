@@ -65,7 +65,7 @@ function TokenReference() {
   const [showInternal, setShowInternal] = useState(false);
 
   useEffect(() => {
-    fetch('/api/css-tokens.json')
+    fetch('/api/css-tokens.json', { cache: 'no-cache' })
       .then((r) => (r.ok ? r.json() : { tokens: [] }))
       .then((d) => setTokens(Array.isArray(d.tokens) ? d.tokens : []))
       .catch(() => setTokens([]));
