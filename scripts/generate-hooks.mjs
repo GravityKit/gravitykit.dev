@@ -332,18 +332,9 @@ function addTagsToHooks(outputDir) {
           }
         }
 
-        // Convert Since section to use links to tag pages
-        // Replace "- 1.0" with "- [1.0](../../since/1-0/)"
-        // Path is ../../ because docs are in actions/ or filters/ subdirs
-        let newSinceSection = sinceMatch[0];
-        for (const tag of tags) {
-          const tagSlug = tag.replace(/\./g, '-');
-          newSinceSection = newSinceSection.replace(
-            new RegExp(`- ${tag.replace(/\./g, '\\.')}(?!\\])`, 'g'),
-            `- [${tag}](../../since/${tagSlug}/)`
-          );
-        }
-        content = content.replace(sinceMatch[0], newSinceSection);
+        // Leave the Since list as plain version numbers. Per-version "since"
+        // index pages are not generated, so linking to ../../since/<version>/
+        // produced broken links.
       }
 
       // Add tags to frontmatter if we have any

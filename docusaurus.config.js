@@ -31,6 +31,11 @@ const products_with_docs = config_products
     return fs.existsSync(docsDir);
   });
 
+// Only link to products that actually have generated docs. Configured-but-docless
+// products (e.g. block-mcp, gravitysearch) otherwise produce broken nav links on
+// every page.
+const product_ids_with_docs = new Set(products_with_docs.map((p) => p.id));
+
 // Read actual plugin versions from repository files
 const product_versions = readAllProductVersions(config_products);
 
@@ -48,6 +53,7 @@ const categories = repos_config.categories || {};
 function getProductsByCategory(categoryId) {
   return config_products
     .filter((p) => p?.category === categoryId && p?.label && p?.id)
+    .filter((p) => product_ids_with_docs.has(p.id))
     .map((p) => ({
       label: p.label,
       href: `/docs/${p.id}/`,
@@ -58,6 +64,7 @@ function getProductsByCategory(categoryId) {
 function getFreeProducts() {
   return config_products
     .filter((p) => p?.isFree === true && p?.label && p?.id)
+    .filter((p) => product_ids_with_docs.has(p.id))
     .map((p) => ({
       label: p.label,
       href: `/docs/${p.id}/`,
@@ -68,6 +75,7 @@ function getFreeProducts() {
 function getThirdPartyProducts() {
   return config_products
     .filter((p) => p?.isThirdParty === true && p?.label && p?.id)
+    .filter((p) => product_ids_with_docs.has(p.id))
     .map((p) => ({
       label: p.label,
       href: `/docs/${p.id}/`,

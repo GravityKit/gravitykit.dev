@@ -1132,13 +1132,9 @@ function renderSinceTags(since) {
   if (!since || since.length === 0) return '';
 
   const formatEntry = (v) => {
-    const numericVersion = v.version.match(/^[\d.]+/)?.[0];
-    const versionSlug = numericVersion ? versionToSlug(numericVersion) : null;
-    // Link to since page if we have a valid numeric version
-    // Path is ../../../since/ because API docs are in api/classes/ or api/functions/
-    const ver = versionSlug
-      ? `[\`${mdEscape(v.version)}\`](../../../since/${versionSlug}/)`
-      : `\`${mdEscape(v.version)}\``;
+    // Render the version as plain text. Per-version "since" index pages are not
+    // generated, so linking to ../../../since/<version>/ produced broken links.
+    const ver = `\`${mdEscape(v.version)}\``;
     return v.description ? `${ver} (${mdEscape(v.description)})` : ver;
   };
 
