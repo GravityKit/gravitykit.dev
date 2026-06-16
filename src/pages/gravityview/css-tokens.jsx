@@ -125,7 +125,7 @@ function TokenReference() {
       </div>
 
       <div style={{ overflowX: 'auto' }}>
-        <table style={{ minWidth: '720px' }}>
+        <table style={{ minWidth: '1000px' }}>
         <thead>
           <tr>
             <th>CSS variable</th>
