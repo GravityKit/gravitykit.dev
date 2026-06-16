@@ -58,6 +58,11 @@
       "label": "Gravity Forms Add-Ons",
       "description": "Free and third-party plugins that enhance Gravity Forms.",
       "position": 5
+    },
+    "mcps": {
+      "label": "MCPs",
+      "description": "Model Context Protocol servers that connect AI assistants to your WordPress site.",
+      "position": 6
     }
   },
   "products": [
@@ -172,8 +177,8 @@
       "repo": "GravityKit/block-mcp",
       "label": "Block MCP",
       "description": "The WordPress MCP that won't wreck your pages: give AI assistants surgical, block-level editing of your Gutenberg content.",
-      "category": "gravitykit",
-      "purchaseUrl": "https://www.gravitykit.com/wordpress-block-mcp/",
+      "category": "mcps",
+      "purchaseUrl": "https://www.gravitykit.com/products/block-mcp/",
       "isFree": true
     },
     {
