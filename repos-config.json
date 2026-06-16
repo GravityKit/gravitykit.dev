@@ -290,6 +290,7 @@
     {
       "id": "gravityforms",
       "repo": "gravityforms/gravityforms",
+      "fullApi": true,
       "label": "Gravity Forms",
       "description": "The best WordPress form plugin. Starter templates, advanced calculations, and more.",
       "category": "gravity-forms",
