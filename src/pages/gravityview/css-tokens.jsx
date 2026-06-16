@@ -124,7 +124,8 @@ function TokenReference() {
         <span style={{ color: 'var(--ifm-color-emphasis-600)', fontSize: 14 }}>{filtered.length} tokens</span>
       </div>
 
-      <table>
+      <div style={{ overflowX: 'auto' }}>
+        <table style={{ minWidth: '720px' }}>
         <thead>
           <tr>
             <th>CSS variable</th>
@@ -146,7 +147,7 @@ function TokenReference() {
                   <span style={{ marginLeft: 6, fontSize: 11, color: 'var(--ifm-color-success-dark)' }}>themeable</span>
                 ) : null}
               </td>
-              <td style={{ width: '160px', wordBreak: 'break-word' }}>
+              <td style={{ width: '160px', overflowWrap: 'anywhere' }}>
                 <code>{t.default === '' ? '(unset)' : t.default}</code>
               </td>
               <td style={{ fontSize: 13, width: '140px' }}>
@@ -157,7 +158,8 @@ function TokenReference() {
             </tr>
           ))}
         </tbody>
-      </table>
+        </table>
+      </div>
     </div>
   );
 }
