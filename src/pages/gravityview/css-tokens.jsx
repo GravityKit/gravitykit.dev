@@ -128,8 +128,8 @@ function TokenReference() {
         <thead>
           <tr>
             <th>CSS variable</th>
-            <th>Default</th>
-            <th>Control</th>
+            <th style={{ width: '160px' }}>Default</th>
+            <th style={{ width: '140px' }}>Control</th>
             <th>Description</th>
           </tr>
         </thead>
@@ -146,8 +146,10 @@ function TokenReference() {
                   <span style={{ marginLeft: 6, fontSize: 11, color: 'var(--ifm-color-success-dark)' }}>themeable</span>
                 ) : null}
               </td>
-              <td><code>{t.default === '' ? '(unset)' : t.default}</code></td>
-              <td style={{ fontSize: 13 }}>
+              <td style={{ width: '160px', wordBreak: 'break-word' }}>
+                <code>{t.default === '' ? '(unset)' : t.default}</code>
+              </td>
+              <td style={{ fontSize: 13, width: '140px' }}>
                 {t.control || ''}
                 {constraints(t) ? <div style={{ color: 'var(--ifm-color-emphasis-600)' }}>{constraints(t)}</div> : null}
               </td>
