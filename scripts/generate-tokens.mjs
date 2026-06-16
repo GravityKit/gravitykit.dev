@@ -76,7 +76,7 @@ export function toPublishedToken(record, productId) {
   return {
     ...record,
     product: productId,
-    url: `/docs/${productId}/css-tokens#${anchor(record.slug)}`,
+    url: `/${productId}/css-tokens#${anchor(record.slug)}`,
   };
 }
 
