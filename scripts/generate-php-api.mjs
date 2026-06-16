@@ -1082,7 +1082,10 @@ function renderSeeAlsoSection(tags, typeLinkCtx, { heading = '##' } = {}) {
         const classUrl = resolveTypeUrl(className, typeLinkCtx);
         const methodRef = `\\${className}::${methodName}()`;
         if (classUrl) {
-          const link = `[\`${methodRef}\`](${classUrl}#${methodName.toLowerCase()})`;
+          // Link to the class page, not a method anchor: an @see-referenced method
+          // is often not a rendered heading on the target page (not in its public
+          // set), so `#method` anchors frequently 404. The class page always exists.
+          const link = `[\`${methodRef}\`](${classUrl})`;
           return description ? `- ${link} ${description}` : `- ${link}`;
         }
         // No link available, but still format nicely
