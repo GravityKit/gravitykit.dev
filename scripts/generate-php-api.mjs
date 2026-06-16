@@ -1155,6 +1155,83 @@ function formatSourceLabel(file, line) {
   return line ? `${file}:${line}` : file;
 }
 
+// --- PHP API JSON emitter (consumed by GravityKit/Docs-MCP via /api/php-api.json) ---
+// Builds records matching the docs-mcp ApiSymbol contract from the already-parsed,
+// already-public-filtered class/function objects. Reuses the same helpers the
+// markdown pages use, so the JSON's public set and field derivation stay in lockstep.
+
+function phpApiSince(symbol) {
+  const first = (symbol?.tags?.since ?? []).map(parseSinceTagValue).filter(Boolean)[0];
+  return first?.version || undefined;
+}
+
+function phpApiParams(symbol) {
+  const merged = mergeParams({ signature: symbol.signature, doc: symbol });
+  const params = merged.params
+    .filter((p) => p.name)
+    .map((p) => ({
+      name: p.name,
+      type: (p.type || '').trim() || undefined,
+      description: (p.description || '').trim() || undefined,
+    }));
+  return params.length ? params : undefined;
+}
+
+function phpApiReturns(symbol) {
+  const r = (symbol?.tags?.return ?? []).map(parseReturnTagValue).filter(Boolean)[0];
+  if (!r) return undefined;
+  const type = (r.type || '').trim();
+  const description = (r.description || '').trim();
+  if (!type && !description) return undefined;
+  return { type: type || undefined, description: description || undefined };
+}
+
+function buildClassApiSymbol(c, productId) {
+  const methods = (c.methods ?? []).map((m) => ({
+    name: m.name,
+    visibility: m.visibility || undefined,
+    static: m.static ? true : undefined,
+    signature: m.signature || undefined,
+    summary: m.summary || undefined,
+    description: m.description || undefined,
+    params: phpApiParams(m),
+    returns: phpApiReturns(m),
+    since: phpApiSince(m),
+    source: formatSourceLabel(m.file || c.file, m.line) || undefined,
+  }));
+  return {
+    kind: 'class',
+    name: c.name,
+    fqcn: String(c.fqcn || '').replace(/^\\+/, '') || c.name,
+    namespace: c.namespace || undefined,
+    product: productId,
+    summary: c.summary || undefined,
+    description: c.description || undefined,
+    since: phpApiSince(c),
+    source: formatSourceLabel(c.file, c.line) || undefined,
+    url: `/docs/${productId}/api/classes/${c.slug}/`,
+    methods: methods.length ? methods : undefined,
+  };
+}
+
+function buildFunctionApiSymbol(f, productId) {
+  return {
+    kind: 'function',
+    name: f.name,
+    fqcn: String(f.fqfn || '').replace(/^\\+/, '') || f.name,
+    namespace: f.namespace || undefined,
+    product: productId,
+    signature: f.signature || undefined,
+    summary: f.summary || undefined,
+    description: f.description || undefined,
+    since: phpApiSince(f),
+    source: formatSourceLabel(f.file, f.line) || undefined,
+    url: `/docs/${productId}/api/functions/${f.slug}/`,
+    params: phpApiParams(f),
+    returns: phpApiReturns(f),
+  };
+}
+
 function resolveRepoRef(repoDir, fallbackRef) {
   const result = spawnSync('git', ['rev-parse', 'HEAD'], { cwd: repoDir, encoding: 'utf8', stdio: 'pipe' });
   if (!result.error && result.status === 0) {
@@ -1864,6 +1941,7 @@ function main() {
   let okCount = 0;
   let skipCount = 0;
   let failCount = 0;
+  const allPhpApiSymbols = [];
 
   for (const product of selected) {
     if (!product?.id || !product?.repo) continue;
@@ -2029,6 +2107,11 @@ function main() {
       .filter((f) => !f.internal && f.publicApi)
       .sort((a, b) => a.fqfn.localeCompare(b.fqfn));
 
+    // Accumulate this product's public symbols for the consolidated php-api.json.
+    // Done before the zero-skip below so products with symbols always contribute.
+    for (const c of classes) allPhpApiSymbols.push(buildClassApiSymbol(c, product.id));
+    for (const f of functions) allPhpApiSymbols.push(buildFunctionApiSymbol(f, product.id));
+
     rmDir(outputDir, args.dryRun);
     ensureDir(outputDir, args.dryRun);
 
@@ -2126,6 +2209,21 @@ function main() {
 
     console.log(`✅ ${product.id}: ${classes.length} classes, ${functions.length} functions`);
     okCount++;
+  }
+
+  // Write the consolidated PHP API JSON (full runs only — a single --product run
+  // must not overwrite the all-products file). Lives at static/api/php-api.json,
+  // served at https://www.gravitykit.dev/api/php-api.json for the docs MCP.
+  if (!args.product) {
+    const apiJsonDir = path.join(PROJECT_ROOT, 'static', 'api');
+    ensureDir(apiJsonDir, args.dryRun);
+    allPhpApiSymbols.sort((a, b) => (a.fqcn || a.name).localeCompare(b.fqcn || b.name));
+    writeFile(
+      path.join(apiJsonDir, 'php-api.json'),
+      JSON.stringify({ generated: new Date().toISOString(), symbols: allPhpApiSymbols }, null, 2) + '\n',
+      args.dryRun
+    );
+    console.log(`📦 Wrote static/api/php-api.json (${allPhpApiSymbols.length} symbols)`);
   }
 
   console.log(`\nDone. OK: ${okCount}, skipped: ${skipCount}, failed: ${failCount}`);
