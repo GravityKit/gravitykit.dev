@@ -2047,11 +2047,14 @@ function main() {
         const hasReferencedMethods = referencedMethods.size > 0;
         const isReferenced = classReferenced || hasReferencedMethods;
 
-        // Include if: explicitly marked @api/@public, referenced in @see, or has meaningful docs (when no filter)
+        // Include if: explicitly marked @api/@public, referenced in @see, or has meaningful docs (when no filter).
+        // Products flagged `fullApi` (e.g. Gravity Forms) document every non-internal class.
         const markedPublic = isMarkedPublicApi(doc) || methods.some((m) => isMarkedPublicApi(m));
-        const publicApi = markedPublic || (hasReferenceFilter
-          ? isReferenced
-          : (hasMeaningfulDoc(doc) || methods.some((m) => hasMeaningfulDoc(m))));
+        const publicApi = product.fullApi
+          ? true
+          : markedPublic || (hasReferenceFilter
+            ? isReferenced
+            : (hasMeaningfulDoc(doc) || methods.some((m) => hasMeaningfulDoc(m))));
 
         return {
           ...c,
@@ -2086,11 +2089,14 @@ function main() {
         // Check if function is referenced in @see
         const isReferenced = referencedSymbols.functions.has(fqfn) || referencedSymbols.functions.has(funcName);
 
-        // Include if: explicitly marked @api/@public, referenced in @see, or has meaningful docs (when no filter)
+        // Include if: explicitly marked @api/@public, referenced in @see, or has meaningful docs (when no filter).
+        // Products flagged `fullApi` document every non-underscore function.
         const markedPublic = isMarkedPublicApi(doc);
-        const publicApi = markedPublic || (hasReferenceFilter
-          ? isReferenced
-          : (hasMeaningfulDoc(doc) && !funcName.startsWith('_')));
+        const publicApi = product.fullApi
+          ? !funcName.startsWith('_')
+          : markedPublic || (hasReferenceFilter
+            ? isReferenced
+            : (hasMeaningfulDoc(doc) && !funcName.startsWith('_')));
 
         return {
           ...f,
