@@ -20,6 +20,9 @@ const defaultLink = {
 
 // Add UTM parameters to URL
 function addUtmParams(url, productId) {
+  if (!url) {
+    return url;
+  }
   const utmParams = new URLSearchParams({
     utm_source: 'developer-docs',
     utm_medium: 'navbar',
@@ -39,6 +42,14 @@ export default function ProductLearnMoreLink() {
 
   // Get product config or use default
   const product = productId && productConfig[productId];
+
+  // A product may exist in config without a purchaseUrl (e.g. a developer
+  // library with no product page). It has no commercial "learn more"
+  // destination, so render nothing rather than crash on an undefined URL.
+  const isProductWithoutPurchaseUrl = product && !product.purchaseUrl;
+  if (isProductWithoutPurchaseUrl) {
+    return null;
+  }
 
   const linkText = product ? `Learn more about ${product.label}` : defaultLink.label;
   const baseHref = product ? product.purchaseUrl : defaultLink.href;
