@@ -279,6 +279,13 @@
       "purchaseUrl": "https://www.gravitykit.com/products/gravitysearch/"
     },
     {
+      "id": "query-filters",
+      "repo": "GravityKit/Query-Filters",
+      "label": "Query Filters",
+      "description": "Advanced filtering for Gravity Forms' GF_Query and form fields — the shared library behind Advanced Filter, GravityExport, GravityCalendar, GravityCharts, and GravityBoard.",
+      "category": "gravitykit"
+    },
+    {
       "id": "gravityflow",
       "repo": "gravityforms/gravityflow",
       "label": "Gravity Flow",
