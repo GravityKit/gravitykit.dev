@@ -82,3 +82,16 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  # Tell the docs MCP to re-embed the published corpus for semantic_search.
+  # Inert until the MCP_REINDEX_PAT secret (a fine-grained PAT with actions:write
+  # on GravityKit/Docs-MCP) is added; the step skips cleanly otherwise.
+  reindex-mcp:
+    runs-on: ubuntu-latest
+    needs: deploy
+    steps:
+      - name: Trigger semantic reindex
+        env:
+          GH_TOKEN: ${{ secrets.MCP_REINDEX_PAT }}
+        if: ${{ env.GH_TOKEN != '' }}
+        run: gh workflow run reindex.yml -R GravityKit/Docs-MCP --ref main
