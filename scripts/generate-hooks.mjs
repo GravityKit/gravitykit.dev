@@ -400,6 +400,21 @@ function cleanupHookContent(outputDir) {
         modified = true;
       }
 
+      // Fix inline {@link URL description} PHPDoc tags inside descriptions.
+      // The upstream parser autolinks the URL but leaves the surrounding tag as
+      // literal text, and sanitizeContent then escapes the braces — so the page
+      // renders e.g. `\{@link <a href="URL">URL</a> Read more\}` verbatim.
+      // Rewrite it as a single link using the description as the anchor text
+      // (falling back to the URL when no description was provided).
+      const inlineLinkPattern = /\\\{@link\s+<a href="([^"]+)">.*?<\/a>\s*(.*?)\s*\\\}/g;
+      if (inlineLinkPattern.test(content)) {
+        content = content.replace(inlineLinkPattern, (match, url, description) => {
+          const linkText = description.trim() || url;
+          return `<a href="${url}">${linkText}</a>`;
+        });
+        modified = true;
+      }
+
       // Fix double-escaped type shapes inside inline code spans.
       // wp-hooks-documentor HTML-escapes `<`/`>` and wraps types in backticks
       // (e.g. `array&lt;string,bool&gt;`). Markdown/MDX renders inline-code content
