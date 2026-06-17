@@ -88,6 +88,7 @@ const gravityview_nav = {
   position: 'left',
   items: [
     { label: 'GravityView', href: '/docs/gravityview/' },
+    { label: 'Theming', href: '/gravityview/css-tokens/' },
     {
       type: 'html',
       value: '<hr class="dropdown-separator">',
@@ -156,15 +157,20 @@ function getProductPurchaseUrl(productId) {
 // Documentation is generated to ./docs/{product-id}/
 const product_docs_plugins = config_products
   .filter((product) => product?.id && product?.repo)
-  .map((product) => [
-    '@docusaurus/plugin-content-docs',
-    {
+  .map((product) => {
+    const options = {
       id: product.id,
       path: `./docs/${product.id}`,
       routeBasePath: `docs/${product.id}`,
       tagsBasePath: 'since',
-    },
-  ]);
+    };
+    // GravityView uses a custom sidebar that appends a link to the theming
+    // (CSS Design Tokens) page; every other product uses the default sidebars.js.
+    if (product.id === 'gravityview') {
+      options.sidebarPath = './sidebars-gravityview.js';
+    }
+    return ['@docusaurus/plugin-content-docs', options];
+  });
 
 // Generate customLLMFiles configuration for each product
 const customLLMFiles = products_with_docs
