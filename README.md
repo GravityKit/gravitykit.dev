@@ -49,7 +49,8 @@ npm run docs:full
 
 1. **Node.js 18+** - JavaScript runtime
 2. **Git** - For cloning repositories
-3. **wp-hooks-documentor** - Tool for extracting WordPress hooks
+3. **PHP 8.3+** - The hooks generator parses PHP source via php-parser (CI installs PHP 8.3). On macOS the default `php` may be older, so point at a newer build (e.g. `/opt/homebrew/bin/php`). Under PHP 8.5, php-parser emits `SplObjectStorage::attach()` deprecation notices that can corrupt the generator's JSON output; suppress them by running with `PHPRC` set to an ini containing `error_reporting = E_ALL & ~E_DEPRECATED` and `display_errors = stderr`.
+4. **wp-hooks-documentor** - Tool for extracting WordPress hooks
 
 ```bash
 # Install wp-hooks-documentor globally (GravityKit fork)
@@ -408,6 +409,10 @@ This repo includes a GitHub Actions workflow (`.github/workflows/deploy.yml`) th
    - Source: "GitHub Actions"
 
 4. Push to `main` branch - the workflow will automatically build and deploy
+
+**Updating the hooks generator:**
+
+`wp-hooks-documentor` is a pinned Git dependency (a GravityKit fork tracked on `develop`). CI runs `npm ci`, which installs the **exact commit recorded in `package-lock.json`**, not the branch tip. So a generator fix does not reach the site just by merging it to the fork's `develop`. After merging the fork change, bump the pinned commit here: update the `resolved` SHA on the `node_modules/wp-hooks-documentor` entry in `package-lock.json`, then merge that to `main` (which triggers a deploy). Edit the SHA by hand rather than running `npm install github:...#develop`, because the dependency is Git-aliased (folder `wp-hooks-documentor`, package name `@10up/wp-hooks-documentor`), so a plain install mis-resolves it and adds a duplicate scoped entry. Validate locally with `npm ci` before merging.
 
 **Custom Domain:**
 The site is configured for `gravitykit.dev`. To use a different domain:
