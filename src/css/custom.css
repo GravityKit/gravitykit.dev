@@ -185,6 +185,16 @@
   color: var(--ifm-color-primary);
 }
 
+/* Lead paragraph: the docblock summary (first sentence) sits directly after the
+   page title, as its own paragraph. Render it slightly larger so the summary
+   reads as a lead-in, without turning prose into a heading (keeps the a11y
+   heading outline and meta description intact). Applies to the intro paragraph
+   of other doc pages too. */
+.theme-doc-markdown > header + p {
+  font-size: 1.15rem;
+  line-height: 1.6;
+}
+
 /* Hook documentation specific styles */
 .hook-signature {
   background-color: var(--ifm-code-background);
