@@ -63,6 +63,11 @@
       "label": "MCPs",
       "description": "Model Context Protocol servers that connect AI assistants to your WordPress site.",
       "position": 6
+    },
+    "libraries": {
+      "label": "Libraries",
+      "description": "Shared developer libraries that power GravityKit products.",
+      "position": 7
     }
   },
   "products": [
@@ -279,11 +284,21 @@
       "purchaseUrl": "https://www.gravitykit.com/products/gravitysearch/"
     },
     {
+      "id": "foundation",
+      "repo": "GravityKit/Foundation",
+      "label": "Foundation",
+      "description": "The shared framework powering every GravityKit product: licensing, settings, admin UI, translations, and plugin updates.",
+      "category": "libraries",
+      "srcDir": "src",
+      "replaceIgnoreHooks": true,
+      "ignoreHooks": ["deprecated_*", "private_*", "_internal_*"]
+    },
+    {
       "id": "query-filters",
       "repo": "GravityKit/Query-Filters",
       "label": "Query Filters",
       "description": "Advanced filtering for Gravity Forms' GF_Query and form fields — the shared library behind Advanced Filter, GravityExport, GravityCalendar, GravityCharts, and GravityBoard.",
-      "category": "gravitykit"
+      "category": "libraries"
     },
     {
       "id": "gravityflow",

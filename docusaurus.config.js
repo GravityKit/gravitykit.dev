@@ -36,6 +36,17 @@ const products_with_docs = config_products
 // every page.
 const product_ids_with_docs = new Set(products_with_docs.map((p) => p.id));
 
+// Product icons live at static/img/{id}.svg. Not every product has one (e.g.
+// Foundation, Query Filters), so build a set of ids that do. The homepage uses
+// this to skip rendering a broken icon for products without an artwork file.
+const product_icon_dir = fileURLToPath(new URL('./static/img', import.meta.url));
+const product_ids_with_icons = fs.existsSync(product_icon_dir)
+  ? fs
+      .readdirSync(product_icon_dir)
+      .filter((file) => file.endsWith('.svg'))
+      .map((file) => file.replace(/\.svg$/, ''))
+  : [];
+
 // Read actual plugin versions from repository files
 const product_versions = readAllProductVersions(config_products);
 
@@ -129,6 +140,16 @@ const gravitykit_nav = {
       className: 'dropdown-heading-item',
     },
     ...getFreeProducts(),
+    {
+      type: 'html',
+      value: '<hr class="dropdown-separator">',
+    },
+    {
+      type: 'html',
+      value: '<span class="dropdown-heading">Libraries</span>',
+      className: 'dropdown-heading-item',
+    },
+    ...getProductsByCategory('libraries'),
   ],
 };
 
@@ -273,6 +294,12 @@ const config = {
   title: 'GravityKit Developer Documentation',
   tagline: 'Comprehensive documentation for all GravityKit products',
   favicon: 'img/favicon-192.png',
+
+  // Build-time data made available to pages via siteConfig.customFields.
+  customFields: {
+    // Product ids that have a static/img/{id}.svg icon file.
+    productIdsWithIcons: product_ids_with_icons,
+  },
 
   // Client modules - runs on every page load
   clientModules: [

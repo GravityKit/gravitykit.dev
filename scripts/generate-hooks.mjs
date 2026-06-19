@@ -711,7 +711,14 @@ function generateHooksDocs(product, config, options) {
       hooksConfig.ignoreFiles = [...hooksConfig.ignoreFiles, ...product.ignoreFiles];
     }
     if (product.ignoreHooks) {
-      hooksConfig.ignoreHooks = [...hooksConfig.ignoreHooks, ...product.ignoreHooks];
+      // By default a product's ignoreHooks are appended to the shared defaults.
+      // A product that needs to document hooks the defaults would strip (e.g.
+      // Foundation documenting its own gk/foundation/* hooks) sets
+      // replaceIgnoreHooks: true to replace the defaults entirely. This keeps
+      // every other product still ignoring those hooks.
+      hooksConfig.ignoreHooks = product.replaceIgnoreHooks
+        ? [...product.ignoreHooks]
+        : [...hooksConfig.ignoreHooks, ...product.ignoreHooks];
     }
 
     const configPath = path.join(tempWorkDir, 'wp-hooks-doc.json');

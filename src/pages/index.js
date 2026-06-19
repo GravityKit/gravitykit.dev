@@ -129,13 +129,16 @@ function HomepageHeader() {
  * @returns {JSX.Element}
  */
 function ProductCard({ product, showImage = true }) {
+  const { siteConfig } = useDocusaurusContext();
   const imagePath = useBaseUrl(`/img/${product.id}.svg`);
+  const iconIds = siteConfig.customFields?.productIdsWithIcons || [];
+  const hasIcon = iconIds.includes(product.id);
 
   return (
     <div className={clsx('col col--4 margin-bottom--lg')}>
       <div className="card">
         <div className="card__header">
-          {showImage && (
+          {showImage && hasIcon && (
             <Link to={product.link}>
               <img
                 src={imagePath}
