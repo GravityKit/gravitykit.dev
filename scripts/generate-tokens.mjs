@@ -18,8 +18,12 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import Ajv from 'ajv';
+import addFormats from 'ajv-formats';
+import { buildDocument } from './lib/dtcg.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = path.resolve(__dirname, '..');
@@ -27,6 +31,18 @@ const PROJECT_ROOT = path.resolve(__dirname, '..');
 // Products that expose a TokenRegistry. GravityView is the only one today; a
 // future product would add an entry and feed the same consolidated file.
 const TOKEN_PRODUCTS = [{ id: 'gravityview', repoName: 'GravityView' }];
+
+/**
+ * Slugs whose CSS value the DTCG rule table legitimately cannot recognise:
+ * `inherit`, `column`, `stretch`. Any OTHER token reaching the catch-all fails
+ * the build, so a registry rewrite cannot silently demote tokens to metadata.
+ * Widen this only after deciding the new form really has no DTCG type.
+ */
+const KNOWN_UNKNOWN_FORMS = [
+  'typography.font_family',
+  'typography.field_label_direction',
+  'layout.grid_align',
+];
 
 function loadConfig() {
   return JSON.parse(fs.readFileSync(path.join(PROJECT_ROOT, 'repos-config.json'), 'utf8'));
@@ -80,13 +96,40 @@ export function toPublishedToken(record, productId) {
   };
 }
 
+/**
+ * sha256 over the canonicalized registry input.
+ *
+ * The DTCG artifact carries this instead of a build timestamp: the weekly deploy
+ * cron would otherwise republish a byte-different file every Sunday, defeating
+ * caching and making "did the design system change?" undecidable by hash.
+ */
+function digestOf(records) {
+  const canonical = JSON.stringify(records, Object.keys(records[0] ?? {}).sort());
+  return `sha256:${crypto.createHash('sha256').update(canonical).digest('hex')}`;
+}
+
+/** Validate the DTCG artifact against the DTCG's own published JSON Schema. */
+function assertSchemaValid(document) {
+  const schema = JSON.parse(fs.readFileSync(path.join(__dirname, 'lib', 'dtcg-format-2025.10.schema.json'), 'utf8'));
+  const ajv = new Ajv({ allErrors: true, strict: false });
+  addFormats(ajv);
+  const validate = ajv.compile(schema);
+  if (validate(document)) return;
+  const errors = (validate.errors ?? []).slice(0, 20)
+    .map((e) => `  ${e.instancePath || '<root>'} ${e.message}`)
+    .join('\n');
+  throw new Error(`DTCG artifact fails the official 2025.10 schema:\n${errors}`);
+}
+
 function main() {
   const config = loadConfig();
   const tokens = [];
+  const dtcgProducts = [];
   for (const product of TOKEN_PRODUCTS) {
     const records = readRecords(product, config);
     if (!Array.isArray(records)) continue;
     for (const r of records) tokens.push(toPublishedToken(r, product.id));
+    dtcgProducts.push({ product, records });
     console.log(`✓ ${product.id}: ${records.length} CSS design tokens`);
   }
 
@@ -97,6 +140,28 @@ function main() {
     JSON.stringify({ generated: new Date().toISOString(), tokens }, null, 2) + '\n',
   );
   console.log(`📦 Wrote static/api/css-tokens.json (${tokens.length} tokens)`);
+
+  // The interop artifact. Only GravityView registers tokens today; a second
+  // product would need this to merge products into one document rather than
+  // overwrite, so fail loudly rather than silently publish one product's tokens.
+  if (dtcgProducts.length > 1) {
+    throw new Error('Multiple token products: buildDocument emits a single product group; merge support is unimplemented.');
+  }
+  if (dtcgProducts.length === 1) {
+    const { product, records } = dtcgProducts[0];
+    const { document, report } = buildDocument(records, {
+      productId: product.id,
+      repo: `GravityKit/${product.repoName}`,
+      registrySource: 'src/Settings/TokenRegistry.php',
+      sourceDigest: digestOf(records),
+      knownUnknownForms: KNOWN_UNKNOWN_FORMS,
+    });
+    assertSchemaValid(document);
+    fs.writeFileSync(path.join(outDir, 'css-tokens.tokens.json'), JSON.stringify(document, null, 2) + '\n');
+    const types = Object.entries(report.histogram).sort().map(([k, v]) => `${k} ${v}`).join(', ');
+    console.log(`📦 Wrote static/api/css-tokens.tokens.json (DTCG 2025.10: ${report.tokens} tokens, ${report.metadataOnly.length} unrepresentable)`);
+    console.log(`   types: ${types}`);
+  }
 }
 
 main();

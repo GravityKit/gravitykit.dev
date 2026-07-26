@@ -208,6 +208,125 @@ body .gv-container { --gv-color-primary: #7a1f1f; }
 :root { --gv-color-primary: #7a1f1f; }`}</code>
         </pre>
 
+        <h2>Machine-readable token files</h2>
+        <p>
+          Two generated files publish this reference as data. Both rebuild from GravityView's token registry on every
+          deploy, so anything you write into them is overwritten.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>File</th>
+              <th>Format</th>
+              <th>Use it for</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <a href="/api/css-tokens.tokens.json">
+                  <code>/api/css-tokens.tokens.json</code>
+                </a>
+              </td>
+              <td>
+                <a href="https://www.designtokens.org/TR/2025.10/format/">Design Tokens Format Module 2025.10</a>
+              </td>
+              <td>Design-tool interop: Style Dictionary, Terrazzo, Tokens Studio, Figma</td>
+            </tr>
+            <tr>
+              <td>
+                <a href="/api/css-tokens.json">
+                  <code>/api/css-tokens.json</code>
+                </a>
+              </td>
+              <td>Flat GravityKit-specific JSON</td>
+              <td>The lossless record: every token, every field, no exceptions</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          The DTCG file validates against the{' '}
+          <a href="https://www.designtokens.org/schemas/2025.10/format.json">
+            Design Tokens Community Group's published JSON Schema
+          </a>
+          , which the build enforces. Read <code>$extensions["com.gravitykit.tokens"].counts</code> for how many tokens
+          it carries.
+        </p>
+
+        <h3>Token paths are not CSS variable names</h3>
+        <p>
+          A token at <code>gravityview.border.entry_color</code> is the CSS variable{' '}
+          <code>--gv-entry-border-color</code>. The registry reorders and rewrites segments, so only about a fifth of
+          tokens match a naive path-to-name transform. Drive your name transform from{' '}
+          <code>$extensions["com.gravitykit.tokens"].cssVar</code>, or you will generate variables GravityView never
+          reads.
+        </p>
+        <pre>
+          <code>{`import SD from 'style-dictionary';
+
+const EXT = 'com.gravitykit.tokens';
+
+// Use the shipped CSS variable name, not the token path.
+SD.registerTransform({
+  name: 'name/gv-cssvar',
+  type: 'name',
+  transform: (t) => t.$extensions[EXT].cssVar.replace(/^--/, ''),
+});
+
+// Style Dictionary 5.x renders DTCG duration objects as "[object Object]".
+SD.registerTransform({
+  name: 'duration/css-dtcg',
+  type: 'value',
+  transitive: true,
+  filter: (t) => t.$type === 'duration' && typeof t.$value === 'object',
+  transform: (t) => \`\${t.$value.value}\${t.$value.unit}\`,
+});
+
+const sd = new SD({
+  source: ['css-tokens.tokens.json'],
+  platforms: {
+    css: {
+      prefix: '',
+      transforms: SD.hooks.transformGroups.css
+        .map((t) => (t === 'name/kebab' ? 'name/gv-cssvar' : t))
+        .concat('duration/css-dtcg'),
+      files: [{ destination: 'gravityview-tokens.css', format: 'css/variables' }],
+    },
+  },
+});
+await sd.buildAllPlatforms();`}</code>
+        </pre>
+        <p>
+          Terrazzo reads the file without configuration. Its <code>core/consistent-naming</code> rule defaults to
+          kebab-case and will warn on GravityView's snake_case leaf names; set{' '}
+          <code>{'{ format: "snake_case" }'}</code> on that rule to silence it.
+        </p>
+        <p>
+          <strong>File-level metadata does not survive either tool.</strong> Style Dictionary drops the root{' '}
+          <code>$description</code>, the root <code>$extensions</code> manifest and every group that has no{' '}
+          <code>$value</code>; Terrazzo keeps them only on the raw parsed document, not in its token model. Per-token{' '}
+          <code>$extensions</code> (including <code>cssVar</code>) do survive both. If you need the counts, the derived
+          list or the unrepresentable list, read them from the JSON directly rather than from a tool's output.
+        </p>
+
+        <h3>Tokens with no DTCG equivalent</h3>
+        <p>
+          DTCG has no way to express a few CSS values GravityView ships: percentage widths, <code>em</code> lengths,{' '}
+          <code>clamp()</code> and <code>min()</code>, <code>color-mix()</code>, and keywords like{' '}
+          <code>inherit</code> or <code>stretch</code>. Rather than drop them or invent a type, each appears at its
+          normal path as a group with no <code>$value</code>, carrying its description and raw CSS under{' '}
+          <code>$extensions</code>. Token-consuming tools skip these; nothing disappears silently. They are also listed
+          together under <code>$extensions["com.gravitykit.tokens"].metadataOnly</code>.
+        </p>
+        <p>
+          A second group of tokens is expressible but <em>resolved</em>. <code>--gv-font-size-xs</code> ships as{' '}
+          <code>calc(var(--gv-font-size-base) * 0.75)</code>, which DTCG cannot represent, so the file carries{' '}
+          <code>0.75rem</code>, its value at GravityView's defaults. Change the base font size and the browser computes
+          something different from what a Figma library synced from this file shows. Every such token says so in its{' '}
+          <code>$description</code> and is listed under{' '}
+          <code>$extensions["com.gravitykit.tokens"].derivedTokens</code>.
+        </p>
+
         <h2>Token reference</h2>
         <TokenReference />
       </main>

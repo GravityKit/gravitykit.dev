@@ -19,7 +19,9 @@
     "hooks:link-api-types": "node ./scripts/link-hooks-to-api.mjs",
     "api:generate": "node ./scripts/generate-php-api.mjs",
     "tokens:generate": "node ./scripts/generate-tokens.mjs",
+    "tokens:verify": "node ./scripts/verify-token-interop.mjs",
     "relations:generate": "node ./scripts/generate-relations.mjs",
+    "test": "node --test scripts/lib/",
     "docs:generate": "npm run hooks:generate && npm run api:generate && npm run tokens:generate && npm run relations:generate && npm run hooks:link-api-types && node ./scripts/generate-category-indexes.mjs",
     "llm:enhance": "node ./scripts/enhance-for-llms.mjs && node ./scripts/generate-product-llms.mjs",
     "llm:product": "node ./scripts/generate-product-llms.mjs",
@@ -38,7 +40,10 @@
     "@docusaurus/module-type-aliases": "^3.5.2",
     "@docusaurus/tsconfig": "^3.5.2",
     "@docusaurus/types": "^3.5.2",
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
     "docusaurus-plugin-llms": "^0.2.2",
+    "style-dictionary": "^5.5.0",
     "wp-hooks-documentor": "github:GravityKit/wp-hooks-documentor#develop"
   },
   "browserslist": {
