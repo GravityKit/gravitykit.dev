@@ -348,6 +348,29 @@ test('a line break or comment terminator in registry text fails the build', () =
   assert.throws(() => build([rec('color.y', '--gv-y', '#000000', { desc: 'two\nlines' })]), /A-14/);
 });
 
+test('shadows tinted with color-mix() flatten to the same literal as the rgb() form', () => {
+  // GravityView 3.1 tints shadows through color-mix() so the colour token can
+  // be a real colour. The mix percentage carries the alpha, so the emitted
+  // value must match what the old rgb(var(--c) / a) form produced.
+  const records = [
+    rec('shadow.shadow_color', '--gv-shadow-color', '#121961', { syntax: '<color>', control: 'color' }),
+    rec('shadow.shadow_alpha', '--gv-shadow-alpha', '0.1', { syntax: '<number>' }),
+    rec('shadow.shadow_md', '--gv-shadow-md',
+      '0 1px 3px color-mix(in srgb, var(--gv-shadow-color) calc(var(--gv-shadow-alpha) * 100%), transparent), '
+      + '0 1px 2px color-mix(in srgb, var(--gv-shadow-color) calc(var(--gv-shadow-alpha) * 60%), transparent)'),
+  ];
+  const fate = classify(records[2], indexRecords(records, 'gravityview'));
+
+  assert.equal(fate.type, 'shadow');
+  assert.equal(fate.value.length, 2);
+  assert.deepEqual(fate.value[0].color, { colorSpace: 'srgb', components: [0.0706, 0.098, 0.3804], alpha: 0.1 });
+  assert.equal(fate.value[1].color.alpha, 0.06);
+  assert.deepEqual(fate.derivation.from, ['shadow.shadow_color', 'shadow.shadow_alpha']);
+
+  // The colour itself is now a plain colour token, no longer quarantined.
+  assert.equal(classify(records[0], indexRecords(records, 'gravityview')).type, 'color');
+});
+
 test('an unrecognised value form fails the build instead of demoting silently', () => {
   const allow = { knownUnknownForms: ['typography.font_family'] };
   const opts = { productId: 'gravityview', ...allow };
@@ -355,16 +378,16 @@ test('an unrecognised value form fails the build instead of demoting silently', 
   // Baseline: the allowlisted keyword is tolerated.
   assert.doesNotThrow(() => buildDocument([rec('typography.font_family', '--gv-font-family', 'inherit')], opts));
 
-  // The real regression this guards: rewriting the shadows to color-mix() upstream.
-  // Without the tripwire these demote from shadow composites to metadata-only
-  // groups and the build still succeeds.
-  const colorMixShadow = rec(
+  // The regression this guards: a registry rewrite introducing a value form the
+  // rule table does not know. Such a token silently demotes to a metadata-only
+  // group while the build still succeeds, quietly shrinking the artifact.
+  const unknownForm = rec(
     'shadow.shadow_md',
     '--gv-shadow-md',
-    '0 1px 3px color-mix(in srgb, var(--gv-shadow-color) calc(var(--gv-shadow-alpha) * 100%), transparent)',
+    '0 1px 3px light-dark(rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.1))',
   );
   assert.throws(
-    () => buildDocument([colorMixShadow], opts),
+    () => buildDocument([unknownForm], opts),
     /Unrecognised token value form\(s\): shadow\.shadow_md/,
   );
 });

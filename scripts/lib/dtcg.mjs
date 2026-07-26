@@ -238,7 +238,25 @@ function parseShadow(value, ctx, aliasFor) {
     let color;
     const colorAlias = RE_ALIAS.exec(colorRaw);
     const rgbForm = /^rgb\(\s*var\(\s*(--[a-z0-9_-]+)\s*\)\s*\/\s*(.+?)\s*\)$/.exec(colorRaw);
-    if (colorAlias) {
+    // GravityView 3.1 tints shadows with color-mix() so the colour token can be
+    // a real colour rather than a channel triplet. The mix percentage carries
+    // the alpha, so this flattens to the same literal the rgb() form produced.
+    const mixForm = /^color-mix\(\s*in\s+srgb\s*,\s*var\(\s*(--[a-z0-9_-]+)\s*\)\s*calc\(\s*var\(\s*(--[a-z0-9_-]+)\s*\)\s*\*\s*([\d.]+)%\s*\)\s*,\s*transparent\s*\)$/.exec(colorRaw);
+    if (mixForm) {
+      const base = ctx.byVar.get(mixForm[1]);
+      const alphaToken = ctx.byVar.get(mixForm[2]);
+      if (!base) throw new Error(`A-6: shadow colour references unknown ${mixForm[1]}`);
+      if (!alphaToken) throw new Error(`A-6: shadow alpha references unknown ${mixForm[2]}`);
+
+      const hex = RE_HEX.exec(String(base.default).trim());
+      const alphaBase = Number(alphaToken.default);
+      if (!hex || !Number.isFinite(alphaBase)) return null;
+
+      from.add(base.slug);
+      from.add(alphaToken.slug);
+      const rgb = [hex[0].slice(1, 3), hex[0].slice(3, 5), hex[0].slice(5, 7)].map((h) => parseInt(h, 16));
+      color = srgb(rgb, alphaBase * (Number(mixForm[3]) / 100));
+    } else if (colorAlias) {
       const target = ctx.byVar.get(colorAlias[1]);
       if (!target) throw new Error(`A-6: shadow colour references unknown ${colorAlias[1]}`);
       color = aliasFor(target);
