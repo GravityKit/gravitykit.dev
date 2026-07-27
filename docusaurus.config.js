@@ -100,6 +100,7 @@ const gravityview_nav = {
   items: [
     { label: 'GravityView', href: '/docs/gravityview/' },
     { label: 'Theming', href: '/gravityview/css-tokens/' },
+    { label: 'Design Tokens (JSON)', href: '/gravityview/design-tokens/' },
     {
       type: 'html',
       value: '<hr class="dropdown-separator">',
