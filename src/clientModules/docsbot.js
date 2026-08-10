@@ -1,8 +1,10 @@
 /**
- * DocsBot AI Widget initialization
+ * DocsBot AI chat widget — deferred initialization.
  *
- * This client module initializes the DocsBot AI chat widget
- * after the page loads.
+ * chat.js is ~1 MB and bundles its own React copy. Client modules evaluate
+ * before Docusaurus hydrates, so injecting it immediately makes its
+ * parse/execute compete with hydration and delays time-to-interactive.
+ * Init therefore waits for the window load event plus an idle period.
  */
 
 if (typeof window !== 'undefined') {
@@ -24,7 +26,7 @@ if (typeof window !== 'undefined') {
             if (document.querySelector(selector)) {
               return resolve(document.querySelector(selector));
             }
-            let observer = new MutationObserver(mutations => {
+            let observer = new MutationObserver(() => {
               if (document.querySelector(selector)) {
                 resolve(document.querySelector(selector));
                 observer.disconnect();
@@ -48,8 +50,24 @@ if (typeof window !== 'undefined') {
     });
   };
 
-  // Initialize DocsBot with your bot ID
-  DocsBotAI.init({
-    id: "RSMLmklQeWMQGiTlIFU5/xVUdXNDdPK304IgNgzPT"
-  });
+  const initDocsBot = () => {
+    DocsBotAI.init({
+      id: "RSMLmklQeWMQGiTlIFU5/xVUdXNDdPK304IgNgzPT"
+    });
+  };
+
+  const scheduleWhenIdle = () => {
+    // Safari shipped requestIdleCallback late; fall back to a short delay.
+    if (typeof window.requestIdleCallback === 'function') {
+      window.requestIdleCallback(initDocsBot, { timeout: 4000 });
+    } else {
+      window.setTimeout(initDocsBot, 1500);
+    }
+  };
+
+  if (document.readyState === 'complete') {
+    scheduleWhenIdle();
+  } else {
+    window.addEventListener('load', scheduleWhenIdle, { once: true });
+  }
 }

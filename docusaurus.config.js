@@ -337,6 +337,15 @@ const config = {
 
   headTags: [
     {
+      // DocsBot init is deferred until after load (src/clientModules/docsbot.js);
+      // warming the connection keeps the widget snappy once it does load.
+      tagName: 'link',
+      attributes: {
+        rel: 'preconnect',
+        href: 'https://widget.docsbot.ai',
+      },
+    },
+    {
       tagName: 'link',
       attributes: {
         rel: 'sitemap',
