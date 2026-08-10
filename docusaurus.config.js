@@ -308,6 +308,7 @@ const config = {
 
   // Client modules - runs on every page load
   clientModules: [
+    './src/clientModules/prefetch-throttle.js',
     './src/clientModules/docsbot.js',
   ],
 
