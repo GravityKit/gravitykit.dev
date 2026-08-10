@@ -106,6 +106,62 @@ function nextNonIgnorableIndex(array $tokens, int $from): int {
   return -1;
 }
 
+/**
+ * Highest line number in a token range. Single-character tokens carry no line,
+ * so scanning to the last numbered token is the only way to date a range that
+ * ends on one (`{`, `)`).
+ */
+function maxTokenLine(array $tokens, int $from, int $to): int {
+  $line = 0;
+  for ($i = $from; $i <= $to && $i < count($tokens); $i++) {
+    $line = max($line, tokenLine($tokens[$i]));
+  }
+  return $line;
+}
+
+/**
+ * Index of the `{` opening a conditional-declaration guard, or -1.
+ *
+ * WordPress code routinely wraps a declaration in `if ( ! function_exists( 'x' ) ) { ... }`,
+ * which puts the guard between a docblock and the symbol it documents. Only guards testing
+ * a *_exists() predicate qualify; a file guard such as `if ( ! defined( 'ABSPATH' ) )`
+ * deliberately does not, so its preceding docblock still stops there.
+ */
+function conditionalDeclarationGuardBrace(array $tokens, int $ifIndex): int {
+  $count = count($tokens);
+  $openIdx = nextNonIgnorableIndex($tokens, $ifIndex + 1);
+  if ($openIdx < 0 || tokenText($tokens[$openIdx]) !== '(') {
+    return -1;
+  }
+
+  $depth = 0;
+  $sawExistsPredicate = false;
+  for ($i = $openIdx; $i < $count; $i++) {
+    $text = tokenText($tokens[$i]);
+    if ($text === '(') {
+      $depth++;
+      continue;
+    }
+    if ($text === ')') {
+      $depth--;
+      if ($depth === 0) {
+        if (!$sawExistsPredicate) {
+          return -1;
+        }
+        $braceIdx = nextNonIgnorableIndex($tokens, $i + 1);
+        return ($braceIdx >= 0 && tokenText($tokens[$braceIdx]) === '{') ? $braceIdx : -1;
+      }
+      continue;
+    }
+    if (tokenId($tokens[$i]) === T_STRING
+      && in_array($text, ['function_exists', 'class_exists', 'interface_exists', 'trait_exists', 'enum_exists'], true)) {
+      $sawExistsPredicate = true;
+    }
+  }
+
+  return -1;
+}
+
 function normalizeSignature(string $sig): string {
   $sig = preg_replace('/\s+/', ' ', $sig ?? '') ?? '';
   $sig = trim($sig);
@@ -228,6 +284,7 @@ function extractSymbolsFromFile(string $filePath, string $root): array {
 
   $pendingClassIndex = null;
   $classStack = []; // each: ['index' => int, 'braceLevel' => int]
+  $inImportStatement = false;
 
   $count = count($tokens);
   for ($i = 0; $i < $count; $i++) {
@@ -240,6 +297,29 @@ function extractSymbolsFromFile(string $filePath, string $root): array {
       $endLine = $startLine + substr_count($text, "\n");
       $lastDoc = ['text' => $text, 'startLine' => $startLine, 'endLine' => $endLine];
       continue;
+    }
+
+    // `use function foo;` imports a function, it does not declare one. A closure's
+    // `use (...)` clause is not an import, so it must not raise the flag. Only `;`
+    // lowers it, which keeps a group import `use Foo\{function bar};` covered.
+    if ($id === T_USE) {
+      $afterUseIdx = nextNonIgnorableIndex($tokens, $i + 1);
+      $inImportStatement = !($afterUseIdx >= 0 && tokenText($tokens[$afterUseIdx]) === '(');
+    } elseif ($text === ';') {
+      $inImportStatement = false;
+    }
+
+    // A conditional-declaration guard sits between a docblock and the symbol it
+    // documents; step over it so the docblock survives, and re-anchor the
+    // proximity check to the guard's opening brace.
+    if ($id === T_IF && $lastDoc !== null) {
+      $guardBraceIdx = conditionalDeclarationGuardBrace($tokens, $i);
+      if ($guardBraceIdx >= 0) {
+        $lastDoc['endLine'] = max($lastDoc['endLine'], maxTokenLine($tokens, $i, $guardBraceIdx));
+        $braceLevel++;
+        $i = $guardBraceIdx;
+        continue;
+      }
     }
 
     // If a docblock is followed by unrelated code (like file-guard `if (...)`),
@@ -518,6 +598,10 @@ function extractSymbolsFromFile(string $filePath, string $root): array {
     }
 
     if ($id === T_FUNCTION) {
+      if ($inImportStatement) {
+        continue;
+      }
+
       $nameIdx = nextNonIgnorableIndex($tokens, $i + 1);
       if ($nameIdx < 0) continue;
 
