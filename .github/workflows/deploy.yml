@@ -51,6 +51,15 @@ jobs:
       - name: Generate hooks documentation
         run: npm run docs:generate
 
+      # Kept as its own step rather than chained into docs:generate, so a fetch problem is
+      # attributable and cannot take the rest of the site's build down with it by accident.
+      # The script itself still fails hard on a bad fetch: an empty catalog would render as a
+      # product with no merge tags, which reads as a fact rather than a broken build.
+      - name: Fetch the merge-tag artifact
+        env:
+          MERGE_TAGS_TOKEN: ${{ secrets.MERGE_TAGS_TOKEN }}
+        run: npm run merge-tags:generate
+
       - name: Generate relationship graphs for LLMs
         run: npm run relations:generate
 
