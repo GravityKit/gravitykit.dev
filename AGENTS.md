@@ -90,8 +90,20 @@ Non-obvious things about the DTCG file:
 - Deploy triggers: push to `main`, a weekly cron, or manual workflow dispatch.
 - `npm ci` installs the **locked** commit in `package-lock.json` (not branch
   tips); shipping a generator-fork fix needs the lockfile SHA bumped.
+- Bumping that pin: the generator dependency is git-aliased (folder
+  `wp-hooks-documentor`, package name `@10up/wp-hooks-documentor`), so
+  `npm install github:GravityKit/wp-hooks-documentor#develop` mis-resolves and
+  adds a duplicate scoped entry. Instead, edit the single `resolved` SHA on the
+  `node_modules/wp-hooks-documentor` lock entry by hand (git deps have no
+  `integrity` field, so this is safe when the fix's own deps are unchanged),
+  then validate with `npm ci`.
 - Read a file at a ref via `gh api --method GET "repos/OWNER/REPO/contents/PATH"
   -f ref=BRANCH`. Without `--method GET` it POSTs and 404s (false "missing file").
+- **Two stale hosting configs contradict the real one.** A root `netlify.toml` and a
+  `DEPLOYMENT.md` recommending Vercel both survive in the tree, so a reader who opens
+  either concludes the wrong host. Deployment is GitHub Pages via
+  `.github/workflows/deploy.yml`; live responses carry `x-github-request-id`. The
+  workflow that runs is the authority, not the config that describes.
 
 ## Paths
 
