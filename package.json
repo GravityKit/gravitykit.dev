@@ -22,7 +22,7 @@
     "tokens:verify": "node ./scripts/verify-token-interop.mjs",
     "relations:generate": "node ./scripts/generate-relations.mjs",
     "test": "node --test scripts/lib/",
-    "docs:generate": "npm run hooks:generate && npm run api:generate && npm run tokens:generate && npm run relations:generate && npm run hooks:link-api-types && node ./scripts/generate-category-indexes.mjs && npm run merge-tags:generate",
+    "docs:generate": "npm run hooks:generate && npm run api:generate && npm run tokens:generate && npm run relations:generate && npm run hooks:link-api-types && node ./scripts/generate-category-indexes.mjs",
     "llm:enhance": "node ./scripts/enhance-for-llms.mjs && node ./scripts/generate-product-llms.mjs",
     "llm:product": "node ./scripts/generate-product-llms.mjs",
     "docs:full": "npm run repos:clone && npm run docs:generate && npm run llm:enhance && npm run build",

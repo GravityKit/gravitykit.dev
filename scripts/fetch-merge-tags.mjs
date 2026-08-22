@@ -12,6 +12,20 @@
  * file describing nothing: a page rendering "0 merge tags" looks like a product with no merge tags,
  * not like a broken build, and nobody would go looking for the cause.
  *
+ * NOT chained into `docs:generate`. That script runs in the Pages deploy, and wiring a step
+ * that hard-fails without a secret took the whole site's build down with it (run
+ * 32555981823). It stays an explicit script until MERGE_TAGS_TOKEN exists, at which point
+ * add a step to .github/workflows/deploy.yml:
+ *
+ *   - name: Fetch the merge-tag artifact
+ *     env:
+ *       MERGE_TAGS_TOKEN: ${{ secrets.MERGE_TAGS_TOKEN }}
+ *     run: npm run merge-tags:generate
+ *
+ * Failing loudly is still right for the artifact itself -- an empty catalog would render as
+ * a product with no merge tags. It is not right for it to decide whether every other page
+ * on the site ships.
+ *
  * The source repo is PRIVATE, so this needs a token with read access to it:
  *   MERGE_TAGS_TOKEN   (CI secret; a fine-grained PAT with Contents: read on GravityKit/merge-tags)
  * Falls back to GITHUB_TOKEN / GH_TOKEN for local use.
