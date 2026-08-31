@@ -454,7 +454,7 @@ const config = {
               },
               {
                 label: 'Documentation',
-                href: 'https://docs.gravitykit.com',
+                href: 'https://www.gravitykit.com/docs/',
               },
               {
                 label: 'LLMs.txt',

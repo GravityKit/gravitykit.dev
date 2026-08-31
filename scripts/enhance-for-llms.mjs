@@ -580,7 +580,7 @@ ${perProductSection}
 
 ## Related Resources
 
-- Main documentation: https://docs.gravitykit.com
+- Main documentation: https://www.gravitykit.com/docs/
 - Support: https://www.gravitykit.com/support/
 - GitHub: https://github.com/GravityKit
 
