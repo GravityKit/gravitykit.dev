@@ -1,11 +1,13 @@
 ---
 title: "GravityMigrate command line (WP-CLI)"
-description: "WP-CLI reference for GravityMigrate: export, import, inspect, status, and reset a migration bundle from the command line, including scripting with --porcelain and --format=json and the filters that tune import safety limits."
+description: "WP-CLI reference for GravityMigrate: export, import, inspect, watch, and reset a migration from the command line, move forms between Gravity Forms and seven other form plugins, and tune import safety limits with filters."
 ---
 
 # Command line (WP-CLI)
 
-GravityMigrate registers a `wp gk migrate` command for running migrations without the browser. It exports a portable ZIP bundle, imports one, inspects one, and clears stuck migration state. Export and import drive the same batch state machine the admin screens use, run to completion synchronously in a single command.
+GravityMigrate registers a `wp gk migrate` command for running migrations without the browser. It exports a portable ZIP bundle, imports one, inspects one, moves forms between Gravity Forms and another form plugin, and clears stuck migration state.
+
+Every command drives the same code the admin screens use, run to completion synchronously in a single command. The admin screens can hand a long migration to the background scheduler; the CLI does not, because the command already survives the browser being closed.
 
 The commands are available once GravityMigrate is active. GravityKit Foundation, bundled with the plugin, registers the top-level `wp gk` namespace.
 
@@ -20,8 +22,11 @@ The commands are available once GravityMigrate is active. GravityKit Foundation,
 | `wp gk migrate export` | Export forms and their data to a ZIP bundle. |
 | `wp gk migrate import` | Import a bundle into this site. |
 | `wp gk migrate inspect` | Print a bundle's contents without importing it. |
-| `wp gk migrate status` | Report whether a migration is in progress or state is left over. |
+| `wp gk migrate status` | Report a running import's progress, or what state is left over. |
 | `wp gk migrate reset` | Clear stuck migration state. |
+| `wp gk migrate plugins` | List the form plugins this site can migrate to and from. |
+| `wp gk migrate from` | Bring forms from another form plugin into Gravity Forms. |
+| `wp gk migrate to` | Write Gravity Forms forms out to another form plugin. |
 
 ## `wp gk migrate export`
 
@@ -36,6 +41,7 @@ Exports Gravity Forms and GravityKit data to a portable ZIP bundle.
 | `--password=<password>` | Encrypt the ZIP (AES-256). |
 | `--public-url=<url>` | Rewrite this site's origin to `<url>` in exported upload URLs, page content, and `info.json`. Use it when the site's stored URL is not reachable from the destination so uploads download on import. The URL must be public and resolvable from the importing server. |
 | `--output=<path>` | Copy the finished ZIP to this path (the export directory is auto-deleted after three hours). |
+| `--include-files` | Package the entries' uploaded files inside the ZIP, so the importing site never fetches them from this one. Files over the site's limit stay behind and are named in the summary. |
 | `--porcelain` | Output only the resulting ZIP path. |
 | `--format=<format>` | Summary format: `table` (default) or `json`. |
 
@@ -56,8 +62,10 @@ wp gk migrate export --forms=2 --public-url=https://example.demo.gravitykit.com 
 
 Imports a GravityMigrate ZIP bundle into this site.
 
-:::warning Imports are not resumable
-If an import fails partway, it prints the form IDs it committed before the failure. Delete those forms, run `wp gk migrate reset`, then re-run the import to get back to a clean state.
+:::warning A CLI import is not resumable
+If an import fails partway, it prints the form IDs it committed before the failure. Delete those forms, run `wp gk migrate reset`, then re-run the import to get back to a clean state. There is no `--resume`.
+
+Imports started from the admin screens are a different case: those checkpoint their progress and can be resumed, either by the background scheduler picking the job back up or by the Resume button after a browser request dies. `wp gk migrate import` refuses to start while one of those is running, rather than corrupting it, and clears any saved resume point when it does start.
 :::
 
 | Option | Description |
@@ -104,15 +112,21 @@ wp gk migrate inspect bundle.zip --format=json
 
 ## `wp gk migrate status`
 
-Reports current migration state: whether an import lock is held (and whether it is stale), whether a crashed import is saved, and whether an export left state to clean up.
+Reports current migration state: whether an import lock is held (and whether it is stale), whether a crashed import is saved for the admin screens to resume, and whether an export left state to clean up.
+
+While an import is running, it also reports live progress from the record each step writes: the phase, current and total counts with a percentage, how many seconds since the record last advanced (the is-it-stuck signal), and a rough estimate of the time remaining.
 
 | Option | Description |
 | --- | --- |
+| `--watch` | Re-render the status every two seconds until the import finishes, then print a final line and exit. Cannot be combined with `--format=json`. |
 | `--format=<format>` | Output format: `table` (default) or `json`. |
 
 ```bash
 wp gk migrate status
 wp gk migrate status --format=json
+
+# Follow a running import to completion
+wp gk migrate status --watch
 ```
 
 ## `wp gk migrate reset`
@@ -126,6 +140,64 @@ Clears stuck migration state: the temporary tables, the extracted import files, 
 ```bash
 wp gk migrate reset --user=admin --yes
 ```
+
+## `wp gk migrate plugins`
+
+Lists the form plugins GravityMigrate supports, whether this site can migrate to and from each one, and the reason where it cannot.
+
+| Option | Description |
+| --- | --- |
+| `--available` | Only list plugins this site can use, in at least one direction. |
+| `--fields=<fields>` | Columns to show. Default: `plugin,name,to,from,reason`. |
+| `--format=<format>` | Output format: `table` (default), `json`, `csv`, `yaml`, `count`, or `ids`. |
+
+```bash
+wp gk migrate plugins
+
+# Just the slugs this site can migrate with, for scripting
+wp gk migrate plugins --available --format=ids
+```
+
+## `wp gk migrate from`
+
+Brings forms from another form plugin into Gravity Forms, running the same migration as the wizard's "Bring forms into Gravity Forms" path.
+
+| Option | Description |
+| --- | --- |
+| `<plugin>` | The form plugin to read from. Run `wp gk migrate plugins` for the list. Required. |
+| `--forms=<ids>` | Comma-separated form IDs in that plugin, or `all`. `all` means every form the plugin lists. Required. |
+| `--dry-run` | Report what would happen to each field and change nothing. |
+| `--format=<format>` | `table` (default), `json`, `count`, or `ids`. `count` and `ids` answer about the forms that went across; `json` carries every form, including a failure. |
+| `--yes` | Skip the confirmation prompt. Required with any format but `table`. |
+
+```bash
+# See what a migration would do, field by field, without writing anything
+wp gk migrate from ninja-forms --forms=all --dry-run
+
+wp gk migrate from contact-form-7 --forms=2 --user=admin --yes
+```
+
+## `wp gk migrate to`
+
+Writes Gravity Forms forms out to another form plugin, running the same migration as the wizard's "Move forms to another plugin" path.
+
+| Option | Description |
+| --- | --- |
+| `<plugin>` | The destination form plugin. Run `wp gk migrate plugins` for the list. Required. |
+| `--forms=<ids>` | Comma-separated Gravity Forms form IDs, or `all`. Here `all` means every active, untrashed form, which is narrower than `export --forms=all`. Required. |
+| `--dry-run` | Report what would happen to each field and change nothing. |
+| `--format=<format>` | `table` (default), `json`, `count`, or `ids`. |
+| `--yes` | Skip the confirmation prompt. Required with any format but `table`. |
+
+```bash
+wp gk migrate to contact-form-7 --forms=all --dry-run
+
+wp gk migrate to ninja-forms --forms=3,5 --user=admin --yes
+```
+
+:::note Gravity Forms is the hub
+Both directions convert through a real Gravity Forms form, so Gravity Forms must be active even for a migration between two other plugins. Forms migrate; entries do not. Which fields survive each pairing is documented in the [field support reference](https://www.gravitykit.com/docs/gravitymigrate/field-support-by-form-plugin/).
+:::
 
 ## Data types
 
@@ -178,6 +250,8 @@ add_filter( 'gk/gravitymigrate/import/max-dump-file-size', function () {
 	return 1073741824; // 1 GB
 } );
 ```
+
+`gk/gravitymigrate/background/enabled` turns background migrations off for the admin screens, or forces the browser-driven path; it has no effect on the CLI, which always runs synchronously.
 
 See the [Filters reference](/docs/gravitymigrate/filters/) for the full list, including `gk/gravitymigrate/export/row` and `gk/gravitymigrate/export/info` for reshaping exported data, and `gk/gravitymigrate/import/upload-url` for redirecting where a linked upload is downloaded from.
 
