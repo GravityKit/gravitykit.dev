@@ -285,6 +285,11 @@ const markdown_endpoints_plugin = fileURLToPath(
   new URL('./src/plugins/markdown-endpoints.mjs', import.meta.url),
 );
 
+// One page per merge tag at /merge-tags/<tag>/, from the fetched merge-tag artifact.
+const merge_tag_pages_plugin = fileURLToPath(
+  new URL('./src/plugins/merge-tag-pages.mjs', import.meta.url),
+);
+
 // Product sitemaps plugin - generates per-product sitemap.xml files
 const product_sitemaps_plugin = [
   fileURLToPath(new URL('./src/plugins/product-sitemaps.mjs', import.meta.url)),
@@ -504,6 +509,7 @@ const config = {
     product_llms_plugin,
     ...llms_static_plugin,
     markdown_endpoints_plugin,
+    merge_tag_pages_plugin,
     product_sitemaps_plugin,
   ].filter((pluginEntry) => {
     if (!Array.isArray(pluginEntry) || pluginEntry[0] !== '@docusaurus/plugin-content-docs') {

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import Layout from '@theme/Layout';
+import { MergeTagsNav } from '../components/merge-tags/shared';
 
 /**
  * Merge tags reference. Port of gravityview/css-tokens.jsx (SPEC-merge-tags-page.md
@@ -676,6 +677,7 @@ export default function MergeTagsPage() {
       description="Every merge tag and modifier across GravityKit and the products it extends, with real rendered examples."
     >
       <main className="container margin-vert--lg">
+        <MergeTagsNav current="all" />
         <h1>Merge Tags</h1>
         <p>
           Every merge tag GravityKit and the products it extends can resolve, every modifier each one accepts, and a

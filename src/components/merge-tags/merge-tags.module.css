@@ -1,0 +1,407 @@
+.lede {
+  max-width: 70ch;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.hint {
+  margin: 0.25rem 0 0.5rem;
+  font-size: 0.9rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.muted {
+  color: var(--ifm-color-emphasis-600);
+}
+
+.note {
+  margin: 0.5rem 0 0;
+  max-width: 65ch;
+  font-size: 0.95rem;
+}
+
+.count {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--ifm-color-emphasis-600);
+  margin-left: 0.25rem;
+}
+
+/* Field picker beside the detail on wide screens; a select above it on narrow ones. */
+.layout {
+  display: grid;
+  grid-template-columns: minmax(200px, 240px) minmax(0, 1fr);
+  gap: 2.5rem;
+  align-items: start;
+  margin-top: 1.5rem;
+}
+
+.picker {
+  position: sticky;
+  top: calc(var(--ifm-navbar-height) + 1rem);
+  max-height: calc(100vh - var(--ifm-navbar-height) - 2rem);
+  overflow-y: auto;
+}
+
+.pickerGroup + .pickerGroup {
+  margin-top: 1rem;
+}
+
+.pickerHeading {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ifm-color-emphasis-600);
+  margin: 0 0 0.25rem;
+}
+
+.picker ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.picker li a {
+  display: block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  color: var(--ifm-font-color-base);
+  font-size: 0.93rem;
+}
+
+.picker li a:hover {
+  background: var(--ifm-color-emphasis-100);
+  text-decoration: none;
+}
+
+.picker li a.pickerActive {
+  background: var(--ifm-color-emphasis-200);
+  color: var(--ifm-font-color-base);
+  font-weight: 600;
+  box-shadow: inset 3px 0 0 var(--ifm-color-primary);
+}
+
+.mobileLabel,
+.mobileSelect {
+  display: none;
+}
+
+@media (max-width: 996px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem;
+  }
+
+  .picker {
+    position: static;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .desktopList {
+    display: none;
+  }
+
+  .mobileLabel {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+
+  .mobileSelect {
+    display: block;
+    width: 100%;
+    padding: 0.5rem;
+    font: inherit;
+    border-radius: 6px;
+    border: 1px solid var(--ifm-color-emphasis-400);
+    background: var(--ifm-background-color);
+    color: var(--ifm-font-color-base);
+  }
+}
+
+.detailHead h2 {
+  margin-bottom: 0.25rem;
+}
+
+.example {
+  margin: 0;
+}
+
+.example code {
+  font-size: 0.95rem;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.section {
+  margin-top: 2rem;
+}
+
+.section h3 {
+  margin-bottom: 0;
+}
+
+.modifierList {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.modifier {
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.modifierHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.6rem;
+}
+
+.modifierLabel {
+  font-weight: 600;
+}
+
+.product {
+  font-size: 0.8rem;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.modifierText {
+  margin: 0.2rem 0 0;
+  font-size: 0.9rem;
+  max-width: 70ch;
+  color: var(--ifm-color-emphasis-800);
+}
+
+.locks {
+  margin: 0.75rem 0 0;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  background: var(--ifm-color-emphasis-100);
+  font-size: 0.93rem;
+}
+
+.reasons {
+  display: grid;
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+
+.reason {
+  padding: 0.9rem 1rem;
+  border-radius: 8px;
+  background: var(--ifm-color-emphasis-100);
+}
+
+.reason h4 {
+  margin: 0;
+}
+
+.inlineList {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.93rem;
+}
+
+.needs {
+  color: var(--ifm-color-emphasis-600);
+}
+
+.compare {
+  margin-top: 3rem;
+}
+
+.compare summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* Contains the cells' visually hidden labels; without it they escape and widen the page. */
+.gridScroll {
+  position: relative;
+  overflow: auto;
+  max-height: 75vh;
+  margin-top: 1rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 8px;
+}
+
+.grid {
+  display: table;
+  margin: 0;
+  font-size: 0.8rem;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.grid th,
+.grid td {
+  border: 0;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  padding: 0.25rem;
+  text-align: center;
+}
+
+.grid thead th {
+  position: sticky;
+  top: 0;
+  background: var(--ifm-background-surface-color);
+  z-index: 2;
+  vertical-align: bottom;
+}
+
+.grid tbody th {
+  position: sticky;
+  left: 0;
+  background: var(--ifm-background-surface-color);
+  text-align: left;
+  white-space: nowrap;
+  z-index: 1;
+}
+
+.grid tbody td {
+  min-width: 1.6rem;
+  color: var(--ifm-color-primary);
+}
+
+.rotated span {
+  display: inline-block;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  white-space: nowrap;
+}
+
+/* Tag options */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.card {
+  min-width: 0;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 10px;
+  background: var(--ifm-background-surface-color);
+  display: grid;
+  gap: 0.75rem;
+  align-content: start;
+}
+
+.cardTitle {
+  margin: 0 0 0.25rem;
+  font-size: 1.05rem;
+}
+
+.productLine {
+  margin: 0.2rem 0 0;
+  font-size: 0.8rem;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.part {
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+  padding-top: 0.6rem;
+}
+
+.partHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem;
+}
+
+.partLabel {
+  font-weight: 600;
+}
+
+.options {
+  margin: 0.4rem 0 0;
+  display: grid;
+  gap: 0.2rem;
+  font-size: 0.9rem;
+}
+
+.options > div {
+  display: grid;
+  grid-template-columns: minmax(6rem, max-content) 1fr;
+  gap: 0.75rem;
+}
+
+.options dt {
+  font-weight: 400;
+}
+
+.options dd {
+  margin: 0;
+}
+
+.bare {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: 0.35rem 1.5rem;
+  font-size: 0.93rem;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* One tag's page */
+.tagTitle {
+  margin: 0.25rem 0 0.25rem;
+  font-size: 2rem;
+  overflow-wrap: anywhere;
+}
+
+.tagTitle code {
+  font-size: inherit;
+  padding: 0.1em 0.35em;
+}
+
+.tagLabel {
+  font-size: 1.15rem;
+  margin: 0 0 0.75rem;
+}
+
+.partList {
+  display: grid;
+  gap: 1rem;
+  max-width: 60rem;
+}
+
+.examples {
+  display: table;
+  width: 100%;
+  font-size: 0.9rem;
+  table-layout: fixed;
+}
+
+.examples th:first-child,
+.examples td:first-child {
+  width: 40%;
+}
+
+.examples td {
+  vertical-align: top;
+  overflow-wrap: anywhere;
+}
+
+.output {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
