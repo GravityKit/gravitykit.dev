@@ -526,6 +526,6 @@
 }
 
 .output {
-  white-space: pre-wrap;
+  white-space: normal;
   overflow-wrap: anywhere;
 }

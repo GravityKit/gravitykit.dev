@@ -124,9 +124,9 @@ const gravityview_nav = {
   ],
 };
 
-// Build GravityKit Products dropdown (includes GravityView and free add-ons)
+// Build the All GravityKit dropdown (includes GravityView and free add-ons)
 const gravitykit_nav = {
-  label: 'GravityKit Products',
+  label: 'All GravityKit',
   position: 'left',
   items: [
     ...getProductsByCategory('gravitykit'),
@@ -156,7 +156,7 @@ const gravitykit_nav = {
 
 // Build Third-Party dropdown (Gravity Forms first)
 const thirdparty_nav = {
-  label: 'Third Party',
+  label: '3rd Party',
   position: 'left',
   items: (() => {
     const items = getThirdPartyProducts();
@@ -167,6 +167,19 @@ const thirdparty_nav = {
     }
     return items;
   })(),
+};
+
+// Merge tag reference: built from the merge-tag artifact by src/pages/merge-tags* and
+// src/plugins/merge-tag-pages.mjs.
+const merge_tags_nav = {
+  label: 'Merge Tags',
+  position: 'left',
+  items: [
+    { label: 'All merge tags', to: '/merge-tags/' },
+    { label: 'Modifiers by field', to: '/merge-tags/fields/' },
+    { label: 'Compare fields', to: '/merge-tags/compare/' },
+    { label: 'Tag options', to: '/merge-tags/tags/' },
+  ],
 };
 
 // Helper to get purchase URL for a product from repos-config.json
@@ -437,6 +450,7 @@ const config = {
           gravitykit_nav,
           gravityview_nav,
           thirdparty_nav,
+          merge_tags_nav,
           {
             type: 'custom-productLearnMoreLink',
             position: 'right',

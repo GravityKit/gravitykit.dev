@@ -86,7 +86,8 @@ export function MergeTagsNav({ current }) {
 
   return (
     <nav aria-label="Merge tag reference" className="margin-bottom--lg">
-      <ul className="pills">
+      {/* Wraps on a phone: four pills in one row are wider than the screen. */}
+      <ul className="pills" style={{ flexWrap: 'wrap', rowGap: '0.25rem' }}>
         {links.map((link) => (
           // The link fills the pill: Infima pads the <li>, which left the pill's edges unclickable.
           <li key={link.key} className={`pills__item${current === link.key ? ' pills__item--active' : ''}`} style={{ padding: 0 }}>

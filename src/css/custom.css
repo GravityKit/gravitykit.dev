@@ -277,3 +277,15 @@
 [data-theme='dark'] .footer__link-item:hover {
   color: #fff;
 }
+/* Navbar: the menus plus a product's "Learn more" button fill the bar below 1280px. Keep each
+   menu's label and dropdown arrow on one line, and show the logo without the site title rather
+   than a title cut to "GravityKit Dev D…". Below 997px Docusaurus switches to the mobile menu. */
+.navbar__item.dropdown > .navbar__link {
+  white-space: nowrap;
+}
+
+@media (min-width: 997px) and (max-width: 1279px) {
+  .navbar__title {
+    display: none;
+  }
+}
