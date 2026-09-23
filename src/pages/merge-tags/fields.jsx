@@ -14,7 +14,7 @@ import styles from '../../components/merge-tags/merge-tags.module.css';
 /**
  * Modifiers by field: pick a kind of form field, see what the merge tag picker offers for it,
  * and why everything else is left out. One field at a time, because all of them at once is a
- * 39 by 64 grid; the full grid stays available, closed, at the bottom.
+ * 39 by 64 grid, which has its own page at /merge-tags/compare.
  */
 
 function readHash(keys) {
@@ -110,62 +110,6 @@ function FieldDetail({ row, byId, reasons }) {
   );
 }
 
-function CompareGrid({ offers, byId }) {
-  const columns = useMemo(() => {
-    const seen = new Map();
-    for (const row of offers.fields) {
-      for (const item of row.offered) {
-        const modifier = byId.get(item.id);
-        if (modifier && !seen.has(modifier.name)) seen.set(modifier.name, sectionOf(modifier));
-      }
-    }
-    return SECTIONS.flatMap((section) => [...seen.entries()].filter(([, s]) => s === section.key).map(([name]) => name));
-  }, [offers, byId]);
-
-  return (
-    <details className={styles.compare}>
-      <summary>Compare every field kind in one grid</summary>
-      <div className={styles.gridScroll}>
-        <table className={styles.grid}>
-          <thead>
-            <tr>
-              <th scope="col">Field kind</th>
-              {columns.map((name) => (
-                <th key={name} scope="col" className={styles.rotated}>
-                  <span>
-                    <code>{name}</code>
-                  </span>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {offers.fields.map((row) => {
-              const names = new Map(row.offered.map((item) => [byId.get(item.id)?.name, item]));
-              return (
-                <tr key={row.key}>
-                  <th scope="row">
-                    <a href={`#${row.key}`}>{row.label}</a>
-                  </th>
-                  {columns.map((name) => {
-                    const item = names.get(name);
-                    return (
-                      <td key={name} title={item ? `${byId.get(item.id)?.label}${item.locked ? ' (locked)' : ''}` : undefined}>
-                        {item ? (item.locked ? '○' : '●') : ''}
-                        {item && <span className={styles.srOnly}>{item.locked ? 'locked' : 'offered'}</span>}
-                      </td>
-                    );
-                  })}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-    </details>
-  );
-}
-
 export default function MergeTagFieldsPage() {
   const state = useMergeTagArtifact();
   const offers = state.artifact?.offers;
@@ -194,7 +138,8 @@ export default function MergeTagFieldsPage() {
         <h1>Modifiers by field</h1>
         <p className={styles.lede}>
           Choose a kind of form field to see which modifiers the merge tag picker offers for <a href="/merge-tags/field/"><code>{'{Field Label:ID}'}</code></a>,
-          and why the others are left out. Generated from the picker's own rules.
+          and why the others are left out. Generated from the picker's own rules. To see every field kind side by side,
+          use <a href="/merge-tags/compare/">Compare fields</a>.
         </p>
 
         <StatusMessage state={state} what="the field reference" />
@@ -244,7 +189,6 @@ export default function MergeTagFieldsPage() {
               </nav>
               <FieldDetail row={row} byId={byId} reasons={offers.reasons} />
             </div>
-            <CompareGrid offers={offers} byId={byId} />
           </>
         )}
       </main>

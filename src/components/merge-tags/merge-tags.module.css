@@ -211,23 +211,67 @@
   color: var(--ifm-color-emphasis-600);
 }
 
-.compare {
-  margin-top: 3rem;
-}
-
-.compare summary {
-  cursor: pointer;
-  font-weight: 600;
-}
-
-/* Contains the cells' visually hidden labels; without it they escape and widen the page. */
-.gridScroll {
+/* Compare fields: the box fills the window, so its header rows and the field-name column
+   stay pinned while the grid scrolls inside it. */
+.compareScroll {
   position: relative;
   overflow: auto;
-  max-height: 75vh;
+  height: calc(100vh - var(--ifm-navbar-height) - 2rem);
+  min-height: 24rem;
   margin-top: 1rem;
   border: 1px solid var(--ifm-color-emphasis-200);
   border-radius: 8px;
+  background: var(--ifm-background-surface-color);
+}
+
+.legend {
+  list-style: none;
+  padding: 0;
+  margin: 0.75rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.25rem;
+  font-size: 0.85rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.swatch {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 3px;
+}
+
+.swatch_show { background: var(--mt-show); }
+.swatch_change { background: var(--mt-change); }
+.swatch_other { background: var(--mt-other); }
+.cell_show { color: var(--mt-show); }
+.cell_change { color: var(--mt-change); }
+.cell_other { color: var(--mt-other); }
+
+.compareScroll,
+.legend {
+  --mt-show: #3b4fc4;
+  --mt-show-soft: #e8ebfb;
+  --mt-change: #a85a0c;
+  --mt-change-soft: #fbefe2;
+  --mt-other: #3f7a5a;
+  --mt-other-soft: #e5f2ea;
+}
+
+[data-theme='dark'] .compareScroll,
+[data-theme='dark'] .legend {
+  --mt-show: #93a2ff;
+  --mt-show-soft: #252c52;
+  --mt-change: #f0a45a;
+  --mt-change-soft: #3a2a18;
+  --mt-other: #7cc79c;
+  --mt-other-soft: #1c3527;
 }
 
 .grid {
@@ -244,28 +288,108 @@
   border-bottom: 1px solid var(--ifm-color-emphasis-200);
   padding: 0.25rem;
   text-align: center;
+  background: var(--ifm-background-surface-color);
+}
+
+.grid td + td {
+  border-left: 1px solid var(--ifm-color-emphasis-200);
 }
 
 .grid thead th {
   position: sticky;
-  top: 0;
-  background: var(--ifm-background-surface-color);
   z-index: 2;
   vertical-align: bottom;
 }
 
-.grid tbody th {
+.grid thead tr:first-child th {
+  top: 0;
+}
+
+/* The section band stays one line, 2rem tall: the name row below is pinned 2rem down. A label
+   that wrapped ("Other settings" over two narrow columns) made the band 54px, and the name row
+   then covered the labels once the grid scrolled. */
+.grid thead tr:first-child th[scope='colgroup'] {
+  height: 2rem;
+  white-space: nowrap;
+  padding-block: 0 !important;
+  line-height: 2rem;
+  vertical-align: middle;
+}
+
+.grid thead tr:nth-child(2) th {
+  top: 2rem;
+}
+
+.sectionHead {
+  text-align: left !important;
+  font-weight: 600;
+  padding: 0.35rem 0.6rem !important;
+}
+
+.section_show { color: var(--mt-show); background: var(--mt-show-soft) !important; }
+.section_change { color: var(--mt-change); background: var(--mt-change-soft) !important; }
+.section_other { color: var(--mt-other); background: var(--mt-other-soft) !important; }
+
+.grid .corner {
+  left: 0;
+  z-index: 3;
+  text-align: left;
+  min-width: 13rem;
+  color: var(--ifm-color-emphasis-700);
+  font-weight: 500;
+}
+
+.grid tbody th[scope='row'] {
   position: sticky;
   left: 0;
-  background: var(--ifm-background-surface-color);
+  z-index: 1;
   text-align: left;
   white-space: nowrap;
-  z-index: 1;
+  font-weight: 500;
+  padding: 0.3rem 0.75rem;
+  border-right: 1px solid var(--ifm-color-emphasis-300);
 }
 
 .grid tbody td {
-  min-width: 1.6rem;
-  color: var(--ifm-color-primary);
+  min-width: 1.7rem;
+  height: 1.9rem;
+}
+
+.groupRow th {
+  text-align: left !important;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ifm-color-emphasis-600);
+  padding: 0.7rem 0.75rem 0.3rem !important;
+  background: var(--ifm-background-color) !important;
+}
+
+.rotated {
+  height: 8.5rem;
+  min-width: 1.7rem;
+}
+
+.sectionLabel {
+  position: sticky;
+  vertical-align: top;
+  line-height: 2rem;
+  /* Clear of the pinned field-name column. */
+  left: 14rem;
+  display: inline-block;
+}
+
+.groupLabel {
+  position: sticky;
+  left: 0.75rem;
+  display: inline-block;
+}
+
+.rotated code {
+  background: none;
+  border: 0;
+  padding: 0;
+  font-size: 0.78rem;
 }
 
 .rotated span {

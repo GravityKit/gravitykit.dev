@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import Link from '@docusaurus/Link';
 
 /**
  * Shared by the merge tag reference pages. Everything they show comes from
@@ -79,6 +80,7 @@ export function MergeTagsNav({ current }) {
   const links = [
     { href: '/merge-tags', label: 'All merge tags', key: 'all' },
     { href: '/merge-tags/fields', label: 'Modifiers by field', key: 'fields' },
+    { href: '/merge-tags/compare', label: 'Compare fields', key: 'compare' },
     { href: '/merge-tags/tags', label: 'Tag options', key: 'tags' },
   ];
 
@@ -86,10 +88,15 @@ export function MergeTagsNav({ current }) {
     <nav aria-label="Merge tag reference" className="margin-bottom--lg">
       <ul className="pills">
         {links.map((link) => (
-          <li key={link.key} className={`pills__item${current === link.key ? ' pills__item--active' : ''}`}>
-            <a href={link.href} aria-current={current === link.key ? 'page' : undefined} style={{ color: 'inherit', textDecoration: 'none' }}>
+          // The link fills the pill: Infima pads the <li>, which left the pill's edges unclickable.
+          <li key={link.key} className={`pills__item${current === link.key ? ' pills__item--active' : ''}`} style={{ padding: 0 }}>
+            <Link
+              to={link.href}
+              aria-current={current === link.key ? 'page' : undefined}
+              style={{ display: 'block', padding: '0.25rem 1rem', color: 'inherit', textDecoration: 'none', borderRadius: 'inherit' }}
+            >
               {link.label}
-            </a>
+            </Link>
           </li>
         ))}
       </ul>
