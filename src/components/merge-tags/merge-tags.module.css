@@ -78,6 +78,8 @@
   color: var(--ifm-font-color-base);
   font-weight: 600;
   box-shadow: inset 3px 0 0 var(--ifm-color-primary);
+  /* Square on the left, so the accent bar runs straight instead of following the corners. */
+  border-radius: 0 6px 6px 0;
 }
 
 .mobileLabel,
