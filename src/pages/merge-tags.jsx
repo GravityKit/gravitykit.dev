@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import Layout from '@theme/Layout';
-import { MergeTagsNav, productName, requiresText } from '../components/merge-tags/shared';
+import { MergeTagsNav, SECTIONS, productName, requiresText, sectionOf } from '../components/merge-tags/shared';
 import { HtmlPreview } from '../components/merge-tags/Examples';
+import styles from '../components/merge-tags/merge-tags.module.css';
 
 /**
  * Merge tags reference. Port of gravityview/css-tokens.jsx (SPEC-merge-tags-page.md
@@ -39,7 +40,6 @@ import { HtmlPreview } from '../components/merge-tags/Examples';
 // 'context' (the form: modifier, SPEC-FINAL 4.7) is a schema kind added after this list was
 // first written -- omitting it here doesn't drop context rows from the table (they still match
 // "all kinds" and free-text search), it only drops "context" as a Kind-filter option.
-const KIND_ORDER = ['parameter', 'representation', 'transform', 'flag', 'context'];
 
 /** Normalize an applies_to.tags / applies_to.field_types value for use inside an
  * identity key: "*" and "missing" both mean "unrestricted" and must collapse to
@@ -175,74 +175,89 @@ function looksLikeHtml(text) {
   return typeof text === 'string' && HTML_LIKE.test(text);
 }
 
-/** Tags-stripped approximation for the scan table -- not a sanitizer, just a
- * display fallback so the collapsed row shows words instead of angle brackets. */
-function stripHtmlForPreview(html) {
-  if (typeof html !== 'string') return html;
-  return html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+const NAMED_ENTITIES = {
+  amp: '&',
+  lt: '<',
+  gt: '>',
+  quot: '"',
+  apos: "'",
+  nbsp: ' ',
+  hellip: '…',
+  ndash: '–',
+  mdash: '—',
+  lsquo: '‘',
+  rsquo: '’',
+  ldquo: '“',
+  rdquo: '”',
+  euro: '€',
+  pound: '£',
+  copy: '©',
+  reg: '®',
+  trade: '™',
+};
+
+/** Output that a browser would render differently from its source: a tag, or an entity. */
+const RENDERS_AS_HTML = /<[a-z!/][^>]*>|&(#\d+|#x[0-9a-f]+|[a-z]+);/i;
+
+/** One decoding pass: the text a browser shows for rendered HTML (Examples.jsx preview() does the same). */
+function decodeEntities(text) {
+  return text
+    .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number(n)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
+    .replace(/&([a-z]+);/gi, (m, name) => NAMED_ENTITIES[name.toLowerCase()] ?? m);
 }
 
-/** What the table's "Canonical output" cell actually renders: HTML gets
- * stripped to text first, then everything goes through the same length budget. */
+/** Tags-stripped approximation for the scan table -- not a sanitizer, just a
+ * display fallback so the collapsed row shows words instead of angle brackets.
+ * The result is text, so its entities are decoded: `it&#039;s` reads as `it's`. */
+function stripHtmlForPreview(html) {
+  if (typeof html !== 'string') return html;
+  return decodeEntities(html.replace(/<[^>]*>/g, ' ')).replace(/\s+/g, ' ').trim();
+}
+
+/** What the table's "Example output" cell shows: the text a reader sees once the output lands in
+ * an email or a View. Any output with a tag or an entity is rendered to text first -- not only
+ * output that starts with a tag -- so `it&#039;s` reads as `it's`, a URL's `&amp;` as `&`, and
+ * `:esc_html`'s `&lt;b&gt;` as the literal `<b>` a reader would see. The expanded row keeps the
+ * exact captured source. Then everything goes through the same length budget. */
 function previewForTable(text, maxChars = TABLE_OUTPUT_MAX_CHARS) {
   if (typeof text !== 'string') return text;
-  const source = looksLikeHtml(text) ? stripHtmlForPreview(text) : text;
+  const source = RENDERS_AS_HTML.test(text) ? stripHtmlForPreview(text) : text;
   return truncateForTable(source, maxChars);
 }
 
+/**
+ * A small label beside a row's name. Tones are CSS classes (merge-tags.module.css .badge_*) so each
+ * has its own light and dark colors: the info-contrast pair this used to borrow measured 2.25:1.
+ * EP66-EP70 (SPEC-entry-preview.md §3.N): "varies" gets an informational tone (the more common
+ * case, nothing to flag); "solid" reuses the neutral gray of `kind` -- both read as a structural
+ * fact, never alarm-colored the way stub/hazard are.
+ */
 function badge(text, tone) {
-  const tones = {
-    stub: { background: 'var(--ifm-color-warning-contrast-background)', color: 'var(--ifm-color-warning-dark)' },
-    hazard: { background: 'var(--ifm-color-danger-contrast-background)', color: 'var(--ifm-color-danger-dark)' },
-    kind: { background: 'var(--ifm-color-emphasis-200)', color: 'var(--ifm-color-emphasis-800)' },
-    product: { background: 'var(--ifm-color-primary-contrast-background)', color: 'var(--ifm-color-primary-dark)' },
-    // EP66-EP70 (SPEC-entry-preview.md §3.N): "varies" gets an informational
-    // tone (the more common case, 26/48 tags -- nothing to flag); "solid"
-    // reuses the same neutral gray as `kind` -- both read as "structural
-    // fact", never alarm-colored the way stub/hazard are.
-    entryVaries: { background: 'var(--ifm-color-info-contrast-background)', color: 'var(--ifm-color-info-dark)' },
-    entrySolid: { background: 'var(--ifm-color-emphasis-200)', color: 'var(--ifm-color-emphasis-800)' },
-  };
-  return (
-    <span
-      style={{
-        display: 'inline-block',
-        fontSize: 11,
-        fontWeight: 600,
-        padding: '2px 6px',
-        borderRadius: 4,
-        marginLeft: 6,
-        whiteSpace: 'nowrap',
-        ...tones[tone],
-      }}
-    >
-      {text}
-    </span>
-  );
+  return <span className={`${styles.badge} ${styles[`badge_${tone}`] ?? ''}`}>{text}</span>;
 }
 
+/** Copies a merge tag. Its name says which one, and the result is announced, not only shown. */
 function CopyButton({ text }) {
   const [done, setDone] = useState(false);
   return (
-    <button
-      type="button"
-      title={`Copy ${text}`}
-      onClick={() => {
-        navigator.clipboard?.writeText(text);
-        setDone(true);
-        setTimeout(() => setDone(false), 1200);
-      }}
-      style={{
-        marginLeft: 6,
-        cursor: 'pointer',
-        border: 'none',
-        background: 'transparent',
-        color: 'var(--ifm-color-primary)',
-        fontSize: 12,
-      }}
-    >
-      {done ? '✓' : 'copy'}
-    </button>
+    <>
+      <button
+        type="button"
+        className={styles.copyButton}
+        aria-label={`Copy ${text}`}
+        onClick={() => {
+          navigator.clipboard?.writeText(text);
+          setDone(true);
+          setTimeout(() => setDone(false), 1500);
+        }}
+      >
+        {done ? 'Copied' : 'Copy'}
+      </button>
+      <span role="status" className={styles.srOnly}>
+        {done ? `Copied ${text}` : ''}
+      </span>
+    </>
   );
 }
 
@@ -273,11 +288,69 @@ function capturesForModifier(catalog, modifierEntry) {
  * `value` entries differ only here); falls back to tags for a flag like the
  * fourth `value` entry, which has no field_types restriction at all.
  */
-function scopeDescription(appliesTo) {
-  if (!appliesTo) return 'any';
-  if (Array.isArray(appliesTo.field_types)) return appliesTo.field_types.join(', ');
-  if (Array.isArray(appliesTo.tags)) return appliesTo.tags.join(', ');
-  return 'any';
+function scopeDescription(appliesTo, fieldTypeNames = {}) {
+  if (!appliesTo) return 'Any tag';
+  if (Array.isArray(appliesTo.field_types)) return appliesTo.field_types.map((type) => fieldTypeNames[type]?.[0] ?? type).join(', ');
+  if (Array.isArray(appliesTo.tags)) return appliesTo.tags.map(tagDisplayName).join(', ');
+  return 'Any tag';
+}
+
+/** `*field*` is the catalog's internal name for the form field tag; readers know it as "form fields". */
+function tagDisplayName(name) {
+  return name === '*field*' ? 'form fields' : `{${name}}`;
+}
+
+/** What goes after a modifier's colon, in words. */
+const ARGUMENT_NAMES = { integer: 'a number', string: 'text', php_date_format: 'a date format', form_ref: 'a form ID' };
+
+/** The kind of row, in the panel's own words ("What to show", "Change the output", "Other settings"). */
+function rowTypeLabel(row) {
+  if (row.type === 'tag') return 'Tag';
+  return SECTIONS.find((section) => section.key === sectionOf(row.entry))?.title ?? 'Other settings';
+}
+
+/** Field type -> every name the form editor gives it ("checkbox" -> Checkboxes, "Checkboxes, one choice"). */
+function fieldTypeNamesOf(catalog) {
+  const names = {};
+  for (const row of catalog?.offers?.fields ?? []) (names[row.field_type] ??= []).push(row.label);
+  return names;
+}
+
+/** Everything a reader might type to find a row: names, syntax, what it works on, in the editor's words. */
+function searchTextOf(row, fieldTypeNames) {
+  const { entry, type } = row;
+  const parts = [entry.name, entry.label, entry.syntax, entry.description, entry.group];
+  if (type === 'tag') {
+    parts.push(`{${entry.name}}`);
+    if (entry.name === '*field*') parts.push('form field', 'field');
+  } else {
+    parts.push(`:${entry.name}`);
+    const tags = entry.applies_to?.tags;
+    if (Array.isArray(tags)) for (const tag of tags) parts.push(tag, tagDisplayName(tag));
+    const types = entry.applies_to?.field_types;
+    if (Array.isArray(types)) for (const fieldType of types) parts.push(fieldType, ...(fieldTypeNames[fieldType] ?? []));
+  }
+  return parts.filter(Boolean).join(' ').toLowerCase();
+}
+
+/**
+ * Does a row match what was typed? Words must all appear. A merge tag as written
+ * (`all_fields:noadmin`, `{Email:3:urlencode}`) matches the modifiers it names, on that tag.
+ */
+function matchesQuery(row, query, fieldTypeNames, tagNames) {
+  const q = query.trim().toLowerCase().replace(/[{}]/g, '');
+  if (!q) return true;
+  if (q.includes(':')) {
+    const [head, ...rest] = q.split(':').map((part) => part.trim());
+    const tag = tagNames.has(head) ? head : '*field*';
+    const modifierNames = rest.filter((part) => part && !/^\d+(\.\d+)?$/.test(part));
+    if (row.type === 'tag') return modifierNames.length === 0 && row.entry.name === tag;
+    if (!modifierNames.includes(row.entry.name)) return false;
+    const tags = row.entry.applies_to?.tags;
+    return !Array.isArray(tags) || tags.includes(tag);
+  }
+  const haystack = searchTextOf(row, fieldTypeNames);
+  return q.split(/\s+/).every((word) => haystack.includes(word));
 }
 
 /** A captured `out` can run 15-18KB in the non-HTML long-string case too (rare,
@@ -293,7 +366,7 @@ function CaptureOutput({ out }) {
   }
   return (
     <details>
-      <summary style={{ cursor: 'pointer', color: 'var(--ifm-color-emphasis-600)' }}>
+      <summary className={styles.detailMeta}>
         {out.length.toLocaleString()} characters. Expand to view.
       </summary>
       <pre style={{ maxHeight: 320, overflow: 'auto', background: 'var(--ifm-color-emphasis-100)', padding: 8, borderRadius: 4 }}>
@@ -334,12 +407,12 @@ function HazardNotice({ annotation }) {
 }
 
 function CapturePair({ capture }) {
-  if (!capture) return <p style={{ color: 'var(--ifm-color-emphasis-600)', fontStyle: 'italic' }}>No example output yet.</p>;
+  if (!capture) return <p className={styles.detailMeta}><em>No example output yet.</em></p>;
   return (
     <div style={{ fontSize: 13 }}>
       <div style={{ display: 'flex', gap: 8, alignItems: 'baseline', flexWrap: 'wrap' }}>
         <code style={{ background: 'var(--ifm-color-emphasis-100)', padding: '2px 6px', borderRadius: 4 }}>{capture.in}</code>
-        <span style={{ color: 'var(--ifm-color-emphasis-500)' }}>&rarr;</span>
+        <span aria-hidden="true" className={styles.cellMuted}>&rarr;</span>
         <CaptureOutput out={capture.out} />
         <CopyButton text={capture.in} />
         {capture.stub ? badge('placeholder, not CI-verified', 'stub') : null}
@@ -347,33 +420,67 @@ function CapturePair({ capture }) {
       </div>
       {capture.hazard ? <HazardNotice annotation={hazardAnnotation(capture.hazard)} /> : null}
       {capture.display ? (
-        <div style={{ marginTop: 4, color: 'var(--ifm-color-emphasis-600)' }}>
-          Renders relative to the reader's clock ({capture.display.kind}); the literal above is fixed to the capture fixture.
+        <div className={styles.detailMeta}>
+          On a real site this depends on when it is read ({capture.display.kind}); the output above is from the test entry's fixed date.
         </div>
       ) : null}
-      <div style={{ marginTop: 4, color: 'var(--ifm-color-emphasis-600)' }}>
-        Captured {capture.captured} against {Object.entries(capture.versions || {}).map(([p, v]) => `${p} ${v}`).join(', ')}.
+      <div className={styles.detailMeta}>
+        Captured {capture.captured} with {Object.entries(capture.versions || {}).map(([p, v]) => `${productName(p)} ${v}`).join(', ')}.
       </div>
     </div>
   );
 }
 
-function TagRow({ entry, catalog, expanded, onToggle }) {
+/**
+ * Opens a row's details. A real button, so the details are reachable from the keyboard and a
+ * screen reader hears whether they are open (WCAG 2.1.1, 4.1.2). A click anywhere else on the
+ * row still toggles it, for mouse users.
+ */
+function RowToggle({ expanded, onToggle, controls, name }) {
+  return (
+    <button
+      type="button"
+      className={styles.rowToggle}
+      aria-expanded={expanded}
+      aria-controls={controls}
+      onClick={(event) => {
+        event.stopPropagation();
+        onToggle();
+      }}
+    >
+      <span aria-hidden="true">{expanded ? '▾' : '▸'}</span>
+      <span className={styles.srOnly}>Details for {name}</span>
+    </button>
+  );
+}
+
+/** A click on the row itself toggles it, unless it landed on a link or button inside. */
+function rowClick(onToggle) {
+  return (event) => {
+    if (event.target.closest('a, button')) return;
+    onToggle();
+  };
+}
+
+function TagRow({ entry, catalog, expanded, onToggle, detailId }) {
   const captures = capturesForTag(catalog, entry.name);
   const canonical = captures[0];
   const entryDependence = entryDependenceBadge({ type: 'tag', entry });
   return (
     <>
-      <tr onClick={onToggle} style={{ cursor: 'pointer' }}>
+      <tr onClick={rowClick(onToggle)} className={styles.clickableRow}>
         <td>
-          <a href={`/merge-tags/${entry.name === '*field*' ? 'field' : entry.name}/`} onClick={(e) => e.stopPropagation()}>
-            <code>{entry.syntax}</code>
-          </a>
-          {badge('tag', 'kind')}
+          <span className={styles.rowName}>
+            <RowToggle expanded={expanded} onToggle={onToggle} controls={detailId} name={entry.syntax} />
+            <a href={`/merge-tags/${entry.name === '*field*' ? 'field' : entry.name}/`}>
+              <code>{entry.syntax}</code>
+            </a>
+          </span>
+          {badge('Tag', 'kind')}
         </td>
         <td>{productName(entry.product)}</td>
-        <td>{entry.group}</td>
-        <td style={{ fontSize: 13, color: 'var(--ifm-color-emphasis-600)' }}>
+        <td>{entry.group ? entry.group[0].toUpperCase() + entry.group.slice(1) : '—'}</td>
+        <td className={styles.cellMuted}>
           {Array.isArray(entry.field_types) ? entry.field_types.join(', ') : '—'}
         </td>
         <td style={{ fontSize: 14 }}>
@@ -388,28 +495,24 @@ function TagRow({ entry, catalog, expanded, onToggle }) {
               {canonical.hazard ? badge('ordering hazard', 'hazard') : null}
             </>
           ) : (
-            <span style={{ color: 'var(--ifm-color-emphasis-500)' }}>&mdash;</span>
+            <span className={styles.cellMuted} aria-label="No example">&mdash;</span>
           )}
         </td>
       </tr>
       {expanded ? (
-        <tr>
-          <td colSpan={6} style={{ background: 'var(--ifm-color-emphasis-0)' }}>
+        <tr id={detailId}>
+          <td colSpan={6} className={styles.detailCell}>
             {entry.description ? <p>{entry.description}</p> : null}
             {/* EP69/EP70: the same signal the panel's entry-cursor arrows show
                 interactively, stated once here for a reader who only ever sees
                 this static reference. */}
-            <p style={{ fontSize: 12, color: 'var(--ifm-color-emphasis-600)' }}>
+            <p className={styles.detailMeta}>
               {entryDependence?.tone === 'entryVaries'
                 ? 'Changes from entry to entry.'
                 : 'Same for every entry.'}
             </p>
             <CapturePair capture={canonical} />
-            {entry.requires ? (
-              <p style={{ fontSize: 12, color: 'var(--ifm-color-emphasis-600)' }}>
-                Requires {requiresText(entry.requires)}.
-              </p>
-            ) : null}
+            {entry.requires ? <p className={styles.detailMeta}>Requires {requiresText(entry.requires)}.</p> : null}
           </td>
         </tr>
       ) : null}
@@ -417,7 +520,7 @@ function TagRow({ entry, catalog, expanded, onToggle }) {
   );
 }
 
-function ModifierRow({ entry, catalog, expanded, onToggle }) {
+function ModifierRow({ entry, catalog, expanded, onToggle, detailId, fieldTypeNames }) {
   const captures = capturesForModifier(catalog, entry);
   const canonical = captures[0];
   // EP67: only the five GravityMath aggregates return non-null -- every other
@@ -425,16 +528,19 @@ function ModifierRow({ entry, catalog, expanded, onToggle }) {
   const entryDependence = entryDependenceBadge({ type: 'modifier', entry });
   return (
     <>
-      <tr onClick={onToggle} style={{ cursor: 'pointer' }}>
+      <tr onClick={rowClick(onToggle)} className={styles.clickableRow}>
         <td>
-          <a href={`/merge-tags/modifiers/${entry.name}/`} onClick={(e) => e.stopPropagation()}>
-            <code>:{entry.name}</code>
-          </a>
-          {badge(entry.kind, 'kind')}
+          <span className={styles.rowName}>
+            <RowToggle expanded={expanded} onToggle={onToggle} controls={detailId} name={`:${entry.name}`} />
+            <a href={`/merge-tags/modifiers/${entry.name}/`}>
+              <code>:{entry.name}</code>
+            </a>
+          </span>
+          {badge(rowTypeLabel({ type: 'modifier', entry }), 'kind')}
         </td>
         <td>{productName(entry.product)}</td>
-        <td>{entry.arity === 1 ? entry.argument?.type || 'argument' : '—'}</td>
-        <td style={{ fontSize: 13, color: 'var(--ifm-color-emphasis-600)' }}>{scopeDescription(entry.applies_to)}</td>
+        <td>{entry.arity === 1 ? `Takes ${ARGUMENT_NAMES[entry.argument?.type] ?? 'a value'}` : '—'}</td>
+        <td className={styles.cellMuted}>{scopeDescription(entry.applies_to, fieldTypeNames)}</td>
         <td style={{ fontSize: 14 }}>
           {entry.label}
           {entryDependence ? badge(entryDependence.text, entryDependence.tone) : null}
@@ -447,29 +553,29 @@ function ModifierRow({ entry, catalog, expanded, onToggle }) {
               {canonical.hazard ? badge('ordering hazard', 'hazard') : null}
             </>
           ) : (
-            <span style={{ color: 'var(--ifm-color-emphasis-500)' }}>&mdash;</span>
+            <span className={styles.cellMuted} aria-label="No example">&mdash;</span>
           )}
         </td>
       </tr>
       {expanded ? (
-        <tr>
-          <td colSpan={6} style={{ background: 'var(--ifm-color-emphasis-0)' }}>
+        <tr id={detailId}>
+          <td colSpan={6} className={styles.detailCell}>
             {entry.description ? <p>{entry.description}</p> : null}
             {/* EP67: the one shipped case where a modifier changes the
                 entry-dependence answer -- a per-entry field becoming a
                 cross-entry total. */}
             {entryDependence ? (
-              <p style={{ fontSize: 12, color: 'var(--ifm-color-emphasis-600)' }}>
+              <p className={styles.detailMeta}>
                 <strong>{entryDependence.text}:</strong> this modifier adds up, counts, or averages all entries in
                 scope, so the result is the same for every entry.
               </p>
             ) : null}
             {captures.length ? captures.map((c) => <CapturePair key={c.in} capture={c} />) : <CapturePair capture={null} />}
-            <p style={{ fontSize: 12, color: 'var(--ifm-color-emphasis-600)' }}>
-              Applies to {Array.isArray(entry.applies_to?.tags) ? entry.applies_to.tags.join(', ') : 'every tag'}
-              {entry.conflicts_with?.length ? ` · conflicts with ${entry.conflicts_with.join(', ')}` : ''}
-              {entry.implies?.length ? ` · implies ${entry.implies.join(', ')}` : ''}
-              {entry.requires ? ` · requires ${Object.entries(entry.requires).map(([p, v]) => `${p} ${v}`).join(', ')}` : ''}
+            <p className={styles.detailMeta}>
+              Works on {scopeDescription(entry.applies_to, fieldTypeNames)}
+              {entry.conflicts_with?.length ? ` · can't be combined with ${entry.conflicts_with.map((name) => `:${name}`).join(', ')}` : ''}
+              {entry.implies?.length ? ` · also turns on ${entry.implies.map((name) => `:${name}`).join(', ')}` : ''}
+              {entry.requires ? ` · requires ${requiresText(entry.requires)}` : ''}
             </p>
           </td>
         </tr>
@@ -485,17 +591,46 @@ function tagTakes(tag, catalog) {
   return 'none';
 }
 
+/** Filter state kept in the URL, so Back and a shared link bring the same view back. */
+const URL_KEYS = { query: 'q', product: 'product', kind: 'type', entryDependence: 'changes', takes: 'takes' };
+const FILTER_DEFAULTS = { query: '', product: 'all', kind: 'all', entryDependence: 'all', takes: 'all' };
+
+function readFilters() {
+  if (typeof window === 'undefined') return FILTER_DEFAULTS;
+  const params = new URLSearchParams(window.location.search);
+  const out = { ...FILTER_DEFAULTS };
+  for (const [key, param] of Object.entries(URL_KEYS)) {
+    const value = params.get(param);
+    if (value) out[key] = value;
+  }
+  return out;
+}
+
+function writeFilters(filters) {
+  const params = new URLSearchParams(window.location.search);
+  for (const [key, param] of Object.entries(URL_KEYS)) {
+    if (filters[key] && filters[key] !== FILTER_DEFAULTS[key]) params.set(param, filters[key]);
+    else params.delete(param);
+  }
+  const search = params.toString();
+  window.history.replaceState(window.history.state, '', `${window.location.pathname}${search ? `?${search}` : ''}${window.location.hash}`);
+}
+
 function MergeTagTable({ catalog }) {
-  const [query, setQuery] = useState('');
-  const [product, setProduct] = useState('all');
-  const [kind, setKind] = useState('all');
-  // Its own control, not folded into `kind` -- entry-dependence (does the
-  // VALUE change per entry?) is a different axis from Kind (what structural
-  // role a token plays), and matchesEntryDependenceFilter()'s asymmetric
-  // modifier rule can't be expressed as a flat equality check anyway.
-  const [entryDependence, setEntryDependence] = useState('all');
-  const [takes, setTakes] = useState('all');
+  const [filters, setFilters] = useState(FILTER_DEFAULTS);
+  const [fromUrl, setFromUrl] = useState(false);
   const [expandedKey, setExpandedKey] = useState(null);
+  const { query, product, kind, entryDependence, takes } = filters;
+  const set = (key) => (event) => setFilters((current) => ({ ...current, [key]: event.target.value }));
+
+  // Read the URL once on the client (the static HTML has no query string), then keep it in step.
+  useEffect(() => {
+    setFilters(readFilters());
+    setFromUrl(true);
+  }, []);
+  useEffect(() => {
+    if (fromUrl) writeFilters(filters);
+  }, [filters, fromUrl]);
 
   // One list: tags first (kind "tag" isn't a schema kind, but the filter treats
   // it as one so "show me everything about {date_created}" is one search away
@@ -505,40 +640,33 @@ function MergeTagTable({ catalog }) {
     const tagRows = (catalog.tags || []).map((t) => ({ type: 'tag', kind: 'tag', key: `tag:${t.name}`, entry: t }));
     const modRows = (catalog.modifiers || []).map((m) => ({
       type: 'modifier',
-      kind: m.kind,
+      kind: sectionOf(m),
       key: `mod:${modifierIdentity(m)}`,
       entry: m,
     }));
     return [...tagRows, ...modRows];
   }, [catalog]);
 
+  const fieldTypeNames = useMemo(() => fieldTypeNamesOf(catalog), [catalog]);
+  const tagNames = useMemo(() => new Set((catalog?.tags || []).map((t) => t.name)), [catalog]);
+
   const products = useMemo(() => {
     if (!catalog) return [];
     return [...new Set((catalog.products || []).map((p) => productName(p.product)))].sort();
   }, [catalog]);
 
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    return rows.filter((row) => {
-      const { entry, type, kind: rowKind } = row;
-      if (product !== 'all' && productName(entry.product) !== product) return false;
-      if (kind !== 'all' && rowKind !== kind) return false;
-      if (!matchesEntryDependenceFilter(row, entryDependence)) return false;
-      if (takes !== 'all' && (type !== 'tag' || tagTakes(entry, catalog) !== takes)) return false;
-      if (!q) return true;
-      const haystack = [
-        entry.name,
-        entry.label,
-        entry.syntax,
-        entry.description,
-        type === 'tag' ? entry.syntax : `:${entry.name}`,
-      ]
-        .filter(Boolean)
-        .join(' ')
-        .toLowerCase();
-      return haystack.includes(q);
-    });
-  }, [rows, query, product, kind, entryDependence, takes, catalog]);
+  const filtered = useMemo(
+    () =>
+      rows.filter((row) => {
+        const { entry, type, kind: rowKind } = row;
+        if (product !== 'all' && productName(entry.product) !== product) return false;
+        if (kind !== 'all' && rowKind !== kind) return false;
+        if (!matchesEntryDependenceFilter(row, entryDependence)) return false;
+        if (takes !== 'all' && (type !== 'tag' || tagTakes(entry, catalog) !== takes)) return false;
+        return matchesQuery(row, query, fieldTypeNames, tagNames);
+      }),
+    [rows, query, product, kind, entryDependence, takes, catalog, fieldTypeNames, tagNames],
+  );
 
   if (catalog === null) return <p>Loading merge tags…</p>;
   if (!rows.length) {
@@ -549,36 +677,30 @@ function MergeTagTable({ catalog }) {
     );
   }
 
+  const filtersActive = Object.entries(filters).some(([key, value]) => value !== FILTER_DEFAULTS[key]);
+  const count = `${filtered.length} ${filtered.length === 1 ? 'entry' : 'entries'}`;
+
   return (
     <div>
       {catalog.captures?.status === 'stub' ? (
-        <div
-          style={{
-            border: '1px solid var(--ifm-color-warning-dark)',
-            background: 'var(--ifm-color-warning-contrast-background)',
-            borderRadius: 6,
-            padding: '10px 14px',
-            marginBottom: 16,
-            fontSize: 14,
-          }}
-        >
+        <div className="alert alert--warning margin-bottom--md">
           <strong>Placeholder data.</strong> These outputs are placeholders.
         </div>
       ) : null}
 
-      <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center', margin: '1rem 0' }}>
-                {/* A placeholder is not an accessible name: not every screen reader exposes it as one,
+      <div className={styles.filters}>
+        {/* A placeholder is not an accessible name: not every screen reader exposes it as one,
             and it vanishes the moment the user types -- leaving the field unlabelled exactly when
             they most need to know what it filters. Same reason the selects carry aria-label. */}
-<input
+        <input
           type="search"
           aria-label="Search tags and modifiers"
-          placeholder="Search tags and modifiers…"
+          placeholder="Search, or paste a tag like all_fields:noadmin"
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          style={{ padding: '6px 10px', minWidth: 260, border: '1px solid var(--ifm-color-emphasis-300)', borderRadius: 6 }}
+          onChange={set('query')}
+          className={styles.filterSearch}
         />
-        <select aria-label="Filter by product" value={product} onChange={(e) => setProduct(e.target.value)} style={{ padding: '6px 10px', borderRadius: 6 }}>
+        <select aria-label="Filter by product" value={product} onChange={set('product')}>
           <option value="all">All products</option>
           {products.map((p) => (
             <option key={p} value={p}>
@@ -586,62 +708,107 @@ function MergeTagTable({ catalog }) {
             </option>
           ))}
         </select>
-        <select aria-label="Filter by kind" value={kind} onChange={(e) => setKind(e.target.value)} style={{ padding: '6px 10px', borderRadius: 6 }}>
-          <option value="all">All kinds</option>
-          <option value="tag">tag</option>
-          {KIND_ORDER.filter((k) => k !== 'parameter').map((k) => (
-            <option key={k} value={k}>
-              {k}
+        <select aria-label="Filter by type" value={kind} onChange={set('kind')}>
+          <option value="all">All types</option>
+          <option value="tag">Tags</option>
+          {SECTIONS.map((section) => (
+            <option key={section.key} value={section.key}>
+              {section.title}
             </option>
           ))}
         </select>
-        <select
-          aria-label="Filter by whether the value varies per entry"
-          value={entryDependence}
-          onChange={(e) => setEntryDependence(e.target.value)}
-          title="Whether the value changes from entry to entry"
-          style={{ padding: '6px 10px', borderRadius: 6 }}
-        >
-          <option value="all">Varies or not</option>
-          <option value="varies">Varies by entry</option>
+        <select aria-label="Filter by whether the output changes from entry to entry" value={entryDependence} onChange={set('entryDependence')}>
+          <option value="all">Changes per entry or not</option>
+          <option value="varies">Changes per entry</option>
           <option value="solid">Same for every entry</option>
         </select>
-        <select aria-label="Filter tags by what follows the colon" value={takes} onChange={(e) => setTakes(e.target.value)} style={{ padding: '6px 10px', borderRadius: 6 }}>
+        <select aria-label="Filter tags by what follows the colon" value={takes} onChange={set('takes')}>
           <option value="all">Any tag</option>
           <option value="modifiers">Tags that take modifiers</option>
           <option value="options">Tags that take a value, like {'{user:display_name}'}</option>
           <option value="none">Tags that take nothing</option>
         </select>
-        <span style={{ color: 'var(--ifm-color-emphasis-600)', fontSize: 14 }}>
-          {filtered.length} entries &middot; {catalog.captures?.count ?? 0} examples
-        </span>
+        {filtersActive && (
+          <button type="button" className={styles.clearFilters} onClick={() => setFilters(FILTER_DEFAULTS)}>
+            Clear
+          </button>
+        )}
       </div>
 
-      <div style={{ overflowX: 'auto' }}>
-        <table style={{ minWidth: '900px' }}>
-          <thead>
-            <tr>
-              <th>Syntax</th>
-              <th style={{ width: '140px' }}>Product</th>
-              <th style={{ width: '120px' }}>Kind / group</th>
-              <th style={{ width: '180px' }}>Works on</th>
-              <th>Label</th>
-              <th>Example output</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.map((row) => {
-              const expanded = expandedKey === row.key;
-              const toggle = () => setExpandedKey(expanded ? null : row.key);
-              return row.type === 'tag' ? (
-                <TagRow key={row.key} entry={row.entry} catalog={catalog} expanded={expanded} onToggle={toggle} />
-              ) : (
-                <ModifierRow key={row.key} entry={row.entry} catalog={catalog} expanded={expanded} onToggle={toggle} />
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+      {/* Announced as it changes: a filter that silently empties the table reads as a broken page. */}
+      <p role="status" aria-live="polite" className={styles.resultCount}>
+        {count}
+      </p>
+
+      {filtered.length === 0 ? (
+        <p className={styles.emptyState}>
+          {query.trim() ? <>No matches for “{query.trim()}”. </> : <>Nothing matches these filters. </>}
+          Try a tag like <code>all_fields</code>, a modifier like <code>urlencode</code>, or a field kind like <em>Radio</em>.
+        </p>
+      ) : (
+        <div role="region" aria-label="Merge tags table, scrolls sideways" tabIndex={0} className={styles.tableScroll}>
+          <table className={styles.mergeTagTable}>
+            <thead>
+              <tr>
+                <th>Syntax</th>
+                <th>Product</th>
+                <th>Group or input</th>
+                <th>Works on</th>
+                <th>Label</th>
+                <th>Example output</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.map((row, index) => {
+                const expanded = expandedKey === row.key;
+                const toggle = () => setExpandedKey(expanded ? null : row.key);
+                const detailId = `merge-tag-row-${index}`;
+                return row.type === 'tag' ? (
+                  <TagRow key={row.key} entry={row.entry} catalog={catalog} expanded={expanded} onToggle={toggle} detailId={detailId} />
+                ) : (
+                  <ModifierRow
+                    key={row.key}
+                    entry={row.entry}
+                    catalog={catalog}
+                    expanded={expanded}
+                    onToggle={toggle}
+                    detailId={detailId}
+                    fieldTypeNames={fieldTypeNames}
+                  />
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/** Shown once after /merge-tags/tags/ redirects here, so a bookmark's page does not just vanish. */
+function MovedNote() {
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    setShow(new URLSearchParams(window.location.search).get('from') === 'tag-options');
+  }, []);
+  if (!show) return null;
+
+  const dismiss = () => {
+    const params = new URLSearchParams(window.location.search);
+    params.delete('from');
+    const search = params.toString();
+    window.history.replaceState(window.history.state, '', `${window.location.pathname}${search ? `?${search}` : ''}${window.location.hash}`);
+    setShow(false);
+  };
+
+  return (
+    <div className={`alert alert--info ${styles.movedNote}`} role="status">
+      <span>
+        Tag options is now part of this table: use the “Tags that take …” filter.
+      </span>
+      <button type="button" className={styles.clearFilters} onClick={dismiss}>
+        Dismiss
+      </button>
     </div>
   );
 }
@@ -663,16 +830,19 @@ export default function MergeTagsPage() {
     >
       <main className="container margin-vert--lg">
         <MergeTagsNav current="all" />
-        <h1>Merge tags</h1>
-        <p>
-          Every merge tag in Gravity Forms and GravityKit, its modifiers, and its output. Outputs come from the
-          real plugin code, run on a test entry.
-        </p>
-        <p>
-          To see output for your own entries, use the merge tag picker in WordPress.
-        </p>
-
-        <MergeTagTable catalog={catalog} />
+        {/* article: DocSearch's crawler reads headings and text inside it, and indexed nothing here without one. */}
+        <article>
+          <header>
+            <h1>Merge tags</h1>
+          </header>
+          <p>
+            Every merge tag in Gravity Forms and GravityKit, its modifiers, and its output. Outputs come from the
+            real plugin code, run on a test entry.
+          </p>
+          <p>To see output for your own entries, use the merge tag picker in WordPress.</p>
+          <MovedNote />
+          <MergeTagTable catalog={catalog} />
+        </article>
       </main>
     </Layout>
   );

@@ -638,3 +638,174 @@
   padding: 0.5rem 0;
   border-bottom: 1px solid var(--ifm-color-emphasis-200);
 }
+
+/* ---- All merge tags table ------------------------------------------------ */
+
+/* Every text color below was measured at 4.5:1 or better against its own background, in both
+   themes. The old badges were 2.25:1 and the grey helper text 3.06:1. */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.filters select,
+.filters input {
+  max-width: 100%;
+  min-width: 0;
+  padding: 0.35rem 0.5rem;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--ifm-font-color-base);
+  background: var(--ifm-background-color);
+  border: 1px solid var(--ifm-color-emphasis-500);
+  border-radius: 4px;
+}
+
+.filterSearch {
+  flex: 1 1 18rem;
+}
+
+.clearFilters,
+.copyButton {
+  padding: 0.2rem 0.6rem;
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--ifm-font-color-base);
+  background: var(--ifm-background-color);
+  border: 1px solid var(--ifm-color-emphasis-500);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.resultCount {
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.emptyState {
+  padding: 1rem;
+  border: 1px dashed var(--ifm-color-emphasis-400);
+  border-radius: 6px;
+}
+
+.movedNote {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* The region scrolls sideways only when the viewport is too narrow; tabindex makes it reachable
+   with the keyboard, so the ring shows where arrow keys will scroll. */
+.tableScroll {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.tableScroll:focus-visible {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 2px;
+}
+
+/* Infima makes every table display:block with its own scroll; this one is sized to its region. */
+.mergeTagTable {
+  display: table;
+  width: 100%;
+  font-size: 0.9rem;
+}
+
+.mergeTagTable td {
+  vertical-align: top;
+  overflow-wrap: anywhere;
+}
+
+/* The output column wraps instead of running past the container at 1280-1366px, but keeps
+   enough width that a short value is not broken one letter per line. */
+.mergeTagTable td:last-child {
+  min-width: 12rem;
+  max-width: 22rem;
+}
+
+.clickableRow {
+  cursor: pointer;
+}
+
+.rowName {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.25rem;
+}
+
+.rowToggle {
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  font-size: 0.8rem;
+  line-height: 1;
+  color: var(--ifm-font-color-base);
+  background: transparent;
+  border: 1px solid var(--ifm-color-emphasis-400);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.rowToggle:focus-visible,
+.copyButton:focus-visible,
+.clearFilters:focus-visible {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 2px;
+}
+
+.cellMuted {
+  color: var(--ifm-color-emphasis-700);
+}
+
+.detailCell {
+  background: var(--ifm-color-emphasis-100);
+}
+
+.detailMeta {
+  margin-top: 0.35rem;
+  font-size: 0.85rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.badge {
+  display: inline-block;
+  padding: 0 0.4rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.5;
+  white-space: nowrap;
+  border-radius: 4px;
+  margin-left: 0.35rem;
+  border: 1px solid transparent;
+  color: #2f343b;
+  background: #eceef1;
+}
+
+.badge_kind { color: #2f343b; background: #eceef1; }
+.badge_product { color: #1f3a78; background: #e6ecf9; }
+.badge_stub { color: #6b4400; background: #fdf0d8; }
+.badge_hazard { color: #8c1d2c; background: #fbe7ea; }
+.badge_entryVaries { color: #6b4400; background: #fdf0d8; border-color: #e3c48c; }
+.badge_entrySolid { color: #1d5a3a; background: #e3f3ea; }
+
+[data-theme='dark'] .badge,
+[data-theme='dark'] .badge_kind { color: #e3e5e8; background: #3a3d42; }
+[data-theme='dark'] .badge_product { color: #c9d6f5; background: #26324d; }
+[data-theme='dark'] .badge_stub { color: #f6d9a3; background: #43341a; }
+[data-theme='dark'] .badge_hazard { color: #f7c4cb; background: #4a2229; }
+[data-theme='dark'] .badge_entryVaries { color: #f6d9a3; background: #43341a; border-color: #7a6030; }
+[data-theme='dark'] .badge_entrySolid { color: #bfe6cf; background: #1d3a2a; }
+
+.compareScroll:focus-visible {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 2px;
+}
