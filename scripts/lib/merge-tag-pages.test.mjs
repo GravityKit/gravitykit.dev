@@ -20,6 +20,7 @@ test('reports fields left out, added, and shown differently', () => {
   const after = table([['Full Name', 'Ada'], ['Toppings', 'pepperoni'], ['Referral Source', '']]);
   assert.deepEqual(fieldTableDiff(before, after), {
     added: ['Referral Source'],
+    added_blank: true,
     removed: ['Tracking Token'],
     renamed: [],
     changed: [{ label: 'Toppings', before: 'Pepperoni', after: 'pepperoni' }],

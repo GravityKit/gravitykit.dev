@@ -41,21 +41,29 @@ function listText(items) {
 // A value short enough to show before and after inline; longer ones are named only.
 const INLINE_VALUE_CHARS = 30;
 
-/** "Leaves out Tracking Token." / "Changes Toppings (Pepperoni, Mushroom → pepperoni, mushroom)." */
+/**
+ * "On the test form, it leaves out Tracking Token, a Hidden field." The fields are the
+ * test form's, so the sentence says so; each is named with its kind where that is known.
+ */
 function diffText(diff) {
   const parts = [];
-  if (diff.renamed?.length) parts.push(`shows ${listText(diff.renamed.map(({ from, to }) => `${from} as ${to}`))}`);
-  if (diff.removed.length) parts.push(`leaves out ${listText(diff.removed)}`);
-  if (diff.added.length) parts.push(`adds ${listText(diff.added)}`);
+  for (const { from, to, admin_label } of diff.renamed ?? []) {
+    parts.push(admin_label ? `shows ${from} under its admin label, ${to}` : `shows ${from} as ${to}`);
+  }
+  if (diff.removed.length) {
+    parts.push(`leaves out ${listText(diff.removed.map(({ label, kind }) => (kind ? `${label} (${kind})` : label)))}`);
+  }
+  if (diff.added.length) {
+    parts.push(`adds ${listText(diff.added)}${diff.added_blank ? ', which the test entry left blank' : ''}`);
+  }
   if (diff.changed.length) {
     const changed = diff.changed.map(({ label, before, after }) =>
       before.length <= INLINE_VALUE_CHARS && after.length <= INLINE_VALUE_CHARS ? `${label} (${before} → ${after})` : label,
     );
     parts.push(`changes ${listText(changed)}`);
   }
-  if (!parts.length) return 'Same output as without the modifier, for this entry.';
-  const sentence = parts.join('; ');
-  return `${sentence[0].toUpperCase()}${sentence.slice(1)}.`;
+  if (!parts.length) return 'On the test form, the output is the same as without the modifier.';
+  return `On the test form, it ${parts.join('; ')}.`;
 }
 
 function ExampleHeading({ example }) {

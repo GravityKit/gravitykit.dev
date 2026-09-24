@@ -79,8 +79,10 @@ export function fieldTableDiff(beforeHtml, afterHtml) {
     if (match) renamed.push({ from: label, to: match[0] });
   }
 
+  const added = fresh.filter(([label]) => !renamed.some((r) => r.to === label));
   return {
-    added: fresh.filter(([label]) => !renamed.some((r) => r.to === label)).map(([label]) => label),
+    added: added.map(([label]) => label),
+    ...(added.length && added.every(([, value]) => value === '') ? { added_blank: true } : {}),
     removed: gone.filter(([label]) => !renamed.some((r) => r.from === label)).map(([label]) => label),
     renamed,
     changed: after
@@ -89,8 +91,35 @@ export function fieldTableDiff(beforeHtml, afterHtml) {
   };
 }
 
+/**
+ * What each test-form field is, for a diff naming it: "Tracking Token" alone means nothing
+ * to a reader, "Tracking Token, a Hidden field" does. Field types are named the way the
+ * form editor names them, from the offer grid's rows.
+ */
+function fieldNotes(artifact) {
+  const typeNames = {};
+  for (const row of artifact.offers?.fields ?? []) typeNames[row.field_type] ??= row.label;
+  const fields = new Map((artifact.captures?.fixture_fields ?? []).map((field) => [field.label, field]));
+
+  return (diff) => {
+    const kind = (label) => {
+      const field = fields.get(label);
+      if (!field) return null;
+      if (field.admin_only) return 'an admin-only field';
+      const name = typeNames[field.type];
+      return name ? `${/^[aeiou]/i.test(name) ? 'an' : 'a'} ${name} field` : null;
+    };
+    return {
+      ...diff,
+      removed: diff.removed.map((label) => ({ label, kind: kind(label) })),
+      renamed: diff.renamed.map((r) => ({ ...r, admin_label: fields.get(r.from)?.admin_label === r.to })),
+    };
+  };
+}
+
 function captureIndex(artifact) {
   const records = (artifact.captures?.records ?? []).filter((record) => !record.stub);
+  const describe = fieldNotes(artifact);
   const plainByIn = new Map(records.filter((record) => record.modifiers.length === 0).map((record) => [record.in, record]));
 
   const example = (record) => {
@@ -100,7 +129,7 @@ function captureIndex(artifact) {
       in: record.in,
       out: record.out,
       ...(plain ? { before: { in: plain.in, out: plain.out } } : {}),
-      ...(diff ? { diff } : {}),
+      ...(diff ? { diff: describe(diff) } : {}),
       ...(record.fixture_age ? { note: 'Rendered against an entry nine days older, where the result differs.' } : {}),
     };
   };
