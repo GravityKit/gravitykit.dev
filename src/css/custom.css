@@ -127,6 +127,21 @@
   --ifm-color-primary-lightest: #93a5ca;  /* Lightest */
 
   --docusaurus-highlighted-code-line-bg: rgba(99, 122, 167, 0.2);
+
+  /* Slate Blue itself is 2.98:1 on a code background in dark mode; links use the lightest step. */
+  --ifm-link-color: var(--ifm-color-primary-lightest);
+  --ifm-link-hover-color: #b7c4de;
+}
+
+/* Anchor targets land below the sticky navbar instead of under it. */
+html {
+  scroll-padding-top: calc(var(--ifm-navbar-height) + 1rem);
+}
+
+/* DocSearch draws no focus ring of its own. */
+.DocSearch-Button:focus-visible {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 2px;
 }
 
 /* Card button customization - softer color for card CTAs */
