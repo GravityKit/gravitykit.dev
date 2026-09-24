@@ -4,6 +4,7 @@ import {
   MergeTagsNav,
   PRODUCT_NAMES,
   SECTIONS,
+  productName,
   requiresText,
   StatusMessage,
   sectionOf,
@@ -53,6 +54,18 @@ function commonModifierIds(offers) {
     }
   }
   return new Set([...counts].filter(([, n]) => n >= offers.fields.length * COMMON_SHARE).map(([id]) => id));
+}
+
+/** [product name, items] pairs: Gravity Forms first, since the others build on it, then by name. */
+function groupByProduct(items) {
+  const groups = new Map();
+  for (const item of items) {
+    const name = productName(item.modifier.product);
+    if (!groups.has(name)) groups.set(name, []);
+    groups.get(name).push(item);
+  }
+  const rank = (name) => (name === PRODUCT_NAMES.gravityforms ? 0 : 1);
+  return [...groups].sort(([a], [b]) => rank(a) - rank(b) || a.localeCompare(b));
 }
 
 function FieldDetail({ row, byId, reasons, common }) {
@@ -107,19 +120,21 @@ function FieldDetail({ row, byId, reasons, common }) {
       {commonHere.length > 0 && (
         <section className={styles.section} aria-labelledby="sec-common">
           <h3 id="sec-common">
-            Also offered <span className={styles.count}>{commonHere.length}</span>
+            Available modifiers <span className={styles.count}>{commonHere.length}</span>
           </h3>
-          <p className={styles.hint}>The modifiers most fields share. Each links to its own page with examples.</p>
-          <p className={styles.commonList}>
-            {commonHere.map((item, i) => (
-              <span key={item.id}>
-                {i > 0 && ' · '}
-                <a href={`/merge-tags/modifiers/${item.modifier.name}/`} title={item.modifier.label}>
-                  <code>{item.modifier.name}</code>
-                </a>
-              </span>
-            ))}
-          </p>
+          {groupByProduct(commonHere).map(([name, items]) => (
+            <p key={name} className={styles.commonList}>
+              <strong>{name}:</strong>{' '}
+              {items.map((item, i) => (
+                <span key={item.id}>
+                  {i > 0 && ' · '}
+                  <a href={`/merge-tags/modifiers/${item.modifier.name}/`} title={item.modifier.label}>
+                    <code>{item.modifier.name}</code>
+                  </a>
+                </span>
+              ))}
+            </p>
+          ))}
         </section>
       )}
 

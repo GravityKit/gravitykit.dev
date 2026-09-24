@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import Layout from '@theme/Layout';
-import { MergeTagsNav } from '../components/merge-tags/shared';
+import { MergeTagsNav, productName } from '../components/merge-tags/shared';
 
 /**
  * Merge tags reference. Port of gravityview/css-tokens.jsx (SPEC-merge-tags-page.md
@@ -401,7 +401,7 @@ function TagRow({ entry, catalog, expanded, onToggle }) {
           <code>{entry.syntax}</code>
           {badge('tag', 'kind')}
         </td>
-        <td>{entry.product}</td>
+        <td>{productName(entry.product)}</td>
         <td>{entry.group}</td>
         <td style={{ fontSize: 13, color: 'var(--ifm-color-emphasis-600)' }}>
           {Array.isArray(entry.field_types) ? entry.field_types.join(', ') : '—'}
@@ -460,7 +460,7 @@ function ModifierRow({ entry, catalog, expanded, onToggle }) {
           <code>:{entry.name}</code>
           {badge(entry.kind, 'kind')}
         </td>
-        <td>{entry.product}</td>
+        <td>{productName(entry.product)}</td>
         <td>{entry.arity === 1 ? entry.argument?.type || 'argument' : '—'}</td>
         <td style={{ fontSize: 13, color: 'var(--ifm-color-emphasis-600)' }}>{scopeDescription(entry.applies_to)}</td>
         <td style={{ fontSize: 14 }}>
@@ -535,14 +535,14 @@ function MergeTagTable({ catalog }) {
 
   const products = useMemo(() => {
     if (!catalog) return [];
-    return (catalog.products || []).map((p) => p.product).sort();
+    return [...new Set((catalog.products || []).map((p) => productName(p.product)))].sort();
   }, [catalog]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return rows.filter((row) => {
       const { entry, type, kind: rowKind } = row;
-      if (product !== 'all' && entry.product !== product) return false;
+      if (product !== 'all' && productName(entry.product) !== product) return false;
       if (kind !== 'all' && rowKind !== kind) return false;
       if (!matchesEntryDependenceFilter(row, entryDependence)) return false;
       if (!q) return true;

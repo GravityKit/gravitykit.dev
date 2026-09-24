@@ -24,9 +24,14 @@ export const PRODUCT_NAMES = {
   gravityforms: 'Gravity Forms',
   gravityview: 'GravityView',
   gravitymath: 'GravityMath',
-  'gravitykit-query-filters': 'Advanced Filtering',
+  // A shared library, not a plugin: its one modifier (:form) ships inside GravityView.
+  'gravitykit-query-filters': 'GravityView',
   'gravityview-magic-links': 'Magic Links',
 };
+
+export function productName(product) {
+  return PRODUCT_NAMES[product] || product;
+}
 
 /** `{ gravityforms: '>=3.1.1.2' }` as "Gravity Forms 3.1.1.2 or later"; other constraints as written. */
 export function requiresText(requires) {
