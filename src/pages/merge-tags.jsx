@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import Layout from '@theme/Layout';
-import { MergeTagsNav, productName } from '../components/merge-tags/shared';
+import { MergeTagsNav, productName, requiresText } from '../components/merge-tags/shared';
 
 /**
  * Merge tags reference. Port of gravityview/css-tokens.jsx (SPEC-merge-tags-page.md
@@ -397,7 +397,9 @@ function TagRow({ entry, catalog, expanded, onToggle }) {
     <>
       <tr onClick={onToggle} style={{ cursor: 'pointer' }}>
         <td>
-          <code>{entry.syntax}</code>
+          <a href={`/merge-tags/${entry.name === '*field*' ? 'field' : entry.name}/`} onClick={(e) => e.stopPropagation()}>
+            <code>{entry.syntax}</code>
+          </a>
           {badge('tag', 'kind')}
         </td>
         <td>{productName(entry.product)}</td>
@@ -436,7 +438,7 @@ function TagRow({ entry, catalog, expanded, onToggle }) {
             <CapturePair capture={canonical} />
             {entry.requires ? (
               <p style={{ fontSize: 12, color: 'var(--ifm-color-emphasis-600)' }}>
-                Requires {Object.entries(entry.requires).map(([p, v]) => `${p} ${v}`).join(', ')}.
+                Requires {requiresText(entry.requires)}.
               </p>
             ) : null}
           </td>
@@ -456,7 +458,9 @@ function ModifierRow({ entry, catalog, expanded, onToggle }) {
     <>
       <tr onClick={onToggle} style={{ cursor: 'pointer' }}>
         <td>
-          <code>:{entry.name}</code>
+          <a href={`/merge-tags/modifiers/${entry.name}/`} onClick={(e) => e.stopPropagation()}>
+            <code>:{entry.name}</code>
+          </a>
           {badge(entry.kind, 'kind')}
         </td>
         <td>{productName(entry.product)}</td>
@@ -505,6 +509,13 @@ function ModifierRow({ entry, catalog, expanded, onToggle }) {
   );
 }
 
+/** What can follow a tag's colon: modifiers, a value (property, parameter or attributes), or nothing. */
+function tagTakes(tag, catalog) {
+  if (tag.name === '*field*' || catalog?.offers?.tags?.[tag.name]?.length) return 'modifiers';
+  if (tag.parameter || tag.parameters?.length || tag.attributes?.length) return 'options';
+  return 'none';
+}
+
 function MergeTagTable({ catalog }) {
   const [query, setQuery] = useState('');
   const [product, setProduct] = useState('all');
@@ -514,6 +525,7 @@ function MergeTagTable({ catalog }) {
   // role a token plays), and matchesEntryDependenceFilter()'s asymmetric
   // modifier rule can't be expressed as a flat equality check anyway.
   const [entryDependence, setEntryDependence] = useState('all');
+  const [takes, setTakes] = useState('all');
   const [expandedKey, setExpandedKey] = useState(null);
 
   // One list: tags first (kind "tag" isn't a schema kind, but the filter treats
@@ -543,6 +555,7 @@ function MergeTagTable({ catalog }) {
       if (product !== 'all' && productName(entry.product) !== product) return false;
       if (kind !== 'all' && rowKind !== kind) return false;
       if (!matchesEntryDependenceFilter(row, entryDependence)) return false;
+      if (takes !== 'all' && (type !== 'tag' || tagTakes(entry, catalog) !== takes)) return false;
       if (!q) return true;
       const haystack = [
         entry.name,
@@ -556,7 +569,7 @@ function MergeTagTable({ catalog }) {
         .toLowerCase();
       return haystack.includes(q);
     });
-  }, [rows, query, product, kind, entryDependence]);
+  }, [rows, query, product, kind, entryDependence, takes, catalog]);
 
   if (catalog === null) return <p>Loading merge tags…</p>;
   if (!rows.length) {
@@ -623,6 +636,12 @@ function MergeTagTable({ catalog }) {
           <option value="all">Varies or not</option>
           <option value="varies">Varies by entry</option>
           <option value="solid">Same for every entry</option>
+        </select>
+        <select aria-label="Filter tags by what follows the colon" value={takes} onChange={(e) => setTakes(e.target.value)} style={{ padding: '6px 10px', borderRadius: 6 }}>
+          <option value="all">Any tag</option>
+          <option value="modifiers">Tags that take modifiers</option>
+          <option value="options">Tags that take a value, like {'{user:display_name}'}</option>
+          <option value="none">Tags that take nothing</option>
         </select>
         <span style={{ color: 'var(--ifm-color-emphasis-600)', fontSize: 14 }}>
           {filtered.length} entries &middot; {catalog.captures?.count ?? 0} examples

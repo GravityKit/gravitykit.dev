@@ -178,7 +178,6 @@ const merge_tags_nav = {
     { label: 'All merge tags', to: '/merge-tags/' },
     { label: 'Modifiers by field', to: '/merge-tags/fields/' },
     { label: 'Compare fields', to: '/merge-tags/compare/' },
-    { label: 'Tag options', to: '/merge-tags/tags/' },
   ],
 };
 

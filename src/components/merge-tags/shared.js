@@ -86,7 +86,6 @@ export function MergeTagsNav({ current }) {
     { href: '/merge-tags', label: 'All merge tags', key: 'all' },
     { href: '/merge-tags/fields', label: 'Modifiers by field', key: 'fields' },
     { href: '/merge-tags/compare', label: 'Compare fields', key: 'compare' },
-    { href: '/merge-tags/tags', label: 'Tag options', key: 'tags' },
   ];
 
   return (
