@@ -33,6 +33,41 @@ export function Output({ value }) {
   );
 }
 
+function listText(items) {
+  if (items.length < 3) return items.join(' and ');
+  return `${items.slice(0, -1).join(', ')}, and ${items[items.length - 1]}`;
+}
+
+// A value short enough to show before and after inline; longer ones are named only.
+const INLINE_VALUE_CHARS = 30;
+
+/** "Leaves out Tracking Token." / "Changes Toppings (Pepperoni, Mushroom → pepperoni, mushroom)." */
+function diffText(diff) {
+  const parts = [];
+  if (diff.renamed?.length) parts.push(`shows ${listText(diff.renamed.map(({ from, to }) => `${from} as ${to}`))}`);
+  if (diff.removed.length) parts.push(`leaves out ${listText(diff.removed)}`);
+  if (diff.added.length) parts.push(`adds ${listText(diff.added)}`);
+  if (diff.changed.length) {
+    const changed = diff.changed.map(({ label, before, after }) =>
+      before.length <= INLINE_VALUE_CHARS && after.length <= INLINE_VALUE_CHARS ? `${label} (${before} → ${after})` : label,
+    );
+    parts.push(`changes ${listText(changed)}`);
+  }
+  if (!parts.length) return 'Same output as without the modifier, for this entry.';
+  const sentence = parts.join('; ');
+  return `${sentence[0].toUpperCase()}${sentence.slice(1)}.`;
+}
+
+function ExampleHeading({ example }) {
+  return (
+    <>
+      <code>{example.in}</code>
+      {example.modifierLabel && <span className={styles.exampleLabel}>{example.modifierLabel}</span>}
+      {example.diff && <span className={styles.exampleDiff}>{diffText(example.diff)}</span>}
+    </>
+  );
+}
+
 function isHtmlOutput(value) {
   return preview(value).isHtml;
 }
@@ -144,15 +179,17 @@ export default function Examples({ examples, showBefore = true }) {
         // The first is shown; the rest are one click away, since each can be a full-page table.
         return index === 0 ? (
           <div key={key} className={styles.htmlExample}>
-            <p>
-              <code>{example.in}</code>
+            <p className={styles.exampleHead}>
+              <ExampleHeading example={example} />
             </p>
             {body}
           </div>
         ) : (
           <details key={key} className={styles.htmlExample}>
             <summary>
-              <code>{example.in}</code>
+              <span className={styles.exampleHead}>
+                <ExampleHeading example={example} />
+              </span>
             </summary>
             {body}
           </details>

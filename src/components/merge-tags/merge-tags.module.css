@@ -595,3 +595,19 @@
   margin-top: 0.5rem;
   font-size: 0.8rem;
 }
+
+.exampleHead {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 0.5rem;
+  row-gap: 0.125rem;
+}
+.exampleLabel {
+  font-weight: 600;
+}
+.exampleDiff {
+  flex-basis: 100%;
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.9rem;
+}

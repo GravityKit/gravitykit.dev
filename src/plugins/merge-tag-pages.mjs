@@ -37,16 +37,70 @@ export function plainTagOf(record) {
   return `{${record.tag}}`;
 }
 
+const ENTITIES = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ' };
+
+function textOf(html) {
+  return html
+    .replace(/<\/li>\s*<li[^>]*>/gi, ', ')
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number(n)))
+    .replace(/&([a-z]+);/gi, (m, name) => ENTITIES[name.toLowerCase()] ?? m)
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+/** The label and value rows of a Gravity Forms field table ({all_fields}, {pricing_fields}). */
+export function fieldTableRows(html) {
+  const rows = [];
+  const row = /<strong>([\s\S]*?)<\/strong>[\s\S]*?<td[^>]*>([\s\S]*?)<\/td>/g;
+  for (let match = row.exec(html); match; match = row.exec(html)) rows.push([textOf(match[1]), textOf(match[2])]);
+  return rows;
+}
+
+/**
+ * How a field table differs from the same tag without the modifier: fields it adds, leaves
+ * out, shows under another label, or shows differently. Null when either output is not a
+ * field table, since a paragraph from :wpautop has no rows to compare.
+ */
+export function fieldTableDiff(beforeHtml, afterHtml) {
+  const before = fieldTableRows(beforeHtml);
+  const after = fieldTableRows(afterHtml);
+  if (!before.length || !after.length) return null;
+  const beforeByLabel = new Map(before);
+  const afterByLabel = new Map(after);
+  const gone = before.filter(([label]) => !afterByLabel.has(label));
+  const fresh = after.filter(([label]) => !beforeByLabel.has(label));
+
+  // A label that disappears while a new one appears with the same value is one field under
+  // another label, the way :admin swaps in admin labels.
+  const renamed = [];
+  for (const [label, value] of gone) {
+    const match = fresh.find(([newLabel, newValue]) => newValue === value && !renamed.some((r) => r.to === newLabel));
+    if (match) renamed.push({ from: label, to: match[0] });
+  }
+
+  return {
+    added: fresh.filter(([label]) => !renamed.some((r) => r.to === label)).map(([label]) => label),
+    removed: gone.filter(([label]) => !renamed.some((r) => r.from === label)).map(([label]) => label),
+    renamed,
+    changed: after
+      .filter(([label, value]) => beforeByLabel.has(label) && beforeByLabel.get(label) !== value)
+      .map(([label, value]) => ({ label, before: beforeByLabel.get(label), after: value })),
+  };
+}
+
 function captureIndex(artifact) {
   const records = (artifact.captures?.records ?? []).filter((record) => !record.stub);
   const plainByIn = new Map(records.filter((record) => record.modifiers.length === 0).map((record) => [record.in, record]));
 
   const example = (record) => {
     const plain = record.modifiers.length ? plainByIn.get(plainTagOf(record)) : null;
+    const diff = plain ? fieldTableDiff(plain.out, record.out) : null;
     return {
       in: record.in,
       out: record.out,
       ...(plain ? { before: { in: plain.in, out: plain.out } } : {}),
+      ...(diff ? { diff } : {}),
       ...(record.fixture_age ? { note: 'Rendered against an entry nine days older, where the result differs.' } : {}),
     };
   };
@@ -68,7 +122,15 @@ export function tagPageData(artifact, tag) {
     slug: tagSlug(tag.name),
     offered,
     plain: mine.filter((record) => record.modifiers.length === 0).map(example),
-    withModifier: isField ? [] : mine.filter((record) => record.modifiers.length === 1).map((record) => ({ modifier: record.modifiers[0].name, ...example(record) })),
+    withModifier: isField
+      ? []
+      : mine
+          .filter((record) => record.modifiers.length === 1)
+          .map((record) => ({
+            modifier: record.modifiers[0].name,
+            modifierLabel: modifiersById.get(modifierIdentity(record.modifiers[0]))?.label,
+            ...example(record),
+          })),
   };
 }
 
