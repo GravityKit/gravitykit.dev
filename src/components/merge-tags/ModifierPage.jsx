@@ -1,6 +1,7 @@
 import Layout from '@theme/Layout';
 import { MergeTagsNav, PRODUCT_NAMES, SECTIONS, requiresText, sectionOf } from './shared';
-import Examples, { UsageExample } from './Examples';
+import Examples, { Output, UsageExample, diffText } from './Examples';
+import { PHP_DATE_FORMAT_URL } from './data.mjs';
 
 /** "a and b", "a, b, and c" */
 function listText(items) {
@@ -17,18 +18,101 @@ function appliesToText(modifier, fieldTypeNames = {}) {
   return tagText === 'form fields' ? `${typeText} fields` : `${tagText} (${typeText})`;
 }
 
+/**
+ * Where an entry applies, from the offer grid (the same rows as Works on), so the scope never
+ * names a field kind the page then lists as left out. Falls back to the catalog's scope when the
+ * picker offers it nowhere.
+ */
+function scopeText(entry, fieldTypeNames) {
+  const { modifier, offeredOnFields, offeredOnTags } = entry;
+  const parts = offeredOnTags.map((tag) => `{${tag}}`);
+  if (offeredOnFields.length) {
+    // A label with its own comma ("Checkboxes, one choice") is quoted, so the list still reads.
+    const labels = offeredOnFields.map((f) => (f.label.includes(',') ? `“${f.label}”` : f.label));
+    parts.push(Array.isArray(modifier.applies_to?.field_types) ? `${listText(labels)} fields` : 'form fields');
+  }
+  return parts.length ? listText(parts) : appliesToText(modifier, fieldTypeNames);
+}
+
 function anchorOf(index) {
   return `meaning-${index + 1}`;
 }
 
+/** The picker section, with the scope it applies to, so two entries of one modifier never read as a contradiction. */
+function pickerText(entry, fieldTypeNames) {
+  const section = SECTIONS.find((s) => s.key === sectionOf(entry.modifier));
+  return `${section?.title}, for ${scopeText(entry, fieldTypeNames)}`;
+}
+
+/** A real capture of the modifier, on a field kind or tag the picker offers it on. */
+function LeadExample({ lead }) {
+  if (!lead) return null;
+  if (lead.diff) {
+    return (
+      <>
+        Example: <code>{lead.in}</code>. {diffText(lead.diff)}
+      </>
+    );
+  }
+  return (
+    <>
+      Example: <code>{lead.in}</code> gives <Output value={lead.out} />
+      {lead.same ? ', the same as the field alone.' : '.'}
+      {lead.field && (
+        <>
+          {' '}
+          On the test form, this field is <code>{lead.field.tag}</code> ({lead.field.kind}).
+        </>
+      )}
+    </>
+  );
+}
+
+function DateFormatHelp({ help }) {
+  if (!help) return null;
+  return (
+    <div className="alert alert--info margin-bottom--md">
+      <p className="margin-bottom--sm">
+        The format uses PHP date letters, like <code>Y</code> for a four-digit year. See{' '}
+        <a href={PHP_DATE_FORMAT_URL}>PHP's table of date format letters</a>.
+      </p>
+      {help.commaNeedsBackslash ? (
+        <p className="margin-bottom--none">
+          Put a backslash before each comma, like <code>{'format:l\\, F jS\\, Y'}</code>. GravityView splits modifiers at
+          each comma, so without the backslash the format stops at the first comma.
+        </p>
+      ) : (
+        <p className="margin-bottom--none">
+          A comma needs no backslash here: everything after <code>format:</code>, up to the closing brace, is the format. A
+          backslash before it (<code>{'\\,'}</code>) also works.
+        </p>
+      )}
+    </div>
+  );
+}
+
+function FieldLinks({ fields }) {
+  return fields.map((field, i) => (
+    <span key={field.key}>
+      {i > 0 && ' · '}
+      <a href={`/merge-tags/fields/#${field.key}`}>{field.label}</a>
+    </span>
+  ));
+}
+
 function Entry({ entry, index, many, reasons, fieldTypeNames }) {
-  const { modifier, examples, offeredOnFields, offeredOnTags, withheld } = entry;
-  const section = SECTIONS.find((s) => s.key === sectionOf(modifier));
+  const { modifier, examples, offeredOnFields, offeredOnTags, withheld, locked = [], dateFormat, outsideViews } = entry;
+  const leftOut = [
+    ...withheld.map((item) => ({ key: item.reason, fields: item.fields, title: reasons[item.reason]?.title || item.reason, text: reasons[item.reason]?.explanation })),
+    ...locked.map((item) => ({ key: item.why, fields: item.fields, title: 'Locked there', text: item.why })),
+  ];
 
   return (
     <section id={many ? anchorOf(index) : undefined}>
       <h2>{many ? modifier.label : 'About'}</h2>
       {modifier.description && <p>{modifier.description}</p>}
+      {outsideViews && <p>Works in any merge tag while GravityView is active, including Gravity Forms notifications.</p>}
+      <DateFormatHelp help={dateFormat} />
 
       <table>
         <tbody>
@@ -41,12 +125,8 @@ function Entry({ entry, index, many, reasons, fieldTypeNames }) {
             <td>{requiresText(modifier.requires) || '—'}</td>
           </tr>
           <tr>
-            <th scope="row">Works on</th>
-            <td>{appliesToText(modifier, fieldTypeNames)}</td>
-          </tr>
-          <tr>
             <th scope="row">In the picker</th>
-            <td>{section?.title}</td>
+            <td>{pickerText(entry, fieldTypeNames)}</td>
           </tr>
           {modifier.exclusive && (
             <tr>
@@ -74,41 +154,33 @@ function Entry({ entry, index, many, reasons, fieldTypeNames }) {
         </>
       )}
 
-      {(offeredOnFields.length > 0 || offeredOnTags.length > 0) && (
-        <>
-          <h3>Where the merge tag picker offers it</h3>
-          {offeredOnFields.length > 0 && (
-            <p>
-              Form fields:{' '}
-              {offeredOnFields.map((field, i) => (
-                <span key={field.key}>
-                  {i > 0 && ' · '}
-                  <a href={`/merge-tags/fields/#${field.key}`}>{field.label}</a>
-                </span>
-              ))}
-              .
-            </p>
-          )}
-          {offeredOnTags.length > 0 && (
-            <p>
-              Merge tags:{' '}
-              {offeredOnTags.map((tagName, i) => (
-                <span key={tagName}>
-                  {i > 0 && ' · '}
-                  <a href={`/merge-tags/${tagName}/`}>
-                    <code>{`{${tagName}}`}</code>
-                  </a>
-                </span>
-              ))}
-              .
-            </p>
-          )}
-        </>
+      <h3>Works on</h3>
+      {offeredOnFields.length === 0 && offeredOnTags.length === 0 && (
+        <p>The merge tag picker does not offer it anywhere.</p>
+      )}
+      {offeredOnFields.length > 0 && (
+        <p>
+          Form fields: <FieldLinks fields={offeredOnFields} />.
+        </p>
+      )}
+      {offeredOnTags.length > 0 && (
+        <p>
+          Merge tags:{' '}
+          {offeredOnTags.map((tagName, i) => (
+            <span key={tagName}>
+              {i > 0 && ' · '}
+              <a href={`/merge-tags/${tagName}/`}>
+                <code>{`{${tagName}}`}</code>
+              </a>
+            </span>
+          ))}
+          .
+        </p>
       )}
 
-      {withheld.length > 0 && (
+      {leftOut.length > 0 && (
         <>
-          <h3>Where it is left out</h3>
+          <h3>Left out</h3>
           <table>
             <thead>
               <tr>
@@ -117,11 +189,11 @@ function Entry({ entry, index, many, reasons, fieldTypeNames }) {
               </tr>
             </thead>
             <tbody>
-              {withheld.map((item) => (
-                <tr key={item.reason}>
+              {leftOut.map((item) => (
+                <tr key={item.key}>
                   <td>{item.fields.join(' · ')}</td>
                   <td>
-                    <strong>{reasons[item.reason]?.title || item.reason}.</strong> {reasons[item.reason]?.explanation}
+                    <strong>{item.title}.</strong> {item.text}
                   </td>
                 </tr>
               ))}
@@ -160,7 +232,14 @@ export default function ModifierPage({ data }) {
               <ul>
                 {entries.map((entry, index) => (
                   <li key={entry.modifier.id}>
-                    <a href={`#${anchorOf(index)}`}>{entry.modifier.label}</a> on {appliesToText(entry.modifier, fieldTypeNames)}
+                    <a href={`#${anchorOf(index)}`}>{entry.modifier.label}</a> on {scopeText(entry, fieldTypeNames)}, under{' '}
+                    {SECTIONS.find((s) => s.key === sectionOf(entry.modifier))?.title} in the picker.
+                    {entry.lead && (
+                      <>
+                        <br />
+                        <LeadExample lead={entry.lead} />
+                      </>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -168,7 +247,7 @@ export default function ModifierPage({ data }) {
           ) : (
             first && (
               <p>
-                <strong>{first.label}.</strong> Write it after a colon: <code>{first.example?.in || `{Field:1:${name}}`}</code>
+                <strong>{first.label}.</strong> <LeadExample lead={entries[0].lead} />
               </p>
             )
           )}

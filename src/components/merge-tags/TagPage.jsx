@@ -1,6 +1,7 @@
 import Layout from '@theme/Layout';
 import { MergeTagsNav, PRODUCT_NAMES, SECTIONS, requiresText, sectionOf } from './shared';
-import Examples from './Examples';
+import Examples, { Output } from './Examples';
+import { PHP_DATE_FORMAT_URL, dateFormatHelp } from './data.mjs';
 
 const TYPE_NAMES = { integer: 'number', string: 'text', enum: 'one of the values', open_enum: 'text', field_ref: 'field ID' };
 
@@ -15,6 +16,8 @@ export default function TagPage({ data }) {
   const isField = tag.name === '*field*';
   const title = isField ? 'Form field merge tag' : `{${tag.name}} merge tag`;
   const needs = requiresText(tag.requires);
+  // The page leads with a real render: the first plain capture with text output.
+  const lead = plain.find((example) => example.out !== '' && !/^\s*</.test(String(example.out)));
 
   return (
     <Layout title={title} description={tag.description || `${tag.label}: the ${tag.syntax} merge tag, its options and examples.`}>
@@ -29,6 +32,11 @@ export default function TagPage({ data }) {
           <p>
             <strong>{tag.label}.</strong> {tag.description}
           </p>
+          {lead && (
+            <p>
+              On the test entry, <code>{lead.in}</code> gives <Output value={lead.out} />.
+            </p>
+          )}
 
           <table>
             <tbody>
@@ -138,6 +146,15 @@ export default function TagPage({ data }) {
                             </td>
                             <td>
                               <strong>{modifier.label}.</strong> {modifier.description || ''}
+                              {dateFormatHelp(modifier) && (
+                                <>
+                                  {' '}
+                                  See <a href={PHP_DATE_FORMAT_URL}>PHP's table of date format letters</a>.{' '}
+                                  {dateFormatHelp(modifier).commaNeedsBackslash
+                                    ? 'Put a backslash before each comma (\\,), or the format stops at the first comma.'
+                                    : 'A comma needs no backslash here; \\, also works.'}
+                                </>
+                              )}
                             </td>
                             <td>{requiresText(modifier.requires)}</td>
                           </tr>

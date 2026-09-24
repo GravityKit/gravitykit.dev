@@ -1,5 +1,6 @@
 import path from 'node:path';
 import fs from 'node:fs/promises';
+import { dateFormatHelp, fieldTagOf, reasonsWithCapturedDate, worksOutsideViews } from '../components/merge-tags/data.mjs';
 
 /**
  * /merge-tags/<tag>/ and /merge-tags/modifiers/<name>/, built from static/api/merge-tags.json at
@@ -163,6 +164,48 @@ export function tagPageData(artifact, tag) {
   };
 }
 
+/**
+ * The capture a modifier page leads with: a render of the modifier alone, on a field kind or tag
+ * the picker offers it on, so the first example never contradicts the page's own lists. Field
+ * modifiers read the per-field captures first (one per offer grid row, so the field kind is
+ * known), then any capture on a test field of an offered kind. Null when nothing was captured.
+ */
+function leadExample(artifact, modifier, offeredRows, offeredTags, records, example) {
+  const usable = (item) => item && !item.empty && !item.warnings?.length && !item.same && !item.unresolved && !item.error && item.out !== '';
+  const fieldRows = artifact.field_examples?.rows ?? {};
+
+  // A render that changes the output first; one that matches the plain field only when no other
+  // exists, since some modifiers (like :formatted) exist to change nothing.
+  const fromRows = (accept) => {
+    for (const row of offeredRows) {
+      const item = fieldRows[row.key]?.modifiers?.find((candidate) => candidate.id === modifier.id);
+      if (accept(item)) return { in: item.in, out: item.out, same: !!item.same, field: { tag: fieldTagOf(item.in), kind: row.label } };
+    }
+    return null;
+  };
+  const fromGrid = fromRows(usable) ?? fromRows((item) => !!item && usable({ ...item, same: false }));
+  if (fromGrid) return fromGrid;
+
+  const alone = records.filter(
+    (record) => record.modifiers.length === 1 && modifierIdentity(record.modifiers[0]) === modifier.id && record.out !== '',
+  );
+
+  if (offeredRows.length) {
+    const fixtureTypes = new Map((artifact.captures?.fixture_fields ?? []).map((field) => [field.label, field.type]));
+    for (const record of alone.filter((r) => r.tag === '*field*')) {
+      const tag = fieldTagOf(record.in);
+      const label = /^\{([^:{}]*):/.exec(record.in)?.[1];
+      const part = /\.\w+\}$/.test(tag ?? '');
+      const sameType = offeredRows.filter((row) => row.field_type === fixtureTypes.get(label));
+      const row = sameType.find((r) => r.key.endsWith('-input') === part) ?? (part ? null : sameType[0]);
+      if (row) return { ...example(record), field: { tag, kind: row.label } };
+    }
+  }
+
+  const onTag = alone.find((record) => offeredTags.includes(record.tag));
+  return onTag ? example(onTag) : null;
+}
+
 export function modifierPageData(artifact, name) {
   const { records, example } = captureIndex(artifact);
   const offers = artifact.offers;
@@ -176,10 +219,17 @@ export function modifierPageData(artifact, name) {
   return {
     name,
     fieldTypeNames,
-    reasons: offers?.reasons ?? {},
+    reasons: reasonsWithCapturedDate(artifact),
     entries: entries.map((modifier) => {
       const uses = records.filter((record) => record.modifiers.some((ref) => modifierIdentity(ref) === modifier.id));
       const fieldRows = offers?.fields ?? [];
+
+      // Works on and Left out both come from the offer grid, one row at a time, so a field kind
+      // is in one list or the other. A row where it is locked is left out, with the lock's reason.
+      const offeredRows = fieldRows.filter((row) => row.offered.some((item) => item.id === modifier.id && !item.locked && !item.written));
+      const offeredOnTags = Object.entries(offers?.tags ?? {})
+        .filter(([, list]) => list.some((item) => item.id === modifier.id))
+        .map(([tagName]) => tagName);
 
       const withheld = new Map();
       for (const row of fieldRows) {
@@ -189,14 +239,22 @@ export function modifierPageData(artifact, name) {
         }
       }
 
+      const locked = new Map();
+      for (const row of fieldRows) {
+        const item = row.offered.find((candidate) => candidate.id === modifier.id && candidate.locked);
+        if (item) locked.set(item.locked, [...(locked.get(item.locked) ?? []), row.label]);
+      }
+
       return {
         modifier,
+        lead: leadExample(artifact, modifier, offeredRows, offeredOnTags, records, example),
         examples: uses.filter((record) => record.modifiers.length === 1).map(example),
-        offeredOnFields: fieldRows.filter((row) => row.offered.some((item) => item.id === modifier.id && !item.locked && !item.written)).map((row) => ({ key: row.key, label: row.label })),
-        offeredOnTags: Object.entries(offers?.tags ?? {})
-          .filter(([, list]) => list.some((item) => item.id === modifier.id))
-          .map(([tagName]) => tagName),
+        offeredOnFields: offeredRows.map((row) => ({ key: row.key, label: row.label })),
+        offeredOnTags,
         withheld: [...withheld.entries()].map(([reason, fields]) => ({ reason, fields })),
+        locked: [...locked.entries()].map(([why, fields]) => ({ why, fields })),
+        dateFormat: dateFormatHelp(modifier),
+        outsideViews: worksOutsideViews(artifact, modifier),
       };
     }),
   };
