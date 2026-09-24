@@ -19,12 +19,6 @@
   font-size: 0.95rem;
 }
 
-.count {
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: var(--ifm-color-emphasis-600);
-  margin-left: 0.25rem;
-}
 
 /* Field picker beside the detail on wide screens; a select above it on narrow ones. */
 .layout {
@@ -634,10 +628,6 @@
   margin: 1rem 0 0.5rem;
   font-size: 0.95rem;
 }
-.commonItem {
-  padding: 0.5rem 0;
-  border-bottom: 1px solid var(--ifm-color-emphasis-200);
-}
 
 /* ---- All merge tags table ------------------------------------------------ */
 
@@ -680,11 +670,6 @@
   cursor: pointer;
 }
 
-.resultCount {
-  margin: 0 0 0.5rem;
-  font-size: 0.9rem;
-  color: var(--ifm-color-emphasis-700);
-}
 
 .emptyState {
   padding: 1rem;
@@ -808,4 +793,96 @@
 .compareScroll:focus-visible {
   outline: 2px solid var(--ifm-color-primary);
   outline-offset: 2px;
+}
+
+/* Also available: one table per product -- modifier, sample merge tag, sample result. */
+.sampleTable {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 1.25rem;
+  font-size: 0.875rem;
+}
+.sampleTable thead th {
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ifm-color-emphasis-700);
+  border-bottom: 1px solid var(--ifm-color-emphasis-300);
+  padding: 0.375rem 0.5rem;
+  background: none;
+}
+.sampleTable tbody th,
+.sampleTable td {
+  vertical-align: top;
+  text-align: left;
+  font-weight: normal;
+  border: none;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  padding: 0.625rem 0.5rem;
+  background: none;
+}
+.sampleTable tr {
+  background: none;
+  border: none;
+}
+.sampleTable tbody th {
+  width: 22%;
+}
+.sampleTable td:nth-child(2) {
+  width: 32%;
+}
+.sampleTable code {
+  word-break: break-word;
+}
+.sampleLabel {
+  display: block;
+  margin-top: 0.125rem;
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.8125rem;
+}
+.sampleOut {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.8125rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.sampleNote {
+  color: var(--ifm-color-emphasis-700);
+  font-style: italic;
+}
+@media (max-width: 640px) {
+  .sampleTable thead {
+    display: none;
+  }
+  .sampleTable tr,
+  .sampleTable tbody th,
+  .sampleTable td {
+    display: block;
+    width: auto;
+  }
+  .sampleTable tr {
+    border-bottom: 1px solid var(--ifm-color-emphasis-200);
+    padding: 0.5rem 0;
+  }
+  .sampleTable tbody th,
+  .sampleTable td {
+    border: none;
+    padding: 0.25rem 0;
+  }
+  .sampleTable td::before {
+    content: attr(data-label);
+    display: block;
+    font-size: 0.75rem;
+    color: var(--ifm-color-emphasis-700);
+  }
+}
+/* The sample tag wraps; a code box split across two lines read as two boxes. */
+.sampleTable td code {
+  word-break: normal;
+  overflow-wrap: normal;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.8125rem;
 }

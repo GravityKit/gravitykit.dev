@@ -12,7 +12,7 @@ import {
 } from '../../components/merge-tags/shared';
 import styles from '../../components/merge-tags/merge-tags.module.css';
 import { Output } from '../../components/merge-tags/Examples';
-import { fieldTagOf, reasonsWithCapturedDate } from '../../components/merge-tags/data.mjs';
+import { decodeEntities, fieldTagOf, groupModifiersByProduct, reasonsWithCapturedDate } from '../../components/merge-tags/data.mjs';
 
 /**
  * Modifiers by field: pick a kind of form field, see what the merge tag picker offers for it,
@@ -81,16 +81,57 @@ function commonModifierIds(offers) {
   return new Set([...counts].filter(([, n]) => n >= offers.fields.length * COMMON_SHARE).map(([id]) => id));
 }
 
-/** [product name, items] pairs: Gravity Forms first, since the others build on it, then by name. */
-function groupByProduct(items) {
-  const groups = new Map();
-  for (const item of items) {
-    const name = productName(item.modifier.product);
-    if (!groups.has(name)) groups.set(name, []);
-    groups.get(name).push(item);
-  }
-  const rank = (name) => (name === PRODUCT_NAMES.gravityforms ? 0 : 1);
-  return [...groups].sort(([a], [b]) => rank(a) - rank(b) || a.localeCompare(b));
+/** One modifier's captured result, as text a reader sees, or why there is none. */
+function SampleResult({ example }) {
+  if (!example) return <span className={styles.sampleNote}>No sample</span>;
+  if (example.warnings?.length) return <span className={styles.sampleNote}>Outputs nothing, and PHP logs a warning</span>;
+  if (example.empty) return <span className={styles.sampleNote}>Outputs nothing</span>;
+  if (example.same) return <span className={styles.sampleNote}>Same as the field alone, for this value</span>;
+  if (example.unresolved) return <span className={styles.sampleNote}>Left as written: nothing replaced it</span>;
+  if (example.error) return <span className={styles.sampleNote}>Failed to render</span>;
+  return <span className={styles.sampleOut}>{decodeEntities(example.out)}</span>;
+}
+
+/** A tag that may wrap only after a colon or comma, so `{Referral Code:105:maxwords:10}` never breaks mid-word. */
+function breakableTag(tag) {
+  return tag.split(/(?<=[:,])/).flatMap((part, i) => (i ? [<wbr key={i} />, part] : [part]));
+}
+
+/** A table per product: the modifier, a sample merge tag using it, and what that tag gave. */
+function ModifierTables({ items, exampleFor }) {
+  return groupModifiersByProduct(items, productName).map(([name, list]) => (
+    <div key={name}>
+      <h4 className={styles.commonProduct}>{name}</h4>
+      <table className={styles.sampleTable}>
+        <thead>
+          <tr>
+            <th scope="col">Modifier</th>
+            <th scope="col">Sample Merge Tag</th>
+            <th scope="col">Sample Result</th>
+          </tr>
+        </thead>
+        <tbody>
+          {list.map((item) => {
+            const example = exampleFor(item.id);
+            return (
+              <tr key={item.id}>
+                <th scope="row">
+                  <a href={`/merge-tags/modifiers/${item.modifier.name}/`}>
+                    <code>{item.modifier.name}</code>
+                  </a>
+                  <span className={styles.sampleLabel}>{item.modifier.label}</span>
+                </th>
+                <td data-label="Sample Merge Tag">{example ? <code>{breakableTag(example.in)}</code> : null}</td>
+                <td data-label="Sample Result">
+                  <SampleResult example={example} />
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  ));
 }
 
 function FieldDetail({ row, byId, reasons, common, examples, unavailable, headingRef }) {
@@ -160,7 +201,7 @@ function FieldDetail({ row, byId, reasons, common, examples, unavailable, headin
         return (
           <section key={section.key} className={styles.section} aria-labelledby={`sec-${section.key}`}>
             <h3 id={`sec-${section.key}`}>
-              {section.title} <span className={styles.count}>{items.length}</span>
+              {section.title}
             </h3>
             {section.hint && <p className={styles.hint}>{section.hint}</p>}
             <ul className={styles.modifierList}>
@@ -181,24 +222,9 @@ function FieldDetail({ row, byId, reasons, common, examples, unavailable, headin
       {commonHere.length > 0 && (
         <section className={styles.section} aria-labelledby="sec-common">
           <h3 id="sec-common">
-            Also available <span className={styles.count}>{commonHere.length}</span>
+            Also available
           </h3>
-          {groupByProduct(commonHere).map(([name, items]) => (
-            <div key={name}>
-              <h4 className={styles.commonProduct}>{name}</h4>
-              <ul className={styles.modifierList}>
-                {items.map((item) => (
-                  <li key={item.id} className={styles.commonItem}>
-                    <a href={`/merge-tags/modifiers/${item.modifier.name}/`}>
-                      <code>{item.modifier.name}</code>
-                    </a>{' '}
-                    <span className={styles.modifierLabel}>{item.modifier.label}</span>
-                    <FieldExample example={exampleFor(item.id)} />
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          <ModifierTables items={commonHere} exampleFor={exampleFor} />
         </section>
       )}
 

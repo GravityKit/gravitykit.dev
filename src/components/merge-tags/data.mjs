@@ -62,3 +62,39 @@ export function worksOutsideViews(artifact, modifier) {
     return !Array.isArray(contexts) || contexts.includes('notification');
   });
 }
+
+/**
+ * [product name, items] pairs: Gravity Forms first, since the others build on it, then
+ * GravityView, then every other product by name. `nameOf` maps a product slug to the name the
+ * site shows; products shown under one name (Query Filters ships inside GravityView) share one
+ * group, so no heading appears twice.
+ */
+export function groupModifiersByProduct(items, nameOf) {
+  const groups = new Map();
+  const rankOf = new Map();
+  for (const item of items) {
+    const slug = item.modifier.product;
+    const name = nameOf(slug) ?? slug;
+    if (!groups.has(name)) groups.set(name, []);
+    groups.get(name).push(item);
+    const rank = slug === 'gravityforms' ? 0 : slug === 'gravityview' ? 1 : 2;
+    rankOf.set(name, Math.min(rankOf.get(name) ?? 2, rank));
+  }
+  return [...groups].sort(([a], [b]) => rankOf.get(a) - rankOf.get(b) || a.localeCompare(b));
+}
+
+const NAMED_ENTITIES = { quot: '"', amp: '&', lt: '<', gt: '>', apos: "'", hellip: '…', nbsp: ' ', mdash: '—', ndash: '–', ldquo: '“', rdquo: '”', lsquo: '‘', rsquo: '’' };
+
+/**
+ * Text as a reader sees it once it is shown: `&quot;` becomes a quote mark. One pass, so an
+ * escaped entity (`&amp;lt;`) stays one level escaped (`&lt;`), as a browser would show it.
+ */
+export function decodeEntities(text) {
+  return String(text ?? '').replace(/&(#x[0-9a-f]+|#\d+|[a-z]+);/gi, (match, body) => {
+    if (body[0] === '#') {
+      const code = body[1].toLowerCase() === 'x' ? parseInt(body.slice(2), 16) : parseInt(body.slice(1), 10);
+      return Number.isFinite(code) ? String.fromCodePoint(code) : match;
+    }
+    return NAMED_ENTITIES[body.toLowerCase()] ?? match;
+  });
+}

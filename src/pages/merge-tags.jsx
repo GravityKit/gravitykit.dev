@@ -735,8 +735,9 @@ function MergeTagTable({ catalog }) {
         )}
       </div>
 
-      {/* Announced as it changes: a filter that silently empties the table reads as a broken page. */}
-      <p role="status" aria-live="polite" className={styles.resultCount}>
+      {/* Announced as it changes, for screen readers only: a filter that silently empties the table
+          reads as a broken page, but a visible count of tags adds nothing a reader needs. */}
+      <p role="status" aria-live="polite" className={styles.srOnly}>
         {count}
       </p>
 

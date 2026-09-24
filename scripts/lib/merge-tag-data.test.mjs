@@ -62,3 +62,39 @@ test('leads with a capture on an offered field, and lists each field kind once',
   assert.deepEqual(out, ['Name']);
   assert.equal(works.filter((label) => out.includes(label)).length, 0);
 });
+
+test('modifier groups run Gravity Forms, then GravityView, then the rest by name', async () => {
+  const { groupModifiersByProduct } = await import('../../src/components/merge-tags/data.mjs');
+  const item = (id, product) => ({ id, modifier: { product } });
+  const groups = groupModifiersByProduct(
+    [item('a', 'gravitykit-query-filters'), item('b', 'gravityview'), item('c', 'gravitymath'), item('d', 'gravityforms'), item('e', 'gravityview')],
+    (slug) => ({ gravityforms: 'Gravity Forms', gravityview: 'GravityView', gravitymath: 'GravityMath', 'gravitykit-query-filters': 'Query Filters' })[slug],
+  );
+  assert.deepEqual(groups.map(([name, items]) => [name, items.map((i) => i.id)]), [
+    ['Gravity Forms', ['d']],
+    ['GravityView', ['b', 'e']],
+    ['GravityMath', ['c']],
+    ['Query Filters', ['a']],
+  ]);
+});
+
+test('sample results show text as a reader sees it, not HTML entities', async () => {
+  const { decodeEntities } = await import('../../src/components/merge-tags/data.mjs');
+  assert.equal(decodeEntities('April 2026 &quot;Early&quot; Edition'), 'April 2026 "Early" Edition');
+  assert.equal(decodeEntities('April&hellip;'), 'April…');
+  assert.equal(decodeEntities('it&#039;s &#8220;x&#8221; &#8212; y'), 'it\'s “x” — y');
+  assert.equal(decodeEntities('&amp;lt;'), '&lt;', 'decodes once, not twice');
+});
+
+test('two products shown under one name make one group, not two with the same heading', async () => {
+  const { groupModifiersByProduct } = await import('../../src/components/merge-tags/data.mjs');
+  const item = (id, product) => ({ id, modifier: { product } });
+  const groups = groupModifiersByProduct(
+    [item('a', 'gravitykit-query-filters'), item('b', 'gravityview'), item('c', 'gravityforms')],
+    (slug) => ({ gravityforms: 'Gravity Forms', gravityview: 'GravityView', 'gravitykit-query-filters': 'GravityView' })[slug],
+  );
+  assert.deepEqual(groups.map(([name, items]) => [name, items.map((i) => i.id)]), [
+    ['Gravity Forms', ['c']],
+    ['GravityView', ['a', 'b']],
+  ]);
+});
