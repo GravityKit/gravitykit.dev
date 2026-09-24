@@ -45,7 +45,7 @@ const INLINE_VALUE_CHARS = 30;
  * "On the test form, it leaves out Tracking Token, a Hidden field." The fields are the
  * test form's, so the sentence says so; each is named with its kind where that is known.
  */
-function diffText(diff) {
+export function diffText(diff) {
   const parts = [];
   for (const { from, to, admin_label } of diff.renamed ?? []) {
     parts.push(admin_label ? `shows ${from} under its admin label, ${to}` : `shows ${from} as ${to}`);
@@ -88,7 +88,7 @@ const PREVIEW_MAX_HEIGHT = 640;
  * runs no scripts (`sandbox` without allow-scripts); allow-same-origin only lets this page
  * read the drawn height, so the frame fits the table instead of cutting it off.
  */
-export function HtmlPreview({ html, title = 'Output' }) {
+export function HtmlPreview({ html, title = 'Output', name }) {
   const frame = useRef(null);
   const [height, setHeight] = useState(160);
 
@@ -115,9 +115,12 @@ export function HtmlPreview({ html, title = 'Output' }) {
 
   return (
     <div className={styles.htmlPreview}>
-      <iframe ref={frame} title={title} srcDoc={html} sandbox="allow-same-origin" style={{ height }} />
+      <iframe ref={frame} title={title} srcDoc={`<html lang="en"><body>${html}</body></html>`} sandbox="allow-same-origin" style={{ height }} />
       <details>
-        <summary>HTML ({html.length.toLocaleString()} characters)</summary>
+        <summary>
+          {/* Named per example: several of these can sit on one page. */}
+          HTML{name ? <> of <code>{name}</code></> : ''} ({html.length.toLocaleString()} characters)
+        </summary>
         <pre className={styles.htmlSource}>
           <code>{html}</code>
         </pre>
@@ -167,14 +170,14 @@ export default function Examples({ examples, showBefore = true }) {
         const body = (
           <>
             {example.note && <p className={styles.exampleNote}>{example.note}</p>}
-            <HtmlPreview html={example.out} title={`Output of ${example.in}`} />
+            <HtmlPreview html={example.out} title={`Output of ${example.in}`} name={example.in} />
             {showBefore && example.before && (
               <details className={styles.htmlBefore}>
                 <summary>
                   Without the modifier: <code>{example.before.in}</code>
                 </summary>
                 {isHtmlOutput(example.before.out) ? (
-                  <HtmlPreview html={example.before.out} title={`Output of ${example.before.in}`} />
+                  <HtmlPreview html={example.before.out} title={`Output of ${example.before.in}`} name={example.before.in} />
                 ) : (
                   <Output value={example.before.out} />
                 )}
