@@ -195,7 +195,7 @@ export default function MergeTagFieldsPage() {
         <h1>Modifiers by field</h1>
         <p className={styles.lede}>
           Choose a kind of form field to see which modifiers the merge tag picker offers for <a href="/merge-tags/field/"><code>{'{Field Label:ID}'}</code></a>,
-          and why the others are left out. Generated from the picker's own rules. To see every field kind side by side,
+          and why the others are left out. To see every field kind side by side,
           use <a href="/merge-tags/compare/">Compare fields</a>.
         </p>
 

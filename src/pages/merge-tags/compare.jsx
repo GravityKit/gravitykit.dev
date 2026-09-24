@@ -45,7 +45,7 @@ export default function MergeTagComparePage() {
             </li>
           ))}
           <li>● offered</li>
-          <li>○ shown but locked by another setting in the example</li>
+          <li>○ shown, but blocked by another setting in the example</li>
         </ul>
 
         <StatusMessage state={state} what="the field comparison" />

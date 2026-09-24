@@ -45,7 +45,7 @@ export function requiresText(requires) {
 }
 
 export const SECTIONS = [
-  { key: 'show', title: 'What to show', hint: 'Pick one: which part of the value the tag outputs.' },
+  { key: 'show', title: 'What to show', hint: 'Pick one: what the tag shows.' },
   { key: 'change', title: 'Change the output', hint: 'Steps applied one after another, in the order written.' },
   { key: 'other', title: 'Other settings', hint: '' },
 ];
@@ -73,7 +73,7 @@ export function StatusMessage({ state, what }) {
   if (!state.artifact.offers) {
     return (
       <div className="alert alert--warning" role="alert">
-        This build of the merge tag data does not include the picker's offer rules yet.
+        This data doesn't list the picker's modifiers yet.
       </div>
     );
   }

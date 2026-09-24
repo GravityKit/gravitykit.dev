@@ -87,7 +87,6 @@ export default function MergeTagOptionsPage() {
 
             <section className={styles.section} aria-labelledby="with-modifiers">
               <h2 id="with-modifiers">Tags that take modifiers</h2>
-              <p className={styles.hint}>The modifiers the merge tag picker offers on each.</p>
               <div className={styles.cards}>
                 {groups.modifiers.map((tag) => (
                   <TagCard key={tag.name} tag={tag} offered={artifact.offers.tags[tag.name]} byId={byId} />
@@ -97,7 +96,6 @@ export default function MergeTagOptionsPage() {
 
             <section className={styles.section} aria-labelledby="bare">
               <h2 id="bare">Tags written exactly as shown</h2>
-              <p className={styles.hint}>These take no modifiers, property or parameter.</p>
               <ul className={styles.bare}>
                 {groups.bare.map((tag) => (
                   <li key={tag.name}>

@@ -74,9 +74,8 @@ const HAZARD_REPARSES_INPUT_ORDER = 'reparses-input-order';
  * never reach this page with nothing to say about itself. */
 const HAZARD_ANNOTATIONS = {
   [HAZARD_REPARSES_INPUT_ORDER]:
-    'This modifier re-reads the text the earlier steps produced and interprets it as a date. ' +
-    'Because an earlier step already changed that text, the result is wrong with no warning, often ' +
-    "today's date instead of the field's. Put this modifier first so it reads the field's own value.",
+    'This modifier treats all text as a date. If an earlier step changed the text, the date comes out ' +
+    "wrong, often as today's date. Put this modifier first.",
 };
 
 function hazardAnnotation(hazard) {
@@ -291,7 +290,7 @@ function HtmlPreview({ html }) {
   return (
     <div>
       <iframe
-        title="Rendered output"
+        title="Output"
         srcDoc={html}
         sandbox=""
         style={{ width: '100%', height: 240, border: '1px solid var(--ifm-color-emphasis-300)', borderRadius: 4, background: '#fff' }}
@@ -366,7 +365,7 @@ function HazardNotice({ annotation }) {
 }
 
 function CapturePair({ capture }) {
-  if (!capture) return <p style={{ color: 'var(--ifm-color-emphasis-600)', fontStyle: 'italic' }}>No captured render for this entry yet.</p>;
+  if (!capture) return <p style={{ color: 'var(--ifm-color-emphasis-600)', fontStyle: 'italic' }}>No example output yet.</p>;
   return (
     <div style={{ fontSize: 13 }}>
       <div style={{ display: 'flex', gap: 8, alignItems: 'baseline', flexWrap: 'wrap' }}>
@@ -431,8 +430,8 @@ function TagRow({ entry, catalog, expanded, onToggle }) {
                 this static reference. */}
             <p style={{ fontSize: 12, color: 'var(--ifm-color-emphasis-600)' }}>
               {entryDependence?.tone === 'entryVaries'
-                ? 'Changes depending on which entry is being viewed.'
-                : 'Shows the same value whichever entry is selected. It is not read from the entry.'}
+                ? 'Changes from entry to entry.'
+                : 'Same for every entry.'}
             </p>
             <CapturePair capture={canonical} />
             {entry.requires ? (
@@ -488,9 +487,8 @@ function ModifierRow({ entry, catalog, expanded, onToggle }) {
                 cross-entry total. */}
             {entryDependence ? (
               <p style={{ fontSize: 12, color: 'var(--ifm-color-emphasis-600)' }}>
-                <strong>{entryDependence.text}:</strong> the field normally changes from entry to entry, but this
-                modifier adds up, counts, or averages every entry in scope, so the result is the same whichever
-                entry is selected.
+                <strong>{entryDependence.text}:</strong> this modifier adds up, counts, or averages all entries in
+                scope, so the result is the same for every entry.
               </p>
             ) : null}
             {captures.length ? captures.map((c) => <CapturePair key={c.in} capture={c} />) : <CapturePair capture={null} />}
@@ -564,7 +562,7 @@ function MergeTagTable({ catalog }) {
   if (!rows.length) {
     return (
       <p>
-        <em>The merge tag reference has no data yet. Check back once the schema and capture pass ship.</em>
+        <em>No data yet. Check back soon.</em>
       </p>
     );
   }
@@ -582,8 +580,7 @@ function MergeTagTable({ catalog }) {
             fontSize: 14,
           }}
         >
-          <strong>Placeholder data.</strong> The rendered outputs below are stand-ins, not verified against real PHP.
-          They will be replaced once the CI capture pass ships (see SPEC-merge-tags-page.md Q1).
+          <strong>Placeholder data.</strong> These outputs are placeholders.
         </div>
       ) : null}
 
@@ -620,7 +617,7 @@ function MergeTagTable({ catalog }) {
           aria-label="Filter by whether the value varies per entry"
           value={entryDependence}
           onChange={(e) => setEntryDependence(e.target.value)}
-          title="Whether a tag's rendered value changes depending on which entry is being viewed"
+          title="Whether the value changes from entry to entry"
           style={{ padding: '6px 10px', borderRadius: 6 }}
         >
           <option value="all">Varies or not</option>
@@ -628,7 +625,7 @@ function MergeTagTable({ catalog }) {
           <option value="solid">Same for every entry</option>
         </select>
         <span style={{ color: 'var(--ifm-color-emphasis-600)', fontSize: 14 }}>
-          {filtered.length} entries &middot; {catalog.captures?.count ?? 0} captured renders
+          {filtered.length} entries &middot; {catalog.captures?.count ?? 0} examples
         </span>
       </div>
 
@@ -639,7 +636,7 @@ function MergeTagTable({ catalog }) {
               <th>Syntax</th>
               <th style={{ width: '140px' }}>Product</th>
               <th style={{ width: '120px' }}>Kind / group</th>
-              <th style={{ width: '180px' }}>Scope</th>
+              <th style={{ width: '180px' }}>Works on</th>
               <th>Label</th>
               <th>Example output</th>
             </tr>
@@ -674,20 +671,17 @@ export default function MergeTagsPage() {
   return (
     <Layout
       title="GravityKit merge tags"
-      description="Every merge tag and modifier across GravityKit and the products it extends, with real rendered examples."
+      description="Every merge tag and modifier across GravityKit and the products it extends, with real examples."
     >
       <main className="container margin-vert--lg">
         <MergeTagsNav current="all" />
         <h1>Merge tags</h1>
         <p>
-          Every merge tag that Gravity Forms and GravityKit products understand, the modifiers each one takes, and
-          the output each one gives. The outputs come from running the real plugin code against a test entry.
-          Search, or filter by product and kind. The list is built from the same data as the merge tag picker in
-          WordPress, so the two always match.
+          Every merge tag in Gravity Forms and GravityKit, its modifiers, and its output. Outputs come from the
+          real plugin code, run on a test entry.
         </p>
         <p>
-          To see a tag's output for your own entries, use the merge tag picker in WordPress. It shows each tag's
-          value from your site as you build.
+          To see output for your own entries, use the merge tag picker in WordPress.
         </p>
 
         <MergeTagTable catalog={catalog} />

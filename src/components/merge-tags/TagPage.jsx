@@ -51,7 +51,7 @@ export default function TagPage({ data }) {
 
           {isField && (
             <div className="alert alert--info margin-bottom--md">
-              Which modifiers a form field takes depends on the kind of field. See <a href="/merge-tags/fields/">Modifiers by field</a>.
+              Modifiers depend on the kind of field. See <a href="/merge-tags/fields/">Modifiers by field</a>.
             </div>
           )}
 
@@ -113,7 +113,6 @@ export default function TagPage({ data }) {
           {offered.length > 0 && (
             <>
               <h2 id="modifiers">Modifiers</h2>
-              <p>What the merge tag picker offers on this tag.</p>
               {SECTIONS.map((section) => {
                 const items = offered.filter((item) => sectionOf(item.modifier) === section.key);
                 if (items.length === 0) return null;
@@ -152,13 +151,13 @@ export default function TagPage({ data }) {
           )}
 
           {!isField && parts.length === 0 && offered.length === 0 && (
-            <p>This tag takes no modifiers or parameters. Write it exactly as shown.</p>
+            <p>This tag takes no modifiers or parameters.</p>
           )}
 
           {(plain.length > 0 || withModifier.length > 0) && (
             <>
               <h2 id="examples">Examples</h2>
-              <p>Output from the real plugin code, run against a test entry.</p>
+              <p>Output from the real plugin code, run on a test entry.</p>
               {plain.length > 0 && <Examples examples={plain} showBefore={false} />}
               {withModifier.length > 0 && (
                 <>

@@ -28,7 +28,6 @@ function Entry({ entry, index, many, reasons, fieldTypeNames }) {
   return (
     <section id={many ? anchorOf(index) : undefined}>
       <h2>{many ? modifier.label : 'About'}</h2>
-      {many && <p className="margin-bottom--sm">On {appliesToText(modifier, fieldTypeNames)}.</p>}
       {modifier.description && <p>{modifier.description}</p>}
 
       <table>
@@ -52,7 +51,7 @@ function Entry({ entry, index, many, reasons, fieldTypeNames }) {
           {modifier.exclusive && (
             <tr>
               <th scope="row">Combining</th>
-              <td>Use it alone. Combined with any other modifier, it is ignored.</td>
+              <td>Use it alone. With other modifiers, it is ignored.</td>
             </tr>
           )}
         </tbody>
@@ -70,7 +69,7 @@ function Entry({ entry, index, many, reasons, fieldTypeNames }) {
       {examples.length > 0 && (
         <>
           <h3>Examples</h3>
-          <p>Output from the real plugin code, run against a test entry.</p>
+          <p>Output from the real plugin code, run on a test entry.</p>
           <Examples examples={examples} />
         </>
       )}
@@ -156,7 +155,7 @@ export default function ModifierPage({ data }) {
           {many ? (
             <>
               <p>
-                <code>:{name}</code> does different things depending on the merge tag or the kind of field:
+                <code>:{name}</code> does different things on different tags and fields:
               </p>
               <ul>
                 {entries.map((entry, index) => (
