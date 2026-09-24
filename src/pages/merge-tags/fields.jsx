@@ -26,47 +26,6 @@ function readHash(keys) {
   return keys.includes(key) ? key : null;
 }
 
-/**
- * A captured render on the test form, with what is notable about it: Gravity Forms output
- * nothing, warned, or gave the same text as the field alone.
- */
-function FieldExample({ example }) {
-  if (!example) return null;
-  let note = null;
-  if (example.warnings?.length) note = 'Outputs nothing, and PHP logs a warning.';
-  else if (example.empty) note = 'Outputs nothing.';
-  else if (example.same) note = 'Same as the field alone, for this value.';
-  else if (example.unresolved) note = 'Left as written: nothing replaced it.';
-  else if (example.error) note = 'Failed to render.';
-
-  return (
-    <p className={styles.fieldExample}>
-      <code>{example.in}</code> <span aria-hidden="true">→</span>{' '}
-      {example.empty || example.warnings?.length ? <em>(nothing)</em> : <Output value={example.out} />}
-      {note && <span className={styles.fieldExampleNote}>{note}</span>}
-    </p>
-  );
-}
-
-function ModifierItem({ modifier, locked, written, example }) {
-  return (
-    <li className={styles.modifier}>
-      <div className={styles.modifierHead}>
-        <span className={styles.modifierLabel}>{modifier.label}</span>
-        <a href={`/merge-tags/modifiers/${modifier.name}/`}>
-          <code>{modifier.name}</code>
-        </a>
-        <span className={styles.product}>{requiresText(modifier.requires) || PRODUCT_NAMES[modifier.product] || modifier.product}</span>
-        {modifier.exclusive && <span className="badge badge--warning">Only works on its own</span>}
-        {locked && <span className="badge badge--secondary">Locked here</span>}
-        {written && <span className="badge badge--success">In the example tag</span>}
-      </div>
-      {modifier.description && <p className={styles.modifierText}>{modifier.description}</p>}
-      <FieldExample example={example} />
-    </li>
-  );
-}
-
 // A modifier offered on at least this share of field kinds is listed once, as a link, instead
 // of being described again on every field.
 const COMMON_SHARE = 0.6;
@@ -97,41 +56,91 @@ function breakableTag(tag) {
   return tag.split(/(?<=[:,])/).flatMap((part, i) => (i ? [<wbr key={i} />, part] : [part]));
 }
 
-/** A table per product: the modifier, a sample merge tag using it, and what that tag gave. */
+/**
+ * The modifier, a sample merge tag using it, and what that tag gave on the test form. With
+ * `detailed`, the modifier cell also carries its plugin, its description and its badges.
+ */
+function ModifierTable({ items, exampleFor, detailed = false }) {
+  return (
+    <table className={styles.sampleTable}>
+      <thead>
+        <tr>
+          <th scope="col">Modifier</th>
+          <th scope="col">Sample Merge Tag</th>
+          <th scope="col">Sample Result</th>
+        </tr>
+      </thead>
+      <tbody>
+        {items.map((item) => {
+          const example = exampleFor(item.id);
+          const { modifier } = item;
+          return (
+            <tr key={item.id}>
+              <th scope="row">
+                <a href={`/merge-tags/modifiers/${modifier.name}/`}>
+                  <code>{modifier.name}</code>
+                </a>
+                <span className={styles.sampleLabel}>{modifier.label}</span>
+                {detailed && (
+                  <>
+                    <span className={styles.sampleMeta}>
+                      {requiresText(modifier.requires) || PRODUCT_NAMES[modifier.product] || modifier.product}
+                    </span>
+                    {modifier.description && <span className={styles.sampleMeta}>{modifier.description}</span>}
+                    {modifier.exclusive && <span className="badge badge--warning">Only works on its own</span>}
+                    {item.locked && <span className="badge badge--secondary">Locked here</span>}
+                    {item.written && <span className="badge badge--success">In the example tag</span>}
+                  </>
+                )}
+              </th>
+              <td data-label="Sample Merge Tag">{example ? <code>{breakableTag(example.in)}</code> : null}</td>
+              <td data-label="Sample Result">
+                <SampleResult example={example} />
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  );
+}
+
+/** One table per product, Gravity Forms first, then GravityView, then the rest. */
 function ModifierTables({ items, exampleFor }) {
   return groupModifiersByProduct(items, productName).map(([name, list]) => (
     <div key={name}>
       <h4 className={styles.commonProduct}>{name}</h4>
-      <table className={styles.sampleTable}>
-        <thead>
-          <tr>
-            <th scope="col">Modifier</th>
-            <th scope="col">Sample Merge Tag</th>
-            <th scope="col">Sample Result</th>
-          </tr>
-        </thead>
-        <tbody>
-          {list.map((item) => {
-            const example = exampleFor(item.id);
-            return (
-              <tr key={item.id}>
-                <th scope="row">
-                  <a href={`/merge-tags/modifiers/${item.modifier.name}/`}>
-                    <code>{item.modifier.name}</code>
-                  </a>
-                  <span className={styles.sampleLabel}>{item.modifier.label}</span>
-                </th>
-                <td data-label="Sample Merge Tag">{example ? <code>{breakableTag(example.in)}</code> : null}</td>
-                <td data-label="Sample Result">
-                  <SampleResult example={example} />
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <ModifierTable items={list} exampleFor={exampleFor} />
     </div>
   ));
+}
+
+/** The field with no modifier: the same columns, so the rows below read against it. */
+function PlainTable({ example }) {
+  return (
+    <table className={styles.sampleTable}>
+      <thead>
+        <tr>
+          <th scope="col">Modifier</th>
+          <th scope="col">Sample Merge Tag</th>
+          <th scope="col">Sample Result</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">
+            <span className={styles.sampleMeta}>No modifier</span>
+          </th>
+          <td data-label="Sample Merge Tag">
+            <code>{breakableTag(example.in)}</code>
+          </td>
+          <td data-label="Sample Result">
+            <SampleResult example={{ ...example, same: false }} />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  );
 }
 
 function FieldDetail({ row, byId, reasons, common, examples, unavailable, headingRef }) {
@@ -171,7 +180,7 @@ function FieldDetail({ row, byId, reasons, common, examples, unavailable, headin
                 'On the test form, without a modifier:'
               )}
             </p>
-            <FieldExample example={examples.plain} />
+            <PlainTable example={examples.plain} />
             {examples.plain.warnings?.length > 0 && (
               <p className={styles.hint}>
                 Gravity Forms expects one part of this field, such as <code>.1</code>, and warns on the field as a whole,
@@ -204,17 +213,7 @@ function FieldDetail({ row, byId, reasons, common, examples, unavailable, headin
               {section.title}
             </h3>
             {section.hint && <p className={styles.hint}>{section.hint}</p>}
-            <ul className={styles.modifierList}>
-              {items.map((item) => (
-                <ModifierItem
-                  key={item.id}
-                  modifier={item.modifier}
-                  locked={item.locked}
-                  written={item.written}
-                  example={exampleFor(item.id)}
-                />
-              ))}
-            </ul>
+            <ModifierTable items={items} exampleFor={exampleFor} detailed />
           </section>
         );
       })}
@@ -222,7 +221,7 @@ function FieldDetail({ row, byId, reasons, common, examples, unavailable, headin
       {commonHere.length > 0 && (
         <section className={styles.section} aria-labelledby="sec-common">
           <h3 id="sec-common">
-            Also available
+            Additional Modifiers
           </h3>
           <ModifierTables items={commonHere} exampleFor={exampleFor} />
         </section>

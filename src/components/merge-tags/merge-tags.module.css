@@ -886,3 +886,36 @@
   padding: 0;
   font-size: 0.8125rem;
 }
+.sampleMeta {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.8125rem;
+}
+.sampleTable tbody th :global(.badge) {
+  margin-top: 0.375rem;
+  margin-right: 0.25rem;
+}
+
+/* All merge tags, an opened row: the sample tag and its result, labeled, not joined by an arrow. */
+.samplePair {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.25rem 0.75rem;
+  margin: 0 0 0.5rem;
+  align-items: baseline;
+}
+.samplePair dt {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ifm-color-emphasis-700);
+}
+.samplePair dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 640px) {
+  .samplePair {
+    grid-template-columns: 1fr;
+  }
+}

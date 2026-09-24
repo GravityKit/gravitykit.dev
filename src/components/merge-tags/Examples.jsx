@@ -1,29 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import styles from './merge-tags.module.css';
+import { diffText, outputPreview } from './data.mjs';
+
+export { diffText };
 
 // Captured output can be a whole {all_fields} table; a row shows the start of it.
-const OUTPUT_PREVIEW_CHARS = 300;
-const HTML_LIKE = /^\s*<[a-z][\s\S]*>/i;
-const NAMED_ENTITIES = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ' };
-
-/** One decoding pass: what a browser shows for the text of rendered HTML. */
-function decodeEntities(text) {
-  return text
-    .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number(n)))
-    .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
-    .replace(/&([a-z]+);/gi, (m, name) => NAMED_ENTITIES[name.toLowerCase()] ?? m);
-}
-
-/** Output as a reader sees it: HTML reduced to its text, whitespace collapsed, cut to a preview. */
-function preview(text) {
-  const raw = String(text ?? '');
-  const isHtml = HTML_LIKE.test(raw) && /<(table|p|div|ul|ol|br)\b/i.test(raw);
-  const value = (isHtml ? decodeEntities(raw.replace(/<[^>]*>/g, ' ')) : raw).replace(/\s+/g, ' ').trim();
-  return { isHtml, text: value.length > OUTPUT_PREVIEW_CHARS ? `${value.slice(0, OUTPUT_PREVIEW_CHARS)}…` : value };
-}
 
 export function Output({ value }) {
-  const shown = preview(value);
+  const shown = outputPreview(value);
   if (!shown.text) return <em>(empty)</em>;
   return (
     <>
@@ -31,39 +15,6 @@ export function Output({ value }) {
       <code className={styles.output}>{shown.text}</code>
     </>
   );
-}
-
-function listText(items) {
-  if (items.length < 3) return items.join(' and ');
-  return `${items.slice(0, -1).join(', ')}, and ${items[items.length - 1]}`;
-}
-
-// A value short enough to show before and after inline; longer ones are named only.
-const INLINE_VALUE_CHARS = 30;
-
-/**
- * "On the test form, it leaves out Tracking Token, a Hidden field." The fields are the
- * test form's, so the sentence says so; each is named with its kind where that is known.
- */
-export function diffText(diff) {
-  const parts = [];
-  for (const { from, to, admin_label } of diff.renamed ?? []) {
-    parts.push(admin_label ? `shows ${from} under its admin label, ${to}` : `shows ${from} as ${to}`);
-  }
-  if (diff.removed.length) {
-    parts.push(`leaves out ${listText(diff.removed.map(({ label, kind }) => (kind ? `${label} (${kind})` : label)))}`);
-  }
-  if (diff.added.length) {
-    parts.push(`adds ${listText(diff.added)}${diff.added_blank ? ', which the test entry left blank' : ''}`);
-  }
-  if (diff.changed.length) {
-    const changed = diff.changed.map(({ label, before, after }) =>
-      before.length <= INLINE_VALUE_CHARS && after.length <= INLINE_VALUE_CHARS ? `${label} (${before} → ${after})` : label,
-    );
-    parts.push(`changes ${listText(changed)}`);
-  }
-  if (!parts.length) return 'On the test form, the output is the same as without the modifier.';
-  return `On the test form, it ${parts.join('; ')}.`;
 }
 
 function ExampleHeading({ example }) {
@@ -77,7 +28,7 @@ function ExampleHeading({ example }) {
 }
 
 function isHtmlOutput(value) {
-  return preview(value).isHtml;
+  return outputPreview(value).isHtml;
 }
 
 // Tall enough for a full {all_fields} table without making the page scroll twice.

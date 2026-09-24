@@ -98,3 +98,51 @@ export function decodeEntities(text) {
     return NAMED_ENTITIES[body.toLowerCase()] ?? match;
   });
 }
+
+// Output longer than this is cut, with an ellipsis, in a preview.
+const OUTPUT_PREVIEW_CHARS = 300;
+const HTML_LIKE = /^\s*<[a-z][\s\S]*>/i;
+
+/**
+ * Output as a reader sees it: HTML reduced to its text, entities decoded, whitespace collapsed,
+ * cut to a preview. Plain text is decoded too: `&quot;Early&quot;` reads as "Early".
+ */
+export function outputPreview(text) {
+  const raw = String(text ?? '');
+  const isHtml = HTML_LIKE.test(raw) && /<(table|p|div|ul|ol|br)\b/i.test(raw);
+  const value = decodeEntities(isHtml ? raw.replace(/<[^>]*>/g, ' ') : raw).replace(/\s+/g, ' ').trim();
+  return { isHtml, text: value.length > OUTPUT_PREVIEW_CHARS ? `${value.slice(0, OUTPUT_PREVIEW_CHARS)}…` : value };
+}
+
+function listText(items) {
+  if (items.length < 3) return items.join(' and ');
+  return `${items.slice(0, -1).join(', ')}, and ${items[items.length - 1]}`;
+}
+
+// A value short enough to show before and after inline; longer ones are named only.
+const INLINE_VALUE_CHARS = 30;
+
+/**
+ * "On the test form, it leaves out Tracking Token (a Hidden field); changes Quantity (from 1 to 3)."
+ * The fields are the test form's, so the sentence says so.
+ */
+export function diffText(diff) {
+  const parts = [];
+  for (const { from, to, admin_label } of diff.renamed ?? []) {
+    parts.push(admin_label ? `shows ${from} under its admin label, ${to}` : `shows ${from} as ${to}`);
+  }
+  if (diff.removed?.length) {
+    parts.push(`leaves out ${listText(diff.removed.map(({ label, kind }) => (kind ? `${label} (${kind})` : label)))}`);
+  }
+  if (diff.added?.length) {
+    parts.push(`adds ${listText(diff.added)}${diff.added_blank ? ', which the test entry left blank' : ''}`);
+  }
+  if (diff.changed?.length) {
+    const changed = diff.changed.map(({ label, before, after }) =>
+      before.length <= INLINE_VALUE_CHARS && after.length <= INLINE_VALUE_CHARS ? `${label} (from ${before} to ${after})` : label,
+    );
+    parts.push(`changes ${listText(changed)}`);
+  }
+  if (!parts.length) return 'On the test form, the output is the same as without the modifier.';
+  return `On the test form, it ${parts.join('; ')}.`;
+}

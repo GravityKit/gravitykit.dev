@@ -410,14 +410,18 @@ function CapturePair({ capture }) {
   if (!capture) return <p className={styles.detailMeta}><em>No example output yet.</em></p>;
   return (
     <div style={{ fontSize: 13 }}>
-      <div style={{ display: 'flex', gap: 8, alignItems: 'baseline', flexWrap: 'wrap' }}>
-        <code style={{ background: 'var(--ifm-color-emphasis-100)', padding: '2px 6px', borderRadius: 4 }}>{capture.in}</code>
-        <span aria-hidden="true" className={styles.cellMuted}>&rarr;</span>
-        <CaptureOutput out={capture.out} />
-        <CopyButton text={capture.in} />
-        {capture.stub ? badge('placeholder, not CI-verified', 'stub') : null}
-        {capture.hazard ? badge('ordering hazard', 'hazard') : null}
-      </div>
+      <dl className={styles.samplePair}>
+        <dt>Sample Merge Tag</dt>
+        <dd>
+          <code>{capture.in}</code> <CopyButton text={capture.in} />
+          {capture.stub ? badge('placeholder, not CI-verified', 'stub') : null}
+          {capture.hazard ? badge('ordering hazard', 'hazard') : null}
+        </dd>
+        <dt>Sample Result</dt>
+        <dd>
+          <CaptureOutput out={capture.out} />
+        </dd>
+      </dl>
       {capture.hazard ? <HazardNotice annotation={hazardAnnotation(capture.hazard)} /> : null}
       {capture.display ? (
         <div className={styles.detailMeta}>

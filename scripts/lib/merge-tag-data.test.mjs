@@ -98,3 +98,17 @@ test('two products shown under one name make one group, not two with the same he
     ['GravityView', ['a', 'b']],
   ]);
 });
+
+test('describes an {all_fields} change in words, with no arrow', async () => {
+  const { diffText } = await import('../../src/components/merge-tags/data.mjs');
+  const diff = { removed: [{ label: 'Tracking Token', kind: 'a Hidden field' }], added: [], changed: [{ label: 'Quantity', before: '1', after: '3' }], renamed: [] };
+  const text = diffText(diff);
+  assert.equal(text, 'On the test form, it leaves out Tracking Token (a Hidden field); changes Quantity (from 1 to 3).');
+  assert.ok(!text.includes('→'));
+});
+
+test('an output preview decodes entities in plain text, not only in HTML', async () => {
+  const { outputPreview } = await import('../../src/components/merge-tags/data.mjs');
+  assert.deepEqual(outputPreview('April 2026 &quot;Early&quot; Edition'), { isHtml: false, text: 'April 2026 "Early" Edition' });
+  assert.deepEqual(outputPreview('<p>One &amp; two</p>'), { isHtml: true, text: 'One & two' });
+});
