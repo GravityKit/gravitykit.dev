@@ -531,3 +531,37 @@
   white-space: normal;
   overflow-wrap: anywhere;
 }
+
+.commonList {
+  line-height: 2;
+}
+
+.exampleNote {
+  margin: 0.25rem 0 0;
+  font-size: 0.8rem;
+  color: var(--ifm-color-emphasis-600);
+}
+
+/* A worked example: what to write, then what it produces. */
+.usage {
+  margin: 1rem 0 1.75rem;
+}
+
+.usage h4 {
+  margin-bottom: 0.25rem;
+}
+
+.usageLabel {
+  margin: 0.75rem 0 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.usageCode {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}

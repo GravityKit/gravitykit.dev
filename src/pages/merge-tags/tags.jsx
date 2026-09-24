@@ -33,7 +33,9 @@ function TagCard({ tag, offered, byId }) {
           {modifiers.map((modifier) => (
             <div key={modifier.id}>
               <dt>
-                <code>{modifier.name}</code>
+                <a href={`/merge-tags/modifiers/${modifier.name}/`}>
+                  <code>{modifier.name}</code>
+                </a>
               </dt>
               <dd>{modifier.label}</dd>
             </div>

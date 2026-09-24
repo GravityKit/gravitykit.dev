@@ -70,9 +70,11 @@ export default function MergeTagComparePage() {
                 <tr>
                   {columns.map((column) => (
                     <th key={column.name} scope="col" className={styles.rotated} title={[...column.labels].join(' / ')}>
-                      <span>
-                        <code>{column.name}</code>
-                      </span>
+                      <a href={`/merge-tags/modifiers/${column.name}/`}>
+                        <span>
+                          <code>{column.name}</code>
+                        </span>
+                      </a>
                     </th>
                   ))}
                 </tr>

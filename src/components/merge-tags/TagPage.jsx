@@ -1,39 +1,15 @@
 import Layout from '@theme/Layout';
 import { MergeTagsNav, PRODUCT_NAMES, SECTIONS, requiresText, sectionOf } from './shared';
-import styles from './merge-tags.module.css';
-
-// Captured output can be a whole {all_fields} table; the page shows the start of it as text.
-const OUTPUT_PREVIEW_CHARS = 400;
+import Examples from './Examples';
 
 const TYPE_NAMES = { integer: 'number', string: 'text', enum: 'one of the values', open_enum: 'text', field_ref: 'field ID' };
-
-const HTML_LIKE = /^\s*<[a-z][\s\S]*>/i;
-
-const NAMED_ENTITIES = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ' };
-
-/** One decoding pass: what a browser shows for the text of rendered HTML. */
-function decodeEntities(text) {
-  return text
-    .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number(n)))
-    .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
-    .replace(/&([a-z]+);/gi, (m, name) => NAMED_ENTITIES[name.toLowerCase()] ?? m);
-}
-
-/** Output as a reader sees it: HTML reduced to its text, whitespace collapsed, cut to a preview. */
-function preview(text) {
-  const raw = String(text ?? '');
-  const isHtml = HTML_LIKE.test(raw);
-  const stripped = isHtml ? decodeEntities(raw.replace(/<[^>]*>/g, ' ')) : raw;
-  const value = stripped.replace(/\s+/g, ' ').trim();
-  return { isHtml, text: value.length > OUTPUT_PREVIEW_CHARS ? `${value.slice(0, OUTPUT_PREVIEW_CHARS)}…` : value };
-}
 
 /**
  * One merge tag, built at /merge-tags/<tag>/ by src/plugins/merge-tag-pages.mjs. Laid out like a
  * hook page (the same `markdown` wrapper and plain tables), so the two references read alike.
  */
 export default function TagPage({ data }) {
-  const { tag, offered, captures, captureCount } = data;
+  const { tag, offered, plain, withModifier } = data;
   const parts = [...(tag.parameter ? [tag.parameter] : []), ...(tag.parameters || []), ...(tag.attributes || [])];
   const withValues = parts.filter((part) => part.options?.length);
   const isField = tag.name === '*field*';
@@ -155,7 +131,9 @@ export default function TagPage({ data }) {
                         {items.map(({ modifier }) => (
                           <tr key={modifier.id}>
                             <td>
-                              <code>{modifier.name}</code>
+                              <a href={`/merge-tags/modifiers/${modifier.name}/`}>
+                                <code>{modifier.name}</code>
+                              </a>
                             </td>
                             <td>
                               <strong>{modifier.label}.</strong> {modifier.description || ''}
@@ -175,52 +153,24 @@ export default function TagPage({ data }) {
             <p>This tag takes no modifiers or parameters. Write it exactly as shown.</p>
           )}
 
-          {captures.length > 0 && (
+          {(plain.length > 0 || withModifier.length > 0) && (
             <>
               <h2 id="examples">Examples</h2>
-              <p>
-                Rendered by real Gravity Forms and GravityKit PHP against a fixed test entry.
-                {captureCount > captures.length && (
-                  <>
-                    {' '}
-                    {captures.length} of {captureCount} shown; the rest are on <a href="/merge-tags/">All merge tags</a>.
-                  </>
-                )}
-              </p>
-              <table className={styles.examples}>
-                <thead>
-                  <tr>
-                    <th>Tag</th>
-                    <th>Output</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {captures.map((capture) => (
-                    <tr key={capture.in}>
-                      <td>
-                        <code>{capture.in}</code>
-                        {capture.stub && <span className="badge badge--warning margin-left--sm">Placeholder, not verified</span>}
-                      </td>
-                      <td>
-                        {(() => {
-                          const shown = preview(capture.out);
-                          return (
-                            <>
-                              {shown.isHtml && <span className="badge badge--secondary margin-right--sm">HTML</span>}
-                              {shown.text ? (
-                                shown.isHtml ? <span className={styles.output}>{shown.text}</span> : <code className={styles.output}>{shown.text}</code>
-                              ) : (
-                                <em>(empty)</em>
-                              )}
-                            </>
-                          );
-                        })()}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <p>Rendered by real Gravity Forms and GravityKit PHP against a test entry.</p>
+              {plain.length > 0 && <Examples examples={plain} showBefore={false} />}
+              {withModifier.length > 0 && (
+                <>
+                  <h3>With a modifier</h3>
+                  <Examples examples={withModifier} />
+                </>
+              )}
             </>
+          )}
+
+          {isField && (
+            <p>
+              Each modifier's own page has examples on real fields: see <a href="/merge-tags/fields/">Modifiers by field</a>.
+            </p>
           )}
         </article>
       </main>

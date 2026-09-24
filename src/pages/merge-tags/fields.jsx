@@ -28,7 +28,9 @@ function ModifierItem({ modifier, locked, written }) {
     <li className={styles.modifier}>
       <div className={styles.modifierHead}>
         <span className={styles.modifierLabel}>{modifier.label}</span>
-        <code>{modifier.name}</code>
+        <a href={`/merge-tags/modifiers/${modifier.name}/`}>
+          <code>{modifier.name}</code>
+        </a>
         <span className={styles.product}>{requiresText(modifier.requires) || PRODUCT_NAMES[modifier.product] || modifier.product}</span>
         {modifier.exclusive && <span className="badge badge--warning">Only works on its own</span>}
         {locked && <span className="badge badge--secondary">Locked here</span>}
@@ -39,8 +41,25 @@ function ModifierItem({ modifier, locked, written }) {
   );
 }
 
-function FieldDetail({ row, byId, reasons }) {
-  const offered = row.offered.map((item) => ({ ...item, modifier: byId.get(item.id) })).filter((item) => item.modifier);
+// A modifier offered on at least this share of field kinds is listed once, as a link, instead
+// of being described again on every field.
+const COMMON_SHARE = 0.6;
+
+function commonModifierIds(offers) {
+  const counts = new Map();
+  for (const row of offers.fields) {
+    for (const item of row.offered) {
+      if (!item.locked) counts.set(item.id, (counts.get(item.id) ?? 0) + 1);
+    }
+  }
+  return new Set([...counts].filter(([, n]) => n >= offers.fields.length * COMMON_SHARE).map(([id]) => id));
+}
+
+function FieldDetail({ row, byId, reasons, common }) {
+  const all = row.offered.map((item) => ({ ...item, modifier: byId.get(item.id) })).filter((item) => item.modifier);
+  const isCommon = (item) => common.has(item.id) && !item.locked && !item.written;
+  const offered = all.filter((item) => !isCommon(item));
+  const commonHere = all.filter(isCommon);
   const lockReasons = [...new Set(offered.filter((item) => item.locked).map((item) => item.locked))];
   const withheldByReason = new Map();
 
@@ -85,6 +104,25 @@ function FieldDetail({ row, byId, reasons }) {
         );
       })}
 
+      {commonHere.length > 0 && (
+        <section className={styles.section} aria-labelledby="sec-common">
+          <h3 id="sec-common">
+            Also offered <span className={styles.count}>{commonHere.length}</span>
+          </h3>
+          <p className={styles.hint}>The modifiers most fields share. Each links to its own page with examples.</p>
+          <p className={styles.commonList}>
+            {commonHere.map((item, i) => (
+              <span key={item.id}>
+                {i > 0 && ' · '}
+                <a href={`/merge-tags/modifiers/${item.modifier.name}/`} title={item.modifier.label}>
+                  <code>{item.modifier.name}</code>
+                </a>
+              </span>
+            ))}
+          </p>
+        </section>
+      )}
+
       {withheldByReason.size > 0 && (
         <section className={styles.section} aria-labelledby="sec-withheld">
           <h3 id="sec-withheld">Not offered on this field</h3>
@@ -96,7 +134,10 @@ function FieldDetail({ row, byId, reasons }) {
                 <ul className={styles.inlineList}>
                   {items.map((item) => (
                     <li key={item.id}>
-                      {item.modifier.label} <code>{item.modifier.name}</code>
+                      {item.modifier.label}{' '}
+                      <a href={`/merge-tags/modifiers/${item.modifier.name}/`}>
+                        <code>{item.modifier.name}</code>
+                      </a>
                       {item.needs?.length > 0 && <span className={styles.needs}> (needs {item.needs.join(', ')})</span>}
                     </li>
                   ))}
@@ -115,6 +156,7 @@ export default function MergeTagFieldsPage() {
   const offers = state.artifact?.offers;
   const byId = useMemo(() => new Map((state.artifact?.modifiers || []).map((m) => [m.id, m])), [state.artifact]);
   const keys = useMemo(() => (offers ? offers.fields.map((row) => row.key) : []), [offers]);
+  const common = useMemo(() => (offers ? commonModifierIds(offers) : new Set()), [offers]);
   const [selected, setSelected] = useState(null);
 
   useEffect(() => {
@@ -187,7 +229,7 @@ export default function MergeTagFieldsPage() {
                   ))}
                 </div>
               </nav>
-              <FieldDetail row={row} byId={byId} reasons={offers.reasons} />
+              <FieldDetail row={row} byId={byId} reasons={offers.reasons} common={common} />
             </div>
           </>
         )}
