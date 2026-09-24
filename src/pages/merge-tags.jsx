@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import Layout from '@theme/Layout';
 import { MergeTagsNav, productName, requiresText } from '../components/merge-tags/shared';
+import { HtmlPreview } from '../components/merge-tags/Examples';
 
 /**
  * Merge tags reference. Port of gravityview/css-tokens.jsx (SPEC-merge-tags-page.md
@@ -277,38 +278,6 @@ function scopeDescription(appliesTo) {
   if (Array.isArray(appliesTo.field_types)) return appliesTo.field_types.join(', ');
   if (Array.isArray(appliesTo.tags)) return appliesTo.tags.join(', ');
   return 'any';
-}
-
-/** 68 of the artifact's 515 captures are HTML markup (`{all_fields}`,
- * `{pricing_fields}`, any `:wpautop`/`:html` transform) -- shown as raw markup
- * this reads as code soup, not "here's what this renders". Rendered instead in
- * a sandboxed iframe (`sandbox=""` -- no scripts, no same-origin, nothing but
- * layout/paint) so what a reader sees is what GF/GravityView actually produce;
- * the literal captured markup is one click away via "View HTML source". */
-function HtmlPreview({ html }) {
-  const [showSource, setShowSource] = useState(false);
-  return (
-    <div>
-      <iframe
-        title="Output"
-        srcDoc={html}
-        sandbox=""
-        style={{ width: '100%', height: 240, border: '1px solid var(--ifm-color-emphasis-300)', borderRadius: 4, background: '#fff' }}
-      />
-      <button
-        type="button"
-        onClick={() => setShowSource((s) => !s)}
-        style={{ marginTop: 4, cursor: 'pointer', border: 'none', background: 'transparent', color: 'var(--ifm-color-primary)', fontSize: 12, padding: 0 }}
-      >
-        {showSource ? 'Hide' : 'View'} HTML source ({html.length.toLocaleString()} characters)
-      </button>
-      {showSource ? (
-        <pre style={{ maxHeight: 320, overflow: 'auto', background: 'var(--ifm-color-emphasis-100)', padding: 8, borderRadius: 4, marginTop: 4 }}>
-          <code>{html}</code>
-        </pre>
-      ) : null}
-    </div>
-  );
 }
 
 /** A captured `out` can run 15-18KB in the non-HTML long-string case too (rare,

@@ -565,3 +565,33 @@
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
+
+.htmlExample {
+  margin: 1.25rem 0;
+}
+.htmlExample > p {
+  margin-bottom: 0.5rem;
+}
+.htmlPreview iframe {
+  display: block;
+  width: 100%;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 4px;
+  background: #fff;
+}
+.htmlPreview details,
+.htmlBefore {
+  margin-top: 0.5rem;
+}
+.htmlPreview summary,
+.htmlBefore summary {
+  cursor: pointer;
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.875rem;
+}
+.htmlSource {
+  max-height: 320px;
+  overflow: auto;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+}
