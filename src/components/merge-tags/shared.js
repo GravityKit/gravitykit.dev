@@ -88,16 +88,21 @@ export function MergeTagsNav({ current }) {
     { href: '/merge-tags/compare', label: 'Compare fields', key: 'compare' },
   ];
 
+  // Tag and modifier pages belong to "All merge tags": mark it active there too, with
+  // aria-current="true" (part of this section) rather than "page" (this exact page).
+  const active = links.some((link) => link.key === current) ? current : 'all';
+  const exact = active === current;
+
   return (
     <nav aria-label="Merge tag reference" className="margin-bottom--lg">
       {/* Wraps on a phone: four pills in one row are wider than the screen. */}
       <ul className="pills" style={{ flexWrap: 'wrap', rowGap: '0.25rem' }}>
         {links.map((link) => (
           // The link fills the pill: Infima pads the <li>, which left the pill's edges unclickable.
-          <li key={link.key} className={`pills__item${current === link.key ? ' pills__item--active' : ''}`} style={{ padding: 0 }}>
+          <li key={link.key} className={`pills__item${active === link.key ? ' pills__item--active' : ''}`} style={{ padding: 0 }}>
             <Link
               to={link.href}
-              aria-current={current === link.key ? 'page' : undefined}
+              aria-current={active === link.key ? (exact ? 'page' : 'true') : undefined}
               style={{ display: 'block', padding: '0.25rem 1rem', color: 'inherit', textDecoration: 'none', borderRadius: 'inherit' }}
             >
               {link.label}

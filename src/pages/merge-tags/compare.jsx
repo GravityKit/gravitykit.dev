@@ -30,12 +30,17 @@ export default function MergeTagComparePage() {
 
   return (
     <Layout title="Compare fields" description="Every kind of Gravity Forms field against every merge tag modifier the picker offers.">
-      <main className="container container--fluid margin-vert--lg">
+      {/* Same container as the sibling pages, so the tabs do not jump sideways; the grid scrolls inside it. */}
+      <main className="container margin-vert--lg">
         <MergeTagsNav current="compare" />
-        <h1>Compare fields</h1>
+        <article>
+        <header>
+          <h1>Compare fields</h1>
+        </header>
         <p className={styles.lede}>
-          Every kind of form field against every modifier the merge tag picker offers for <code>{'{Field Label:ID}'}</code>. Hover a
-          dot for the modifier's name and the version it needs. Choose a field kind to see why a modifier is left out.
+          Every kind of form field against every modifier the merge tag picker offers for <code>{'{Field Label:ID}'}</code>. Point at
+          a dot, or focus the grid and read it with a screen reader, for the modifier's name and the version it needs. Choose a
+          field kind to see why a modifier is left out.
         </p>
         <ul className={styles.legend}>
           {SECTIONS.map((section) => (
@@ -44,14 +49,19 @@ export default function MergeTagComparePage() {
               {section.title}
             </li>
           ))}
-          <li>● offered</li>
-          <li>○ shown, but blocked by another setting in the example</li>
+          <li>
+            <span aria-hidden="true">●</span> Offered: the picker shows this modifier for that field
+          </li>
+          <li>
+            <span aria-hidden="true">○</span> Shown but locked: another setting in the example turns it off
+          </li>
+          <li>Empty: not offered for that field</li>
         </ul>
 
         <StatusMessage state={state} what="the field comparison" />
 
         {offers && (
-          <div className={styles.compareScroll}>
+          <div className={styles.compareScroll} role="region" aria-label="Field comparison grid, scrolls sideways" tabIndex={0}>
             <table className={styles.grid}>
               <thead>
                 <tr>
@@ -100,11 +110,14 @@ export default function MergeTagComparePage() {
                             const item = byName.get(column.name);
                             const modifier = item && byId.get(item.id);
                             const locked = item?.locked;
-                            const title = modifier ? `${modifier.label} (${requiresText(modifier.requires)})${locked ? `. Locked: ${locked}` : ''}` : undefined;
+                            const state = locked ? `shown but locked: ${locked.replace(/\.$/, '')}` : 'offered';
+                            const title = modifier
+                              ? `:${column.name} (${modifier.label}) on ${row.label}: ${state}. Needs ${requiresText(modifier.requires)}.`
+                              : undefined;
                             return (
                               <td key={column.name} title={title} className={item ? styles[`cell_${column.section}`] : undefined}>
-                                {item ? (locked ? '○' : '●') : ''}
-                                {item && <span className={styles.srOnly}>{locked ? `${modifier.label}, locked` : modifier.label}</span>}
+                                {item ? <span aria-hidden="true">{locked ? '○' : '●'}</span> : ''}
+                                {item && <span className={styles.srOnly}>{`:${column.name} ${state}`}</span>}
                               </td>
                             );
                           })}
@@ -116,6 +129,7 @@ export default function MergeTagComparePage() {
             </table>
           </div>
         )}
+        </article>
       </main>
     </Layout>
   );
