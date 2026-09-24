@@ -611,3 +611,30 @@
   color: var(--ifm-color-emphasis-700);
   font-size: 0.9rem;
 }
+
+.fieldPlain {
+  margin-top: 0.75rem;
+}
+.fieldPlainHead {
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+  color: var(--ifm-color-emphasis-700);
+}
+.fieldExample {
+  margin: 0.35rem 0 0;
+  font-size: 0.875rem;
+  overflow-wrap: anywhere;
+}
+.fieldExampleNote {
+  display: block;
+  color: var(--ifm-color-emphasis-700);
+  font-style: italic;
+}
+.commonProduct {
+  margin: 1rem 0 0.5rem;
+  font-size: 0.95rem;
+}
+.commonItem {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}

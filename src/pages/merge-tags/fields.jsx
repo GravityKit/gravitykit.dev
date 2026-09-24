@@ -11,6 +11,7 @@ import {
   useMergeTagArtifact,
 } from '../../components/merge-tags/shared';
 import styles from '../../components/merge-tags/merge-tags.module.css';
+import { Output } from '../../components/merge-tags/Examples';
 
 /**
  * Modifiers by field: pick a kind of form field, see what the merge tag picker offers for it,
@@ -24,7 +25,29 @@ function readHash(keys) {
   return keys.includes(key) ? key : null;
 }
 
-function ModifierItem({ modifier, locked, written }) {
+/**
+ * A captured render on the test form, with what is notable about it: Gravity Forms output
+ * nothing, warned, or gave the same text as the field alone.
+ */
+function FieldExample({ example }) {
+  if (!example) return null;
+  let note = null;
+  if (example.warnings?.length) note = 'Outputs nothing, and PHP logs a warning.';
+  else if (example.empty) note = 'Outputs nothing.';
+  else if (example.same) note = 'Same as the field alone, for this value.';
+  else if (example.unresolved) note = 'Left as written: nothing replaced it.';
+  else if (example.error) note = 'Failed to render.';
+
+  return (
+    <p className={styles.fieldExample}>
+      <code>{example.in}</code> <span aria-hidden="true">→</span>{' '}
+      {example.empty || example.warnings?.length ? <em>(nothing)</em> : <Output value={example.out} />}
+      {note && <span className={styles.fieldExampleNote}>{note}</span>}
+    </p>
+  );
+}
+
+function ModifierItem({ modifier, locked, written, example }) {
   return (
     <li className={styles.modifier}>
       <div className={styles.modifierHead}>
@@ -38,6 +61,7 @@ function ModifierItem({ modifier, locked, written }) {
         {written && <span className="badge badge--success">In the example tag</span>}
       </div>
       {modifier.description && <p className={styles.modifierText}>{modifier.description}</p>}
+      <FieldExample example={example} />
     </li>
   );
 }
@@ -68,7 +92,8 @@ function groupByProduct(items) {
   return [...groups].sort(([a], [b]) => rank(a) - rank(b) || a.localeCompare(b));
 }
 
-function FieldDetail({ row, byId, reasons, common }) {
+function FieldDetail({ row, byId, reasons, common, examples, unavailable }) {
+  const exampleFor = (id) => examples?.modifiers.find((example) => example.id === id);
   const all = row.offered.map((item) => ({ ...item, modifier: byId.get(item.id) })).filter((item) => item.modifier);
   const isCommon = (item) => common.has(item.id) && !item.locked && !item.written;
   const offered = all.filter((item) => !isCommon(item));
@@ -91,6 +116,25 @@ function FieldDetail({ row, byId, reasons, common }) {
           <code>{row.example}</code>
         </p>
         {row.note && <p className={styles.note}>{row.note}</p>}
+        {examples?.plain && (
+          <div className={styles.fieldPlain}>
+            <p className={styles.fieldPlainHead}>On the test form, without a modifier:</p>
+            <FieldExample example={examples.plain} />
+            {examples.plain.warnings?.length > 0 && (
+              <p className={styles.hint}>
+                Gravity Forms expects one part of this field, such as <code>.1</code>, and warns on the field as a whole,
+                so the tag alone outputs nothing, and so does every modifier added to it.
+              </p>
+            )}
+            {examples.plain.empty && !examples.plain.warnings?.length && (
+              <p className={styles.hint}>
+                Gravity Forms has no single value for this field as a whole, so the tag alone outputs nothing, and so does
+                every modifier added to it.
+              </p>
+            )}
+          </div>
+        )}
+        {unavailable && <p className={styles.hint}>No examples: {unavailable}</p>}
         {lockReasons.map((reason) => (
           <p key={reason} className={styles.locks}>
             <strong>Locked here:</strong> {reason}
@@ -110,7 +154,13 @@ function FieldDetail({ row, byId, reasons, common }) {
             {section.hint && <p className={styles.hint}>{section.hint}</p>}
             <ul className={styles.modifierList}>
               {items.map((item) => (
-                <ModifierItem key={item.id} modifier={item.modifier} locked={item.locked} written={item.written} />
+                <ModifierItem
+                  key={item.id}
+                  modifier={item.modifier}
+                  locked={item.locked}
+                  written={item.written}
+                  example={exampleFor(item.id)}
+                />
               ))}
             </ul>
           </section>
@@ -123,17 +173,20 @@ function FieldDetail({ row, byId, reasons, common }) {
             Available modifiers <span className={styles.count}>{commonHere.length}</span>
           </h3>
           {groupByProduct(commonHere).map(([name, items]) => (
-            <p key={name} className={styles.commonList}>
-              <strong>{name}:</strong>{' '}
-              {items.map((item, i) => (
-                <span key={item.id}>
-                  {i > 0 && ' · '}
-                  <a href={`/merge-tags/modifiers/${item.modifier.name}/`} title={item.modifier.label}>
-                    <code>{item.modifier.name}</code>
-                  </a>
-                </span>
-              ))}
-            </p>
+            <div key={name}>
+              <h4 className={styles.commonProduct}>{name}</h4>
+              <ul className={styles.modifierList}>
+                {items.map((item) => (
+                  <li key={item.id} className={styles.commonItem}>
+                    <a href={`/merge-tags/modifiers/${item.modifier.name}/`}>
+                      <code>{item.modifier.name}</code>
+                    </a>{' '}
+                    <span className={styles.modifierLabel}>{item.modifier.label}</span>
+                    <FieldExample example={exampleFor(item.id)} />
+                  </li>
+                ))}
+              </ul>
+            </div>
           ))}
         </section>
       )}
@@ -244,7 +297,14 @@ export default function MergeTagFieldsPage() {
                   ))}
                 </div>
               </nav>
-              <FieldDetail row={row} byId={byId} reasons={offers.reasons} common={common} />
+              <FieldDetail
+                row={row}
+                byId={byId}
+                reasons={offers.reasons}
+                common={common}
+                examples={state.artifact.field_examples?.rows?.[row.key]}
+                unavailable={state.artifact.field_examples?.unavailable?.[row.key]}
+              />
             </div>
           </>
         )}
