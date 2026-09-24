@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Layout from '@theme/Layout';
 import {
   MergeTagsNav,
@@ -12,6 +12,7 @@ import {
 } from '../../components/merge-tags/shared';
 import styles from '../../components/merge-tags/merge-tags.module.css';
 import { Output } from '../../components/merge-tags/Examples';
+import { fieldTagOf, reasonsWithCapturedDate } from '../../components/merge-tags/data.mjs';
 
 /**
  * Modifiers by field: pick a kind of form field, see what the merge tag picker offers for it,
@@ -92,7 +93,7 @@ function groupByProduct(items) {
   return [...groups].sort(([a], [b]) => rank(a) - rank(b) || a.localeCompare(b));
 }
 
-function FieldDetail({ row, byId, reasons, common, examples, unavailable }) {
+function FieldDetail({ row, byId, reasons, common, examples, unavailable, headingRef }) {
   const exampleFor = (id) => examples?.modifiers.find((example) => example.id === id);
   const all = row.offered.map((item) => ({ ...item, modifier: byId.get(item.id) })).filter((item) => item.modifier);
   const isCommon = (item) => common.has(item.id) && !item.locked && !item.written;
@@ -111,14 +112,24 @@ function FieldDetail({ row, byId, reasons, common, examples, unavailable }) {
   return (
     <article aria-labelledby="field-title">
       <header className={styles.detailHead}>
-        <h2 id="field-title">{row.label}</h2>
+        <h2 id="field-title" ref={headingRef} tabIndex={-1}>
+          {row.label}
+        </h2>
         <p className={styles.example}>
           <code>{row.example}</code>
         </p>
         {row.note && <p className={styles.note}>{row.note}</p>}
         {examples?.plain && (
           <div className={styles.fieldPlain}>
-            <p className={styles.fieldPlainHead}>On the test form, without a modifier:</p>
+            <p className={styles.fieldPlainHead}>
+              {fieldTagOf(examples.plain.in) ? (
+                <>
+                  On the test form, this field is <code>{fieldTagOf(examples.plain.in)}</code>. Without a modifier:
+                </>
+              ) : (
+                'On the test form, without a modifier:'
+              )}
+            </p>
             <FieldExample example={examples.plain} />
             {examples.plain.warnings?.length > 0 && (
               <p className={styles.hint}>
@@ -170,7 +181,7 @@ function FieldDetail({ row, byId, reasons, common, examples, unavailable }) {
       {commonHere.length > 0 && (
         <section className={styles.section} aria-labelledby="sec-common">
           <h3 id="sec-common">
-            Available modifiers <span className={styles.count}>{commonHere.length}</span>
+            Also available <span className={styles.count}>{commonHere.length}</span>
           </h3>
           {groupByProduct(commonHere).map(([name, items]) => (
             <div key={name}>
@@ -225,19 +236,35 @@ export default function MergeTagFieldsPage() {
   const byId = useMemo(() => new Map((state.artifact?.modifiers || []).map((m) => [m.id, m])), [state.artifact]);
   const keys = useMemo(() => (offers ? offers.fields.map((row) => row.key) : []), [offers]);
   const common = useMemo(() => (offers ? commonModifierIds(offers) : new Set()), [offers]);
+  const reasons = useMemo(() => reasonsWithCapturedDate(state.artifact), [state.artifact]);
   const [selected, setSelected] = useState(null);
+  // After a reader picks a field kind, focus moves to its heading, so a screen reader announces
+  // the new content. Not on first load, where focus belongs at the top of the page.
+  const heading = useRef(null);
+  const focusPending = useRef(false);
 
   useEffect(() => {
     if (!offers) return undefined;
     const sync = () => setSelected(readHash(keys) || keys[0]);
+    const onHashChange = () => {
+      focusPending.current = true;
+      sync();
+    };
     sync();
-    window.addEventListener('hashchange', sync);
-    return () => window.removeEventListener('hashchange', sync);
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
   }, [offers, keys]);
+
+  useEffect(() => {
+    if (!focusPending.current || !heading.current) return;
+    focusPending.current = false;
+    heading.current.focus();
+  }, [selected]);
 
   const row = offers?.fields.find((field) => field.key === selected);
   const choose = (key) => {
     window.history.replaceState(null, '', `#${key}`);
+    focusPending.current = true;
     setSelected(key);
   };
 
@@ -250,6 +277,10 @@ export default function MergeTagFieldsPage() {
           Choose a kind of form field to see which modifiers the merge tag picker offers for <a href="/merge-tags/field/"><code>{'{Field Label:ID}'}</code></a>,
           and why the others are left out. To see every field kind side by side,
           use <a href="/merge-tags/compare/">Compare fields</a>.
+        </p>
+        <p className={styles.hint}>
+          The number in a field's tag is its field ID. The form editor shows it as “ID” at the top of the field's settings.
+          A number after a dot, like <code>.3</code>, picks one part of a field, such as the first name.
         </p>
 
         <StatusMessage state={state} what="the field reference" />
@@ -300,7 +331,8 @@ export default function MergeTagFieldsPage() {
               <FieldDetail
                 row={row}
                 byId={byId}
-                reasons={offers.reasons}
+                reasons={reasons}
+                headingRef={heading}
                 common={common}
                 examples={state.artifact.field_examples?.rows?.[row.key]}
                 unavailable={state.artifact.field_examples?.unavailable?.[row.key]}
