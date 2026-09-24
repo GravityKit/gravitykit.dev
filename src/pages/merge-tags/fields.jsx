@@ -174,7 +174,7 @@ export default function MergeTagFieldsPage() {
   };
 
   return (
-    <Layout title="Modifiers by field" description="What the merge tag picker offers for each kind of Gravity Forms field, and why the rest is left out.">
+    <Layout title="Modifiers by field" description="What the merge tag picker offers for each kind of Gravity Forms field, and why it leaves out the rest.">
       <main className="container margin-vert--lg">
         <MergeTagsNav current="fields" />
         <h1>Modifiers by field</h1>

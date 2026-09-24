@@ -22,7 +22,9 @@ export default function TagPage({ data }) {
         <MergeTagsNav current="tag" />
         <article className="theme-doc-markdown markdown">
           <header>
-            <h1>Merge tag: {tag.syntax}</h1>
+            <h1>
+              Merge tag <code>{tag.syntax}</code>
+            </h1>
           </header>
           <p>
             <strong>{tag.label}.</strong> {tag.description}
@@ -42,7 +44,7 @@ export default function TagPage({ data }) {
               )}
               <tr>
                 <th scope="row">Needs an entry</th>
-                <td>{tag.entry_dependent ? 'Yes: its value comes from a form entry' : 'No'}</td>
+                <td>{tag.entry_dependent ? 'Yes. Its value comes from a form entry.' : 'No'}</td>
               </tr>
             </tbody>
           </table>
@@ -156,7 +158,7 @@ export default function TagPage({ data }) {
           {(plain.length > 0 || withModifier.length > 0) && (
             <>
               <h2 id="examples">Examples</h2>
-              <p>Rendered by real Gravity Forms and GravityKit PHP against a test entry.</p>
+              <p>Output from the real plugin code, run against a test entry.</p>
               {plain.length > 0 && <Examples examples={plain} showBefore={false} />}
               {withModifier.length > 0 && (
                 <>
@@ -169,7 +171,7 @@ export default function TagPage({ data }) {
 
           {isField && (
             <p>
-              Each modifier's own page has examples on real fields: see <a href="/merge-tags/fields/">Modifiers by field</a>.
+              For examples on each kind of field, open a modifier from <a href="/merge-tags/fields/">Modifiers by field</a>.
             </p>
           )}
         </article>

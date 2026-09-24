@@ -2,12 +2,18 @@ import Layout from '@theme/Layout';
 import { MergeTagsNav, PRODUCT_NAMES, SECTIONS, requiresText, sectionOf } from './shared';
 import Examples, { UsageExample } from './Examples';
 
+/** "a and b", "a, b, and c" */
+function listText(items) {
+  if (items.length < 3) return items.join(' and ');
+  return `${items.slice(0, -1).join(', ')}, and ${items[items.length - 1]}`;
+}
+
 function appliesToText(modifier, fieldTypeNames = {}) {
   const tags = modifier.applies_to?.tags;
   const types = modifier.applies_to?.field_types;
-  const tagText = Array.isArray(tags) ? tags.map((t) => (t === '*field*' ? 'form fields' : `{${t}}`)).join(', ') : 'any merge tag';
+  const tagText = Array.isArray(tags) ? listText(tags.map((t) => (t === '*field*' ? 'form fields' : `{${t}}`))) : 'any merge tag';
   if (!Array.isArray(types)) return tagText;
-  const typeText = types.map((t) => fieldTypeNames[t] || t).join(', ');
+  const typeText = listText(types.map((t) => fieldTypeNames[t] || t));
   return tagText === 'form fields' ? `${typeText} fields` : `${tagText} (${typeText})`;
 }
 
@@ -46,7 +52,7 @@ function Entry({ entry, index, many, reasons, fieldTypeNames }) {
           {modifier.exclusive && (
             <tr>
               <th scope="row">Combining</th>
-              <td>Only works on its own: with any other modifier, it is ignored.</td>
+              <td>Use it alone. Combined with any other modifier, it is ignored.</td>
             </tr>
           )}
         </tbody>
@@ -64,7 +70,7 @@ function Entry({ entry, index, many, reasons, fieldTypeNames }) {
       {examples.length > 0 && (
         <>
           <h3>Examples</h3>
-          <p>Rendered by real Gravity Forms and GravityKit PHP against a test entry.</p>
+          <p>Output from the real plugin code, run against a test entry.</p>
           <Examples examples={examples} />
         </>
       )}
@@ -143,12 +149,14 @@ export default function ModifierPage({ data }) {
         <MergeTagsNav current="modifier" />
         <article className="theme-doc-markdown markdown">
           <header>
-            <h1>Modifier: :{name}</h1>
+            <h1>
+              Modifier <code>:{name}</code>
+            </h1>
           </header>
           {many ? (
             <>
               <p>
-                <code>:{name}</code> means different things depending on the merge tag or the kind of field:
+                <code>:{name}</code> does different things depending on the merge tag or the kind of field:
               </p>
               <ul>
                 {entries.map((entry, index) => (

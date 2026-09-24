@@ -100,7 +100,7 @@ export default function MergeTagComparePage() {
                             const item = byName.get(column.name);
                             const modifier = item && byId.get(item.id);
                             const locked = item?.locked;
-                            const title = modifier ? `${modifier.label} (${requiresText(modifier.requires)})${locked ? ` — locked: ${locked}` : ''}` : undefined;
+                            const title = modifier ? `${modifier.label} (${requiresText(modifier.requires)})${locked ? `. Locked: ${locked}` : ''}` : undefined;
                             return (
                               <td key={column.name} title={title} className={item ? styles[`cell_${column.section}`] : undefined}>
                                 {item ? (locked ? '○' : '●') : ''}
