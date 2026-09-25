@@ -203,7 +203,7 @@ For quality API documentation:
  * @throws \InvalidArgumentException When entry is missing required fields.
  *
  * @see \GV\Entry::get_value() For the modern approach.
- * @see https://docs.gravitykit.com/article/123 Full documentation.
+ * @see https://www.gravitykit.com/docs/gravityview/getting-started/how-to-setup-your-first-view/ Full documentation.
  */
 ```
 
@@ -663,7 +663,7 @@ npm run hooks:generate
 
 ## Support
 
-- **Main Documentation**: https://docs.gravitykit.com
+- **Main Documentation**: https://www.gravitykit.com/docs/
 - **Support Portal**: https://www.gravitykit.com/support/
 - **GitHub**: https://github.com/gravitykit
 

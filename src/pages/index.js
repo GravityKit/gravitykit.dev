@@ -259,7 +259,7 @@ export default function Home() {
             </p>
             <p>
               Looking for user documentation? Visit the{' '}
-              <a href="https://docs.gravitykit.com" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.gravitykit.com/docs/" target="_blank" rel="noopener noreferrer">
                 official GravityKit Documentation
               </a>.
             </p>
