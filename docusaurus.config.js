@@ -169,8 +169,8 @@ const thirdparty_nav = {
   })(),
 };
 
-// Merge tag reference: built from the merge-tag artifact by src/pages/merge-tags* and
-// src/plugins/merge-tag-pages.mjs.
+// Merge tag reference: built from the merge-tag artifact by src/plugins/merge-tag-pages.mjs
+// (the index and one page per tag and modifier) and src/pages/merge-tags/.
 const merge_tags_nav = {
   label: 'Merge Tags',
   position: 'left',
@@ -300,6 +300,11 @@ const markdown_endpoints_plugin = fileURLToPath(
 // One page per merge tag at /merge-tags/<tag>/, from the fetched merge-tag artifact.
 const merge_tag_pages_plugin = fileURLToPath(
   new URL('./src/plugins/merge-tag-pages.mjs', import.meta.url),
+);
+
+// GravityView CSS token table at /gravityview/css-tokens/, from static/api/css-tokens.json.
+const css_tokens_page_plugin = fileURLToPath(
+  new URL('./src/plugins/css-tokens-page.mjs', import.meta.url),
 );
 
 // Product sitemaps plugin - generates per-product sitemap.xml files
@@ -523,6 +528,7 @@ const config = {
     ...llms_static_plugin,
     markdown_endpoints_plugin,
     merge_tag_pages_plugin,
+    css_tokens_page_plugin,
     product_sitemaps_plugin,
   ].filter((pluginEntry) => {
     if (!Array.isArray(pluginEntry) || pluginEntry[0] !== '@docusaurus/plugin-content-docs') {

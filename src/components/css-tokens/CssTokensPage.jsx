@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import Layout from '@theme/Layout';
 
 const anchor = (slug) => String(slug).replace(/[^a-z0-9]+/gi, '-').toLowerCase();
@@ -58,27 +58,17 @@ function constraints(t) {
   return parts.join(', ');
 }
 
-function TokenReference() {
-  const [tokens, setTokens] = useState(null);
+function TokenReference({ tokens }) {
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState('all');
   const [showInternal, setShowInternal] = useState(false);
 
-  useEffect(() => {
-    fetch('/api/css-tokens.json', { cache: 'no-cache' })
-      .then((r) => (r.ok ? r.json() : { tokens: [] }))
-      .then((d) => setTokens(Array.isArray(d.tokens) ? d.tokens : []))
-      .catch(() => setTokens([]));
-  }, []);
-
   const categories = useMemo(() => {
-    if (!tokens) return [];
     const present = new Set(tokens.map((t) => t.category));
     return CATEGORY_ORDER.filter((c) => present.has(c));
   }, [tokens]);
 
   const filtered = useMemo(() => {
-    if (!tokens) return [];
     const q = query.trim().toLowerCase();
     return tokens.filter(
       (t) =>
@@ -91,7 +81,6 @@ function TokenReference() {
     );
   }, [tokens, query, category, showInternal]);
 
-  if (tokens === null) return <p>Loading tokens…</p>;
   if (tokens.length === 0) {
     return (
       <p>
@@ -164,7 +153,8 @@ function TokenReference() {
   );
 }
 
-export default function CssTokensPage() {
+/** Routed by src/plugins/css-tokens-page.mjs, which passes the tokens in at build time. */
+export default function CssTokensPage({ tokens }) {
   return (
     <Layout
       title="GravityView CSS Design Tokens"
@@ -271,7 +261,7 @@ VIEW_SELECTOR { --gv-color-primary: #7a1f1f; }`}</code>
         </p>
 
         <h2>Token reference</h2>
-        <TokenReference />
+        <TokenReference tokens={Array.isArray(tokens) ? tokens : []} />
       </main>
     </Layout>
   );
