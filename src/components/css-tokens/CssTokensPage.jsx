@@ -242,7 +242,7 @@ VIEW_SELECTOR { --gv-color-primary: #7a1f1f; }`}</code>
         <p>
           Placeholders resolve only inside a View's Custom CSS/JavaScript field, not in your theme's stylesheet.
           Developers can add or change them with the{' '}
-          <a href="/gravityview/filters/gk-gravityview-custom-code-placeholders">
+          <a href="/docs/gravityview/filters/gk-gravityview-custom-code-placeholders/">
             <code>gk/gravityview/custom-code/placeholders</code>
           </a>{' '}
           filter. See{' '}
