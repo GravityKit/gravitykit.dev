@@ -3,7 +3,7 @@ import fs from 'node:fs/promises';
 import { dateFormatHelp, fieldTagOf, reasonsWithCapturedDate, worksOutsideViews } from '../components/merge-tags/data.mjs';
 
 /**
- * /merge-tags/<tag>/ and /merge-tags/modifiers/<name>/, built from static/api/merge-tags.json at
+ * /merge-tags/, /merge-tags/<tag>/ and /merge-tags/modifiers/<name>/, built from static/api/merge-tags.json at
  * build time so each is real, indexable HTML. Without the file no pages are built; the deploy
  * always has it, because its fetch step fails the run first.
  */
@@ -299,6 +299,25 @@ export default function mergeTagPagesPlugin(context) {
     },
 
     async contentLoaded({ content, actions }) {
+      // Built into the page so crawlers see the table. Only the keys it reads, since this ships in a JS chunk.
+      const indexData = content
+        ? {
+            products: content.products,
+            tags: content.tags,
+            modifiers: content.modifiers,
+            captures: { status: content.captures?.status, records: content.captures?.records ?? [] },
+            offers: content.offers,
+          }
+        : null;
+      const indexDataPath = await actions.createData('merge-tags-index.json', JSON.stringify(indexData));
+
+      actions.addRoute({
+        path: '/merge-tags/',
+        component: '@site/src/components/merge-tags/IndexPage.jsx',
+        modules: { data: indexDataPath },
+        exact: true,
+      });
+
       if (!content) return;
 
       for (const tag of content.tags) {

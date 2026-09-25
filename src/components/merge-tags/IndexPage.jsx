@@ -1,14 +1,15 @@
 import { useEffect, useMemo, useState } from 'react';
 import Layout from '@theme/Layout';
-import { MergeTagsNav, SECTIONS, productName, requiresText, sectionOf } from '../components/merge-tags/shared';
-import { HtmlPreview } from '../components/merge-tags/Examples';
-import styles from '../components/merge-tags/merge-tags.module.css';
+import { MergeTagsNav, SECTIONS, productName, requiresText, sectionOf } from './shared';
+import { HtmlPreview } from './Examples';
+import styles from './merge-tags.module.css';
 
 /**
- * Merge tags reference. Port of gravityview/css-tokens.jsx (SPEC-merge-tags-page.md
- * Q7, in the `merge-tags` repo): fetch-at-view-time over a generated artifact, one
- * searchable table with filters, no authored taxonomy. Adding a tag or modifier to
- * a schema fragment changes this page on the next deploy with no edit here.
+ * Merge tags reference at /merge-tags/, routed by src/plugins/merge-tag-pages.mjs, which
+ * passes the artifact in as `data` at build time. The table is in the static HTML, so a
+ * crawler or a plain fetch sees every tag and modifier; the filters work once the page
+ * loads. One searchable table with filters, no authored taxonomy. Adding a tag or
+ * modifier to a schema fragment changes this page on the next deploy with no edit here.
  *
  * Row shape differs from the tokens page because a merge tag doesn't preview
  * itself the way a color token does (SPEC "The tension in 'live preview'") --
@@ -672,7 +673,6 @@ function MergeTagTable({ catalog }) {
     [rows, query, product, kind, entryDependence, takes, catalog, fieldTypeNames, tagNames],
   );
 
-  if (catalog === null) return <p>Loading merge tags…</p>;
   if (!rows.length) {
     return (
       <p>
@@ -818,15 +818,8 @@ function MovedNote() {
   );
 }
 
-export default function MergeTagsPage() {
-  const [catalog, setCatalog] = useState(null);
-
-  useEffect(() => {
-    fetch('/api/merge-tags.json', { cache: 'no-cache' })
-      .then((r) => (r.ok ? r.json() : null))
-      .then(setCatalog)
-      .catch(() => setCatalog({ tags: [], modifiers: [], products: [], captures: { records: [] } }));
-  }, []);
+export default function MergeTagsPage({ data }) {
+  const catalog = data ?? { tags: [], modifiers: [], products: [], captures: { records: [] } };
 
   return (
     <Layout

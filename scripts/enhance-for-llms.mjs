@@ -7,7 +7,7 @@
  *
  * 1. Build per-product and full JSON hook indexes under static/api
  * 2. Fill missing descriptions/examples in the JSON payloads
- * 3. Update static/llms.txt with URL structure, per-product links, and stats
+ * 3. Update static/llms.txt with URL structure, reference indexes, per-product links, and stats
  *
  * Usage:
  *   npm run llm:enhance
@@ -17,6 +17,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { readAllProductVersions } from '../src/utils/read-product-versions.mjs';
+import { buildReferenceSections } from './lib/llms-sections.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -515,6 +516,21 @@ These files provide:
 Use these files for focused, product-specific context when working with a particular GravityKit product.
 `;
 
+  // Every index page, and each merge tag and modifier page. merge-tags.json comes from
+  // merge-tags:generate, which the deploy runs before this script.
+  const docsDir = path.join(PROJECT_ROOT, 'docs');
+  const referenceProducts = Object.entries(hooksData.products).map(([id, info]) => ({
+    id,
+    label: info.label,
+    hasFilters: fs.existsSync(path.join(docsDir, id, 'filters')),
+    hasActions: fs.existsSync(path.join(docsDir, id, 'actions')),
+    hasApi: fs.existsSync(path.join(docsDir, id, 'api', 'index.md')),
+  }));
+  const mergeTagsPath = path.join(PROJECT_ROOT, 'static', 'api', 'merge-tags.json');
+  const mergeTags = fs.existsSync(mergeTagsPath) ? JSON.parse(fs.readFileSync(mergeTagsPath, 'utf8')) : null;
+  if (!mergeTags) log('  static/api/merge-tags.json not found: llms.txt lists no merge tag pages', colors.yellow);
+  const referenceSection = buildReferenceSections({ siteUrl: 'https://www.gravitykit.dev', products: referenceProducts, mergeTags });
+
   // Full template for llms.txt - used when file doesn't exist
   const llmsTemplate = `# GravityKit Developer Documentation
 
@@ -544,6 +560,7 @@ Plus 20+ additional products and extensions.
 
 ${urlStructureSection}
 
+${referenceSection}
 ## Machine-Readable Data
 
 For programmatic access to hook information and code structure:
@@ -614,6 +631,15 @@ ${statsSection}`;
       );
     } else {
       llmsContent += `\n\n${urlStructureSection}`;
+    }
+
+    // Replace or insert the reference section. Its own subheadings are ### and deeper.
+    if (llmsContent.includes('## Reference Sections')) {
+      llmsContent = llmsContent.replace(/## Reference Sections[\s\S]*?(?=\n## |$)/, referenceSection);
+    } else if (llmsContent.includes('## Machine-Readable Data')) {
+      llmsContent = llmsContent.replace('## Machine-Readable Data', `${referenceSection}\n## Machine-Readable Data`);
+    } else {
+      llmsContent += `\n\n${referenceSection}`;
     }
 
     // Replace or append per-product section
