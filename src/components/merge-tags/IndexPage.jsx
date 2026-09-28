@@ -525,6 +525,13 @@ function TagRow({ entry, catalog, expanded, onToggle, detailId }) {
   );
 }
 
+/** A relation names another modifier by catalog id (`gravityforms/raw`); a reader wants its name.
+ * An artifact published before ids carries the name itself. */
+function relationNames(catalog, references) {
+  const byId = new Map((catalog?.modifiers ?? []).filter((m) => m.id).map((m) => [m.id, m.name]));
+  return (references ?? []).map((reference) => byId.get(reference) ?? reference);
+}
+
 function ModifierRow({ entry, catalog, expanded, onToggle, detailId, fieldTypeNames }) {
   const captures = capturesForModifier(catalog, entry);
   const canonical = captures[0];
@@ -578,8 +585,8 @@ function ModifierRow({ entry, catalog, expanded, onToggle, detailId, fieldTypeNa
             {captures.length ? captures.map((c) => <CapturePair key={c.in} capture={c} />) : <CapturePair capture={null} />}
             <p className={styles.detailMeta}>
               Works on {scopeDescription(entry.applies_to, fieldTypeNames)}
-              {entry.conflicts_with?.length ? ` · can't be combined with ${entry.conflicts_with.map((name) => `:${name}`).join(', ')}` : ''}
-              {entry.implies?.length ? ` · also turns on ${entry.implies.map((name) => `:${name}`).join(', ')}` : ''}
+              {entry.conflicts_with?.length ? ` · can't be combined with ${relationNames(catalog, entry.conflicts_with).map((name) => `:${name}`).join(', ')}` : ''}
+              {entry.implies?.length ? ` · also turns on ${relationNames(catalog, entry.implies).map((name) => `:${name}`).join(', ')}` : ''}
               {entry.requires ? ` · requires ${requiresText(entry.requires)}` : ''}
             </p>
           </td>
