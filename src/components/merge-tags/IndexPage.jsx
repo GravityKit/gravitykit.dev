@@ -3,6 +3,19 @@ import Layout from '@theme/Layout';
 import { MergeTagsNav, SECTIONS, productName, requiresText, sectionOf } from './shared';
 import { HtmlPreview } from './Examples';
 import styles from './merge-tags.module.css';
+// The display helpers the reference shares with GravityKit/merge-tags' own page, fetched beside the
+// artifact by scripts/fetch-merge-tags.mjs (docs-site/scripts/lib/display.mjs there). Change them
+// there, not here.
+import {
+  entryDependenceBadge,
+  hazardAnnotation,
+  isLongCaptureOutput,
+  looksLikeHtml,
+  matchesEntryDependenceFilter,
+  modifierIdentity,
+  previewForTable,
+  relationNames,
+} from '@site/static/api/merge-tags-display.mjs';
 
 /**
  * Merge tags reference at /merge-tags/, routed by src/plugins/merge-tag-pages.mjs, which
@@ -18,16 +31,10 @@ import styles from './merge-tags.module.css';
  * CI-verified render (Q1/Q4). The expandable row is where in/out/display and the
  * modifier's own metadata live, kept out of the table body so scanning stays fast.
  *
- * `modifierIdentity()`, `hazardAnnotation()`, the entry-dependence helpers
- * (`tagEntryDependent`, `hasEntryDependenceOverride`, `entryDependenceBadge`,
- * `matchesEntryDependenceFilter` -- SPEC-entry-preview.md §3.N, EP66-EP73), and
- * the `table-output` helpers below are inlined from the source repo's
- * `docs-site/scripts/lib/{merge-tags,table-output}.mjs` rather than imported
- * across repos: `merge-tags.mjs` also pulls in `packages/core/dist/src/index.js`
- * (parse/serialize, used by the generator's own validation checks, not by this
- * page), which this clone does not vendor. This page only needs the pure
- * helpers themselves -- see that module's docblocks for the full rationale on
- * each.
+ * The display helpers (`modifierIdentity()`, `hazardAnnotation()`, the entry-dependence rules of
+ * SPEC-entry-preview.md §3.N, the table previews) come from `merge-tags-display.mjs`, which
+ * GravityKit/merge-tags bundles from `docs-site/scripts/lib/display.mjs` and publishes beside the
+ * artifact; scripts/fetch-merge-tags.mjs fetches both. They used to be inlined here, and drifted.
  *
  * A PURE generated reference, not an interactive builder (SPEC-entry-preview.md
  * §3.J, §4.4): the plugin now renders live against real entries via the
@@ -42,29 +49,7 @@ import styles from './merge-tags.module.css';
 // first written -- omitting it here doesn't drop context rows from the table (they still match
 // "all kinds" and free-text search), it only drops "context" as a Kind-filter option.
 
-/** Normalize an applies_to.tags / applies_to.field_types value for use inside an
- * identity key: "*" and "missing" both mean "unrestricted" and must collapse to
- * the same token, and array order must not matter. */
-function normalizeScopePart(value) {
-  if (value == null || value === '*') return '*';
-  if (Array.isArray(value)) return [...value].sort().join('|');
-  return String(value);
-}
 
-/**
- * A modifier's stable identity (CONTRACT.md "Modifier identity is scoped, not a
- * name"). `name` alone is not unique in this catalog -- e.g. `value` is four
- * distinct gravityforms entries scoped to different field types -- so identity is
- * `name` + `applies_to.tags` + `applies_to.field_types`. Works on both a full
- * catalog modifier entry AND a capture record's modifier reference, since both
- * carry `name` + `applies_to`.
- */
-function modifierIdentity(ref) {
-  if (ref.id) return ref.id;
-  const tags = normalizeScopePart(ref.applies_to?.tags);
-  const fieldTypes = normalizeScopePart(ref.applies_to?.field_types);
-  return `${ref.name}::${tags}::${fieldTypes}`;
-}
 
 /** EP42's stamp value (SPEC-entry-preview.md §3.J, §4.5) -- the generator derives
  * this from the schema's own `reparses_input` + `kind` data, using the same
@@ -80,152 +65,22 @@ const HAZARD_ANNOTATIONS = {
     "wrong, often as today's date. Put this modifier first.",
 };
 
-function hazardAnnotation(hazard) {
-  return hazard ? HAZARD_ANNOTATIONS[hazard] ?? null : null;
-}
 
-/**
- * EP66/EP68 (SPEC-entry-preview.md §3.N): does this tag's rendered value change
- * depending on which entry the reader is viewing? Absent (a future fragment, or
- * a third-party tag discovered at runtime with no catalog entry) defaults to
- * `true`, "may vary" -- the state EP66 argues cannot mislead. Every one of this
- * catalog's 48 shipped tags declares the field explicitly.
- */
-function tagEntryDependent(tag) {
-  return tag?.entry_dependent !== false;
-}
 
-/**
- * EP67: a modifier MAY carry its own `entry_dependent`, overriding the tag's
- * own answer for any render where that modifier is present -- shipped by
- * exactly one family (GravityMath's sum/count/avg/max/min turning a per-entry
- * field into a cross-entry aggregate), always downward (dependent ->
- * independent), never the reverse. Absent means no override.
- */
-function hasEntryDependenceOverride(modifier) {
-  return typeof modifier?.entry_dependent === 'boolean';
-}
 
-/**
- * EP69's state table, adapted for this page's row badge. A tag row always has
- * an answer; a modifier row only has one when it carries an EP67 override --
- * today exactly the five GravityMath aggregate entries. Every other modifier
- * returns null and the page renders no badge for it, because an ordinary
- * modifier's entry-dependence isn't a claim it can make about itself alone.
- */
-function entryDependenceBadge(row) {
-  if (row.type === 'tag') {
-    return tagEntryDependent(row.entry)
-      ? { text: 'Varies by entry', tone: 'entryVaries' }
-      : { text: 'Same for every entry', tone: 'entrySolid' };
-  }
-  if (!hasEntryDependenceOverride(row.entry)) return null;
-  return row.entry.entry_dependent === false
-    ? { text: 'Makes it the same for every entry', tone: 'entrySolid' }
-    : { text: 'Makes it vary by entry', tone: 'entryVaries' };
-}
 
-/**
- * The reference page's entry-dependence filter. 'all' matches every row.
- * 'varies' keeps entry-dependent tags (or defaulted ones) and NO modifier rows
- * -- EP67 shows no shipped modifier overrides toward "varies", so a modifier
- * row has no standalone claim to make there. 'solid' keeps solid tags PLUS
- * modifier rows that declare the EP67 override -- exactly the GravityMath
- * aggregate family, the single most interesting case this property produces.
- */
-function matchesEntryDependenceFilter(row, filter) {
-  if (filter === 'all') return true;
-  if (row.type === 'tag') {
-    return filter === 'solid' ? !tagEntryDependent(row.entry) : tagEntryDependent(row.entry);
-  }
-  if (filter === 'varies') return false;
-  return hasEntryDependenceOverride(row.entry) && row.entry.entry_dependent === false;
-}
 
-/** Table-cell budget for the canonical-output preview column. Found live: some
- * `{all_fields}` captures run 15-18KB of raw HTML (the whole table GF emits),
- * and un-truncated one row's cell was taller than the viewport and pushed the
- * table's own header out of view -- the opposite of SPEC Q7's "scanning stays
- * fast". The full value stays available in the row's expanded CapturePair. */
-const TABLE_OUTPUT_MAX_CHARS = 120;
 
-function truncateForTable(text, maxChars = TABLE_OUTPUT_MAX_CHARS) {
-  if (typeof text !== 'string') return text;
-  if (text.length <= maxChars) return text;
-  return `${text.slice(0, maxChars)}…`;
-}
 
-/** Above this length, the expanded row's CapturePair collapses `out` behind a
- * <details> disclosure instead of dumping it inline -- same failure mode as the
- * table cell, one level down. */
-const CAPTURE_OUT_INLINE_MAX_CHARS = 2000;
 
-function isLongCaptureOutput(text, maxChars = CAPTURE_OUT_INLINE_MAX_CHARS) {
-  return typeof text === 'string' && text.length > maxChars;
-}
 
-/** 68 of the artifact's 515 captures are HTML markup (`{all_fields}`,
- * `{pricing_fields}`, any `:wpautop`/`:html` transform) -- a table row or an
- * expanded capture showing that as a raw tag fragment reads as "code soup"
- * rather than "here's what this renders". Detected structurally (starts with an
- * opening tag), not by tag/modifier name, so a future HTML-emitting modifier is
- * covered automatically. */
-const HTML_LIKE = /^\s*<[a-z][\s\S]*>/i;
 
-function looksLikeHtml(text) {
-  return typeof text === 'string' && HTML_LIKE.test(text);
-}
 
-const NAMED_ENTITIES = {
-  amp: '&',
-  lt: '<',
-  gt: '>',
-  quot: '"',
-  apos: "'",
-  nbsp: ' ',
-  hellip: '…',
-  ndash: '–',
-  mdash: '—',
-  lsquo: '‘',
-  rsquo: '’',
-  ldquo: '“',
-  rdquo: '”',
-  euro: '€',
-  pound: '£',
-  copy: '©',
-  reg: '®',
-  trade: '™',
-};
 
-/** Output that a browser would render differently from its source: a tag, or an entity. */
-const RENDERS_AS_HTML = /<[a-z!/][^>]*>|&(#\d+|#x[0-9a-f]+|[a-z]+);/i;
+i;
 
-/** One decoding pass: the text a browser shows for rendered HTML (Examples.jsx preview() does the same). */
-function decodeEntities(text) {
-  return text
-    .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number(n)))
-    .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
-    .replace(/&([a-z]+);/gi, (m, name) => NAMED_ENTITIES[name.toLowerCase()] ?? m);
-}
 
-/** Tags-stripped approximation for the scan table -- not a sanitizer, just a
- * display fallback so the collapsed row shows words instead of angle brackets.
- * The result is text, so its entities are decoded: `it&#039;s` reads as `it's`. */
-function stripHtmlForPreview(html) {
-  if (typeof html !== 'string') return html;
-  return decodeEntities(html.replace(/<[^>]*>/g, ' ')).replace(/\s+/g, ' ').trim();
-}
 
-/** What the table's "Example output" cell shows: the text a reader sees once the output lands in
- * an email or a View. Any output with a tag or an entity is rendered to text first -- not only
- * output that starts with a tag -- so `it&#039;s` reads as `it's`, a URL's `&amp;` as `&`, and
- * `:esc_html`'s `&lt;b&gt;` as the literal `<b>` a reader would see. The expanded row keeps the
- * exact captured source. Then everything goes through the same length budget. */
-function previewForTable(text, maxChars = TABLE_OUTPUT_MAX_CHARS) {
-  if (typeof text !== 'string') return text;
-  const source = RENDERS_AS_HTML.test(text) ? stripHtmlForPreview(text) : text;
-  return truncateForTable(source, maxChars);
-}
 
 /**
  * A small label beside a row's name. Tones are CSS classes (merge-tags.module.css .badge_*) so each
@@ -525,12 +380,6 @@ function TagRow({ entry, catalog, expanded, onToggle, detailId }) {
   );
 }
 
-/** A relation names another modifier by catalog id (`gravityforms/raw`); a reader wants its name.
- * An artifact published before ids carries the name itself. */
-function relationNames(catalog, references) {
-  const byId = new Map((catalog?.modifiers ?? []).filter((m) => m.id).map((m) => [m.id, m.name]));
-  return (references ?? []).map((reference) => byId.get(reference) ?? reference);
-}
 
 function ModifierRow({ entry, catalog, expanded, onToggle, detailId, fieldTypeNames }) {
   const captures = capturesForModifier(catalog, entry);
