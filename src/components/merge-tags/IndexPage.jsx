@@ -500,7 +500,10 @@ function TagRow({ entry, catalog, expanded, onToggle, detailId }) {
               {canonical.hazard ? badge('ordering hazard', 'hazard') : null}
             </>
           ) : (
-            <span className={styles.cellMuted} aria-label="No verified example yet">&mdash;</span>
+            <>
+              <span className={styles.cellMuted} aria-hidden="true">&mdash;</span>
+              <span className={styles.srOnly}>No verified example yet</span>
+            </>
           )}
         </td>
       </tr>
@@ -558,7 +561,10 @@ function ModifierRow({ entry, catalog, expanded, onToggle, detailId, fieldTypeNa
               {canonical.hazard ? badge('ordering hazard', 'hazard') : null}
             </>
           ) : (
-            <span className={styles.cellMuted} aria-label="No verified example yet">&mdash;</span>
+            <>
+              <span className={styles.cellMuted} aria-hidden="true">&mdash;</span>
+              <span className={styles.srOnly}>No verified example yet</span>
+            </>
           )}
         </td>
       </tr>
