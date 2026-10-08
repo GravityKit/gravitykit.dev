@@ -392,6 +392,15 @@ function cleanupHookContent(outputDir) {
         modified = true;
       }
 
+      // wp-hooks-documentor links a deprecated hook to its replacement across
+      // types as ../Actions/<id>.md or ../Filters/<id>.md. lowercaseDirectory()
+      // has already renamed those folders, so point the links at the new names.
+      const crossTypeLinkPattern = /\]\(\.\.\/(Actions|Filters)\//g;
+      if (crossTypeLinkPattern.test(content)) {
+        content = content.replace(crossTypeLinkPattern, (match, dir) => `](../${dir.toLowerCase()}/`);
+        modified = true;
+      }
+
       // Fix malformed See Also entries like: - `The` - <code>hook_name</code> filter
       // Should become: - `hook_name`
       const seeAlsoPattern = /^-\s+`The`\s+-\s+<code>([^<]+)<\/code>(?:\s+filter)?$/gm;
