@@ -1,0 +1,65 @@
+name: Rebuild when the merge tag catalog changes
+
+# merge-tags publishes merge-tags.json on every merge to its main, but this site fetches it only
+# during a deploy. Compares the published catalog with the one the site serves, so a deploy that
+# ran but fetched nothing is caught too. MERGE_TAGS_TOKEN reads the release; the
+# repository's own token may start its own deploy.
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: merge-tags-watch
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Start a deploy if the site serves an older catalog
+        env:
+          MERGE_TAGS_TOKEN: ${{ secrets.MERGE_TAGS_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          # merge-tags republishes daily with new `generated` times and nothing else changed, so
+          # those two fields are left out of the comparison.
+          digest() { jq -S 'del(.generated, .catalog_generated)' "$1" | sha256sum | cut -d' ' -f1; }
+
+          GH_TOKEN="$MERGE_TAGS_TOKEN" gh release download merge-tags-artifact \
+            --repo GravityKit/merge-tags --pattern merge-tags.json --output published.json
+          curl -fsSL "https://www.gravitykit.dev/api/merge-tags.json?watch=$(date +%s)" --output served.json
+
+          published=$(digest published.json)
+          served=$(digest served.json)
+          echo "published: $published ($(jq -r .generated published.json))"
+          echo "served:    $served ($(jq -r .generated served.json))"
+
+          if [ "$(jq '.tags | length' published.json)" = 0 ]; then
+            echo "::error::The published catalog lists no merge tags; not deploying it."
+            exit 1
+          fi
+
+          if [ "$published" = "$served" ]; then
+            echo "The site serves the published catalog."
+            exit 0
+          fi
+
+          # A deploy already queued or running will fetch the new catalog; a second one would
+          # cancel it (deploy.yml cancels in progress) and start the wait over.
+          active=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow deploy.yml --limit 5 \
+            --json status --jq '[.[] | select(.status != "completed")] | length')
+          if [ "$active" != 0 ]; then
+            echo "A deploy is already running; it will fetch the new catalog."
+            exit 0
+          fi
+
+          gh workflow run deploy.yml --repo "$GITHUB_REPOSITORY" --ref main
+          echo "::notice::Started a deploy: the published catalog differs from the one the site serves."
