@@ -177,17 +177,17 @@ All-day events come out of step 2 as midnight with an offset. The `allDay` flag 
 
 The add-on builds each occurrence by stepping from the first one:
 
-- **Daylight saving.** The add-on reads the first occurrence back from its `format( 'c' )` string. PHP keeps the offset written in the string (`+01:00`) and ignores the zone passed beside it, so every later occurrence steps in that fixed offset, even when `.6` names a city. This is true in 1.9.0 and in the fix in progress described below. On the calendar page it does not show: GravityCalendar drops the offset and every date reads 10:00. In the `.ics` feed, which keeps the offset, dates after a change are an hour off:
+- **Daylight saving.** GravityCalendar passes each start to the add-on as a wall-clock time with no offset (`2026-03-22T10:00:00`). The add-on reads it in the entry's zone (`.6`) and steps from there, so a weekly 10:00 Berlin event stays at 10:00 Berlin time after the March change, with `+01:00` before it and `+02:00` after. A `UTC±N` zone never follows daylight saving, which is correct for a fixed offset and a reason to prefer a city.
+
+  The trap is a start that already carries an offset. PHP keeps the offset written in the string and ignores the zone passed beside it, so stepping from it stays on that fixed offset:
 
 ```text
-weekly, 10:00 Europe/Berlin       as written                  Berlin clock
-first occurrence                  2026-03-22T10:00:00+01:00   10:00
-after the change (Mar 29)         2026-03-29T10:00:00+01:00   11:00
-                                  2026-04-05T10:00:00+01:00   11:00
-correct                           2026-03-29T10:00:00+02:00   10:00
+weekly, 10:00 Europe/Berlin       stepped from                Berlin clock
+'2026-03-22T10:00:00+01:00'       2026-03-29T10:00:00+01:00   11:00 (wrong)
+'2026-03-22T10:00:00' in Berlin   2026-03-29T10:00:00+02:00   10:00
 ```
 
-  `new DateTime( '2026-03-22T10:00:00+01:00', new DateTimeZone( 'Europe/Berlin' ) )` has the zone `+01:00`, not `Europe/Berlin`. Step occurrences on a value parsed in the named zone, as the example below does. A `UTC±N` zone never follows daylight saving, which is correct for a fixed offset and a reason to prefer a city.
+  `new DateTime( '2026-03-22T10:00:00+01:00', new DateTimeZone( 'Europe/Berlin' ) )` has the zone `+01:00`, not `Europe/Berlin`. Parse wall-clock text in the named zone, or call `setTimezone()` with the named zone before stepping, as the example below does.
 
 - **Monthly and yearly** occurrences in 1.9.0 add one month (or year) to the occurrence before, so a series from January 31 drifts: March 3, April 3, May 3. The same stepping works out the stored `.10` for count-ended series.
 - **Ended on a date**: in 1.9.0 the count of occurrences to `.10` comes from the parts of a date difference (`%m`, `%y`), which drops whole years. A monthly series from January 15, 2026 to March 15, 2027 counts 2 occurrences after the first instead of 14. A series whose end date has passed shows only its first date.
