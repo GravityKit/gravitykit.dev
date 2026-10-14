@@ -1,14 +1,14 @@
 ---
 title: "Working with dates and time zones in Gravity Forms"
 sidebar_label: "Dates and time zones"
-description: "A developer guide to dates and time zones when building on Gravity Forms: how each value is stored, which WordPress functions to use, daylight saving, all-day ranges, recurrence, external calendar feeds, ISO 8601 output, front-end JavaScript and testing."
+description: "A developer guide to dates and time zones when building on Gravity Forms: how each value is stored, which WordPress functions to use, daylight saving, all-day ranges, recurrence, external calendar feeds, ISO 8601 output, front-end JavaScript, and testing."
 ---
 
 # Working with dates and time zones in Gravity Forms
 
-Date bugs are easy to write and hard to see. Most of them pass every test on a server set to UTC and only show up for a customer in Sydney, or in the one week of March when Europe and North America are on different clocks.
+Date bugs are easy to write and hard to see. Most of them pass every test on a server set to UTC and only show up for a customer in Sydney, or in the weeks each spring and autumn when Europe and North America are on different clocks.
 
-This guide collects what GravityKit has learned building calendars, boards, Views and an event field on top of Gravity Forms. Each section names a common mistake, the correct approach, and a test that catches it.
+This guide collects what GravityKit has learned building calendars, boards, Views, and an event field on Gravity Forms. Each section names a common mistake and its fix, then gives a test that catches it.
 
 All PHP output below was produced with PHP 8.4 under `date_default_timezone_set( 'UTC' )`, which is what WordPress sets. All JavaScript output was produced with Node 20 under the `TZ` environment variable named in each example.
 
@@ -19,7 +19,7 @@ All PHP output below was produced with PHP 8.4 under `date_default_timezone_set(
 3. Convert UTC values for display. Never convert wall-clock values.
 4. Use one base per calculation, and name it in the variable.
 5. Build query bounds in the zone of the column you compare against.
-6. Treat a date with no time as a day, not as midnight.
+6. Store and compare a date with no time as a calendar day.
 7. Parse with the format the value was written in.
 8. Use named zones (`America/New_York`) and a real time zone library. Never add 86,400 seconds for "tomorrow".
 9. Decide once whether an end date is the last day used or the first free day.
@@ -32,11 +32,11 @@ Every date value belongs to one clock. Most bugs come from reading a value on on
 | Clock | What it is | Where it comes from |
 |---|---|---|
 | UTC | A single moment, the same everywhere | `time()`, `gmdate()`, the `date_created` column |
-| Site | The zone set in **Settings > General > Timezone** | `wp_timezone()` |
+| Site | The **Timezone** setting on the WordPress **General Settings** screen | `wp_timezone()` |
 | Event (or entry) | A zone stored with one entry, such as a conference in Berlin on a New York site | A field value, such as the Timezone input of the Event field |
 | Viewer | The zone of the browser looking at the page | JavaScript `Date`, `Intl` with no `timeZone` |
 
-A wall-clock value ("2026-10-03 10:00") is not a moment until you say which clock it is on. "10:00 Berlin" and "10:00 New York" are six hours apart.
+A wall-clock value ("2026-10-03 10:00") names a moment only once you say which clock it is on. "10:00 Berlin" and "10:00 New York" are six hours apart.
 
 Before you write any date code, answer three questions:
 
@@ -55,23 +55,23 @@ Before you write any date code, answer three questions:
 | Time field, 24-hour | `HH:MM`, for example `14:30`. `24:00` passes validation. | None (wall clock) |
 | Date and Time together | Two separate fields with no link and no zone | Whatever clock the person meant, usually the site |
 
-A few details that matter:
+Check these before you read a stored value:
 
 - **The Date field's display format does not change what is stored.** `GF_Field_Date` parses the submitted text with the field's `dateFormat` and saves `Y-m-d` (`GFFormsModel::prepare_date()`). When `dateFormat` is empty, Gravity Forms assumes `mdy`. So an unset format turns `03/04/2026` into March 4, and refuses `25/12/2026` as invalid.
 - **The Time field has no date and no zone.** It is a label on a wall clock. In a 24-hour field, `24:00` is accepted; PHP reads `2026-10-03 24:00` as `2026-10-04 00:00`.
-- **A Date field plus a Time field is not a moment.** Joining them gives a wall-clock value. You still need a zone, usually `wp_timezone()`.
-- **Fields from add-ons can store their own zone.** Read the add-on's source before you assume a format. The GravityKit Event field is described in the [Event field data reference](/gravity-forms-event-field/data-reference/).
+- **Joining a Date field and a Time field gives a wall-clock value.** It still needs a zone, usually `wp_timezone()`, before it names a moment.
+- **Fields from add-ons can store their own zone.** Read the add-on's source before you assume a format.
 
 ### The GravityKit Event field
 
 The Event field (from the **Gravity Forms Event Field** add-on, field type `event`) puts a whole event into one field. Each part is its own input, stored under `{field ID}.{input ID}`:
 
-- **Dates and times at a glance:** `.1` start date and `.2` end date (`Y-m-d`), `.3` All Day Event (`on`), `.4` start time and `.5` end time, `.6` timezone, `.7` to `.10` the repeat rule, `.11` Show As.
-- **Times are stored as typed**, in the site's Time Format on the day of saving, and never rewritten. A time has no zone of its own.
-- **Each entry has its own zone** in `.6`: an IANA name (`Europe/Berlin`), `UTC`, or a fixed offset such as `UTC+5.5`, which PHP does not read as a zone name.
-- **GravityCalendar shows the time as typed**, whatever the event's zone or the viewer's. The `.ics` feed keeps the offset, so calendar apps get the real moment.
+- The inputs are `.1` start date and `.2` end date (`Y-m-d`), `.3` All Day Event (`on`), `.4` start time and `.5` end time, `.6` timezone, `.7` to `.10` the repeat rule, and `.11` Show As.
+- Times are stored as typed, in the site's Time Format on the day of saving, and never rewritten. A time has no zone of its own.
+- Each entry has its own zone in `.6`: an IANA name (`Europe/Berlin`), `UTC`, or a fixed offset such as `UTC+5.5`, which PHP does not read as a zone name.
+- GravityCalendar shows the time as typed, whatever the event's zone or the viewer's. The `.ics` feed keeps the offset, so calendar apps get the real moment.
 
-The inputs, repeat rule, merge tags, PHP code to read the values and a list of pitfalls are in the [Event field data reference](/gravity-forms-event-field/data-reference/).
+The inputs, repeat rule, merge tags, PHP code to read the values, and a list of pitfalls are in the [Event field data reference](/gravity-forms-event-field/data-reference/).
 
 ## 3. PHP and WordPress basics
 
@@ -92,21 +92,21 @@ The inputs, repeat rule, merge tags, PHP code to read the values and a list of p
 | Site text to UTC column | `get_gmt_from_date( $local )` | Subtracting `gmt_offset * 3600` |
 | Parse a typed value | `DateTimeImmutable::createFromFormat( '!Y-m-d H:i', $value, $zone )` | `strtotime()` |
 
-Two traps in that table:
+Watch for these in the **Avoid** column:
 
-- **`current_time( 'timestamp' )` is not a real timestamp.** It returns `time()` plus the site's current offset, so it names the wrong moment. Comparing it with a real timestamp gives "2 hours from now" for something 2 hours ago. WordPress's own source says: "Don't use non-GMT timestamp, unless you know the difference and really need to."
-- **`gmt_offset` is the offset right now, not the offset on the date you are converting.** For a site with a named zone, WordPress filters `gmt_offset` through `wp_timezone_override_offset()`, which reads today's offset. Subtracting it from a January date in July is an hour off:
+- **`current_time( 'timestamp' )` returns a shifted number.** It is `time()` plus the site's current offset, so it names the wrong moment. Comparing it with a real timestamp gives "2 hours from now" for something 2 hours ago. WordPress's own source says: "Don't use non-GMT timestamp, unless you know the difference and really need to."
+- **`gmt_offset` holds today's offset, which can differ from the offset on the date you convert.** For a site with a named zone, WordPress filters `gmt_offset` through `wp_timezone_override_offset()`, which reads today's offset. Subtracting it from a January date in July is an hour off:
 
 ```text
 NY offsets summer/winter: -04:00 -05:00
 Jan 15 12:00 local minus summer offset (-4h): 2026-01-15 16:00 UTC; correct: 2026-01-15 17:00 UTC
 ```
 
-`GFCommon::get_gmt_timestamp()` works this way (`$local_timestamp - ( get_option( 'gmt_offset' ) * 3600 )`), so do not use it for dates in the other half of the daylight saving year. `GFCommon::get_local_timestamp()` returns a shifted timestamp, like `current_time( 'timestamp' )`; it is only safe to pass to a function that formats it without converting again. `GFCommon::format_date()` expects a **UTC** value; never pass it a Date field value.
+Gravity Forms' own helpers follow the same patterns. `GFCommon::get_gmt_timestamp()` subtracts today's offset (`$local_timestamp - ( get_option( 'gmt_offset' ) * 3600 )`), so do not use it for dates in the other half of the daylight saving year. Like `current_time( 'timestamp' )`, `GFCommon::get_local_timestamp()` returns a shifted timestamp, so pass it only to a function that formats it without converting again. Never pass a Date field value to `GFCommon::format_date()`, which expects a **UTC** value.
 
 ## 4. Convert UTC values at the point of display
 
-**The mistake.** Reading `date_created` from an entry and printing it, or putting it on a calendar, as if it were site time. Every entry shows shifted by the site's offset, and entries near midnight land on the wrong day.
+**The mistake.** Code reads `date_created` from an entry and prints it, or puts it on a calendar, as if it were site time. Every entry appears shifted by the site's offset, and entries near midnight land on the wrong day.
 
 **The correct approach.** Convert once, where the value is shown, and only for columns that are UTC:
 
@@ -122,7 +122,7 @@ If the value then goes somewhere else that also converts (an `.ics` export, a Ja
 
 ## 5. Leave wall-clock values alone
 
-**The mistake.** Treating a Date or Time field value as a UTC moment and adding the site's offset. A Time field holding `14:30` prints as `10:30` on a New York site. A Date field moves back a day. Passing a Date field value to a helper built for UTC columns, such as `GFCommon::format_date()`, does the same thing.
+**The mistake.** Code treats a Date or Time field value as a UTC moment and adds the site's offset. A Time field holding `14:30` prints as `10:30` on a New York site. A Date field moves back a day. Passing a Date field value to a helper built for UTC columns, such as `GFCommon::format_date()`, does the same thing.
 
 **The correct approach.** A wall-clock value is already on the clock the person meant. Format it without converting. If you must parse it to reformat it, parse and format in the same zone:
 
@@ -132,11 +132,11 @@ $day   = DateTimeImmutable::createFromFormat( '!Y-m-d', $value, wp_timezone() );
 echo wp_date( get_option( 'date_format' ), $day->getTimestamp() ); // same zone in and out
 ```
 
-**Test.** Set the site zone and the server's zone to different values. Enter `14:30` and `2026-03-04` and check they print unchanged in every output: the entry, merge tags, exports, emails and the REST API.
+**Test.** Set the site zone and the server's zone to different values. Enter `14:30` and `2026-03-04` and check they print unchanged in every output: the entry, merge tags, exports, emails, and the REST API.
 
 ## 6. One base per calculation
 
-**The mistake.** Applying the offset twice, or measuring "now" against the wrong base. A helper that already adds the site offset is fed a value that already has it, so `now`, `yesterday` and `tomorrow` come out hours off, and on the wrong date near midnight. Or a UTC column is compared with `current_time( 'timestamp' )`.
+**The mistake.** Code applies the offset twice, or measures "now" against the wrong base. A helper that already adds the site offset is fed a value that already has it, so `now`, `yesterday` and `tomorrow` come out hours off, and on the wrong date near midnight. Or a UTC column is compared with `current_time( 'timestamp' )`.
 
 **The correct approach.** Do storage and differences in UTC, display in the site zone, and say which in the variable name:
 
@@ -148,7 +148,7 @@ $age        = $now_ts - $created_ts;               // seconds, no zone involved
 $today_site = current_datetime()->format( 'Y-m-d' ); // site calendar day
 ```
 
-Variables like `$start_utc`, `$start_site` and `$start_ts` make a mixed comparison visible in review.
+Variables like `$start_utc`, `$start_site`, and `$start_ts` make a mixed comparison visible in review.
 
 **Test.** Pin the site to `America/New_York` and assert against a value built a different way, for example `wp_date()` or a hard-coded string. A test that builds its expected value with the same function as the code under test agrees with the bug.
 
@@ -158,7 +158,7 @@ Variables like `$start_utc`, `$start_site` and `$start_ts` make a mixed comparis
 
 **The correct approach.** Convert both bounds to the column's zone once, at the query boundary. Know what Gravity Forms already does for you:
 
-- `search_criteria['start_date']` and `['end_date']` (used by `GFAPI::get_entries()` and `GF_Query`) are read as **site time** and converted with `get_gmt_from_date()`. An `end_date` with no time (or `00:00:00`) becomes `23:59:59` of that day. Pass site-time values here, not UTC.
+- `search_criteria['start_date']` and `['end_date']` (used by `GFAPI::get_entries()` and `GF_Query`) are read as **site time** and converted with `get_gmt_from_date()`. An `end_date` with no time (or `00:00:00`) becomes `23:59:59` of that day. Pass site-time values here.
 - A `field_filters` entry with `key => 'date_created'` and the `=` operator is turned into a site-day range and converted to UTC. Other operators on `date_created` (`>`, `<`) are compared as given, so convert those bounds yourself.
 - Date field values are `Y-m-d` text in entry meta. Compare them with `Y-m-d` text from the site's calendar, with no conversion.
 
@@ -172,9 +172,9 @@ $end_utc   = get_gmt_from_date( $day . ' 23:59:59' );
 
 **Test.** Use a zone far from UTC. Create entries just inside and just outside the day on both ends (23:59 the day before, 00:00, 23:59, 00:00 the day after, in site time) and check which are returned.
 
-## 8. A date with no time is a day, not midnight
+## 8. Treat a date with no time as a calendar day
 
-**The mistake.** Parsing `2026-10-15` as a moment. In PHP under WordPress, `strtotime( '2026-10-15' )` is midnight **UTC**, which is the evening before in the Americas. In JavaScript, `new Date( '2026-10-15' )` is also midnight UTC, while `new Date( '2026-10-15T00:00:00' )` is midnight in the **browser's** zone. Each fails in a different hemisphere. The result is due dates that show a day early, "overdue" badges a day too soon, and dates that move back one day each time they are saved.
+**The mistake.** Code parses `2026-10-15` as a moment. In PHP under WordPress, `strtotime( '2026-10-15' )` is midnight **UTC**, which is the evening before in the Americas. In JavaScript, `new Date( '2026-10-15' )` is also midnight UTC, while `new Date( '2026-10-15T00:00:00' )` is midnight in the **browser's** zone. Each fails in a different hemisphere. The result is due dates that show a day early, "overdue" badges a day too soon, and dates that move back one day each time they are saved.
 
 PHP:
 
@@ -214,11 +214,11 @@ const next = new Date( Date.UTC( y, m - 1, d + 1 ) ).toISOString().slice( 0, 10 
 
 When the value goes back to the server, send the `YYYY-MM-DD` string you started from, not a `Date` serialized through the browser.
 
-**Test.** Run the same test under `America/New_York`, `Europe/Berlin`, `Pacific/Auckland` and `UTC`. Include a round trip: load, save without changes, load again, and check the date did not move.
+**Test.** Run the same test under `America/New_York`, `Europe/Berlin`, `Pacific/Auckland`, and `UTC`. Include a save-and-reload round trip, and check the date did not move.
 
 ## 9. Parse with the format the value was written in
 
-**The mistake.** Using `strtotime()` on text that came from a person or a setting. It guesses, and it guesses differently by separator:
+**The mistake.** Code runs `strtotime()` on text that came from a person or a setting. It guesses, and it guesses differently by separator:
 
 ```text
 strtotime( '30/11/2025' )  false
@@ -228,7 +228,7 @@ strtotime( '2026-10-03 00:00 am' )  false
 strtotime( '2026-10-03 12:00 am' )  2026-10-03 00:00
 ```
 
-A `false` that falls through to `date()` prints today's date, which looks like real data. Other forms of the same mistake: mapping a PHP format string with escaped characters (`\T`, `\a\t`) to JavaScript tokens by hand; saving a date-and-time value into a date-only field and losing the time; formatting one value in two places with two different locales.
+When that `false` reaches a formatter, `date()` prints `1970-01-01` and `date_i18n()` prints today's date, which looks like real data. Other forms of the same mistake: mapping a PHP format string with escaped characters (`\T`, `\a\t`) to JavaScript tokens by hand; saving a date-and-time value into a date-only field and losing the time; formatting one value in two places with two different locales.
 
 **The correct approach.**
 
@@ -240,11 +240,11 @@ A `false` that falls through to `date()` prints today's date, which looks like r
 - Keep date fields and date-time fields separate types in your code.
 - Wrap `new DateTime( $text )` in `try`/`catch`: it throws on text it cannot read.
 
-**Test.** `d/m/Y`, `m/d/Y`, `Y-m-d`, 12-hour and 24-hour times, `12:00 am`, `00:00`, `24:00`, and a format with an escaped literal such as `j \d\e F`.
+**Test.** Cover `d/m/Y`, `m/d/Y`, `Y-m-d`, 12-hour and 24-hour times, `12:00 am`, `00:00`, `24:00`, and a format with an escaped literal such as `j \d\e F`.
 
 ## 10. Zone names, offsets and bad input
 
-**The mistake.** Assuming every stored zone is a valid IANA name. WordPress lets a site choose a manual offset (`UTC+5:30`) instead of a city. Add-ons store their own forms. PHP rejects many of them, and an uncaught exception blanks the page or breaks a feed:
+**The mistake.** Code assumes every stored zone is a valid IANA name. WordPress lets a site choose a manual offset (`UTC+5:30`) instead of a city. Add-ons store their own forms. PHP rejects many of them, and an uncaught exception blanks the page or breaks a feed:
 
 ```text
 new DateTimeZone( '+5.5' )                     Unknown or bad timezone (+5.5)
@@ -259,9 +259,9 @@ Etc/GMT+5 offset                               -05:00
 **The correct approach.**
 
 - For the site, always use `wp_timezone()`. It already turns a manual offset into `+05:30` form.
-- For stored values, normalize offsets to `+HH:MM` (`UTC+5.5`, `+5.5` and `UTC+05:30` all become `+05:30`), trim spaces, then try `new DateTimeZone()` inside `try`/`catch`. On failure, fall back to the site zone and log it once.
+- For stored values, normalize offsets to `+HH:MM` (`UTC+5.5`, `+5.5`, and `UTC+05:30` all become `+05:30`), trim spaces, then try `new DateTimeZone()` inside `try`/`catch`. On failure, fall back to the site zone and log it once.
 - When editing an entry whose stored zone you do not recognize, keep the stored value. Do not silently replace it with the site's zone on save.
-- A fixed offset has no daylight saving. A named zone does. Prefer names.
+- Prefer named zones. A named zone follows daylight saving, and a fixed offset never changes.
 
 ```php
 function gk_zone_or_site( $raw ) {
@@ -292,13 +292,13 @@ function gk_zone_or_site( $raw ) {
 ''              -> site zone
 ```
 
-**Test.** A site on `UTC+5:30`, a site on `UTC-4`, a site on a named zone, and an entry whose stored zone is junk (`'  '`, `'Mars/Olympus'`).
+**Test.** Use a site on `UTC+5:30`, a site on `UTC-4`, a site on a named zone, and an entry whose stored zone is junk (`'  '`, `'Mars/Olympus'`).
 
 ## 11. Entries with their own time zone
 
 When a field stores a zone per entry (an event in Berlin on a New York site), you have to decide which clock each output shows. There are two valid answers, and they suit different sites:
 
-- **The event's own clock.** A festival held in another city each year wants "7:00 pm" to read as 7:00 pm for everyone, because that is when the doors open where the festival is. This is also what the entry, notifications and `{all_fields}` show, since they print the stored time and zone as typed.
+- **The event's own clock.** A festival held in another city each year wants "7:00 pm" to read as 7:00 pm for everyone, because that is when the doors open where the festival is. This is also what the entry, notifications, and `{all_fields}` show, since they print the stored time and zone as typed.
 - **The site's clock.** A calendar of webinars from around the world wants every event placed on one real time axis, so that two events at the same moment line up.
 
 Rules that hold either way:
@@ -323,7 +323,7 @@ Converting the whole series with the first occurrence's offset puts three weeks 
 
 ## 12. Daylight saving
 
-**The mistake.** Assuming every day has 24 hours and every clock time exists once. On the spring change a day has 23 hours and a range of clock times does not exist. On the autumn change a day has 25 hours and an hour happens twice.
+**The mistake.** Code assumes every day has 24 hours and every clock time exists once. On the spring change a day has 23 hours and a range of clock times does not exist. On the autumn change a day has 25 hours and an hour happens twice.
 
 ```text
 hours on 2026-03-08 (New York): 23
@@ -332,7 +332,7 @@ skipped 02:30 on 2026-03-08: 2026-03-08T03:30:00-04:00
 repeated 01:30 on 2026-11-01: 2026-11-01T01:30:00-04:00   (the first one)
 ```
 
-"Tomorrow at the same time" is not 86,400 seconds later:
+Across a change, "tomorrow at the same time" is 23 or 25 hours away:
 
 ```text
 2026-03-07 12:00 EST + 86400 s  ->  2026-03-08 13:00 EDT
@@ -342,12 +342,12 @@ repeated 01:30 on 2026-11-01: 2026-11-01T01:30:00-04:00   (the first one)
 **The correct approach.**
 
 - Parse with a named zone and let PHP's zone rules (or `Intl` in the browser) work out the offset for each date.
-- Add days, weeks and months with `DateTimeImmutable::modify( '+1 day' )` in the right zone. Add hours and minutes to timestamps.
+- Add days, weeks, and months with `DateTimeImmutable::modify( '+1 day' )` in the right zone. Add hours and minutes to timestamps.
 - Gravity Forms stores wall-clock times with no offset, so a stored `01:30` on the autumn night cannot say which `01:30` it was. PHP reads it as the first (daylight time), the same rule RFC 5545 uses. A time inside the spring gap moves forward (`02:30` becomes `03:30`). Document this; you cannot fix it without storing an offset.
 - An entry that runs across the change has a wall-clock length different from its real length: 23:00 to 02:00 on the autumn night is 3 hours on the clock and 4 real hours. Decide which one your feature means. Drawing on a wall-clock axis uses the clock length; a reminder or an overlap check uses real time.
 - In JavaScript, never build day axes with `new Date( y, m, d, h )` in the browser's zone. Work in minutes since midnight, taken from UTC getters on values you created in UTC.
 
-**Test.** Fixtures on both sides of a spring and an autumn change, including an entry inside the skipped hour, one in the repeated hour, and one that spans the change. Use one zone in each hemisphere. 2026 dates:
+**Test.** Add fixtures on both sides of a spring and an autumn change, including an entry inside the skipped hour, one in the repeated hour, and one that spans the change. Use one zone in each hemisphere. The 2026 dates are:
 
 | Zone | Spring forward | Fall back |
 |---|---|---|
@@ -394,11 +394,11 @@ An entry that ends exactly at the range start does not overlap; one that ends a 
 
 "Due in the next week" means the next seven calendar days from the site's today. Build it from calendar days, not from `now + 7 * 86400`, or the window shrinks through the day and shifts across daylight saving.
 
-**Test.** One-day and multi-day all-day events, a same-day check-out, an entry ending exactly on the range start, an entry ending on the last day of the range, an overnight entry on the first visible day, and a long entry that started before the range.
+**Test.** Cover one-day and multi-day all-day events, a same-day check-out, an entry ending exactly on the range start, an entry ending on the last day of the range, an overnight entry on the first visible day, and a long entry that started before the range.
 
 ## 14. Repeating events
 
-**The mistake.** Reading the weekday or day of month from a timestamp in the wrong zone, so a series starts on the wrong day for events near midnight. Stepping monthly with `+1 month`, which overflows: January 31 plus one month is March 3, and every later step keeps the drift. Giving every occurrence the same identifier.
+**The mistake.** Code reads the weekday or day of month from a timestamp in the wrong zone, so a series starts on the wrong day for events near midnight. A monthly step with `+1 month` overflows: January 31 plus one month is March 3, and every later step keeps the drift. A third bug gives every occurrence the same identifier.
 
 ```text
 Jan 31 +1 month: 2026-03-03
@@ -411,15 +411,15 @@ Feb 29 2028 +1 year: 2029-03-01
 
 - Compute weekday and day of month in the event's zone (or the site's), for example `wp_date( 'N', $ts, $zone )`.
 - Compute each occurrence from the series start (start plus *n* months), not from the previous occurrence. Then either clamp to the month's last day or skip short months; RFC 5545 skips them. Pick one and document it.
-- Step days, weeks and months in the event's zone so a 10:00 event stays at 10:00 across daylight saving. Then convert each occurrence on its own (section 11).
+- Step days, weeks, and months in the event's zone so a 10:00 event stays at 10:00 across daylight saving. Then convert each occurrence on its own (section 11).
 - Load occurrences by overlap with the requested range, and respect the series' end date or count.
 - Give every occurrence a stable, unique ID, for example the entry ID plus the occurrence's original start date. Calendar apps keep one event per `UID`, so a series exported with one `UID` shows as a single event.
 
-**Test.** A monthly series from January 31; a yearly series from February 29; weekly events near midnight in a zone ahead of the server and one behind it; a series that crosses a daylight saving change; an export, then an import of the exported file into a calendar app, counting occurrences.
+**Test.** Cover a monthly series from January 31, a yearly series from February 29, weekly events near midnight in a zone ahead of the server and one behind it, and a series that crosses a daylight saving change. Export a series, import the file into a calendar app, and count the occurrences.
 
 ## 15. External calendar feeds (.ics)
 
-**The mistake.** Reading `DTSTART;TZID=Europe/Berlin:20261003T100000` and drawing 10:00 on the page, ignoring the zone. Or converting a UTC time (`...Z`) to the visitor's clock when the rest of the page is on the site's clock.
+**The mistake.** Code reads `DTSTART;TZID=Europe/Berlin:20261003T100000` and draws 10:00 on the page with no regard for the zone. Or it converts a UTC time (`...Z`) to the visitor's clock when the rest of the page is on the site's clock.
 
 An iCalendar time comes in four forms:
 
@@ -439,7 +439,7 @@ An iCalendar time comes in four forms:
 5. Pass floating times and dates through unchanged. They have no zone to convert from.
 6. If nothing resolves, show the time unconverted and log it, rather than failing the whole feed.
 
-**Test.** A fixture feed with a `VTIMEZONE` zone, a Windows zone name, an IANA zone with no `VTIMEZONE`, a UTC time, a floating time and an all-day date. View it from two browser zones and compare with the site's clock.
+**Test.** Build a fixture feed with a `VTIMEZONE` zone, a Windows zone name, an IANA zone with no `VTIMEZONE`, a UTC time, a floating time, and an all-day date. View it from two browser zones and compare with the site's clock.
 
 ## 16. Output: ISO 8601, structured data and .ics
 
@@ -464,7 +464,7 @@ $moment->setTimezone( new DateTimeZone( 'UTC' ) )->format( 'Ymd\THis\Z' );     /
 
 ## 17. Front-end JavaScript
 
-**The mistake.** Letting the browser's zone into a value that belongs to another clock. `new Date()`, `getHours()`, `getDate()` and `toLocaleString()` with no `timeZone` all use the viewer's zone. A 7:30 pm Denver event shows at 3:30 am the next day in Rome. A drag sends back the browser's clock instead of the one the calendar drew. "Today" is highlighted on the browser's date, not the site's.
+**The mistake.** Code lets the browser's zone into a value that belongs to another clock. With no `timeZone`, `new Date()`, `getHours()`, `getDate()`, and `toLocaleString()` all use the viewer's zone. A 7:30 pm Denver event shows at 3:30 am the next day in Rome. A drag sends back the browser's clock instead of the one the calendar drew. The calendar highlights the browser's "today", which can be a different day from the site's.
 
 **The correct approach.**
 
@@ -519,9 +519,9 @@ Date bugs hide in CI because CI usually runs in UTC, where a double offset is ze
 - A multi-day all-day event and a same-day check-out.
 - An external feed with each `DTSTART` form from section 15.
 
-### Positive controls
+### Prove each test can fail
 
-A test that passes on broken code proves nothing. After adding a date test, put the bug back (apply the offset twice, parse with `strtotime()`, drop the `timeZone` option) and confirm the test fails. Then remove it again.
+A test that passes on broken code proves nothing. After adding a date test, put the bug back (apply the offset twice, parse with `strtotime()`, or drop the `timeZone` option) and confirm the test fails. Then remove it again.
 
 ## Checklist
 
@@ -540,4 +540,4 @@ Use this before you merge any change that touches a date.
 - [ ] External feed times are resolved with their `TZID` and `VTIMEZONE`.
 - [ ] Output for other programs is ISO 8601 with an offset, or a bare date.
 - [ ] Front-end code passes the zone explicitly and never uses the browser's zone for site values.
-- [ ] Tests run under a non-UTC site zone and a different browser zone, with a frozen clock, DST fixtures, and a positive control.
+- [ ] Tests run under a non-UTC site zone and a different browser zone, with a frozen clock and daylight saving fixtures, and each test has been seen to fail on the bug.
