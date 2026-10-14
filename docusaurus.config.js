@@ -472,6 +472,10 @@ const config = {
                 to: '/migrating-to-3-0-dev-guide/',
               },
               {
+                label: 'Dates and time zones in Gravity Forms',
+                to: '/working-with-dates-and-time-zones/',
+              },
+              {
                 label: 'Support',
                 href: 'https://www.gravitykit.com/support/',
               },
