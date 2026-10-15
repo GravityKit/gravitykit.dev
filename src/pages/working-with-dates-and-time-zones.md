@@ -12,18 +12,24 @@ This guide collects what GravityKit has learned building calendars, boards, View
 
 All PHP output below was produced with PHP 8.4 under `date_default_timezone_set( 'UTC' )`, which is what WordPress sets. All JavaScript output was produced with Node 20 under the `TZ` environment variable named in each example.
 
-## The short version
+## Checklist
 
-1. Know which clock every value belongs to: UTC, the site, the event, or the viewer.
-2. Gravity Forms stores entry dates (`date_created`, `date_updated`) in UTC, and Date and Time field values as wall-clock text with no zone.
-3. Convert UTC values for display. Never convert wall-clock values.
-4. Use one base per calculation, and name it in the variable.
-5. Build query bounds in the zone of the column you compare against.
-6. Store and compare a date with no time as a calendar day.
-7. Parse with the format the value was written in.
-8. Use named zones (`America/New_York`) and a real time zone library. Never add 86,400 seconds for "tomorrow".
-9. Decide once whether an end date is the last day used or the first free day.
-10. Test with a site zone far from UTC, a browser zone different from the site's, and fixtures on daylight saving days.
+Go through this list when your code reads, stores, compares or shows a date. Each item links to the section that explains it.
+
+- [ ] **You know which clock each value uses:** UTC, the site, the event, or the visitor. ([The four clocks](#1-the-four-clocks))
+- [ ] **Entry dates are converted, field values are not.** Gravity Forms stores `date_created` and `date_updated` in UTC, and Date and Time field values as plain text with no time zone. Convert the UTC ones once, when you show them; show field values as they are. ([How Gravity Forms stores dates](#2-how-gravity-forms-stores-dates), [Convert UTC values](#4-convert-utc-values-at-the-point-of-display), [Leave wall-clock values alone](#5-leave-wall-clock-values-alone))
+- [ ] **Each calculation uses one clock, and the variable name says which** (`$start_utc`, `$start_site`, `$start_ts`, `$start_day`). ([One base per calculation](#6-one-base-per-calculation))
+- [ ] **Search ranges use the same zone as the column they compare against,** and the conversion happens in one place only. ([Query ranges](#7-build-query-ranges-in-the-stored-zone))
+- [ ] **A date with no time stays a calendar day.** Compare it as `YYYY-MM-DD` text; don't turn it into midnight. ([Calendar days](#8-treat-a-date-with-no-time-as-a-calendar-day))
+- [ ] **Typed values are read with the format they were saved in,** and a value that doesn't match is handled instead of guessed. ([Parsing](#9-parse-with-the-format-the-value-was-written-in))
+- [ ] **Time zones are named** (`America/New_York`, not `-05:00`), and an unknown zone falls back to the site's zone instead of causing an error. ([Zone names](#10-zone-names-offsets-and-bad-input), [Entries with their own time zone](#11-entries-with-their-own-time-zone))
+- [ ] **"Tomorrow" is `modify( '+1 day' )` in a time zone,** never 86,400 seconds, so daylight saving days come out right. ([Daylight saving](#12-daylight-saving))
+- [ ] **You've decided whether an end date is the last day used or the first free day,** and two ranges overlap when each starts before the other ends. ([End dates](#13-overnight-entries-all-day-entries-and-end-dates))
+- [ ] **Repeating events count from the series start, in the event's zone,** and each occurrence has its own ID. ([Repeating events](#14-repeating-events))
+- [ ] **Times from external calendar feeds are read with their own time zone** (`TZID`). ([External calendar feeds](#15-external-calendar-feeds-ics))
+- [ ] **Dates you hand to other programs are ISO 8601 with an offset,** or a plain date for all-day values. ([Output](#16-output-iso-8601-structured-data-and-ics))
+- [ ] **Front-end code names the time zone,** and never uses the visitor's browser zone for a site value. ([Front-end JavaScript](#17-front-end-javascript))
+- [ ] **You've tested with a site zone far from UTC, a browser in a different zone, a fixed "now", and dates on daylight saving days,** and you've seen each test fail when the bug is put back. ([Testing](#18-testing))
 
 ## 1. The four clocks
 
@@ -522,22 +528,3 @@ Date bugs hide in CI because CI usually runs in UTC, where a double offset is ze
 ### Prove each test can fail
 
 A test that passes on broken code proves nothing. After adding a date test, put the bug back (apply the offset twice, parse with `strtotime()`, or drop the `timeZone` option) and confirm the test fails. Then remove it again.
-
-## Checklist
-
-Use this before you merge any change that touches a date.
-
-- [ ] Every date variable says its clock (`_utc`, `_site`, `_ts`, `_day`).
-- [ ] UTC columns are converted once, at display.
-- [ ] Date and Time field values are never offset.
-- [ ] Query bounds are in the column's zone, and only one layer converts them.
-- [ ] Date-only values are compared as `YYYY-MM-DD` text, never parsed as midnight.
-- [ ] Typed values are parsed with their declared format, and failures are handled.
-- [ ] Stored zones are normalized and fall back to the site zone without a fatal error.
-- [ ] Days are added with `modify()` in a zone, not with 86,400 seconds.
-- [ ] The end-date rule is stated once and converted in one place; range checks use overlap.
-- [ ] Repeating events step from the series start, in the event's zone, with a unique ID per occurrence.
-- [ ] External feed times are resolved with their `TZID` and `VTIMEZONE`.
-- [ ] Output for other programs is ISO 8601 with an offset, or a bare date.
-- [ ] Front-end code passes the zone explicitly and never uses the browser's zone for site values.
-- [ ] Tests run under a non-UTC site zone and a different browser zone, with a frozen clock and daylight saving fixtures, and each test has been seen to fail on the bug.
