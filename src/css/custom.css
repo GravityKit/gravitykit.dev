@@ -280,6 +280,41 @@ html {
   background-color: #e01860;
 }
 
+/* MCP navbar link: outlined pill so it reads as a call to action next to the product menus. */
+.navbar__link.navbar-mcp-link {
+  border: 1.5px solid var(--gk-secondary);
+  border-radius: 999px;
+  color: var(--gk-secondary);
+  font-weight: 600;
+  padding: 0.2rem 0.85rem;
+  margin-right: 0.5rem;
+  white-space: nowrap;
+}
+
+.navbar__link.navbar-mcp-link:hover,
+.navbar__link.navbar-mcp-link.navbar__link--active {
+  background-color: var(--gk-secondary);
+  color: white;
+  text-decoration: none;
+}
+
+[data-theme='dark'] .navbar__link.navbar-mcp-link {
+  border-color: #f0457e;
+  color: #f0457e;
+}
+
+[data-theme='dark'] .navbar__link.navbar-mcp-link:hover,
+[data-theme='dark'] .navbar__link.navbar-mcp-link.navbar__link--active {
+  background-color: #f0457e;
+  color: #0b101f;
+}
+
+/* In the mobile sidebar the pill would look out of place; keep it as a plain bold link. */
+.menu__link.navbar-mcp-link {
+  font-weight: 600;
+  color: var(--gk-secondary);
+}
+
 /* Footer link hover styles */
 .footer__link-item:hover {
   color: #fff;

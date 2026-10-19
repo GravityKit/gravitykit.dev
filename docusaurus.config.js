@@ -454,6 +454,12 @@ const config = {
           src: 'img/gravitykit-icon.svg',
         },
         items: [
+          {
+            to: '/mcp/',
+            label: 'MCP',
+            position: 'left',
+            className: 'navbar-mcp-link',
+          },
           gravitykit_nav,
           gravityview_nav,
           thirdparty_nav,
@@ -489,6 +495,10 @@ const config = {
               {
                 label: 'LLMs.txt',
                 href: normalizeUrl([site_url, base_url, 'llms.txt']),
+              },
+              {
+                label: 'MCP server',
+                to: '/mcp/',
               },
             ],
           },
