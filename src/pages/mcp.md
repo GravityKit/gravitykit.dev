@@ -51,9 +51,11 @@ Start `claude` and run `/mcp` to confirm `gravitykit-docs` shows as connected.
 1. Open **Settings → Connectors**.
 2. Click **Add custom connector**.
 3. Name it `GravityKit Docs` and paste `https://mcp.gravitykit.dev` as the URL.
-4. Click **Add**. No sign-in is needed.
+4. Click **Add**. The GravityKit server asks for no sign-in.
 
 In a new chat, open the tools menu and make sure **GravityKit Docs** is turned on.
+
+Which Claude plans can add custom connectors is set by Anthropic and changes over time. If you don't see **Add custom connector**, check [Anthropic's guide to custom connectors](https://support.anthropic.com/en/articles/11503834-building-custom-integrations-via-remote-mcp-servers) for your plan, or use Claude Code instead.
 
 ### Cursor
 
@@ -113,9 +115,9 @@ Run `gemini mcp list` to confirm it's connected.
 
 ### Windsurf
 
-Add this to `~/.codeium/windsurf/mcp_config.json`:
+In the Cascade panel, open the MCP menu and choose **Open MCP config file**. The file's location has changed between releases, so let the app open the one it reads. Add the server to it:
 
-```json title="~/.codeium/windsurf/mcp_config.json"
+```json title="mcp_config.json"
 {
   "mcpServers": {
     "gravitykit-docs": {
@@ -235,13 +237,24 @@ curl -si https://mcp.gravitykit.dev \
   -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"curl","version":"1"}}}' \
   | grep -i '^mcp-session-id'
 
-# 2. Call a tool with that session ID.
+# 2. Tell the server the session is ready.
 curl -s https://mcp.gravitykit.dev \
   -H 'Content-Type: application/json' \
   -H 'Accept: application/json, text/event-stream' \
   -H 'mcp-session-id: <session id>' \
+  -H 'mcp-protocol-version: 2025-06-18' \
+  -d '{"jsonrpc":"2.0","method":"notifications/initialized"}'
+
+# 3. Call a tool.
+curl -s https://mcp.gravitykit.dev \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json, text/event-stream' \
+  -H 'mcp-session-id: <session id>' \
+  -H 'mcp-protocol-version: 2025-06-18' \
   -d '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"get_compat","arguments":{"name":"gravityview_default_page_size","version":"1.0"}}}'
 ```
+
+`2025-06-18` is the `protocolVersion` the server returns from step 1. If a later server returns a different one, use that value in the `mcp-protocol-version` header.
 
 For an interactive view of every tool and its input schema, run the [MCP Inspector](https://github.com/modelcontextprotocol/inspector) with `npx @modelcontextprotocol/inspector` and connect to `https://mcp.gravitykit.dev`.
 
