@@ -200,9 +200,9 @@ body .gv-container { --gv-color-primary: #7a1f1f; }
 
         <h2>Target a View with placeholders</h2>
         <p>
-          When you enter rules in GravityView's <strong>Custom CSS</strong> field (View Settings &rarr;{' '}
-          <strong>Custom Code</strong>), GravityView swaps three placeholders for that View's own values as the page
-          loads, so you can target a single View without hardcoding its container ID:
+          When you enter rules in GravityView's <strong>Custom CSS</strong> field (the <strong>Custom Code</strong> tab
+          of the View editor's <strong>Settings</strong> box), GravityView swaps four placeholders for that View's own
+          values as the page loads, so you can target a single View without hardcoding its container ID:
         </p>
         <table>
           <thead>
@@ -217,6 +217,11 @@ body .gv-container { --gv-color-primary: #7a1f1f; }
               <td><code>VIEW_SELECTOR</code></td>
               <td>A high-specificity CSS selector targeting only this View</td>
               <td><code>.gv-container.gv-container-123</code></td>
+            </tr>
+            <tr>
+              <td><code>VIEW_WRAPPER</code></td>
+              <td>A CSS selector targeting the View's outer wrapper, including widget areas</td>
+              <td><code>[id^="gv-view-123-"]</code></td>
             </tr>
             <tr>
               <td><code>VIEW_ID</code></td>
