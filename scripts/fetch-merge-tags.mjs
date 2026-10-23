@@ -102,4 +102,22 @@ if (mods < 1 || tags < 1) {
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
 fs.writeFileSync(OUT, body.endsWith('\n') ? body : `${body}\n`);
 
+// The display helpers the /merge-tags/ page renders with, published beside the artifact so the
+// page and GravityKit/merge-tags' own cannot drift. IndexPage.jsx imports it, so a missing one
+// fails here rather than as a build error about an unresolved import.
+const DISPLAY = 'merge-tags-display.mjs';
+const displayAsset = (release.assets || []).find((a) => a.name === DISPLAY);
+
+if (!displayAsset) {
+  die(`release "${TAG}" carries no asset named ${DISPLAY}; GravityKit/merge-tags publishes it from docs.yml`);
+}
+
+const display = await (await api(displayAsset.url, 'application/octet-stream')).text();
+
+if (!/export\s*\{[^}]*\bpreviewForTable\b/.test(display)) {
+  die(`${DISPLAY} does not export the helpers the page imports`);
+}
+
+fs.writeFileSync(path.join(path.dirname(OUT), DISPLAY), display);
+
 console.log(`✓ merge-tags artifact: ${tags} tags, ${mods} modifiers, ${captures} captures (from ${REPO}@${TAG}, built ${artifact.generated})`);
