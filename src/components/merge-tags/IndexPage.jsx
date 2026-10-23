@@ -408,7 +408,7 @@ function HazardNotice({ annotation }) {
 }
 
 function CapturePair({ capture }) {
-  if (!capture) return <p className={styles.detailMeta}><em>No example output yet.</em></p>;
+  if (!capture) return <p className={styles.detailMeta}><em>No verified example yet.</em></p>;
   return (
     <div style={{ fontSize: 13 }}>
       <dl className={styles.samplePair}>
@@ -500,7 +500,10 @@ function TagRow({ entry, catalog, expanded, onToggle, detailId }) {
               {canonical.hazard ? badge('ordering hazard', 'hazard') : null}
             </>
           ) : (
-            <span className={styles.cellMuted} aria-label="No example">&mdash;</span>
+            <>
+              <span className={styles.cellMuted} aria-hidden="true">&mdash;</span>
+              <span className={styles.srOnly}>No verified example yet</span>
+            </>
           )}
         </td>
       </tr>
@@ -565,7 +568,10 @@ function ModifierRow({ entry, catalog, expanded, onToggle, detailId, fieldTypeNa
               {canonical.hazard ? badge('ordering hazard', 'hazard') : null}
             </>
           ) : (
-            <span className={styles.cellMuted} aria-label="No example">&mdash;</span>
+            <>
+              <span className={styles.cellMuted} aria-hidden="true">&mdash;</span>
+              <span className={styles.srOnly}>No verified example yet</span>
+            </>
           )}
         </td>
       </tr>
