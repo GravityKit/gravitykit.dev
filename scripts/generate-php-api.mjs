@@ -17,6 +17,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { wrapUnparseableUrls } from './lib/unparseable-urls.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -1310,13 +1311,14 @@ function cleanDescription(text) {
  * `{@see \GV\View::get_entries}` => `\GV\View::get_entries()`
  */
 function processInlineSeeRefs(text) {
-  return String(text ?? '')
+  const withRefs = String(text ?? '')
     .replace(/\\?\{@see\s+([^}]+?)\\?\}/g, (match, ref) => {
       const cleaned = ref.trim();
 
       // Handle URL references - convert to markdown link
       if (cleaned.startsWith('http://') || cleaned.startsWith('https://')) {
-        return `[${cleaned}](${cleaned})`;
+        const isParseable = URL.canParse(cleaned);
+        return isParseable ? `[${cleaned}](${cleaned})` : `\`${cleaned}\``;
       }
 
       // Handle class/method references
@@ -1325,6 +1327,7 @@ function processInlineSeeRefs(text) {
       const display = withoutParens.startsWith('\\') ? withoutParens : `\\${withoutParens}`;
       return `\`${display}${hasMethod ? '()' : ''}\``;
     });
+  return wrapUnparseableUrls(withRefs);
 }
 
 /**
