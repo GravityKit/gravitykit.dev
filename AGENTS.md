@@ -25,7 +25,7 @@ the **source**, then regenerate:
 - `npm run docs:generate` — all generators + category indexes.
 - `npm run docs:full` — clone + generate + `llm:enhance` + build.
 - `npm run build` — Docusaurus production build.
-- `npm test` — unit tests (`node --test scripts/lib/`).
+- `npm test` — unit tests (`node --test scripts/lib/*.test.mjs`; Node 22+ rejects a bare folder).
 - `npm run tokens:verify` — token interop check (needs `tokens:generate` first).
 
 Local hook generation needs **PHP 8.3+** (the system `php` may be older; point at
